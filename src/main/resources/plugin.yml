@@ -1,0 +1,13 @@
+name: YVtils-SMP
+version: 1.0.0
+main: yv.tils.smp.YVtils
+author: WolfiiYV
+api-version: "1.18"
+contributor:
+  - SlWed
+  - black_Kittys
+  - Silver
+website: https://yvnetwork.de/yvtils/smp
+prefix: YVtils-SMP
+libraries:
+  - "de.miraculixx:kpaper:1.1.2"
