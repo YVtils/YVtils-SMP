@@ -10,44 +10,115 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class Language {
+
+    companion object {
+        var playerLang: Map<UUID, Locale> = HashMap()
+
+        //Load langauge files
+        private var config_en: Map<String, String> = HashMap()
+        private var config_de: Map<String, String> = HashMap()
+        private var config_global: Map<String, String> = HashMap()
+    }
+
     private var yamlConfiguration: YamlConfiguration? = null
 
-    var config: Map<String, String> = HashMap()
-    var playerLang: Map<UUID, Locale> = HashMap()
+    private val langList = listOf("en", "de",)
 
+    fun getLanguageFiles() {
+        for (lang in langList) {
+            val file = File(
+                YVtils.instance.dataFolder.path + "/language",
+                "$lang.yml"
+            )
+            if (!file.exists()) {
+                file.createNewFile()
+                Debugger().log("Language File created", "Language file $lang.yml created", "yv.tils.smp.utils.configs.language.Language.getLanguageFiles()")
+            }
+            yamlConfiguration = YamlConfiguration.loadConfiguration(file)
+            registerStrings(lang)
+        }
 
-    fun langaugeFileGet() {
         val file = File(
-            YVtils.instance.dataFolder.path + "/Language",
+            YVtils.instance.dataFolder.path + "/language",
             YVtils.instance.config.getString("Language") + ".yml"
         )
         if (file.exists()) {
             yamlConfiguration = YamlConfiguration.loadConfiguration(file)
-            registerStrings()
+            registerStrings("global")
         } else {
-            Debugger().log("Language File not found", file.path, "yv.tils.smp.utils.configs.language.Language.langaugeFileGet()")
+            Debugger().log("Language File not found", file.path, "yv.tils.smp.utils.configs.language.Language.getLanguageFiles()")
             Bukkit.getConsoleSender().sendMessage(
                 directFormat(
-                    "The set language value can't be used",
-                    "Die gesetzte Sprache kann nicht verwendet werden"
+                    "The set language value can't be used. Falling back to english",
+                    "Die gesetzte Sprache kann nicht verwendet werden. Falle zurück auf Englisch"
                 )
             )
+
+            println("|-/-|")
+            println(config_en)
+
+            //config_global = config_en
+            config_global = config_de //TODO: Change back to config_en
+
+            println(config_global)
+            println("|-/-|")
         }
     }
 
-    private fun registerStrings() {
+    private fun registerStrings(lang: String) {
+        var config: MutableMap<String, String> = HashMap()
         for (string in LangStrings.entries) {
             val message = yamlConfiguration!!.getString(string.name)
-            config.plus(string.name to message)
+            config[string.name] = message.toString()
+            println("|-/-/-/-/-/-|")
+            println(string.name)
+            println(message)
+            println("|-/-/-/-/-/-|")
+
+            println("|-/-/-|")
+            println(config)
+            println("|-/-/-|")
+        }
+
+        when (lang) {
+            "en" -> {
+                config_en = config
+            }
+            "de" -> {
+                config_de = config
+            }
+            "global" -> {
+                config_global = config
+            }
+        }
+    }
+
+    fun getMessage(uuid: UUID, message: LangStrings,): String {
+        val lang = playerLang[uuid]
+
+        return when (lang) {
+            Locale.GERMAN -> config_de[message.name].toString()
+            Locale.ENGLISH -> config_en[message.name].toString()
+            else -> config_global[message.name].toString()
         }
     }
 
     fun getMessage(message: LangStrings,): String {
-        if (config[message.name] == null) {
+
+        println("|-/-/-/-|")
+        println(message.name)
+        println(config_global)
+        println("|-/-/-/-|")
+
+        if (config_global[message.name] == null) {
             Debugger().log("Language String not found", message.name, "yv.tils.smp.utils.configs.language.Language.getMessage()")
             return message.name
         } else {
-            return config[message.name].toString()
+            println("|-/-/-/-|")
+            println(message.name)
+            println(config_global[message.name])
+            println("|-/-/-/-|")
+            return config_global[message.name].toString()
         }
     }
 
@@ -61,5 +132,4 @@ class Language {
         }
         return s
     }
-
 }

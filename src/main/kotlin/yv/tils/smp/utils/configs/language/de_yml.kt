@@ -5,7 +5,7 @@ import yv.tils.smp.YVtils
 import java.io.File
 
 class de_yml {
-    private var file = File(YVtils.instance.dataFolder.path + "/Language", "de.yml")
+    private var file = File(YVtils.instance.dataFolder.path + "/language", "de.yml")
     private var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
     fun strings() {
@@ -15,32 +15,37 @@ class de_yml {
         )
         ymlFile.addDefault(
             "#1",
-            "Bitte benutze immer alle bereits angegebenen Variablen, da ansonsten das Sprachen-System nicht funktioniert! - Variablen sind daran zu erkennen, dass sie komplett in Caps geschrieben sind."
+            "Bitte benutze immer alle bereits angegebenen Variablen, da ansonsten das Sprachen-System nicht korrekt funktioniert! - Variablen sind daran zu erkennen, dass sie mit Prozent Zeichen umhüllt sind (z.B. %prefix%)."
         )
         ymlFile.addDefault(
             "START_MESSAGE",
-            "PREFIXENABLE §aPlugin startet!"
+            "%prefix% §aPlugin startet!"
         )
         ymlFile.addDefault(
             "START_COMPLETED_MESSAGE",
-            "PREFIXENABLE §2YVtils-SMP Start ist abgeschlossen!"
+            "%prefix% §2YVtils-SMP Start ist abgeschlossen!"
         )
         ymlFile.addDefault(
             "STOP_MESSAGE",
-            "PREFIXDISABLE §cPlugin wird gestoppt!"
+            "%prefix% §cPlugin wird gestoppt!"
         )
         ymlFile.addDefault(
             "STOP_COMPLETED_MESSAGE",
-            "PREFIXDISABLE §4YVtils-SMP wurde gestoppt!"
+            "%prefix% §4YVtils-SMP wurde gestoppt!"
         )
 
         ymlFile.addDefault(
             "PLUGIN_UP_TO_DATE",
-            "PREFIXNOUPDATE §fDas Plugin hat keine Updates zur verfügung!"
+            "%prefix% §fDas Plugin hat keine Updates zur Verfügung!"
         )
         ymlFile.addDefault(
             "PLUGIN_UPDATE_AVAILABLE",
-            "PREFIXUPDATE §eDie Plugin Version NEWVERSION ist nun verfügbar. Der Server nutzt noch OLDVERSION! Lade die neue Version über LINK herunter"
+            "%prefix% §eDie Plugin Version %newversion% ist nun verfügbar. Der Server nutzt noch %oldversion%! Lade die neue Version über %link% herunter."
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_PLUGIN_UPDATE_AVAILABLE",
+            "%prefix% §fUpdate verfügbar:\\n§eVerwendete Version: §7%oldversion%\\n§eNeueste Version: §7%newversion%\\n§eDownload: §7%link%"
         )
 
         ymlFile.addDefault(
@@ -57,9 +62,10 @@ class de_yml {
             "PLAYER_NOT_ONLINE",
             "Dieser Spieler ist nicht online!"
         )
+
         ymlFile.addDefault(
             "PLAYER_UNKNOWN",
-            "PREFIX §4Unbekannter Spieler"
+            "%prefix% §4Unbekannter Spieler"
         )
         ymlFile.addDefault(
             "PLAYER_ALREADY_BANNED",
@@ -76,7 +82,7 @@ class de_yml {
 
         ymlFile.addDefault(
             "SMP_START_MESSAGE",
-            "§dViel Spaß bei Projektname!"
+            "§dViel Spaß bei %projectname%!"
         )
         ymlFile.addDefault(
             "SMP_ALREADY_STARTED",
@@ -93,11 +99,13 @@ class de_yml {
         )
         ymlFile.addDefault(
             "FLY_COMMAND_ENABLE_OTHER",
-            "§7PLAYER kann nun fliegen!"
+            "§7%player% kann nun fliegen!"
         )
+
+
         ymlFile.addDefault(
             "FLY_COMMAND_DISABLE_OTHER",
-            "§7PLAYER kann nun nicht mehr fliegen!"
+            "§7%player% kann nun nicht mehr fliegen!"
         )
 
         ymlFile.addDefault(
@@ -106,7 +114,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "HEAL_OTHER_PLAYER_HEALED",
-            "§7PLAYER wurde §8§lgeheilt!"
+            "§7%player% wurde §8§lgeheilt!"
         )
 
         ymlFile.addDefault(
@@ -119,65 +127,41 @@ class de_yml {
         )
         ymlFile.addDefault(
             "GODMODE_COMMAND_ENABLE_OTHER",
-            "§7PLAYER ist nun im God Mode!"
+            "§7%player% ist nun im God Mode!"
         )
         ymlFile.addDefault(
-                "GODMODE_COMMAND_DISABLE_OTHER",
-            "§7PLAYER ist nun nicht mehr im God Mode!"
+            "GODMODE_COMMAND_DISABLE_OTHER",
+            "§7%player% ist nun nicht mehr im God Mode!"
         )
 
         ymlFile.addDefault(
-            "GAMEMODE_SWITCH_SURVIVAL",
-            "§7Dein Spielmodus wurde zu §aÜberleben §7geändert!"
-        )
-        ymlFile.addDefault(
-            "GAMEMODE_SWITCH_CREATIVE",
-            "§7Dein Spielmodus wurde zu §aKreativ §7geändert!"
-        )
-        ymlFile.addDefault(
-            "GAMEMODE_SWITCH_ADVENTURE",
-            "§7Dein Spielmodus wurde zu §aAbenteuer §7geändert!"
-        )
-        ymlFile.addDefault(
-            "GAMEMODE_SWITCH_SPECTATOR",
-            "§7Dein Spielmodus wurde zu §aBeobachter §7geändert!"
+            "GAMEMODE_SWITCH",
+            "§7Dein Spielmodus wurde zu §a%gamemode% §7geändert!"
         )
         ymlFile.addDefault(
             "GAMEMODE_SWITCH_ALREADY_IN_THIS_GAMEMODE",
             "§cDu bist bereits in diesem Spielmodus!"
         )
         ymlFile.addDefault(
-            "GAMEMODE_SWITCH_SURVIVAL_OTHER",
-            "§7Der Spielmodus von PLAYER wurde zu §aÜberleben §7geändert!"
-        )
-        ymlFile.addDefault(
-            "GAMEMODE_SWITCH_CREATIVE_OTHER",
-            "§7Der Spielmodus von PLAYER wurde zu §aKreativ §7geändert!"
-        )
-        ymlFile.addDefault(
-            "GAMEMODE_SWITCH_ADVENTURE_OTHER",
-            "§7Der Spielmodus von PLAYER wurde zu §aAbenteuer §7geändert!"
-        )
-        ymlFile.addDefault(
-            "GAMEMODE_SWITCH_SPECTATOR_OTHER",
-            "§7Der Spielmodus von PLAYER wurde zu §aBeobachter §7geändert!"
+            "GAMEMODE_SWITCH_OTHER",
+            "§7Der Spielmodus von %player% wurde zu §a%gamemode% §7geändert!"
         )
         ymlFile.addDefault(
             "GAMEMODE_SWITCH_ALREADY_IN_THIS_GAMEMODE_OTHER",
-            "§cPLAYER ist bereits in diesem Spielmodus!"
+            "§c%player% ist bereits in diesem Spielmodus!"
         )
 
         ymlFile.addDefault(
             "MSG_NOTE",
-            "§e[§cNotiz§e]§f MESSAGE"
+            "§e[§cNotiz§e]§f %message%"
         )
         ymlFile.addDefault(
             "MSG_PLAYER_WENT_OFFLINE",
-            "PREFIX §4Der Spieler mit welchem du zuletzt geschrieben hast ist offline gegangen!"
+            "%prefix% §4Der Spieler mit dem du zuletzt geschrieben hast ist offline gegangen!"
         )
         ymlFile.addDefault(
             "MSG_HAVENT_MESSAGED_A_PLAYER",
-            "PREFIX §4Du hast noch niemandem geschrieben!"
+            "%prefix% §4Du hast noch niemandem geschrieben!"
         )
 
         ymlFile.addDefault(
@@ -186,23 +170,24 @@ class de_yml {
         )
         ymlFile.addDefault(
             "MOD_PLAYER_NOT_BANNED",
-            "PREFIXMODERATION §8PLAYER §7 ist nicht gebannt!"
+            "%prefix% §8%player% §7ist nicht gebannt!"
         )
         ymlFile.addDefault(
             "MOD_ANNOUNCEMENT_KICK",
-            "PREFIXMODERATION §8PLAYER §7wurde von §8MODERATOR §7gekickt! Grund: §8REASON"
+            "%prefix% §8%player% §7wurde von §8%moderator% §7gekickt! Grund: §8%reason%"
         )
         ymlFile.addDefault(
             "MOD_ANNOUNCEMENT_BAN",
-            "PREFIXMODERATION §8PLAYER §7wurde von §8MODERATOR §7gebannt! Grund: §8REASON"
+            "%prefix% §8%player% §7wurde von §8%moderator% §7gebannt! Grund: §8%reason%"
         )
+
         ymlFile.addDefault(
             "MOD_ANNOUNCEMENT_TEMPBAN",
-            "PREFIXMODERATION §8PLAYER §7wurde von §8MODERATOR§7 getempbannt! Reason: §8REASON§7, Duration: §8DURATION"
+            "%prefix% §8%player% §7wurde von §8%moderator%§7 getempbannt! Grund: §8%reason%§7, Dauer: §8%duration%"
         )
         ymlFile.addDefault(
             "MOD_ANNOUNCEMENT_UNBAN",
-            "PREFIXMODERATION §8PLAYER §7wurde von §8MODERATOR §7entbannt!"
+            "%prefix% §8%player% §7wurde von §8%moderator% §7entbannt!"
         )
 
         ymlFile.addDefault(
@@ -225,17 +210,18 @@ class de_yml {
             "MAINTENANCE_ALREADY_ACTIVATED",
             "§7Der Maintenance Modus ist bereits §aaktiviert§7!"
         )
+
         ymlFile.addDefault(
             "MAINTENANCE_ILLEGAL_CONFIG_VALUE",
             "Dieser Config Wert ist nicht zulässig!"
         )
         ymlFile.addDefault(
             "MAINTENANCE_STATUS_ENABLED",
-            "§7Der Maintenance Modus ist §aaktiviert§7!"
+            "%prefix% §7Der Maintenance Modus ist §aaktiviert§7!"
         )
         ymlFile.addDefault(
             "MAINTENANCE_STATUS_DISABLED",
-            "§7Der Maintenance Modus ist §adeaktiviert§7!"
+            "%prefix% §7Der Maintenance Modus ist §adeaktiviert§7!"
         )
 
         ymlFile.addDefault(
@@ -248,7 +234,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "COMMAND_REPLACE_NEW_COMMAND_INFO",
-            "§7Bitte benutze: COMMAND"
+            "§7Bitte benutze: %command%"
         )
 
         ymlFile.addDefault(
@@ -264,6 +250,7 @@ class de_yml {
             "MODULE_DISCORD_NO_BOT_TOKEN_GIVEN",
             "Es wurde kein Bot Token erkannt! Deaktiviere das Bot Modul oder trage einen Token ein."
         )
+
         ymlFile.addDefault(
             "MODULE_DISCORD_STARTUP_FAILED",
             "Bot Start ist fehlgeschlagen! Bitte überprüfe deine Konfigurationen"
@@ -275,36 +262,37 @@ class de_yml {
 
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_CHANGE",
-            "Discord User 'DISCORDUSER' hat seinen gewhitelisteten Account von 'OLDNAME' zu 'NEWNAME' geändert"
+            "Discord User '%discorduser%' hat seinen gewhitelisteten Account von '%oldname%' zu '%newname%' geändert"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_ADD",
-            "Discord User 'DISCORDUSER' hat seinen Minecraft Account 'NAME' zur whitelist hinzugefügt"
+            "Discord User '%discorduser%' hat seinen Minecraft Account '%name%' zur Whitelist hinzugefügt"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_WRONG",
-            "Discord User 'DISCORDUSER' hat versucht den Minecraft Account 'NAME' zur whitelist hinzuzufügen, aber es ist fehlgeschlagen! -> Account existiert nicht"
+            "Discord User '%discorduser%' hat versucht den Minecraft Account '%name%' zur Whitelist hinzuzufügen, aber es ist fehlgeschlagen! -> Account existiert nicht"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_SERVERERROR_CHECK_INPUT",
-            "Discord User 'DISCORDUSER' hat versucht den Minecraft Account 'NAME' zur whitelist hinzuzufügen, aber es ist fehlgeschlagen! -> Überprüfungsserver sind nicht erreichbar"
+            "Discord User '%discorduser%' hat versucht den Minecraft Account '%name%' zur Whitelist hinzuzufügen, aber es ist fehlgeschlagen! -> Überprüfungsserver sind nicht erreichbar"
         )
 
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_NAME_CHANGE",
             "Du hast erfolgreich deinen gewhitelisteten Account geändert!"
         )
+
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_NAME_CHANGE",
-            "OLDNAME -> NEWNAME"
+            "%oldname% -> %newname%"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_NAME_ADD",
-            "Du hast deinen Minecraft Account erfolgreich zur whitelist hinzugefügt!"
+            "Du hast deinen Minecraft Account erfolgreich zur Whitelist hinzugefügt!"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_NAME_ADD",
-            "Account Name: ACCOUNTNAME"
+            "Account Name: %accountname%"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_NAME_NOTEXISTING",
@@ -312,7 +300,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_NAME_NOTEXISTING",
-            "Account Name: ACCOUNTNAME • Überprüfe den Namen und versuche es erneut! Wenn du denkst das es ein Fehler ist, dann kontaktiere denn Developer oder kontaktiere die Server Administration, dass sie es dem Developer mitteilen können!"
+            "Account Name: %accountname% • Überprüfe den Namen und versuche es erneut! Wenn du denkst, dass es ein Fehler ist, kontaktiere den Developer oder die Server Administration, damit sie es dem Developer mitteilen können!"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_SERVER_ERROR",
@@ -320,7 +308,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_SERVER_ERROR",
-            "Account Name: ACCOUNTNAME • Versuche es in ein paar Minuten/Stunden erneut! Wenn dieser Fehler bestehen bleibt kontaktiere den Developer!"
+            "Account Name: %accountname% • Versuche es in ein paar Minuten/Stunden erneut! Wenn dieser Fehler bestehen bleibt, kontaktiere den Developer!"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_NAME_UNALLOWED_CHARACTERS",
@@ -328,15 +316,16 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_NAME_UNALLOWED_CHARACTERS",
-            "Account Name: ACCOUNTNAME • Du hast unerlaubte Zeichen verwendet! Erlaubt sind: a-z; A-Z; 0-9; _"
+            "Account Name: %accountname% • Du hast unerlaubte Zeichen verwendet! Erlaubt sind: a-z; A-Z; 0-9; _"
         )
+
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_ACCOUNT_ALREADY_WHITELISTED",
             "Account ist bereits auf der Whitelist!"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_ACCOUNT_ALREADY_WHITELISTED",
-            "Account Name: ACCOUNTNAME • Dieser Account ist bereits auf der Whitelist!"
+            "Account Name: %accountname% • Dieser Account ist bereits auf der Whitelist!"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_CHECK_TITLE",
@@ -344,11 +333,11 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_CHECK_WHITELISTED_DESC",
-            "Account Name: MCNAME • Dieser Account ist als 'DCNAME' auf der Whitelist!"
+            "Account Name: %mcname% • Dieser Account ist als '%dcname%' auf der Whitelist!"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_CHECK_NOT_WHITELISTED_DESC",
-            "Account Name: MCNAME • Dieser Account ist nicht auf der Whitelist!"
+            "Account Name: %mcname% • Dieser Account ist nicht auf der Whitelist!"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_ADD_TITLE",
@@ -356,15 +345,16 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_ADD_DESC",
-            "Minecraft Account: MCNAME • Discord Account: DCNAME"
+            "Minecraft Account: %mcname% • Discord Account: %dcName%"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REPLACE_TITLE",
-            "Du hast erfolgreich den gewhitelisteten Account von DCNAME geändert!"
+            "Du hast erfolgreich den gewhitelisteten Account von %dcname% geändert!"
         )
+
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REPLACE_DESC",
-            "OLDNAME -> NEWNAME"
+            "%oldname% -> %newname%"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REMOVE_TITLE",
@@ -376,23 +366,23 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REMOVED_TITLE",
-            "Du hast erfolgreich den Account von MCNAME (DCNAME) von der whitelist entfernt!"
+            "Du hast erfolgreich den Account von %mcname% (%dcname%) von der whitelist entfernt!"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REMOVED_DESC",
-            "Möchtest du noch einen Account entfernen? \n ￬ Wähle ihn unten aus ￬"
+            "Möchtest du noch einen Account entfernen? \\n ￬ Wähle ihn unten aus ￬"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_CMD_REGISTERED_ADD",
-            "Discord User 'DISCORDUSER' hat den Minecraft Account 'MCNAME' (verbunden mit 'DCNAME') zur whitelist hinzugefügt"
+            "Discord User '%discorduser%' hat den Minecraft Account '%mcname%' (verbunden mit '%dcname%') zur whitelist hinzugefügt"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_CMD_REGISTERED_CHANGE",
-            "Discord User 'DISCORDUSER' hat den gewhitelisteten Account von 'DCNAME' von 'OLDNAME' zu 'NEWNAME' geändert"
+            "Discord User '%discorduser%' hat den gewhitelisteten Account von '%dcname%' von '%oldname%' zu '%newname%' geändert"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_CMD_REGISTERED_REMOVE",
-            "Discord User 'DISCORDUSER' hat den Minecraft Account 'MCNAME' (verbunden mit 'DCNAME') von der whitelist entfernt"
+            "Discord User '%discorduser%' hat den Minecraft Account '%mcname%' (verbunden mit '%dcname%') von der whitelist entfernt"
         )
 
         ymlFile.addDefault(
@@ -401,7 +391,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_CMD_ROLE_ADD_ERROR_DESC",
-            "Die Rolle, welche dem User gegeben werden sollte (ROLE), konnte vom Bot wegen falscher Hierarchie der Rollen nicht hinzugefügt werden! \nBitte setze die Rolle vom Bot über die Rolle welche vergeben werden soll."
+            "Die Rolle, welche dem User gegeben werden sollte (%role%), konnte vom Bot wegen falscher Hierarchie der Rollen nicht hinzugefügt werden! \\nBitte setze die Rolle vom Bot über die Rolle welche vergeben werden soll."
         )
 
         ymlFile.addDefault(
@@ -414,7 +404,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "MODULE_STATUS_CLEAR_OTHER_CLEARED",
-            "§7Du hast erfolgreich den Status von §ePLAYER §7gelöscht!"
+            "§7Du hast erfolgreich den Status von §e%player% §7gelöscht!"
         )
         ymlFile.addDefault(
             "MODULE_STATUS_CLEAR_CLEARED",
@@ -428,6 +418,7 @@ class de_yml {
             "MODULE_STATUS_CUSTOM_STATUS_TOO_LONG",
             "§cDieser custom Status ist zu lang!"
         )
+
         ymlFile.addDefault(
             "MODULE_STATUS_NOT_ALLOWED_TO_SET_CUSTOM_STATUS",
             "§7Du bist nicht berechtigt dir einen eigenen Status zu setzen!"
@@ -438,11 +429,11 @@ class de_yml {
         )
         ymlFile.addDefault(
             "MODULE_STATUS_SET",
-            "§7Du hast dir den Status STATUS §7gesetzt!"
+            "§7Du hast dir den Status %status% §7gesetzt!"
         )
         ymlFile.addDefault(
             "MODULE_STATUS_SELECTED_STATUS_JOIN_ANNOUNCEMENT",
-            "§7Der Status 'STATUS§7' ist gesetzt!"
+            "§7Der Status '%status%§7' ist gesetzt!"
         )
 
         ymlFile.addDefault(
@@ -452,13 +443,12 @@ class de_yml {
 
         ymlFile.addDefault(
             "MODULE_INVSEE_INVENTORY",
-            "§eInventar von PLAYER"
+            "§eInventar von %player%"
         )
         ymlFile.addDefault(
             "MODULE_INVSEE_ENDERCHEST",
-            "§5Enderchest von PLAYER"
+            "§5Enderchest von %player%"
         )
-
 
         ymlFile.addDefault(
             "PLAYER_ARGUMENT_MISSING",
@@ -467,47 +457,49 @@ class de_yml {
 
         ymlFile.addDefault(
             "GLOBALMUTE_ENABLE_ANNOUNCEMENT",
-            "PREFIXGLOBALMUTE §7Der Globalmute wurde §aaktiviert§7!"
+            "%prefix% §7Der Globalmute wurde §aaktiviert§7!"
         )
         ymlFile.addDefault(
             "GLOBALMUTE_DISABLE_ANNOUNCEMENT",
-            "PREFIXGLOBALMUTE §7Der Globalmute wurde §adeaktiviert§7!"
+            "%prefix% §7Der Globalmute wurde §adeaktiviert§7!"
         )
         ymlFile.addDefault(
             "GLOBALMUTE_ENABLE_FEEDBACK",
-            "PREFIXFEEDBACK §7Du hast den Chat §adeaktiviert§7!"
+            "%prefix% §7Du hast den Chat §adeaktiviert§7!"
         )
         ymlFile.addDefault(
             "GLOBALMUTE_DISABLE_FEEDBACK",
-            "PREFIXFEEDBACK §7Du hast den Chat §aaktiviert§7!"
+            "%prefix% §7Du hast den Chat §aaktiviert§7!"
         )
         ymlFile.addDefault(
             "GLOBALMUTE_TRY_TO_WRITE",
-            "PREFIXGLOBALMUTE §7Der Globalmute ist aktiviert!"
+            "%prefix% §7Der Globalmute ist aktiviert!"
         )
+
         ymlFile.addDefault(
             "GLOBALMUTE_STATUS_ENABLED",
-            "PREFIXFEEDBACK §7Der Globalmute ist §aaktiviert§7!"
+            "%prefix% §7Der Globalmute ist §aaktiviert§7!"
         )
         ymlFile.addDefault(
             "GLOBALMUTE_STATUS_DISABLED",
-            "PREFIXFEEDBACK §7Der Globalmute ist §adeaktiviert§7!"
+            "%prefix% §7Der Globalmute ist §adeaktiviert§7!"
         )
         ymlFile.addDefault(
             "GLOBALMUTE_ALREADY_ENABLED",
-            "PREFIXFEEDBACK §7Der Globalmute ist bereits §aaktiviert§7!"
+            "%prefix% §7Der Globalmute ist bereits §aaktiviert§7!"
         )
         ymlFile.addDefault(
             "GLOBALMUTE_ALREADY_DISABLED",
-            "PREFIXFEEDBACK §7Der Globalmute ist bereits §adeaktiviert§7!"
+            "%prefix% §7Der Globalmute ist bereits §adeaktiviert§7!"
         )
+
         ymlFile.addDefault(
             "SPEED_CHANGE_SELF",
-            "§7Deine Geschwindigkeit wurde zu §aSPEED§7 geändert!"
+            "§7Deine Geschwindigkeit wurde zu §a%speed%§7 geändert!"
         )
         ymlFile.addDefault(
             "SPEED_CHANGE_OTHER",
-            "§7Die Geschwindigkeit von §ePLAYER §7wurde zu §aSPEED§7 geändert!"
+            "§7Die Geschwindigkeit von §e%player% §7wurde zu §a%speed%§7 geändert!"
         )
         ymlFile.addDefault(
             "SPEED_RESET_SELF",
@@ -515,29 +507,27 @@ class de_yml {
         )
         ymlFile.addDefault(
             "SPEED_RESET_OTHER",
-            "§7Die Geschwindigkeit von §ePLAYER §7wurde zurückgesetzt!"
+            "§7Die Geschwindigkeit von §e%player% §7wurde zurückgesetzt!"
         )
-
         ymlFile.addDefault(
             "ADVANCEMENT_ANNOUNCEMENT",
-            "§fPLAYER hat den Fortschritt ADVANCEMENT §ferzielt"
+            "§f%player% hat den Fortschritt %advancement% §ferzielt"
         )
-
         ymlFile.addDefault(
             "VANISH_DEACTIVATE",
-            "PREFIX §7Vanish ist nun deaktiviert!"
+            "%prefix% §7Vanish ist nun deaktiviert!"
         )
         ymlFile.addDefault(
             "VANISH_ACTIVATE",
-            "PREFIX §7Vanish ist nun aktiviert!"
+            "%prefix% §7Vanish ist nun aktiviert!"
         )
         ymlFile.addDefault(
             "VANISH_REFRESH",
-            "PREFIX §7Deine Vanish Einstellungen wurde aktualisiert!"
+            "%prefix% §7Deine Vanish Einstellungen wurde aktualisiert!"
         )
         ymlFile.addDefault(
             "VANISH_REFRESH_OTHER",
-            "PREFIX §7Die Vanish Einstellungen von §ePLAYER §7wurden aktualisiert!"
+            "%prefix% §7Die Vanish Einstellungen von §e%player% §7wurden aktualisiert!"
         )
 
         ymlFile.options().copyDefaults(true)

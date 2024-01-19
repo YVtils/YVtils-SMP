@@ -27,6 +27,6 @@ class Summarizer {
         Debugger().log("Starting up", "Other loading", "yv.tils.smp.manager.startup.Summarizer")
 
         val other = Other()
-        //other.registerOther()
+        other.register()
     }
 }

@@ -5,6 +5,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.logger.Debugger
+import yv.tils.smp.utils.updater.PluginVersion
 import java.util.Locale
 
 class PlayerJoin {
@@ -22,6 +23,7 @@ class PlayerJoin {
             1 -> vanishJoin(e, e.player)
             2 -> generateJoinMessage(e, e.player)
             3 -> setupPlayer(e, e.player)
+            4 -> otherActions(e, e.player)
         }
     }
 
@@ -30,6 +32,7 @@ class PlayerJoin {
         //TODO: Add vanish check
         if (false) {
             e.joinMessage(null)
+            setupPlayer(e, player)
         } else {
             funcStarter(state++, e)
         }
@@ -47,9 +50,15 @@ class PlayerJoin {
 
         println(player.locale())
 
-        Language().playerLang.plus(player.uniqueId to player.locale())
+        Language.playerLang.plus(player.uniqueId to player.locale())
 
-        println(Language().playerLang)
+        println(Language.playerLang)
+
+        funcStarter(state++, e)
+    }
+
+    private fun otherActions(e: PlayerJoinEvent, player: Player, ) {
+        PluginVersion().onPlayerJoin(player)
 
         funcStarter(state++, e)
     }
