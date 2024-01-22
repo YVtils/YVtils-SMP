@@ -10,4 +10,5 @@ contributor:
 website: https://yvnetwork.de/yvtils/smp
 prefix: YVtils-SMP
 libraries:
-  - "de.miraculixx:kpaper:1.1.2"
+  - "dev.jorel:commandapi-bukkit-shade:9.3.0"
+  - "dev.jorel:commandapi-bukkit-kotlin:9.3.0"

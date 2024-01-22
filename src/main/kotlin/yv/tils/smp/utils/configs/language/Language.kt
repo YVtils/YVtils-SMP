@@ -1,8 +1,10 @@
 package yv.tils.smp.utils.configs.language
 
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import yv.tils.smp.YVtils
+import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.logger.Debugger
 import java.io.File
@@ -50,34 +52,18 @@ class Language {
             Bukkit.getConsoleSender().sendMessage(
                 directFormat(
                     "The set language value can't be used. Falling back to english",
-                    "Die gesetzte Sprache kann nicht verwendet werden. Falle zurück auf Englisch"
+                    "Die gesetzte Sprache kann nicht verwendet werden. Es wird als Alternative Englisch genutzt"
                 )
             )
-
-            println("|-/-|")
-            println(config_en)
-
-            //config_global = config_en
-            config_global = config_de //TODO: Change back to config_en
-
-            println(config_global)
-            println("|-/-|")
+            config_global = config_en
         }
     }
 
     private fun registerStrings(lang: String) {
-        var config: MutableMap<String, String> = HashMap()
+        val config: MutableMap<String, String> = HashMap()
         for (string in LangStrings.entries) {
             val message = yamlConfiguration!!.getString(string.name)
             config[string.name] = message.toString()
-            println("|-/-/-/-/-/-|")
-            println(string.name)
-            println(message)
-            println("|-/-/-/-/-/-|")
-
-            println("|-/-/-|")
-            println(config)
-            println("|-/-/-|")
         }
 
         when (lang) {
@@ -93,36 +79,26 @@ class Language {
         }
     }
 
-    fun getMessage(uuid: UUID, message: LangStrings,): String {
+    fun getMessage(uuid: UUID, message: LangStrings,): Component {
         val lang = playerLang[uuid]
 
         return when (lang) {
-            Locale.GERMAN -> config_de[message.name].toString()
-            Locale.ENGLISH -> config_en[message.name].toString()
-            else -> config_global[message.name].toString()
+            Locale.GERMAN -> ColorUtils().convert(config_de[message.name].toString())
+            Locale.ENGLISH -> ColorUtils().convert(config_en[message.name].toString())
+            else -> ColorUtils().convert(config_global[message.name].toString())
         }
     }
 
-    fun getMessage(message: LangStrings,): String {
-
-        println("|-/-/-/-|")
-        println(message.name)
-        println(config_global)
-        println("|-/-/-/-|")
-
+    fun getMessage(message: LangStrings,): Component {
         if (config_global[message.name] == null) {
             Debugger().log("Language String not found", message.name, "yv.tils.smp.utils.configs.language.Language.getMessage()")
-            return message.name
+            return ColorUtils().convert(message.name)
         } else {
-            println("|-/-/-/-|")
-            println(message.name)
-            println(config_global[message.name])
-            println("|-/-/-/-|")
-            return config_global[message.name].toString()
+            return ColorUtils().convert(config_global[message.name].toString())
         }
     }
 
-    fun directFormat(en: String, de: String,): String {
+    fun directFormat(en: String, de: String,): Component {
         val s = if (Config().config["Language"] == "en") {
             en
         } else if (Config().config["Language"] == "de") {
@@ -130,6 +106,6 @@ class Language {
         } else {
             en
         }
-        return s
+        return ColorUtils().convert(s)
     }
 }

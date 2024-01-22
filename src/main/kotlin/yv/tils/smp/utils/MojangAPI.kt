@@ -54,12 +54,14 @@ class MojangAPI {
         val responseCode = connection.responseCode
         if (responseCode == HttpURLConnection.HTTP_OK) {
             val reader = BufferedReader(InputStreamReader(connection.inputStream))
-            var line: String
             val content = StringBuilder()
 
-            while (reader.readLine().also { line = it } != null) {
-                content.append(line)
+            reader.use {
+                it.lines().forEach { line ->
+                    content.append(line)
+                }
             }
+
             reader.close()
             connection.disconnect()
 
