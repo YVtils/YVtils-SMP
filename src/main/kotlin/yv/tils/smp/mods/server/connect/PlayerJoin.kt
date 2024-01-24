@@ -50,7 +50,7 @@ class PlayerJoin {
 
         println(player.locale())
 
-        Language.playerLang.plus(player.uniqueId to player.locale())
+        Language.playerLang[player.uniqueId] = player.locale()
 
         println(Language.playerLang)
 

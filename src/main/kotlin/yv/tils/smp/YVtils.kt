@@ -23,8 +23,6 @@ class YVtils : JavaPlugin() {
 
         instance = this
         CommandAPI.onLoad(CommandAPIBukkitConfig(instance).silentLogs(true))
-
-        GamemodeCMD()
     }
 
     override fun onEnable() {

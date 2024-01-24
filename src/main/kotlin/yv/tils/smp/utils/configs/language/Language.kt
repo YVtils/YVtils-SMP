@@ -14,7 +14,7 @@ import kotlin.collections.HashMap
 class Language {
 
     companion object {
-        var playerLang: Map<UUID, Locale> = HashMap()
+        var playerLang: MutableMap<UUID, Locale> = HashMap()
 
         //Load langauge files
         private var config_en: Map<String, String> = HashMap()
@@ -83,7 +83,7 @@ class Language {
         val lang = playerLang[uuid]
 
         return when (lang) {
-            Locale.GERMAN -> ColorUtils().convert(config_de[message.name].toString())
+            Locale.GERMANY -> ColorUtils().convert(config_de[message.name].toString())
             Locale.ENGLISH -> ColorUtils().convert(config_en[message.name].toString())
             else -> ColorUtils().convert(config_global[message.name].toString())
         }

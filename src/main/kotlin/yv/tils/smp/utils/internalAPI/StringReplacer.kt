@@ -13,8 +13,6 @@ class StringReplacer {
 
         var text = MiniMessage.miniMessage().serialize(inPut)
 
-        println(text)
-
         text = text.replace("\\<", "<")
 
         for (i in old.indices) {
@@ -22,7 +20,9 @@ class StringReplacer {
             text = text.replace(oldString, new[i])
         }
 
-        text = text.drop(1)
+        if (text.startsWith(" ")) {
+            text = text.replaceFirst(" ", "")
+        }
 
         val outPut = ColorUtils().convert(text)
 

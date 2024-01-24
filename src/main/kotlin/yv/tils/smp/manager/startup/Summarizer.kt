@@ -21,8 +21,9 @@ class Summarizer {
         Debugger().log("Starting up", "Commands loading", "yv.tils.smp.manager.startup.Summarizer")
 
         val commands = Commands()
-        //commands.registerCommands()
         CommandAPI.onEnable()
+        commands.unregisterCommands()
+        commands.registerCommands()
 
         Debugger().log("Starting up", "Modules loading", "yv.tils.smp.manager.startup.Summarizer")
 
