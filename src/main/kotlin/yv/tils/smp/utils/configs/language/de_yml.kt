@@ -193,36 +193,24 @@ class de_yml {
 
         ymlFile.addDefault(
             "MAINTENANCE_PLAYER_NOT_ALLOWED_TO_JOIN_KICK_MESSAGE",
-            "Du bist nicht erlaubt, den Server während Wartungsarbeiten zu betreten!"
+            "<prefix> Du bist nicht erlaubt, den Server während Wartungsarbeiten zu betreten!"
         )
         ymlFile.addDefault(
             "MAINTENANCE_COMMAND_DEACTIVATE",
-            "<gray>Der Maintenance Modus ist nun <green>deaktiviert<gray>!"
+            "<prefix> <gray>Der Maintenance Modus ist nun <green>deaktiviert<gray>!"
         )
         ymlFile.addDefault(
             "MAINTENANCE_COMMAND_ACTIVATE",
-            "<gray>Der Maintenance Modus ist nun <green>aktiviert<gray>!"
+            "<prefix> <gray>Der Maintenance Modus ist nun <green>aktiviert<gray>!"
         )
         ymlFile.addDefault(
-            "MAINTENANCE_ALREADY_DEACTIVATED",
-            "<gray>Der Maintenance Modus ist bereits <green>deaktiviert<gray>!"
-        )
-        ymlFile.addDefault(
-            "MAINTENANCE_ALREADY_ACTIVATED",
-            "<gray>Der Maintenance Modus ist bereits <green>aktiviert<gray>!"
+            "MAINTENANCE_ALREADY_STATE",
+            "<prefix> <gray>Der Maintenance Modus ist bereits in diesem Status!"
         )
 
         ymlFile.addDefault(
             "MAINTENANCE_ILLEGAL_CONFIG_VALUE",
-            "Dieser Config Wert ist nicht zulässig!"
-        )
-        ymlFile.addDefault(
-            "MAINTENANCE_STATUS_ENABLED",
-            "<prefix> <gray>Der Maintenance Modus ist <green>aktiviert<gray>!"
-        )
-        ymlFile.addDefault(
-            "MAINTENANCE_STATUS_DISABLED",
-            "<prefix> <gray>Der Maintenance Modus ist <green>deaktiviert<gray>!"
+            "<prefix> Dieser Config Wert ist nicht zulässig!"
         )
 
         ymlFile.addDefault(
@@ -476,24 +464,10 @@ class de_yml {
             "GLOBALMUTE_TRY_TO_WRITE",
             "<prefix> <gray>Der Globalmute ist aktiviert!"
         )
-
         ymlFile.addDefault(
-            "GLOBALMUTE_STATUS_ENABLED",
-            "<prefix> <gray>Der Globalmute ist <green>aktiviert<gray>!"
+            "GLOBALMUTE_ALREADY_STATE",
+            "<prefix> <gray>Der Globalmute ist bereits in diesem Status!"
         )
-        ymlFile.addDefault(
-            "GLOBALMUTE_STATUS_DISABLED",
-            "<prefix> <gray>Der Globalmute ist <green>deaktiviert<gray>!"
-        )
-        ymlFile.addDefault(
-            "GLOBALMUTE_ALREADY_ENABLED",
-            "<prefix> <gray>Der Globalmute ist bereits <green>aktiviert<gray>!"
-        )
-        ymlFile.addDefault(
-            "GLOBALMUTE_ALREADY_DISABLED",
-            "<prefix> <gray>Der Globalmute ist bereits <green>deaktiviert<gray>!"
-        )
-
         ymlFile.addDefault(
             "SPEED_CHANGE_SELF",
             "<gray>Deine Geschwindigkeit wurde zu <green><speed><gray> geändert!"

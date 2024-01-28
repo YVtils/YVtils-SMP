@@ -20,14 +20,11 @@ class YVtils : JavaPlugin() {
     val pluginVersion = "1.0.0-ALPHA"
 
     override fun onLoad() {
-
         instance = this
         CommandAPI.onLoad(CommandAPIBukkitConfig(instance).silentLogs(true))
     }
 
     override fun onEnable() {
-
-
         Debugger().log(
             "YVtils SMP Start",
             Language().directFormat("This is the first action of the plugin!", "Dies ist die erste Aktion des Plugins!"),

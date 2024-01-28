@@ -98,10 +98,29 @@ class Language {
         }
     }
 
+    fun getRawMessage(uuid: UUID, message: LangStrings,): String {
+        val lang = playerLang[uuid]
+
+        return when (lang) {
+            Locale.GERMANY -> config_de[message.name].toString()
+            Locale.ENGLISH -> config_en[message.name].toString()
+            else -> config_global[message.name].toString()
+        }
+    }
+
+    fun getRawMessage(message: LangStrings,): String {
+        if (config_global[message.name] == null) {
+            Debugger().log("Language String not found", message.name, "yv.tils.smp.utils.configs.language.Language.getMessage()")
+            return message.name
+        } else {
+            return config_global[message.name].toString()
+        }
+    }
+
     fun directFormat(en: String, de: String,): Component {
-        val s = if (Config().config["Language"] == "en") {
+        val s = if (Config.config["Language"] == "en") {
             en
-        } else if (Config().config["Language"] == "de") {
+        } else if (Config.config["Language"] == "de") {
             de
         } else {
             en

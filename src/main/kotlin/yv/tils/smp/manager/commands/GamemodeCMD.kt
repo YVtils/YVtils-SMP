@@ -1,16 +1,17 @@
 package yv.tils.smp.manager.commands
 
+import dev.jorel.commandapi.Execution
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.*
 import org.bukkit.GameMode
 import org.bukkit.Sound
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.StringReplacer
 
 class GamemodeCMD {
-
     val command = commandTree("gm") {
         withPermission("yvtils.smp.command.gamemode")
         withUsage("gm <gamemode> [player]")
@@ -19,19 +20,25 @@ class GamemodeCMD {
         stringArgument("gamemode", false) {
             replaceSuggestions(ArgumentSuggestions.strings("survival", "creative", "adventure", "spectator", "0", "1", "2", "3"))
             playerArgument("player", true) {
-                playerExecutor { player, args ->
+                anyExecutor { sender, args ->
+
+                    if (sender !is Player && args[1] == null) {
+                        sender.sendMessage(Language().getMessage(LangStrings.PLAYER_ARGUMENT_MISSING))
+                        return@anyExecutor
+                    }
+
                     if (args[1] is Player) {
                         val target = args[1] as Player
-                        gamemodeSwitch(target, args[0].toString() , player)
+                        gamemodeSwitch(target, args[0].toString() , sender)
                     } else {
-                        gamemodeSwitch(player, args[0].toString())
+                        gamemodeSwitch(sender as Player, args[0].toString())
                     }
                 }
             }
         }
     }
 
-    private fun gamemodeSwitch(player: Player, gamemode: String, sender: Player = player) {
+    private fun gamemodeSwitch(player: Player, gamemode: String, sender: CommandSender = player) {
         var list_en: List<String> = listOf()
         var list_de: List<String> = listOf()
 
@@ -88,11 +95,19 @@ class GamemodeCMD {
         }
 
         if (player != sender) {
-            sender.sendMessage(StringReplacer().listReplacer(
-                Language().getMessage(sender.uniqueId, LangStrings.GAMEMODE_SWITCH_OTHER),
-                listOf("gamemode", "player"),
-                listOf(list2[0], player.name)
-            ))
+            if (sender is Player) {
+                sender.sendMessage(StringReplacer().listReplacer(
+                    Language().getMessage(sender.uniqueId, LangStrings.GAMEMODE_SWITCH_OTHER),
+                    listOf("gamemode", "player"),
+                    listOf(list2[0], player.name)
+                ))
+            } else {
+                sender.sendMessage(StringReplacer().listReplacer(
+                    Language().getMessage(LangStrings.GAMEMODE_SWITCH_OTHER),
+                    listOf("gamemode", "player"),
+                    listOf(list2[0], player.name)
+                ))
+            }
         }
     }
 }

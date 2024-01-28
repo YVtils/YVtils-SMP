@@ -5,13 +5,13 @@ import yv.tils.smp.YVtils
 import java.io.File
 
 class config_yml {
-    private var file = File(YVtils.instance.dataFolder.path, "config.yml")
-    private var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
+    private val file = File(YVtils.instance.dataFolder.path, "config.yml")
+    private val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
     fun strings() {
         ymlFile.addDefault("documentation", "https://yvnetwork.de/yvtils-smp/docs")
         ymlFile.addDefault("language", "en")
-        ymlFile.addDefault("prefix", " <dark_gray>[<blue>YVtils<gray>-<light_purple>SMP<dark_gray>]<white>")
+        ymlFile.addDefault("prefix", "<dark_gray>[<blue>YVtils-SMP<dark_gray>]<white>")
         ymlFile.addDefault("modules.ccr", true)
         ymlFile.addDefault("modules.status", true)
         ymlFile.addDefault("modules.discord", true)
@@ -21,6 +21,7 @@ class config_yml {
         ymlFile.addDefault("modules.position", true)
         ymlFile.addDefault("modules.oldVersion", true)
         ymlFile.addDefault("modules.multiMine", true)
+        ymlFile.addDefault("maintenance", false)
         ymlFile.addDefault("debug", false)
 
         ymlFile.options().copyDefaults(true)

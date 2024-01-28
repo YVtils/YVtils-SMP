@@ -8,8 +8,6 @@ class en_yml {
     private var file = File(YVtils.instance.dataFolder.path + "/language", "en.yml")
     private var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
-    //TODO: Reformat Placeholders PREFIX -> <prefix>
-
     fun strings() {
         ymlFile.addDefault("documentation", "https://yvnetwork.de/yvtils-smp/docs")
         ymlFile.addDefault(
@@ -191,24 +189,13 @@ class en_yml {
             "<gray>The maintenance mode is now <green>activated<gray>!"
         )
         ymlFile.addDefault(
-            "MAINTENANCE_ALREADY_DEACTIVATED",
-            "<gray>The maintenance mode is already <green>deactivated<gray>!"
+            "MAINTENANCE_ALREADY_STATE",
+            "<gray>The maintenance mode is already in this state!"
         )
-        ymlFile.addDefault(
-            "MAINTENANCE_ALREADY_ACTIVATED",
-            "<gray>The maintenance mode is already <green>activated<gray>!"
-        )
+
         ymlFile.addDefault(
             "MAINTENANCE_ILLEGAL_CONFIG_VALUE",
             "This config value is not valid!"
-        )
-        ymlFile.addDefault(
-            "MAINTENANCE_STATUS_ENABLED",
-            "<gray>The maintenance mode is <green>activated<gray>!"
-        )
-        ymlFile.addDefault(
-            "MAINTENANCE_STATUS_DISABLED",
-            "<gray>The maintenance mode is <green>dactivated<gray>!"
         )
         ymlFile.addDefault(
             "COMMAND_USAGE",
@@ -448,20 +435,8 @@ class en_yml {
             "<prefix> <gray>The global mute is activated!"
         )
         ymlFile.addDefault(
-            "GLOBALMUTE_STATUS_ENABLED",
-            "<prefix> <gray>The global mute is <green>activated<gray>!"
-        )
-        ymlFile.addDefault(
-            "GLOBALMUTE_STATUS_DISABLED",
-            "<prefix> <gray>The global mute is <green>disabled<gray>!"
-        )
-        ymlFile.addDefault(
-            "GLOBALMUTE_ALREADY_ENABLED",
-            "<prefix> <gray>The global mute is already <green>activated<gray>!"
-        )
-        ymlFile.addDefault(
-            "GLOBALMUTE_ALREADY_DISABLED",
-            "<prefix> <gray>The global mute is already <green>disabled<gray>!"
+            "GLOBALMUTE_ALREADY_STATE",
+            "<prefix> <gray>The global mute is already in this state!"
         )
         ymlFile.addDefault(
             "SPEED_CHANGE_SELF",

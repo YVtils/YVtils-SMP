@@ -7,7 +7,7 @@ import yv.tils.smp.mods.server.maintenance.PlayerLogin
 
 class PlayerLoginServer: Listener {
     @EventHandler
-    fun onPlayerLoginServer(e: PlayerLoginEvent) {
+    fun onEvent(e: PlayerLoginEvent) {
         PlayerLogin().eventReceiver(e)
     }
 }

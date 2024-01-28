@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 
 class PlayerQuitServer: Listener {
     @EventHandler
-    fun onPlayerQuitServer(e: PlayerQuitEvent) {
+    fun onEvent(e: PlayerQuitEvent) {
 
     }
 }

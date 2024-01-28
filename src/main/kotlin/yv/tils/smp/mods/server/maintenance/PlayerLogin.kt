@@ -4,18 +4,16 @@ import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerLoginEvent
+import yv.tils.smp.manager.commands.MaintenanceCMD
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
 
 class PlayerLogin {
 
     private var state = 1
 
     fun eventReceiver(e: PlayerLoginEvent) {
-
-        println("PlayerLogin - Event Receiver")
-
         funcStarter(state, e)
-
-        println("PlayerLogin - Event Receiver - End")
     }
 
     private fun funcStarter(state: Int, e: PlayerLoginEvent) {
@@ -25,9 +23,9 @@ class PlayerLogin {
     }
 
     private fun checkPerm(e: PlayerLoginEvent, player: Player, ) {
-        //TODO: Add permission & check if maintenance mode is enabled
-        if (false && !player.hasPermission("yvtils.bypass.maintenance")) {
-            e.kickMessage(Component.text("You do not have permission to join this server."))
+        if (MaintenanceCMD.maintenance && !player.hasPermission("yvtils.smp.bypass.maintenance")) {
+            e.result = PlayerLoginEvent.Result.KICK_FULL
+            e.kickMessage(Language().getMessage(LangStrings.MAINTENANCE_PLAYER_NOT_ALLOWED_TO_JOIN_KICK_MESSAGE))
         } else {
             funcStarter(state++, e)
         }
