@@ -16,7 +16,7 @@ class Debugger {
 
     private var log: String = ""
 
-    fun log(title: String = "null", desc: String = "null", `class`: String = "null",) {
+    fun log(title: String = "null", desc: String = "null", where: String = "null",) {
         if (YVtils.instance.config.getBoolean("debug")) {
             log = ""
 
@@ -29,14 +29,14 @@ class Debugger {
             log = log.plus("YVtils-SMP Plugin\n")
             log = log.plus("$title: \n")
             log = log.plus("$desc\n")
-            log = log.plus("Found here: $`class`\n")
+            log = log.plus("Found here: $where\n")
             log = log.plus("----- DEBUG END -----")
 
             plugin.server.consoleSender.sendMessage(Component.text(log))
         }
     }
 
-    fun log(title: String = "null", desc: Component = Component.text("null"), `class`: String = "null",) {
+    fun log(title: String = "null", desc: Component = Component.text("null"), where: String = "null",) {
         if (YVtils.instance.config.getBoolean("debug")) {
             log = ""
 
@@ -49,7 +49,7 @@ class Debugger {
             log = log.plus("YVtils-SMP Plugin\n")
             log = log.plus("$title: \n")
             log = log.plus("${MiniMessage.miniMessage().serialize(desc)}\n")
-            log = log.plus("Found here: $`class`\n")
+            log = log.plus("Found here: $where\n")
             log = log.plus("----- DEBUG END -----")
 
             plugin.server.consoleSender.sendMessage(ColorUtils().convert(log))

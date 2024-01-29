@@ -21,10 +21,30 @@ class config_yml {
         ymlFile.addDefault("modules.position", true)
         ymlFile.addDefault("modules.oldVersion", true)
         ymlFile.addDefault("modules.multiMine", true)
+
+        ymlFile.addDefault("joinMessages", joinMessages())
+        ymlFile.addDefault("leaveMessages", leaveMessages())
+
         ymlFile.addDefault("maintenance", false)
         ymlFile.addDefault("debug", false)
 
         ymlFile.options().copyDefaults(true)
         ymlFile.save(file)
+    }
+
+    private fun joinMessages(): List<String> {
+        val list: MutableList<String> = mutableListOf()
+
+        list.add("<green>» <white><player>")
+
+        return list
+    }
+
+    private fun leaveMessages(): List<String> {
+        val list: MutableList<String> = mutableListOf()
+
+        list.add("<red>« <white><player>")
+
+        return list
     }
 }

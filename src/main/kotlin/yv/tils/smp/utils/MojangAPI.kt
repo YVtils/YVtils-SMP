@@ -46,7 +46,7 @@ class MojangAPI {
     }
 
     private fun getWebsite(url: String): Map<String, String> {
-        val map: Map<String, String> = HashMap()
+        val map: MutableMap<String, String> = HashMap()
 
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.requestMethod = "GET"
@@ -75,7 +75,7 @@ class MojangAPI {
                 s = s.replace("\"", "")
                 s = s.replace(" ", "")
 
-                map.plus(s.split(":")[0] to s.split(":")[1])
+                map[s.split(":")[0]] = s.split(":")[1]
             }
         }else {
             println("HTTP request failed with response code: $responseCode")

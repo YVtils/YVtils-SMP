@@ -42,7 +42,7 @@ class Language {
 
         val file = File(
             YVtils.instance.dataFolder.path + "/language",
-            YVtils.instance.config.getString("Language") + ".yml"
+            YVtils.instance.config.getString("language") + ".yml"
         )
         if (file.exists()) {
             yamlConfiguration = YamlConfiguration.loadConfiguration(file)

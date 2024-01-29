@@ -1,27 +1,28 @@
 package yv.tils.smp.mods.server.connect
 
-import com.destroystokyo.paper.profile.PlayerProfile
+import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent
+import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.Language
+import yv.tils.smp.utils.internalAPI.StringReplacer
 import yv.tils.smp.utils.logger.Debugger
 import yv.tils.smp.utils.updater.PluginVersion
-import java.util.Locale
 
 class PlayerJoin {
 
     private var state = 1
 
     fun eventReceiver(e: PlayerJoinEvent) {
-        println("PlayerJoin - Event Receiver")
-
+        Debugger().log("PlayerJoin - Event Receiver", "Player ${e.player.name} joined the server", "yv.tils.smp.mods.server.connect.PlayerJoin.eventReceiver()")
         funcStarter(state, e)
     }
 
     private fun funcStarter(state: Int, e: PlayerJoinEvent) {
         when (state) {
             1 -> vanishJoin(e, e.player)
-            2 -> generateJoinMessage(e, e.player)
+            2 -> sendJoinMessage(e, e.player)
             3 -> setupPlayer(e, e.player)
             4 -> otherActions(e, e.player)
         }
@@ -33,16 +34,32 @@ class PlayerJoin {
         if (false) {
             e.joinMessage(null)
             setupPlayer(e, player)
+            state = -1
         } else {
             funcStarter(state++, e)
         }
     }
 
-    private fun generateJoinMessage(e: PlayerJoinEvent, player: Player, ) {
-        //TODO: Add random generator
-        Debugger().log("PlayerJoin - Generate Join Message", "Player ${player.name} joined the server", "yv.tils.smp.mods.server.connect.PlayerJoin.generateJoinMessage()")
-        e.joinMessage()
+    private fun sendJoinMessage(e: PlayerJoinEvent, player: Player, ) {
+        e.joinMessage(generateJoinMessage(player))
         funcStarter(state++, e)
+    }
+
+    fun generateJoinMessage(player: Player): Component {
+        val messages = Config.config["joinMessages"] as List<String>
+
+        println(messages)
+        println(messages.size)
+
+        val random = messages.indices.random()
+
+        Debugger().log("PlayerQuit - Generate Join Message", "Generated Following Join Message: ${messages[random]}", "yv.tils.smp.mods.server.connect.PlayerJoin.generateJoinMessage()")
+
+        return StringReplacer().listReplacer(
+            Component.text(messages[random]),
+            listOf("player"),
+            listOf(player.name)
+        )
     }
 
     private fun setupPlayer(e: PlayerJoinEvent, player: Player, ) {

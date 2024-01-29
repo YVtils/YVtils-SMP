@@ -2,6 +2,7 @@ package yv.tils.smp.manager.startup
 
 import dev.jorel.commandapi.CommandAPI
 import yv.tils.smp.manager.commands.*
+import yv.tils.smp.mods.admin.vanish.Vanish
 
 class Commands {
     fun unregisterCommands() {
@@ -17,5 +18,6 @@ class Commands {
         GlobalMuteCMD()
         MaintenanceCMD()
         SeedCMD()
+        Vanish()
     }
 }

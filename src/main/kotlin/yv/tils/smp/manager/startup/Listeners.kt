@@ -14,5 +14,10 @@ class Listeners {
         plugin.server.pluginManager.registerEvents(PlayerWorldChange(), plugin)
         plugin.server.pluginManager.registerEvents(PlayerGamemodeSwitch(), plugin)
         plugin.server.pluginManager.registerEvents(PlayerChat(), plugin)
+        plugin.server.pluginManager.registerEvents(EntityTarget(), plugin)
+        plugin.server.pluginManager.registerEvents(InvOpen(), plugin)
+        plugin.server.pluginManager.registerEvents(InvClose(), plugin)
+        plugin.server.pluginManager.registerEvents(InvClick(), plugin)
+        plugin.server.pluginManager.registerEvents(InvInteract(), plugin)
     }
 }
