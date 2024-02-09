@@ -2,10 +2,10 @@ package yv.tils.smp.mods.server.connect
 
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
-import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
-import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.mods.admin.vanish.Vanish
 import yv.tils.smp.utils.configs.global.Config
+import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.StringReplacer
 import yv.tils.smp.utils.logger.Debugger
 
@@ -26,8 +26,9 @@ class PlayerQuit {
     }
 
     private fun vanishQuit(e: PlayerQuitEvent, player: Player) {
-        if (false) {
+        if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!) {
             e.quitMessage(null)
+            Language.playerLang.remove(player.uniqueId)
             state = -1
         } else {
             funcStarter(state++, e)
@@ -41,9 +42,6 @@ class PlayerQuit {
 
     fun generateQuitMessage(player: Player): Component {
         val messages = Config.config["leaveMessages"] as List<String>
-
-        println(messages)
-        println(messages.size)
 
         val random = messages.indices.random()
 

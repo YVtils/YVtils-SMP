@@ -42,16 +42,8 @@ class Vanish {
                     try {
                         val target = args[0] as Player
                         quickVanish(target, sender)
-                        println("|-/-/-/-/-|")
-                        println("Vanish - Player & Quick")
-                        println("Vanish Command - Player Executor - Player: ${sender.name}")
-                        println("|-/-/-/-/-|")
                     }catch (_: Exception) {
                         quickVanish(sender as Player, sender)
-                        println("|-/-/-/-/-|")
-                        println("Vanish - Non Player & Quick")
-                        println("Vanish Command - Player Executor - Player: ${sender.name}")
-                        println("|-/-/-/-/-|")
                     }
                 }
             }
@@ -61,22 +53,15 @@ class Vanish {
             playerExecutor { player, args ->
                 try {
                     val target = args[0] as Player
-                    vanish(player, target)
-                    println("|-/-/-|")
-                    println("Vanish - Player & Non Quick")
-                    println("Vanish Command - Player Executor - Player: ${player.name}")
-                    println("|-/-/-|")
+                    vanish(target, player)
                 }catch (_: Exception) {
                     vanish(player, player)
-                    println("|-/-|")
-                    println("Vanish - Non Player & Non Quick")
-                    println("Vanish Command - Player Executor - Player: ${player.name}")
-                    println("|-/-|")
                 }
             }
         }
     }
 
+    //TODO: Add message when toggling for other players
     private fun quickVanish(player: Player, sender: CommandSender) {
         if (!player.isOnline) {
             if (sender is Player) {
@@ -87,11 +72,11 @@ class Vanish {
             return
         }
 
-        if (vanish.containsKey(player.uniqueId)) vanish[player.uniqueId] = false
-        if (layer.containsKey(player.uniqueId)) layer[player.uniqueId] = 1
-        if (itemPickup.containsKey(player.uniqueId)) itemPickup[player.uniqueId] = false
-        if (invInteraction.containsKey(player.uniqueId)) invInteraction[player.uniqueId] = true
-        if (mobTarget.containsKey(player.uniqueId)) mobTarget[player.uniqueId] = true
+        if (!vanish.containsKey(player.uniqueId)) vanish[player.uniqueId] = false
+        if (!layer.containsKey(player.uniqueId)) layer[player.uniqueId] = 1
+        if (!itemPickup.containsKey(player.uniqueId)) itemPickup[player.uniqueId] = false
+        if (!invInteraction.containsKey(player.uniqueId)) invInteraction[player.uniqueId] = true
+        if (!mobTarget.containsKey(player.uniqueId)) mobTarget[player.uniqueId] = true
 
         if (vanish[player.uniqueId]!!) {
             VanishGUI().vanishRegister(player, false)
@@ -110,11 +95,11 @@ class Vanish {
             return
         }
 
-        if (vanish.containsKey(player.uniqueId)) vanish[player.uniqueId] = false
-        if (layer.containsKey(player.uniqueId)) layer[player.uniqueId] = 1
-        if (itemPickup.containsKey(player.uniqueId)) itemPickup[player.uniqueId] = false
-        if (invInteraction.containsKey(player.uniqueId)) invInteraction[player.uniqueId] = true
-        if (mobTarget.containsKey(player.uniqueId)) mobTarget[player.uniqueId] = true
+        if (!vanish.containsKey(player.uniqueId)) vanish[player.uniqueId] = false
+        if (!layer.containsKey(player.uniqueId)) layer[player.uniqueId] = 1
+        if (!itemPickup.containsKey(player.uniqueId)) itemPickup[player.uniqueId] = false
+        if (!invInteraction.containsKey(player.uniqueId)) invInteraction[player.uniqueId] = true
+        if (!mobTarget.containsKey(player.uniqueId)) mobTarget[player.uniqueId] = true
 
         exec_target[sender.uniqueId] = player.uniqueId
 
@@ -155,7 +140,7 @@ class Vanish {
                                 target.uniqueId,
                                 LangStrings.VANISH_REFRESH_OTHER
                             ),
-                            listOf("PREFIX", "PLAYER"),
+                            listOf("prefix", "player"),
                             listOf(Vars().prefix, player.name)
                         )
                     )
@@ -185,6 +170,8 @@ class Vanish {
         for (p in player.server.onlinePlayers) {
             p.showPlayer(YVtils.instance, player)
             player.showPlayer(YVtils.instance, p)
+
+            if (vanish.containsKey(p.uniqueId) && vanish[p.uniqueId]!!) player.hidePlayer(YVtils.instance, p)
         }
 
         player.isSleepingIgnored = false
@@ -213,7 +200,7 @@ class Vanish {
                                 target.uniqueId,
                                 LangStrings.VANISH_REFRESH_OTHER
                             ),
-                            listOf("PREFIX", "PLAYER"),
+                            listOf("prefix", "player"),
                             listOf(Vars().prefix, player.name)
                         )
                     )
@@ -241,18 +228,26 @@ class Vanish {
             p.hidePlayer(YVtils.instance, player)
             player.hidePlayer(YVtils.instance, p)
 
-            if (!vanish.containsKey(p.uniqueId)) player.showPlayer(YVtils.instance, p)
+            if (!(vanish.containsKey(p.uniqueId) && vanish[p.uniqueId]!!)) player.showPlayer(YVtils.instance, p)
         }
 
         if (layer[player.uniqueId] != 4) {
             for (entry in layer.entries) {
-                if (entry.value <= layer[player.uniqueId]!!) {
-                    for (p in player.server.onlinePlayers) {
-                        if ((p.uniqueId == entry.key && entry.value != 4) && (vanish.containsKey(p.uniqueId) && vanish[p.uniqueId]!!)) {
-                            p.showPlayer(YVtils.instance, player)
-                            player.showPlayer(YVtils.instance, p)
-                        }
-                    }
+
+                val target = Bukkit.getPlayer(entry.key) ?: continue
+
+                if (entry.value == 4) continue
+                if (!(vanish.containsKey(target.uniqueId) && vanish[target.uniqueId]!!)) continue
+
+                if (layer[player.uniqueId]!! > entry.value) {
+                    target.hidePlayer(YVtils.instance, player)
+                    player.showPlayer(YVtils.instance, target)
+                } else if (layer[player.uniqueId]!! < entry.value) {
+                    target.showPlayer(YVtils.instance, player)
+                    player.hidePlayer(YVtils.instance, target)
+                } else if (layer[player.uniqueId]!! == entry.value) {
+                    target.showPlayer(YVtils.instance, player)
+                    player.showPlayer(YVtils.instance, target)
                 }
             }
         }

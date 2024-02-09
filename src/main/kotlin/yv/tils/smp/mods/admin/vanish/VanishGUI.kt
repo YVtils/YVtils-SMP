@@ -23,6 +23,9 @@ class VanishGUI {
             target = Bukkit.getPlayer(MojangAPI().UUID2Name(Vanish.exec_target[player.uniqueId]!!)!!)!!
         }
 
+        //TODO: Add translations for item names
+        //TODO: Add lore as description for each item in both languages
+
         // Vanish
         val vanish = ItemStack(Material.POTION)
         val vanishMeta = vanish.itemMeta as PotionMeta
@@ -54,7 +57,7 @@ class VanishGUI {
         // Inventory Interaction
         val invInteraction = ItemStack(Material.LIGHT_GRAY_SHULKER_BOX)
         val invInteractionMeta = invInteraction.itemMeta
-        invInteractionMeta.displayName(ColorUtils().convert("<#96C8FF>Inventory Interaction"))
+        invInteractionMeta.displayName(ColorUtils().convert("<#96C8FF>Silent Inventory Interaction"))
         invInteractionMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
         invInteraction.itemMeta = invInteractionMeta
 
@@ -63,7 +66,7 @@ class VanishGUI {
         // Mob Target
         val mobTarget = ItemStack(Material.SPAWNER)
         val mobTargetMeta = mobTarget.itemMeta
-        mobTargetMeta.displayName(ColorUtils().convert("<#96C8FF>Mob Target"))
+        mobTargetMeta.displayName(ColorUtils().convert("<#96C8FF>Anti Mob Target"))
         mobTargetMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
         mobTarget.itemMeta = mobTargetMeta
 
@@ -255,8 +258,6 @@ class VanishGUI {
         if (Vanish.exec_target.containsKey(player.uniqueId)) {
             target = Bukkit.getPlayer(MojangAPI().UUID2Name(Vanish.exec_target[player.uniqueId]!!)!!)!!
         }
-
-        println(player.openInventory.title() == ColorUtils().convert("<#6D8896>Vanish"))
 
         if (player.openInventory.title() == ColorUtils().convert("<#6D8896>Vanish") && e.inventory.size == 36 && e.inventory.location == null) {
             e.isCancelled = true

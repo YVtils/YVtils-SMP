@@ -3,7 +3,7 @@ package yv.tils.smp.mods.server.connect
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent
-import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.mods.admin.vanish.Vanish
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.StringReplacer
@@ -30,8 +30,7 @@ class PlayerJoin {
 
 
     private fun vanishJoin(e: PlayerJoinEvent, player: Player, ) {
-        //TODO: Add vanish check
-        if (false) {
+        if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!) {
             e.joinMessage(null)
             setupPlayer(e, player)
             state = -1
@@ -48,9 +47,6 @@ class PlayerJoin {
     fun generateJoinMessage(player: Player): Component {
         val messages = Config.config["joinMessages"] as List<String>
 
-        println(messages)
-        println(messages.size)
-
         val random = messages.indices.random()
 
         Debugger().log("PlayerQuit - Generate Join Message", "Generated Following Join Message: ${messages[random]}", "yv.tils.smp.mods.server.connect.PlayerJoin.generateJoinMessage()")
@@ -65,11 +61,7 @@ class PlayerJoin {
     private fun setupPlayer(e: PlayerJoinEvent, player: Player, ) {
         Debugger().log("PlayerJoin - Setup Player", "Player ${player.name} joined the server", "yv.tils.smp.mods.server.connect.PlayerJoin.setupPlayer()")
 
-        println(player.locale())
-
         Language.playerLang[player.uniqueId] = player.locale()
-
-        println(Language.playerLang)
 
         funcStarter(state++, e)
     }
