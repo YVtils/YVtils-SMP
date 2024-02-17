@@ -1,5 +1,6 @@
 package yv.tils.smp.manager.startup
 
+import yv.tils.smp.utils.configs.admin.mutedPlayers_yml
 import yv.tils.smp.utils.configs.ccr.config_yml_ccr
 import yv.tils.smp.utils.configs.ccr.save_yml_ccr
 import yv.tils.smp.utils.configs.discord.config_yml_discord
@@ -23,7 +24,10 @@ class Configs {
         save_yml_ccr().strings()
         save_yml_discord().strings()
 
+        mutedPlayers_yml().strings()
+
         Config().loadConfig()
+        mutedPlayers_yml().loadConfig()
     }
 
     fun language() {

@@ -10,15 +10,14 @@ class MojangAPI {
     fun name2uuid(playerName: String): UUID? {
         try {
             val url = "https://api.mojang.com/users/profiles/minecraft/${playerName}"
-            val map = getWebsite(url)
+            val map: MutableMap<String, String> = getWebsite(url)
 
-            map.plus(
-                "id" to
-                        map["id"]!!.substring(0, 8) + "-" +
-                        map["id"]!!.substring(8, 12) + "-" +
-                        map["id"]!!.substring(12, 16) + "-" +
-                        map["id"]!!.substring(16, 20) + "-" +
-                        map["id"]!!.substring(20)
+            map["id"] = (
+                map["id"]!!.substring(0, 8) + "-" +
+                map["id"]!!.substring(8, 12) + "-" +
+                map["id"]!!.substring(12, 16) + "-" +
+                map["id"]!!.substring(16, 20) + "-" +
+                map["id"]!!.substring(20)
             )
 
             return UUID.fromString(map["id"])
@@ -28,15 +27,10 @@ class MojangAPI {
         return null
     }
 
-    fun UUID2Name(uuid: UUID): String? {
+    fun uuid2name(uuid: UUID): String? {
         try {
             val url = "https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString().replace("-", "")
             val map = getWebsite(url)
-
-            map.plus(
-                "name" to
-                        map["name"]
-            )
 
             return map["name"]
         } catch (e: java.lang.Exception) {
@@ -45,7 +39,7 @@ class MojangAPI {
         return null
     }
 
-    private fun getWebsite(url: String): Map<String, String> {
+    private fun getWebsite(url: String): MutableMap<String, String> {
         val map: MutableMap<String, String> = HashMap()
 
         val connection = URL(url).openConnection() as HttpURLConnection

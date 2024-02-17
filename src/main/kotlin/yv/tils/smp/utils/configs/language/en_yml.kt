@@ -158,19 +158,19 @@ class en_yml {
         )
         ymlFile.addDefault(
             "MOD_PLAYER_NOT_BANNED",
-            "<prefix> <dark_gray><player><gray> is not banned!"
+            "This player is not banned!"
         )
         ymlFile.addDefault(
             "MOD_ANNOUNCEMENT_KICK",
-            "'<prefix> <dark_gray><player> <gray>got kicked from <dark_gray><moderator><gray>! Reason"
+            "<prefix> <dark_gray><player> <gray>got kicked from <dark_gray><moderator><gray>! Reason: <dark_gray><reason>"
         )
         ymlFile.addDefault(
             "MOD_ANNOUNCEMENT_BAN",
-            "'<prefix> <dark_gray><player> <gray>got banned from <dark_gray><moderator><gray>! Reason"
+            "<prefix> <dark_gray><player> <gray>got banned from <dark_gray><moderator><gray>! Reason: <dark_gray><reason>"
         )
         ymlFile.addDefault(
             "MOD_ANNOUNCEMENT_TEMPBAN",
-            "'<prefix> <dark_gray><player> <gray>got banned temporary from <dark_gray><moderator><gray>! Reason"
+            "<prefix> <dark_gray><player> <gray>got banned temporary from <dark_gray><moderator><gray>! Reason: <dark_gray><reason>, Duration: <dark_gray><duration>"
         )
         ymlFile.addDefault(
             "MOD_ANNOUNCEMENT_UNBAN",
@@ -475,6 +475,50 @@ class en_yml {
             "<prefix> <gray>The vanish settings of <yellow><player> <gray>got refreshed!"
         )
 
+        ymlFile.addDefault(
+            "MOD_ANNOUNCEMENT_MUTE",
+            "<prefix> <dark_gray><player> <gray>got muted from <dark_gray><moderator><gray>! Reason: <dark_gray><reason>"
+        )
+
+        ymlFile.addDefault(
+            "MOD_ANNOUNCEMENT_TEMPMUTE",
+            "<prefix> <dark_gray><player> <gray>got temporary muted from <dark_gray><moderator><gray>! Reason: <dark_gray><reason><gray>, Duration: <dark_gray><duration>"
+        )
+
+        ymlFile.addDefault(
+            "MOD_ANNOUNCEMENT_UNMUTE",
+            "<prefix> <dark_gray><player> <gray>got unmuted from <dark_gray><moderator><gray>!"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_ALREADY_MUTED",
+            "This player is already muted!"
+        )
+
+        ymlFile.addDefault(
+            "MOD_PLAYER_NOT_MUTED",
+            "<prefix> <dark_gray><player> <gray>is not muted!"
+        )
+
+        ymlFile.addDefault(
+            "MUTED_TRY_TO_WRITE",
+            "<prefix> <gray>You are muted! Reason: <dark_gray><reason><gray>, Duration: <dark_gray><duration>"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_GOT_MUTED",
+            "<prefix> <gray>You got muted! Reason: <dark_gray><reason>"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_GOT_TEMPMUTED",
+            "<prefix> <gray>You got muted temporary! Reason: <dark_gray><reason><gray>, Duration: <dark_gray><duration>"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_GOT_UNMUTED",
+            "<prefix> <gray>You got unmuted!"
+        )
 
         ymlFile.options().copyDefaults(true)
         ymlFile.save(file)

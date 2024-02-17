@@ -171,7 +171,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "MOD_PLAYER_NOT_BANNED",
-            "<prefix> <dark_gray><player> <gray>ist nicht gebannt!"
+            "Dieser Spieler ist nicht gebannt!"
         )
         ymlFile.addDefault(
             "MOD_ANNOUNCEMENT_KICK",
@@ -503,6 +503,51 @@ class de_yml {
         ymlFile.addDefault(
             "VANISH_REFRESH_OTHER",
             "<prefix> <gray>Die Vanish Einstellungen von <yellow><player> <gray>wurden aktualisiert!"
+        )
+
+        ymlFile.addDefault(
+            "MOD_ANNOUNCEMENT_MUTE",
+            "<prefix> <dark_gray><player> <gray>wurde von <dark_gray><moderator> <gray>gemuted! Grund: <dark_gray><reason>"
+        )
+
+        ymlFile.addDefault(
+            "MOD_ANNOUNCEMENT_TEMPMUTE",
+            "<prefix> <dark_gray><player> <gray>wurde von <dark_gray><moderator> <gray>temporär gemuted! Grund: <dark_gray><reason><gray>, Dauer: <dark_gray><duration>"
+        )
+
+        ymlFile.addDefault(
+            "MOD_ANNOUNCEMENT_UNMUTE",
+            "<prefix> <dark_gray><player> <gray>wurde von <dark_gray><moderator> <gray>unmuted!"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_ALREADY_MUTED",
+            "Dieser Spieler ist bereits gemuted!"
+        )
+
+        ymlFile.addDefault(
+            "MOD_PLAYER_NOT_MUTED",
+            "<prefix> <dark_gray><player> <gray>ist nicht gemuted!"
+        )
+
+        ymlFile.addDefault(
+            "MUTED_TRY_TO_WRITE",
+            "<prefix> <gray>Du bist gemuted! Grund: <dark_gray><reason><gray>, Dauer: <dark_gray><duration>"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_GOT_MUTED",
+            "<prefix> <gray>Du wurdest gemuted! Grund: <dark_gray><reason>"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_GOT_TEMPMUTED",
+            "<prefix> <gray>Du wurdest temporär gemuted! Grund: <dark_gray><reason><gray>, Dauer: <dark_gray><duration>"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_GOT_UNMUTED",
+            "<prefix> <gray>Du wurdest entmuted!"
         )
 
         ymlFile.options().copyDefaults(true)

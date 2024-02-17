@@ -20,10 +20,9 @@ class VanishGUI {
         var target = player
 
         if (Vanish.exec_target.containsKey(player.uniqueId)) {
-            target = Bukkit.getPlayer(MojangAPI().UUID2Name(Vanish.exec_target[player.uniqueId]!!)!!)!!
+            target = Bukkit.getPlayer(MojangAPI().uuid2name(Vanish.exec_target[player.uniqueId]!!)!!)!!
         }
 
-        //TODO: Add translations for item names
         //TODO: Add lore as description for each item in both languages
 
         // Vanish
@@ -256,7 +255,7 @@ class VanishGUI {
         var target = player
 
         if (Vanish.exec_target.containsKey(player.uniqueId)) {
-            target = Bukkit.getPlayer(MojangAPI().UUID2Name(Vanish.exec_target[player.uniqueId]!!)!!)!!
+            target = Bukkit.getPlayer(MojangAPI().uuid2name(Vanish.exec_target[player.uniqueId]!!)!!)!!
         }
 
         if (player.openInventory.title() == ColorUtils().convert("<#6D8896>Vanish") && e.inventory.size == 36 && e.inventory.location == null) {
@@ -369,7 +368,7 @@ class VanishGUI {
         var target = player
 
         if (Vanish.exec_target.containsKey(player.uniqueId)) {
-            target = Bukkit.getPlayer(MojangAPI().UUID2Name(Vanish.exec_target[player.uniqueId]!!)!!)!!
+            target = Bukkit.getPlayer(MojangAPI().uuid2name(Vanish.exec_target[player.uniqueId]!!)!!)!!
         }
 
         if (player.openInventory.title() == ColorUtils().convert("<#6D8896>Vanish") && e.inventory.size == 36 && e.inventory.location == null) {

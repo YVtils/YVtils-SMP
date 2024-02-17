@@ -1,8 +1,6 @@
 package yv.tils.smp.manager.startup
 
 import dev.jorel.commandapi.CommandAPI
-import dev.jorel.commandapi.CommandAPIBukkitConfig
-import yv.tils.smp.YVtils
 import yv.tils.smp.utils.logger.Debugger
 
 class Summarizer {
@@ -11,6 +9,7 @@ class Summarizer {
 
         val configs = Configs()
         configs.register()
+
         Debugger().log("Starting up", "Configs loaded", "yv.tils.smp.manager.startup.Summarizer")
 
         Debugger().log("Starting up", "Listeners loading", "yv.tils.smp.manager.startup.Summarizer")
