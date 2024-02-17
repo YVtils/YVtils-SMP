@@ -1,8 +1,6 @@
 package yv.tils.smp.manager.startup
 
 import yv.tils.smp.utils.configs.admin.mutedPlayers_yml
-import yv.tils.smp.utils.configs.ccr.config_yml_ccr
-import yv.tils.smp.utils.configs.ccr.save_yml_ccr
 import yv.tils.smp.utils.configs.discord.config_yml_discord
 import yv.tils.smp.utils.configs.discord.save_yml_discord
 import yv.tils.smp.utils.configs.global.Config
@@ -17,11 +15,9 @@ class Configs {
     fun register() {
         config_yml().strings()
         config_yml_status().strings()
-        config_yml_ccr().strings()
         config_yml_discord().strings()
 
         save_yml_status().strings()
-        save_yml_ccr().strings()
         save_yml_discord().strings()
 
         mutedPlayers_yml().strings()
