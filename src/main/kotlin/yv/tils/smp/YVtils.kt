@@ -2,8 +2,8 @@ package yv.tils.smp
 
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
+import org.bukkit.NamespacedKey
 import org.bukkit.plugin.java.JavaPlugin
-import yv.tils.smp.manager.commands.GamemodeCMD
 import yv.tils.smp.manager.startup.Configs
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
@@ -15,6 +15,7 @@ import yv.tils.smp.utils.logger.Debugger
 class YVtils : JavaPlugin() {
     companion object {
         lateinit var instance: YVtils
+        lateinit var key: NamespacedKey
     }
 
     val pluginVersion = "1.0.0-ALPHA"
@@ -22,6 +23,7 @@ class YVtils : JavaPlugin() {
     override fun onLoad() {
         instance = this
         CommandAPI.onLoad(CommandAPIBukkitConfig(instance).silentLogs(true))
+        key = NamespacedKey(this, "yvtils")
     }
 
     override fun onEnable() {

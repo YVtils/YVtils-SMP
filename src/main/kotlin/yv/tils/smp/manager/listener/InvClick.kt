@@ -5,6 +5,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import yv.tils.smp.mods.admin.invSee.InvSee
 import yv.tils.smp.mods.admin.vanish.VanishGUI
+import yv.tils.smp.mods.questSystem.GUIListener
 import yv.tils.smp.utils.invSync.InvSync
 
 class InvClick: Listener {
@@ -13,5 +14,6 @@ class InvClick: Listener {
         VanishGUI().invInteraction(e)
         InvSync().onInvChange(e)
         InvSee().onFillerInteract(e)
+        GUIListener().onInventoryClick(e)
     }
 }

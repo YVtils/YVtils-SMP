@@ -27,7 +27,7 @@ class Summarizer {
         Debugger().log("Starting up", "Modules loading", "yv.tils.smp.manager.startup.Summarizer")
 
         val modules = Modules()
-        //modules.registerModules()
+        modules.registerModules()
 
         Debugger().log("Starting up", "Other loading", "yv.tils.smp.manager.startup.Summarizer")
 
