@@ -1,4 +1,4 @@
-package yv.tils.smp.mods.questSystem
+package yv.tils.smp.mods.fusionCrafting
 
 import org.bukkit.Material
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -20,9 +20,12 @@ class GUIListener {
                     if (e.currentItem!!.type == Material.LIGHT_GRAY_STAINED_GLASS_PANE) return
 
                     // Open Quest
-                    val questName = QuestLoader.component2name[e.currentItem!!.displayName()]!!
-                    val questMap = QuestLoader().loadQuest(questName)
+                    val questName = FusionLoader.component2name[e.currentItem!!.displayName()]!!
+                    val questMap = FusionLoader().loadQuest(questName)
+
                     println("This would open the quest $questName with the map \n\n$questMap")
+
+                    FusionCraftingGUI().fusionGUI(player, questMap)
                 }
                 45 -> {
                     // Last Page

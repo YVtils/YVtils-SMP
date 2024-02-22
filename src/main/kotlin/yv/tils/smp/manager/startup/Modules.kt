@@ -1,6 +1,6 @@
 package yv.tils.smp.manager.startup
 
-import yv.tils.smp.mods.questSystem.QuestLoader
+import yv.tils.smp.mods.fusionCrafting.FusionLoader
 
 class Modules {
     fun registerModules() {
@@ -8,7 +8,7 @@ class Modules {
     }
 
     private fun registerQuests() {
-        QuestLoader().generateDefaultQuests()
-        QuestLoader().loadQuestThumbnail()
+        FusionLoader().generateDefaultQuests()
+        FusionLoader().loadQuestThumbnail()
     }
 }

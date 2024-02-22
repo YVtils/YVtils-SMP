@@ -1,23 +1,24 @@
-package yv.tils.smp.mods.questSystem
+package yv.tils.smp.mods.fusionCrafting
 
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.playerExecutor
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.Material
+import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
-import yv.tils.smp.mods.questSystem.QuestLoader.Companion.questThumbnails
+import yv.tils.smp.mods.fusionCrafting.FusionLoader.Companion.questThumbnails
 import yv.tils.smp.utils.color.ColorUtils
 
-class QuestGUICommand {
-    val command = commandTree("quest") {
+class FusionCraftingGUI {
+    val command = commandTree("fusion") {
         withPermission("yvtils.smp.quest.command")
-        withUsage("/quest")
-        withAliases("q", "ccr")
+        withUsage("/fusion")
+        withAliases("ccr")
 
         playerExecutor { sender, args ->
             generateGUI(sender)
@@ -27,7 +28,7 @@ class QuestGUICommand {
     private fun generateGUI(player: Player) {
         val questSlots: List<Int> = listOf(11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 38, 39, 40, 41, 42)
 
-        val inv = Bukkit.createInventory(player, 54, ColorUtils().convert("<gold>Quests"))
+        val inv = Bukkit.createInventory(player, 54, ColorUtils().convert("<gold>Fusion Crafting"))
 
         loop@for (quest in questThumbnails) {
             for (slot in questSlots) {
@@ -88,7 +89,7 @@ class QuestGUICommand {
         player.openInventory(inv)
     }
 
-    fun questGUI(player: Player, quest: String) {
+    fun fusionGUI(player: HumanEntity, fusion: MutableMap<String, Any>) {
         val inv = Bukkit.createInventory(null, 54)
 
         val inputSlots: List<Int> = listOf(10, 11, 12, 13, 19, 20, 21, 22, 28, 29, 30, 31)
@@ -127,13 +128,13 @@ class QuestGUICommand {
             inv.setItem(slot, accept)
         }
 
-        generateInput(inputSlots, quest, inv)
-        generateOutput(quest, inv)
+        generateInput(inputSlots, fusion, inv)
+        generateOutput(fusion, inv)
 
         player.openInventory(inv)
     }
 
-    private fun generateInput(slots: List<Int>, quest: String, inv: Inventory) {
+    private fun generateInput(slots: List<Int>, fusion: MutableMap<String, Any>, inv: Inventory) {
         val items = mutableListOf<ItemStack>()
 
         items.add(ItemStack(Material.DIRT))
@@ -155,7 +156,7 @@ class QuestGUICommand {
         }
     }
 
-    private fun generateOutput(quest: String, inv: Inventory) {
+    private fun generateOutput(fusion: MutableMap<String, Any>, inv: Inventory) {
         val items = mutableListOf<ItemStack>()
 
         items.add(ItemStack(Material.DIRT))

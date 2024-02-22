@@ -1,4 +1,4 @@
-package yv.tils.smp.mods.questSystem
+package yv.tils.smp.mods.fusionCrafting
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
@@ -6,39 +6,16 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.YVtils
-import yv.tils.smp.mods.questSystem.quests.lightBlock.lightBlock
+import yv.tils.smp.mods.fusionCrafting.fusions.lightBlock.LightBlock
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
 import java.io.File
 
-class QuestLoader {
+class FusionLoader {
     companion object {
         val questThumbnails: MutableMap<String, ItemStack> = mutableMapOf()
         val component2name: MutableMap<Component, String> = mutableMapOf()
     }
-
-
-    /*
-        <name>:
-            - ingredients:
-                - <item>:
-                    - amount: <amount>
-                    - meta: <meta>
-                - <item>:
-                    - amount: <amount>
-                    - meta: <meta>
-                - ...
-            - rewards:
-                - <item>:
-                    - name: <name>
-                    - amount: <amount>
-                    - lore: <lore>
-                    - meta: <meta>
-                    - effects:
-                        - <effect>:
-                            - ???
-                        - ...
-    */
 
     fun generateDefaultQuests() {
         val file = File(YVtils.instance.dataFolder.path, "quests")
@@ -46,11 +23,10 @@ class QuestLoader {
 
         val lightBlockFile = File(YVtils.instance.dataFolder.path, "quests/lightBlock.yml")
         val lightBlockYML: YamlConfiguration = YamlConfiguration.loadConfiguration(lightBlockFile)
-        lightBlock().configFile(lightBlockYML)
+        LightBlock().configFile(lightBlockYML)
         lightBlockYML.save(lightBlockFile)
 
-
-        Debugger().log("Generated default quests", "Generated default quests", "yv/tils/smp/mods/questSystem/QuestLoader.kt")
+        Debugger().log("Generated default quests", "Generated default quests", "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt")
     }
 
     fun loadQuestThumbnail() {
@@ -76,7 +52,7 @@ class QuestLoader {
             questThumbnails[name] = displayItem
             component2name[displayItem.displayName()] = name
 
-            Debugger().log("Loaded quest thumbnail", "Name: $name | File: ${file.path} | Map: ${questThumbnails[name]}", "yv/tils/smp/mods/questSystem/QuestLoader.kt")
+            Debugger().log("Loaded quest thumbnail", "Name: $name | File: ${file.path} | Map: ${questThumbnails[name]}", "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt")
         }
     }
 
@@ -87,7 +63,7 @@ class QuestLoader {
         val questMap = mutableMapOf<String, Any>()
         // TODO: Load quest data into questMap
 
-        Debugger().log("Loaded quest", "Name: $quest | File: ${file.path} | Map: $questMap", "yv/tils/smp/mods/questSystem/QuestLoader.kt")
+        Debugger().log("Loaded quest", "Name: $quest | File: ${file.path} | Map: $questMap", "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt")
         return questMap
     }
 }

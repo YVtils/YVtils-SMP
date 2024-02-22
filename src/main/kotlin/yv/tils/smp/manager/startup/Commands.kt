@@ -6,7 +6,7 @@ import yv.tils.smp.mods.admin.invSee.EcSee
 import yv.tils.smp.mods.admin.invSee.InvSee
 import yv.tils.smp.mods.admin.moderation.*
 import yv.tils.smp.mods.admin.vanish.Vanish
-import yv.tils.smp.mods.questSystem.QuestGUICommand
+import yv.tils.smp.mods.fusionCrafting.FusionCraftingGUI
 
 class Commands {
     fun unregisterCommands() {
@@ -39,6 +39,6 @@ class Commands {
     }
 
     private fun modulesCommands() {
-        QuestGUICommand()
+        FusionCraftingGUI()
     }
 }
