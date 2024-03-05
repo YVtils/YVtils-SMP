@@ -8,7 +8,7 @@ class GUIListener {
     fun onInventoryClick(e: InventoryClickEvent) {
         val player = e.whoClicked
 
-        if (player.openInventory.title() == ColorUtils().convert("<gold>Quests") && e.inventory.location == null){
+        if (player.openInventory.title() == ColorUtils().convert("<gold>Fusion Crafting") && e.inventory.location == null){
             e.isCancelled = true
 
             val slot = e.slot
@@ -23,7 +23,7 @@ class GUIListener {
                     val questName = FusionLoader.component2name[e.currentItem!!.displayName()]!!
                     val questMap = FusionLoader().loadQuest(questName)
 
-                    println("This would open the quest $questName with the map \n\n$questMap")
+                    println("This would open the quest $questName with this map: \n$questMap")
 
                     FusionCraftingGUI().fusionGUI(player, questMap)
                 }

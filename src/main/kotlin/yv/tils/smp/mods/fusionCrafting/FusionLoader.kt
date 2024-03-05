@@ -18,19 +18,19 @@ class FusionLoader {
     }
 
     fun generateDefaultQuests() {
-        val file = File(YVtils.instance.dataFolder.path, "quests")
+        val file = File(YVtils.instance.dataFolder.path, "fusions")
         if (!file.exists()) file.mkdirs()
 
-        val lightBlockFile = File(YVtils.instance.dataFolder.path, "quests/lightBlock.yml")
+        val lightBlockFile = File(YVtils.instance.dataFolder.path, "fusions/lightBlock.yml")
         val lightBlockYML: YamlConfiguration = YamlConfiguration.loadConfiguration(lightBlockFile)
         LightBlock().configFile(lightBlockYML)
         lightBlockYML.save(lightBlockFile)
 
-        Debugger().log("Generated default quests", "Generated default quests", "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt")
+        Debugger().log("Generated default fusion", "Generated default fusion", "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt")
     }
 
     fun loadQuestThumbnail() {
-        val files = File(YVtils.instance.dataFolder.path, "quests").listFiles() ?: return
+        val files = File(YVtils.instance.dataFolder.path, "fusions").listFiles() ?: return
 
         for (file in files) {
             val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
@@ -38,7 +38,7 @@ class FusionLoader {
             if (!ymlFile.getBoolean("enabled")) continue
 
             val name = file.nameWithoutExtension
-            val displayItem = ItemStack(Material.valueOf(ymlFile.getString("DisplayItem") ?: "DIRT"))
+            val displayItem = ItemStack(Material.valueOf(ymlFile.getString("displayItem") ?: "DIRT"))
             val displayItemMeta = displayItem.itemMeta
             displayItemMeta.displayName(ColorUtils().convert("<aqua>" + ymlFile.getString("name")))
             displayItemMeta.persistentDataContainer.set(YVtils.key, PersistentDataType.STRING, "questGUIItem")
@@ -57,11 +57,30 @@ class FusionLoader {
     }
 
     fun loadQuest(quest: String): MutableMap<String, Any> {
-        val file = File(YVtils.instance.dataFolder.path, "quests/$quest.yml")
+        val file = File(YVtils.instance.dataFolder.path, "fusions/$quest.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
         val questMap = mutableMapOf<String, Any>()
-        // TODO: Load quest data into questMap
+
+        questMap["name"] = ymlFile.getString("name") ?: "Unknown"
+        questMap["description"] = ymlFile.getString("description") ?: "Unknown"
+
+        val inputItems = ymlFile.getConfigurationSection("input")?.getKeys(false)
+        val outputItems = ymlFile.getConfigurationSection("output")?.getKeys(false)
+
+        for (input in inputItems!!) {
+            val inputSection = ymlFile.getConfigurationSection("input.$input")
+            val inputSectionKeys = inputSection?.getKeys(false)
+            for (key in inputSectionKeys!!) {
+                val subinputSection = ymlFile.getMapList("input.$input.$key")
+                questMap["input.$input.$key"] = subinputSection
+            }
+        }
+
+        for (output in outputItems!!) {
+            val suboutputSection = ymlFile.getMapList("output.$output")
+            questMap["output.$output"] = suboutputSection
+        }
 
         Debugger().log("Loaded quest", "Name: $quest | File: ${file.path} | Map: $questMap", "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt")
         return questMap

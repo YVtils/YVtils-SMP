@@ -10,78 +10,93 @@ class LightBlock {
     fun configFile(ymlFile: YamlConfiguration): YamlConfiguration {
         ymlFile.addDefault("enabled", true)
         ymlFile.addDefault("name", "Light Block")
-        ymlFile.addDefault("DisplayItem", "LIGHT")
+        ymlFile.addDefault("displayItem", "LIGHT")
         ymlFile.addDefault("description", "<white>Craft an <gold>invisible <white>Light Source")
 
-        ymlFile.addDefault("Input", inputItems())
-        ymlFile.addDefault("Output", outputItems())
+        val inputItems = inputItems()
+        val outputItems = outputItems()
+
+        for (i in 0 until inputItems.size) {
+            for (j in 0 until inputItems.values.elementAt(i).size) {
+                ymlFile.addDefault("input.${inputItems.keys.elementAt(i)}.$j", inputItems.values.elementAt(i)[j])
+            }
+        }
+
+        for (i in 0 until outputItems.size) {
+            ymlFile.addDefault("output.$i", outputItems[i])
+        }
 
         ymlFile.options().copyDefaults(true)
 
         return ymlFile
     }
 
-    private fun inputItems(): MutableMap<String, MutableList<ItemStack>> {
-        val items = mutableMapOf<String, MutableList<ItemStack>>()
+    private fun inputItems(): MutableMap<String, MutableList<MutableList<MutableMap<String, String>>>> {
+        val items = mutableMapOf<String, MutableList<MutableList<MutableMap<String, String>>>>()
 
-        val lantern = ItemStack(Material.LANTERN)
+        val lantern = mutableMapOf("item" to "Lantern")
+        val soulLantern = mutableMapOf("item" to "Soul_Lantern")
+        val lanternAmount = mutableMapOf("amount" to "1")
+        val lanternData = mutableMapOf("data" to "")
 
-        val soulLantern = ItemStack(Material.SOUL_LANTERN)
+        items["Lantern / Soul Lantern"] = mutableListOf(
+            mutableListOf(lantern, lanternAmount, lanternData),
+            mutableListOf(soulLantern, lanternAmount, lanternData)
+        )
 
-        items["Normal or Soul Lantern"] = mutableListOf(lantern, soulLantern)
+        val glassPane = mutableMapOf("item" to "Glass_Pane")
+        val whiteGlassPane = mutableMapOf("item" to "White_Glass_Pane")
+        val orangeGlassPane = mutableMapOf("item" to "Orange_Glass_Pane")
+        val magentaGlassPane = mutableMapOf("item" to "Magenta_Glass_Pane")
+        val lightBlueGlassPane = mutableMapOf("item" to "Light_Blue_Glass_Pane")
+        val yellowGlassPane = mutableMapOf("item" to "Yellow_Glass_Pane")
+        val limeGlassPane = mutableMapOf("item" to "Lime_Glass_Pane")
+        val pinkGlassPane = mutableMapOf("item" to "Pink_Glass_Pane")
+        val grayGlassPane = mutableMapOf("item" to "Gray_Glass_Pane")
+        val lightGrayGlassPane = mutableMapOf("item" to "Light_Gray_Glass_Pane")
+        val cyanGlassPane = mutableMapOf("item" to "Cyan_Glass_Pane")
+        val purpleGlassPane = mutableMapOf("item" to "Purple_Glass_Pane")
+        val blueGlassPane = mutableMapOf("item" to "Blue_Glass_Pane")
+        val brownGlassPane = mutableMapOf("item" to "Brown_Glass_Pane")
+        val greenGlassPane = mutableMapOf("item" to "Green_Glass_Pane")
+        val redGlassPane = mutableMapOf("item" to "Red_Glass_Pane")
+        val blackGlassPane = mutableMapOf("item" to "Black_Glass_Pane")
+        val glassPaneAmount = mutableMapOf("amount" to "4")
+        val glassPaneData = mutableMapOf("data" to "")
 
-        val glassPane = ItemStack(Material.GLASS_PANE)
-        val whiteGlassPane = ItemStack(Material.WHITE_STAINED_GLASS_PANE)
-        val orangeGlassPane = ItemStack(Material.ORANGE_STAINED_GLASS_PANE)
-        val magentaGlassPane = ItemStack(Material.MAGENTA_STAINED_GLASS_PANE)
-        val lightBlueGlassPane = ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
-        val yellowGlassPane = ItemStack(Material.YELLOW_STAINED_GLASS_PANE)
-        val limeGlassPane = ItemStack(Material.LIME_STAINED_GLASS_PANE)
-        val pinkGlassPane = ItemStack(Material.PINK_STAINED_GLASS_PANE)
-        val grayGlassPane = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val lightGrayGlassPane = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
-        val cyanGlassPane = ItemStack(Material.CYAN_STAINED_GLASS_PANE)
-        val purpleGlassPane = ItemStack(Material.PURPLE_STAINED_GLASS_PANE)
-        val blueGlassPane = ItemStack(Material.BLUE_STAINED_GLASS_PANE)
-        val brownGlassPane = ItemStack(Material.BROWN_STAINED_GLASS_PANE)
-        val greenGlassPane = ItemStack(Material.GREEN_STAINED_GLASS_PANE)
-        val redGlassPane = ItemStack(Material.RED_STAINED_GLASS_PANE)
-        val blackGlassPane = ItemStack(Material.BLACK_STAINED_GLASS_PANE)
-
-        items["Glass Pane"] = mutableListOf(
-            glassPane,
-            whiteGlassPane,
-            orangeGlassPane,
-            magentaGlassPane,
-            lightBlueGlassPane,
-            yellowGlassPane,
-            limeGlassPane,
-            pinkGlassPane,
-            grayGlassPane,
-            lightGrayGlassPane,
-            cyanGlassPane,
-            purpleGlassPane,
-            blueGlassPane,
-            brownGlassPane,
-            greenGlassPane,
-            redGlassPane,
-            blackGlassPane
+        items["Any sort of Glass Pane"] = mutableListOf(
+            mutableListOf(glassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(whiteGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(orangeGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(magentaGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(lightBlueGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(yellowGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(limeGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(pinkGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(grayGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(lightGrayGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(cyanGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(purpleGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(blueGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(brownGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(greenGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(redGlassPane, glassPaneAmount, glassPaneData),
+            mutableListOf(blackGlassPane, glassPaneAmount, glassPaneData)
         )
 
         return items
     }
 
-    private fun outputItems(): MutableList<ItemStack> {
-        val items = mutableListOf<ItemStack>()
+    private fun outputItems(): MutableList<MutableList<MutableMap<String, String>>> {
+        val items: MutableList<MutableList<MutableMap<String, String>>> = mutableListOf()
 
-        val lightBlock = ItemStack(Material.LIGHT)
-        val lightBlockMeta = lightBlock.itemMeta
-        val lightBlockLore = mutableListOf<Component>()
-        lightBlockMeta.displayName(ColorUtils().convert("<white>Light Block"))
-        lightBlockLore.add(ColorUtils().convert("<white>Place this block to create an invisible light source"))
-        lightBlockMeta.lore(lightBlockLore)
-        lightBlock.itemMeta = lightBlockMeta
-        items.add(lightBlock)
+        val item = mutableMapOf("item" to "LIGHT")
+        val amount = mutableMapOf("amount" to "4")
+        val name = mutableMapOf("name" to "<white>Light Block")
+        val lore = mutableMapOf("lore" to "<white>Place this block to create an invisible light source")
+        val data = mutableMapOf("data" to "")
+
+        items.add(mutableListOf(item, amount, name, lore))
 
         return items
     }

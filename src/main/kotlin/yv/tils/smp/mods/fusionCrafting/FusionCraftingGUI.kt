@@ -2,6 +2,7 @@ package yv.tils.smp.mods.fusionCrafting
 
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.playerExecutor
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.Material
@@ -16,9 +17,9 @@ import yv.tils.smp.utils.color.ColorUtils
 
 class FusionCraftingGUI {
     val command = commandTree("fusion") {
-        withPermission("yvtils.smp.quest.command")
+        withPermission("yvtils.smp.fusion.command")
         withUsage("/fusion")
-        withAliases("ccr")
+        withAliases("ccr", "fc")
 
         playerExecutor { sender, args ->
             generateGUI(sender)
@@ -90,30 +91,16 @@ class FusionCraftingGUI {
     }
 
     fun fusionGUI(player: HumanEntity, fusion: MutableMap<String, Any>) {
-        val inv = Bukkit.createInventory(null, 54)
+        val inv = Bukkit.createInventory(null, 54, ColorUtils().convert("<gold>Fusion Crafting - ${fusion["name"]}"))
 
         val inputSlots: List<Int> = listOf(10, 11, 12, 13, 19, 20, 21, 22, 28, 29, 30, 31)
         val outputSlots: List<Int> = listOf(15, 16, 24, 25, 33, 34)
         val acceptSlots = listOf(47, 48, 49, 50, 51, 52)
         val backSlot = 45
 
-        val filler = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = filler.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
-        filler.itemMeta = fillerMeta
-
-        for (i in 0..<inv.size) {
-            if (inputSlots.contains(i) || outputSlots.contains(i) || acceptSlots.contains(i) || i == backSlot) {
-                continue
-            }
-
-            inv.setItem(i, filler)
-        }
-
         val back = ItemStack(Material.TIPPED_ARROW)
         val backMeta = back.itemMeta as PotionMeta
-        backMeta.color = Color.fromRGB(85, 150, 95)
+        backMeta.color = Color.fromRGB(150, 85, 95)
         backMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
         back.itemMeta = backMeta
         inv.setItem(backSlot, back)
@@ -131,13 +118,75 @@ class FusionCraftingGUI {
         generateInput(inputSlots, fusion, inv)
         generateOutput(fusion, inv)
 
+        val filler = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
+        val fillerMeta = filler.itemMeta
+        fillerMeta.displayName(ColorUtils().convert(" "))
+        fillerMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        filler.itemMeta = fillerMeta
+
+        val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+        innerFiller.itemMeta = fillerMeta
+
+        for (i in 0..<inv.size) {
+            if (inputSlots.contains(i) || outputSlots.contains(i) || acceptSlots.contains(i) || i == backSlot) {
+                if (inv.getItem(i) == null) {
+                    inv.setItem(i, innerFiller)
+                    continue
+                }
+                continue
+            }
+
+            inv.setItem(i, filler)
+        }
+
         player.openInventory(inv)
     }
 
     private fun generateInput(slots: List<Int>, fusion: MutableMap<String, Any>, inv: Inventory) {
         val items = mutableListOf<ItemStack>()
 
-        items.add(ItemStack(Material.DIRT))
+        for (input in fusion) {
+            if (input.key.startsWith("input.")) {
+                val mapKey = input.key.split(".")[0] + "." + input.key.split(".")[1]  + ".0"
+                if (mapKey == input.key) {
+                    println(input.value)
+
+                    for (i in 0 until (input.value as MutableList<*>).size) {
+                        println(i)
+                        println((input.value as MutableList<*>)[i])
+
+                        //[13:37:35 INFO]: 0
+                        //[13:37:35 INFO]: {item=Glass_Pane} <- Item
+                        //[13:37:35 INFO]: 1
+                        //[13:37:35 INFO]: {amount=4} <- Int
+                        //[13:37:35 INFO]: 2
+                        //[13:37:35 INFO]: {data=} <- String
+
+                        when (i) {
+                            0 -> {
+                                val item = ItemStack(Material.valueOf((input.value as MutableList<MutableMap<String, String>>)[i]["item"]?.uppercase() ?: "DIRT"))
+                                items.add(item)
+                            }
+                            1 -> {
+                                val item = items[items.size - 1]
+                                item.amount = (input.value as MutableList<MutableMap<String, String>>)[i]["amount"]?.toInt() ?: 1
+                            }
+                            2 -> {
+                                val item = items[items.size - 1]
+                                val meta = item.itemMeta
+                                meta.lore(listOf(ColorUtils().convert("<gray>Item Data: " + (input.value as MutableList<MutableMap<String, *>>)[i]["data"])))
+                                item.itemMeta = meta
+                            }
+                        }
+
+                        val item = items[items.size - 1]
+                        val meta = item.itemMeta
+                        meta.displayName(ColorUtils().convert("<aqua>" + mapKey.split(".")[1]))
+                        item.itemMeta = meta
+                    }
+                }
+            }
+        }
 
         for (slot in slots) {
             if (items.isEmpty()) {
@@ -146,11 +195,6 @@ class FusionCraftingGUI {
 
             val item = items[0]
             items.removeAt(0)
-
-            val itemMeta = item.itemMeta
-            itemMeta.displayName(ColorUtils().convert(" "))
-            itemMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
-            item.itemMeta = itemMeta
 
             inv.setItem(slot, item)
         }
