@@ -7,4 +7,8 @@ class ColorUtils {
     fun convert(text: String): Component {
         return MiniMessage.miniMessage().deserialize(text)
     }
+
+    fun convert(text: Component): String {
+        return MiniMessage.miniMessage().serialize(text)
+    }
 }
