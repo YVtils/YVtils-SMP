@@ -2,12 +2,15 @@ package yv.tils.smp.mods.fusionCrafting
 
 import org.bukkit.Material
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.inventory.Inventory
+import org.bukkit.inventory.ItemStack
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
 
 class GUIListener {
     fun onInventoryClick(e: InventoryClickEvent) {
         val player = e.whoClicked
+        val inv = e.inventory
 
         if (player.openInventory.title() == ColorUtils().convert("<gold>Fusion Crafting") && e.inventory.location == null) {
             e.isCancelled = true
@@ -52,6 +55,21 @@ class GUIListener {
             when(slot) {
                 in acceptSlots -> {
                     // Accept
+
+                    var i = 0
+                    while (player.inventory.firstEmpty() != -1) {
+                        when (i) {
+                            0 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(15, inv))
+                            1 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(16, inv))
+                            2 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(24, inv))
+                            3 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(25, inv))
+                            4 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(33, inv))
+                            5 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(34, inv))
+                            else -> break
+                        }
+                        i++
+                    }
+
                     println("This would accept the fusion")
                 }
                 backSlot -> {
@@ -60,5 +78,17 @@ class GUIListener {
                 }
             }
         }
+    }
+
+    private fun checkOutput(slot: Int, inv: Inventory): ItemStack {
+        val item = inv.getItem(slot) ?: return ItemStack(Material.AIR)
+        if (
+            item.type == Material.LIGHT_GRAY_STAINED_GLASS_PANE &&
+            item.itemMeta.displayName()?.let { ColorUtils().convert(it) } == " "
+            ) {
+            return ItemStack(Material.AIR)
+        }
+
+        return item
     }
 }

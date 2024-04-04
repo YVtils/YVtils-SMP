@@ -388,15 +388,15 @@ class en_yml {
         )
         ymlFile.addDefault(
             "MODULE_STATUS_NO_DEFAULT_STATUS",
-            "<gray>This is no default status!"
+            "<gray>This is not a default status!"
         )
         ymlFile.addDefault(
             "MODULE_STATUS_SET",
-            "<gray>You successfully set the status <status><gray>!"
+            "<gray>New status: <white><status>"
         )
         ymlFile.addDefault(
             "MODULE_STATUS_SELECTED_STATUS_JOIN_ANNOUNCEMENT",
-            "<gray>The status '<status><gray>' is set!"
+            "<gold>Welcome back!<newline><gray>Current status: <white><status>"
         )
         ymlFile.addDefault(
             "MODULE_CCR_ACCEPT_RECIPE",
@@ -518,6 +518,41 @@ class en_yml {
         ymlFile.addDefault(
             "PLAYER_GOT_UNMUTED",
             "<prefix> <gray>You got unmuted!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_STATUS_BLACKLISTED_STATUS",
+            "<gray>This status is <red>blacklisted<gray>!"
+        )
+
+        ymlFile.addDefault(
+            "VANISH_TOGGLE_OTHER",
+            "<prefix> <gray>Vanish of <yellow><player> <gray>got toggled!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_VANISH_VANISH_LORE",
+            "<white>Use Dye to toggle vanish"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_VANISH_LAYER_LORE",
+            "<white>Click on the map to switch between layers <newline><white>Click on the dye to toggle the use of layers <newline><newline><gray>Layer 1 < Layer 2 < Layer 3 | Higher Layers can see lower ones, but not vice versa"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_VANISH_ITEM_PICKUP_LORE",
+            "<white>Use Dye to toggle item pickup <newline><white>If enabled you are able to pick up items"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_VANISH_INV_INTERACTION_LORE",
+            "<white>Use Dye to toggle silent inventory interaction <newline><white>If enabled chests won't be visible as opened to other players"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_VANISH_MOB_TARGET_LORE",
+            "<white>Use Dye to toggle mob target <newline><white>If enabled mobs won't target you"
         )
 
         ymlFile.options().copyDefaults(true)

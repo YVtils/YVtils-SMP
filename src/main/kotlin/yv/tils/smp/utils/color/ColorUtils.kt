@@ -11,4 +11,8 @@ class ColorUtils {
     fun convert(text: Component): String {
         return MiniMessage.miniMessage().serialize(text)
     }
+
+    fun strip(text: String): String {
+        return MiniMessage.miniMessage().stripTags(text)
+    }
 }

@@ -17,17 +17,17 @@ class Summarizer {
         val listeners = Listeners()
         listeners.register()
 
+        Debugger().log("Starting up", "Modules loading", "yv.tils.smp.manager.startup.Summarizer")
+
+        val modules = Modules()
+        modules.registerModules()
+
         Debugger().log("Starting up", "Commands loading", "yv.tils.smp.manager.startup.Summarizer")
 
         val commands = Commands()
         CommandAPI.onEnable()
         commands.unregisterCommands()
         commands.registerCommands()
-
-        Debugger().log("Starting up", "Modules loading", "yv.tils.smp.manager.startup.Summarizer")
-
-        val modules = Modules()
-        modules.registerModules()
 
         Debugger().log("Starting up", "Other loading", "yv.tils.smp.manager.startup.Summarizer")
 

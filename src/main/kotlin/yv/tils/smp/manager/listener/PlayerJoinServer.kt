@@ -7,6 +7,7 @@ import yv.tils.smp.manager.commands.FlyCMD
 import yv.tils.smp.mods.admin.vanish.Vanish
 import yv.tils.smp.mods.admin.vanish.VanishEvents
 import yv.tils.smp.mods.server.connect.PlayerJoin
+import yv.tils.smp.mods.status.StatusJoinQuit
 
 class PlayerJoinServer: Listener {
     @EventHandler
@@ -15,5 +16,6 @@ class PlayerJoinServer: Listener {
         FlyCMD().onRejoin(e)
         VanishEvents().onOtherJoin(e)
         VanishEvents().onRejoin(e)
+        StatusJoinQuit().loadPlayer(e)
     }
 }

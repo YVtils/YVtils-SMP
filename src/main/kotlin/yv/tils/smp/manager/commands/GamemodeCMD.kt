@@ -7,6 +7,7 @@ import org.bukkit.GameMode
 import org.bukkit.Sound
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.StringReplacer
@@ -66,6 +67,15 @@ class GamemodeCMD {
                 list_de = listOf("Beobachter")
 
                 player.gameMode = GameMode.SPECTATOR
+            }
+            else -> {
+                player.sendMessage(
+                    Language().getMessage(LangStrings.COMMAND_USAGE).append(
+                        ColorUtils().convert("<blue>/gm <survival/creative/adventure/spectator> [player]")
+                    )
+                )
+
+                return
             }
         }
 

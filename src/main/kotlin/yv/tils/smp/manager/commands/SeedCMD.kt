@@ -46,10 +46,10 @@ class SeedCMD {
 
                         sender.sendMessage(
                             ColorUtils().convert(
-                                Vars().prefix + " Seeds:\n"
+                                Vars().prefix + " Seeds:<newline>"
                             ).append(
                                 ColorUtils().convert(
-                                    seedList.joinToString("\n")
+                                    seedList.joinToString("<newline>")
                                 )
                             )
                         )
@@ -72,10 +72,10 @@ class SeedCMD {
 
                         sender.sendMessage(
                             ColorUtils().convert(
-                                Vars().prefix + " Seeds:\n"
+                                Vars().prefix + " Seeds:<newline>"
                             ).append(
                                 ColorUtils().convert(
-                                    seedList.joinToString("\n")
+                                    seedList.joinToString("<newline>")
                                 )
                             )
                         )

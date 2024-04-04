@@ -3,13 +3,13 @@ package yv.tils.smp.utils
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
-import java.net.URL
 import java.util.*
+import java.net.URI
 
 class MojangAPI {
     fun name2uuid(playerName: String): UUID? {
         try {
-            val url = "https://api.mojang.com/users/profiles/minecraft/${playerName}"
+            val url = "https://api.mojang.com/users/profiles/minecraft/$playerName"
             val map: MutableMap<String, String> = getWebsite(url)
 
             map["id"] = (
@@ -42,7 +42,7 @@ class MojangAPI {
     private fun getWebsite(url: String): MutableMap<String, String> {
         val map: MutableMap<String, String> = HashMap()
 
-        val connection = URL(url).openConnection() as HttpURLConnection
+        val connection = URI(url).toURL().openConnection() as HttpURLConnection
         connection.requestMethod = "GET"
 
         val responseCode = connection.responseCode

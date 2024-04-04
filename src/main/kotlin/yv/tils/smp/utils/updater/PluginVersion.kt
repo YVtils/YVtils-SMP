@@ -14,7 +14,6 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class PluginVersion {
-
     companion object {
         var version = "x.x.x"
         var plVersion = "x.x.x"
@@ -25,7 +24,7 @@ class PluginVersion {
             player.sendMessage(StringReplacer().listReplacer(
                 Language().getMessage(player.uniqueId, LangStrings.PLAYER_PLUGIN_UPDATE_AVAILABLE),
                 listOf("newversion", "oldversion", "prefix", "link"),
-                listOf(version, plVersion, Vars().prefix, "https://yvnetwork.de/yvtils-smp/modrinth")
+                listOf(version, plVersion, Vars().prefix, "<click:open_url:https://yvnetwork.de/yvtils-smp/modrinth>https://yvnetwork.de/yvtils-smp/modrinth</click>")
             ))
         }
     }

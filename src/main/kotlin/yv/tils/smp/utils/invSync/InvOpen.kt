@@ -20,7 +20,7 @@ class InvOpen {
     fun onInvOpen(e: InventoryOpenEvent) {
         val player = e.player
 
-        if ((Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!) || player.hasPermission("yvtils.smp.silentContainerOpen")) {
+        if ((Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!)) {
             if (invOpen.containsKey(player.uniqueId) && invOpen[player.uniqueId]!!) return
 
             if (e.inventory.location != null) {

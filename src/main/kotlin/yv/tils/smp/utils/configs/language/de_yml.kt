@@ -418,11 +418,11 @@ class de_yml {
         )
         ymlFile.addDefault(
             "MODULE_STATUS_SET",
-            "<gray>Du hast dir den Status <status> <gray>gesetzt!"
+            "<gray>Neuer Status: <white><status>"
         )
         ymlFile.addDefault(
             "MODULE_STATUS_SELECTED_STATUS_JOIN_ANNOUNCEMENT",
-            "<gray>Der Status '<status><gray>' ist gesetzt!"
+            "<gold>Willkommen zurück!<newline><gray>Aktueller Status: <white><status>"
         )
 
         ymlFile.addDefault(
@@ -549,6 +549,42 @@ class de_yml {
             "PLAYER_GOT_UNMUTED",
             "<prefix> <gray>Du wurdest entmuted!"
         )
+
+        ymlFile.addDefault(
+            "MODULE_STATUS_BLACKLISTED_STATUS",
+            "<gray>Dieser Status ist auf der <red>Blacklist<gray>!"
+        )
+
+        ymlFile.addDefault(
+            "VANISH_TOGGLE_OTHER",
+            "<prefix> <gray>Vanish von <yellow><player> <gray>wurde aktualiesiert!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_VANISH_VANISH_LORE",
+            "<white>Verwende Farbstoff, um das Verschwinden umzuschalten."
+        );
+
+        ymlFile.addDefault(
+            "MODULE_VANISH_LAYER_LORE",
+            "<white>Klicke auf die Karte, um zwischen Ebenen zu wechseln. <newline><white>Klicke auf den Farbstoff, um die Verwendung von Ebenen umzuschalten. <newline><newline><gray>Ebene 1 < Ebene 2 < Ebene 3 | Höhere Ebenen können niedrigere sehen, aber nicht umgekehrt."
+        );
+
+        ymlFile.addDefault(
+            "MODULE_VANISH_ITEM_PICKUP_LORE",
+            "<white>Verwende Farbstoff, um das Aufnehmen von Gegenständen umzuschalten. <newline><white>Wenn aktiviert, kannst du Gegenstände aufnehmen."
+        );
+
+        ymlFile.addDefault(
+            "MODULE_VANISH_INV_INTERACTION_LORE",
+            "<white>Verwende Farbstoff, um die lautlose Inventar interaktion umzuschalten. <newline><white>Wenn aktiviert, werden Kisten für andere Spieler nicht als geöffnet sichtbar sein."
+        );
+
+        ymlFile.addDefault(
+            "MODULE_VANISH_MOB_TARGET_LORE",
+            "<white>Verwende Farbstoff, um das Anvisieren von Kreaturen umzuschalten. <newline><white>Wenn aktiviert, werden Kreaturen dich nicht anvisieren."
+        );
+
 
         ymlFile.options().copyDefaults(true)
         ymlFile.save(file)

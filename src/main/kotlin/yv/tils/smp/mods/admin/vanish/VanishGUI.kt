@@ -1,5 +1,6 @@
 package yv.tils.smp.mods.admin.vanish
 
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.Material
@@ -12,6 +13,8 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
 import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
 
 class VanishGUI {
     fun gui(player: Player) {
@@ -23,14 +26,15 @@ class VanishGUI {
             target = Bukkit.getPlayer(MojangAPI().uuid2name(Vanish.exec_target[player.uniqueId]!!)!!)!!
         }
 
-        //TODO: Add lore as description for each item in both languages
-
         // Vanish
         val vanish = ItemStack(Material.POTION)
         val vanishMeta = vanish.itemMeta as PotionMeta
+        val vanishLore = mutableListOf<Component>()
         vanishMeta.displayName(ColorUtils().convert("<#96C8FF>Vanish"))
         vanishMeta.color = Color.fromRGB(246, 246, 246)
         vanishMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        vanishLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_VANISH_LORE))
+        vanishMeta.lore(vanishLore)
         vanish.itemMeta = vanishMeta
 
         inv.setItem(10, vanish)
@@ -38,8 +42,11 @@ class VanishGUI {
         // Layer
         val layer = ItemStack(Material.FILLED_MAP)
         val layerMeta = layer.itemMeta
+        val layerLore = mutableListOf<Component>()
         layerMeta.displayName(ColorUtils().convert("<#96C8FF>Layer"))
         layerMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        layerLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_LAYER_LORE))
+        layerMeta.lore(layerLore)
         layer.itemMeta = layerMeta
 
         inv.setItem(12, layer)
@@ -47,8 +54,11 @@ class VanishGUI {
         // Item Pickup
         val itemPickup = ItemStack(Material.HOPPER)
         val itemPickupMeta = itemPickup.itemMeta
+        val itemPickupLore = mutableListOf<Component>()
         itemPickupMeta.displayName(ColorUtils().convert("<#96C8FF>Item Pickup"))
         itemPickupMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        itemPickupLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_ITEM_PICKUP_LORE))
+        itemPickupMeta.lore(itemPickupLore)
         itemPickup.itemMeta = itemPickupMeta
 
         inv.setItem(14, itemPickup)
@@ -56,8 +66,11 @@ class VanishGUI {
         // Inventory Interaction
         val invInteraction = ItemStack(Material.LIGHT_GRAY_SHULKER_BOX)
         val invInteractionMeta = invInteraction.itemMeta
+        val invInteractionLore = mutableListOf<Component>()
         invInteractionMeta.displayName(ColorUtils().convert("<#96C8FF>Silent Inventory Interaction"))
         invInteractionMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        invInteractionLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_INV_INTERACTION_LORE))
+        invInteractionMeta.lore(invInteractionLore)
         invInteraction.itemMeta = invInteractionMeta
 
         inv.setItem(15, invInteraction)
@@ -65,8 +78,11 @@ class VanishGUI {
         // Mob Target
         val mobTarget = ItemStack(Material.SPAWNER)
         val mobTargetMeta = mobTarget.itemMeta
+        val mobTargetLore = mutableListOf<Component>()
         mobTargetMeta.displayName(ColorUtils().convert("<#96C8FF>Anti Mob Target"))
         mobTargetMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        mobTargetLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_MOB_TARGET_LORE))
+        mobTargetMeta.lore(mobTargetLore)
         mobTarget.itemMeta = mobTargetMeta
 
         inv.setItem(16, mobTarget)
@@ -76,8 +92,11 @@ class VanishGUI {
         // Filler
         val filler = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
         val fillerMeta = filler.itemMeta
+        val fillerLore = mutableListOf<Component>()
         fillerMeta.displayName(ColorUtils().convert(" "))
         fillerMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        fillerLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_FILLER_LORE))
+        fillerMeta.lore(fillerLore)
         filler.itemMeta = fillerMeta
 
         for (i in 0..<inv.size) {

@@ -61,9 +61,9 @@ class Vanish {
         }
     }
 
-    //TODO: Add message when toggling for other players
     private fun quickVanish(player: Player, sender: CommandSender) {
         if (!player.isOnline) {
+
             if (sender is Player) {
                 sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_NOT_ONLINE))
             } else {
@@ -84,6 +84,26 @@ class Vanish {
         } else {
           VanishGUI().vanishRegister(player, true)
           enableVanish(player)
+        }
+
+        if (sender != player) {
+            if (sender is Player) {
+                sender.sendMessage(
+                    StringReplacer().listReplacer(
+                        Language().getMessage(sender.uniqueId, LangStrings.VANISH_TOGGLE_OTHER),
+                        listOf("prefix", "player"),
+                        listOf(Vars().prefix, player.name)
+                    )
+                )
+            } else {
+                sender.sendMessage(
+                    StringReplacer().listReplacer(
+                        Language().getMessage(LangStrings.VANISH_TOGGLE_OTHER),
+                        listOf("prefix", "player"),
+                        listOf(Vars().prefix, player.name)
+                    )
+                )
+            }
         }
 
         return
