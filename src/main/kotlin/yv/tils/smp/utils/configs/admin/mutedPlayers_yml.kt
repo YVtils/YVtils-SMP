@@ -38,7 +38,11 @@ class mutedPlayers_yml {
 
             mutedPlayer[UUID.fromString(uuid)] = listOf(reason, duration)
 
-            Debugger().log("Load Muted Player", "UUID: $uuid, Reason: $reason, Duration: $duration", "yv/tils/smp/utils/configs/admin/mutedPlayers_yml.kt")
+            Debugger().log(
+                "Load Muted Player",
+                "UUID: $uuid, Reason: $reason, Duration: $duration",
+                "yv/tils/smp/utils/configs/admin/mutedPlayers_yml.kt"
+            )
         }
     }
 }

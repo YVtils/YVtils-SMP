@@ -18,7 +18,7 @@ import yv.tils.smp.utils.configs.language.Language
 
 class VanishGUI {
     fun gui(player: Player) {
-        val inv = Bukkit.createInventory(player,36, ColorUtils().convert("<#6D8896>Vanish"))
+        val inv = Bukkit.createInventory(player, 36, ColorUtils().convert("<#6D8896>Vanish"))
 
         var target = player
 
@@ -122,7 +122,7 @@ class VanishGUI {
             vanishToggle.itemMeta = vanishToggleMeta
 
             inv.setItem(19, vanishToggle)
-        }else if (Vanish.vanish[player.uniqueId] == true) {
+        } else if (Vanish.vanish[player.uniqueId] == true) {
             val vanishToggle = ItemStack(Material.LIME_DYE)
             val vanishToggleMeta = vanishToggle.itemMeta
             vanishToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[ENABLED]"))
@@ -288,6 +288,7 @@ class VanishGUI {
                         vanishRegister(target, true)
                     }
                 }
+
                 12 -> {
                     if (Vanish.layer.containsKey(target.uniqueId)) {
                         if (e.click.isLeftClick) {
@@ -311,6 +312,7 @@ class VanishGUI {
                         layerRegister(target, 1)
                     }
                 }
+
                 21 -> {
                     if (Vanish.layer.containsKey(target.uniqueId)) {
                         if (Vanish.layer[target.uniqueId] == 1) {
@@ -326,6 +328,7 @@ class VanishGUI {
                         layerRegister(target, 1)
                     }
                 }
+
                 23 -> {
                     if (Vanish.itemPickup.containsKey(target.uniqueId)) {
                         itemPickupRegister(target, !Vanish.itemPickup[target.uniqueId]!!)
@@ -333,6 +336,7 @@ class VanishGUI {
                         itemPickupRegister(target, true)
                     }
                 }
+
                 24 -> {
                     if (Vanish.invInteraction.containsKey(target.uniqueId)) {
                         invInteractionRegister(target, !Vanish.invInteraction[target.uniqueId]!!)
@@ -340,6 +344,7 @@ class VanishGUI {
                         invInteractionRegister(target, true)
                     }
                 }
+
                 25 -> {
                     if (Vanish.mobTarget.containsKey(target.uniqueId)) {
                         mobTargetRegister(target, !Vanish.mobTarget[target.uniqueId]!!)
@@ -393,7 +398,7 @@ class VanishGUI {
         if (player.openInventory.title() == ColorUtils().convert("<#6D8896>Vanish") && e.inventory.size == 36 && e.inventory.location == null) {
             if (Vanish.vanish[target.uniqueId]!!) {
                 Vanish().enableVanish(target)
-            }else{
+            } else {
                 Vanish().disableVanish(target)
             }
         }

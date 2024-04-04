@@ -3,7 +3,6 @@ package yv.tils.smp.manager.commands
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.playerArgument
-import dev.jorel.commandapi.kotlindsl.playerExecutor
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.block.BlockFace
@@ -16,7 +15,6 @@ import org.bukkit.event.player.PlayerJoinEvent
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
 import java.util.*
 
 class FlyCMD {

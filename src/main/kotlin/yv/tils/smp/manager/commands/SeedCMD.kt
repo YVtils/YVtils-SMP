@@ -23,7 +23,7 @@ class SeedCMD {
                 for (world in Bukkit.getWorlds()) {
                     if (world.seed !in seedMap.keys) {
                         seedMap[world.seed] = world.name
-                    }else {
+                    } else {
                         seedMap[world.seed] = seedMap[world.seed] + ", " + world.name
                     }
                 }
@@ -32,15 +32,25 @@ class SeedCMD {
                     if (seedMap.keys.size == 1) {
                         sender.sendMessage(
                             ColorUtils().convert(
-                                Vars().prefix + " Seed: <gray>[<click:copy_to_clipboard:${seedMap.keys.first()}><hover:show_text:'${Language().getRawMessage(sender.uniqueId, LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD)}'>${seedMap.keys.first()}</click><gray>]"
+                                Vars().prefix + " Seed: <gray>[<click:copy_to_clipboard:${seedMap.keys.first()}><hover:show_text:'${
+                                    Language().getRawMessage(
+                                        sender.uniqueId,
+                                        LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
+                                    )
+                                }'>${seedMap.keys.first()}</click><gray>]"
                             )
                         )
-                    }else {
+                    } else {
                         val seedList: MutableList<String> = mutableListOf()
 
                         for (seed in seedMap.keys) {
                             seedList.add(
-                                "${seedMap[seed]}: <gray>[<lime><click:copy_to_clipboard:$seed><hover:show_text:'${Language().getRawMessage(sender.uniqueId, LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD)}'>$seed</click><gray>]"
+                                "${seedMap[seed]}: <gray>[<lime><click:copy_to_clipboard:$seed><hover:show_text:'${
+                                    Language().getRawMessage(
+                                        sender.uniqueId,
+                                        LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
+                                    )
+                                }'>$seed</click><gray>]"
                             )
                         }
 
@@ -54,19 +64,27 @@ class SeedCMD {
                             )
                         )
                     }
-                }else {
+                } else {
                     if (seedMap.keys.size == 1) {
                         sender.sendMessage(
                             ColorUtils().convert(
-                                Vars().prefix + " Seed: <gray>[<click:copy_to_clipboard:${seedMap.keys.first()}><hover:show_text:'${Language().getRawMessage(LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD)}'>${seedMap.keys.first()}</click><gray>]"
+                                Vars().prefix + " Seed: <gray>[<click:copy_to_clipboard:${seedMap.keys.first()}><hover:show_text:'${
+                                    Language().getRawMessage(
+                                        LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
+                                    )
+                                }'>${seedMap.keys.first()}</click><gray>]"
                             )
                         )
-                    }else {
+                    } else {
                         val seedList: MutableList<String> = mutableListOf()
 
                         for (seed in seedMap.keys) {
                             seedList.add(
-                                "${seedMap[seed]}: <gray>[<lime><click:copy_to_clipboard:$seed><hover:show_text:'${Language().getRawMessage(LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD)}'>$seed</click><gray>]"
+                                "${seedMap[seed]}: <gray>[<lime><click:copy_to_clipboard:$seed><hover:show_text:'${
+                                    Language().getRawMessage(
+                                        LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
+                                    )
+                                }'>$seed</click><gray>]"
                             )
                         }
 

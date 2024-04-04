@@ -40,7 +40,7 @@ class GlobalMuteCMD {
     private fun globalMute(sender: CommandSender, args: CommandArguments? = null) {
         val state = if (args?.get(0) == null) {
             "toggle"
-        }else {
+        } else {
             args[0].toString()
         }
 
@@ -49,10 +49,12 @@ class GlobalMuteCMD {
                 oldState = globalMute
                 globalMute = !globalMute
             }
+
             "true" -> {
                 oldState = globalMute
                 globalMute = true
             }
+
             "false" -> {
                 oldState = globalMute
                 globalMute = false
@@ -83,6 +85,7 @@ class GlobalMuteCMD {
                         )
                     )
                 }
+
                 "false" -> {
                     player.sendMessage(
                         StringReplacer().listReplacer(
@@ -95,6 +98,7 @@ class GlobalMuteCMD {
                         )
                     )
                 }
+
                 "toggle" -> {
                     if (globalMute) {
                         player.sendMessage(
@@ -107,7 +111,7 @@ class GlobalMuteCMD {
                                 listOf(Vars().prefix)
                             )
                         )
-                    }else {
+                    } else {
                         player.sendMessage(
                             StringReplacer().listReplacer(
                                 Language().getMessage(
@@ -153,6 +157,7 @@ class GlobalMuteCMD {
                     )
                 )
             }
+
             "false" -> {
                 sender.sendMessage(
                     StringReplacer().listReplacer(
@@ -164,6 +169,7 @@ class GlobalMuteCMD {
                     )
                 )
             }
+
             "toggle" -> {
                 if (globalMute) {
                     sender.sendMessage(
@@ -175,7 +181,7 @@ class GlobalMuteCMD {
                             listOf(Vars().prefix)
                         )
                     )
-                }else {
+                } else {
                     sender.sendMessage(
                         StringReplacer().listReplacer(
                             Language().getMessage(

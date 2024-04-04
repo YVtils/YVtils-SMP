@@ -1,8 +1,6 @@
 package yv.tils.smp.mods.server.maintenance
 
-import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
-import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerLoginEvent
 import yv.tils.smp.manager.commands.MaintenanceCMD
 import yv.tils.smp.utils.configs.language.LangStrings
@@ -22,7 +20,7 @@ class PlayerLogin {
         }
     }
 
-    private fun checkPerm(e: PlayerLoginEvent, player: Player, ) {
+    private fun checkPerm(e: PlayerLoginEvent, player: Player) {
         if (MaintenanceCMD.maintenance && !player.hasPermission("yvtils.smp.bypass.maintenance")) {
             e.result = PlayerLoginEvent.Result.KICK_FULL
             e.kickMessage(Language().getMessage(LangStrings.MAINTENANCE_PLAYER_NOT_ALLOWED_TO_JOIN_KICK_MESSAGE))

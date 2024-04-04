@@ -22,11 +22,13 @@ class StatusJoinQuit {
                     listOf(status, player.name)
                 )
 
-                player.sendMessage(StringReplacer().listReplacer(
-                    Language().getMessage(LangStrings.MODULE_STATUS_SELECTED_STATUS_JOIN_ANNOUNCEMENT),
-                    listOf("status"),
-                    listOf(ColorUtils().convert(displayCompo))
-                ))
+                player.sendMessage(
+                    StringReplacer().listReplacer(
+                        Language().getMessage(LangStrings.MODULE_STATUS_SELECTED_STATUS_JOIN_ANNOUNCEMENT),
+                        listOf("status"),
+                        listOf(ColorUtils().convert(displayCompo))
+                    )
+                )
             }
         }
     }

@@ -17,7 +17,7 @@ class FusionCheck {
             if (input.key.startsWith("input.")) {
                 if (mapKey == "") mapKey = input.key.split(".")[0] + "." + input.key.split(".")[1]
                 mapKey = addItem(input, items, mapKey, inv, player)
-            }else {
+            } else {
                 playerCheck(player, inv, items, mapKey)
                 mapKey = ""
                 items.clear()
@@ -25,7 +25,13 @@ class FusionCheck {
         }
     }
 
-    private fun addItem(input: MutableMap.MutableEntry<String, Any>, items: MutableList<ItemStack>, mapKey: String, inv: Inventory, player: Player): String {
+    private fun addItem(
+        input: MutableMap.MutableEntry<String, Any>,
+        items: MutableList<ItemStack>,
+        mapKey: String,
+        inv: Inventory,
+        player: Player,
+    ): String {
         var newMapKey = mapKey
         if (input.key.startsWith(mapKey)) {
             val dataList = input.value as MutableList<MutableMap<String, Any>>
@@ -52,7 +58,9 @@ class FusionCheck {
 
         if (compareInv(player.inventory, items)) {
             for (slot in inputSlots) {
-                if (inv.getItem(slot)?.itemMeta?.displayName()?.let { ColorUtils().convert(it) } == "<red>✘<gray> | <aqua>${mapKey.split(".")[1]} <gray>(${items[0].amount}x)") {
+                if (inv.getItem(slot)?.itemMeta?.displayName()
+                        ?.let { ColorUtils().convert(it) } == "<red>✘<gray> | <aqua>${mapKey.split(".")[1]} <gray>(${items[0].amount}x)"
+                ) {
                     val item = inv.getItem(slot) ?: return
                     val meta = item.itemMeta
                     meta.addEnchant(Enchantment.DURABILITY, 1, true)

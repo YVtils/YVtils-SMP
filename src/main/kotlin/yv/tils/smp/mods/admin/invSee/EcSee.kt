@@ -31,12 +31,14 @@ class EcSee {
     }
 
     private fun getInv(target: Player): Inventory {
-        val inv = Bukkit.createInventory(null, 27,
+        val inv = Bukkit.createInventory(
+            null, 27,
             StringReplacer().listReplacer(
                 Language().getMessage(
-                    LangStrings.MODULE_INVSEE_ENDERCHEST),
-                    listOf("player"),
-                    listOf(target.name)
+                    LangStrings.MODULE_INVSEE_ENDERCHEST
+                ),
+                listOf("player"),
+                listOf(target.name)
             )
         )
 

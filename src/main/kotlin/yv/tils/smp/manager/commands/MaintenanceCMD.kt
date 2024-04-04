@@ -41,7 +41,7 @@ class MaintenanceCMD {
     private fun maintenance(sender: CommandSender, args: CommandArguments? = null) {
         val state = if (args?.get(0) == null) {
             "toggle"
-        }else {
+        } else {
             args[0].toString()
         }
 
@@ -50,10 +50,12 @@ class MaintenanceCMD {
                 oldState = maintenance
                 maintenance = !maintenance
             }
+
             "true" -> {
                 oldState = maintenance
                 maintenance = true
             }
+
             "false" -> {
                 oldState = maintenance
                 maintenance = false
@@ -73,7 +75,10 @@ class MaintenanceCMD {
         for (player in Bukkit.getOnlinePlayers()) {
             if (maintenance) {
                 if (!player.hasPermission("yvtils.smp.bypass.maintenance")) {
-                    player.kick(Language().getMessage(LangStrings.MAINTENANCE_PLAYER_NOT_ALLOWED_TO_JOIN_KICK_MESSAGE), PlayerKickEvent.Cause.PLUGIN)
+                    player.kick(
+                        Language().getMessage(LangStrings.MAINTENANCE_PLAYER_NOT_ALLOWED_TO_JOIN_KICK_MESSAGE),
+                        PlayerKickEvent.Cause.PLUGIN
+                    )
                 }
             }
         }
@@ -107,6 +112,7 @@ class MaintenanceCMD {
                     )
                 )
             }
+
             "false" -> {
                 sender.sendMessage(
                     StringReplacer().listReplacer(
@@ -118,6 +124,7 @@ class MaintenanceCMD {
                     )
                 )
             }
+
             "toggle" -> {
                 if (maintenance) {
                     sender.sendMessage(
@@ -129,7 +136,7 @@ class MaintenanceCMD {
                             listOf(Vars().prefix)
                         )
                     )
-                }else {
+                } else {
                     sender.sendMessage(
                         StringReplacer().listReplacer(
                             Language().getMessage(

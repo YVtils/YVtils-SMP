@@ -5,7 +5,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerLoginEvent
 import yv.tils.smp.mods.server.maintenance.PlayerLogin
 
-class PlayerLoginServer: Listener {
+class PlayerLoginServer : Listener {
     @EventHandler
     fun onEvent(e: PlayerLoginEvent) {
         PlayerLogin().eventReceiver(e)

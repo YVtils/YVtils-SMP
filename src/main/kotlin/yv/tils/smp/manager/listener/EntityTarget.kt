@@ -5,7 +5,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityTargetEvent
 import yv.tils.smp.mods.admin.vanish.VanishEvents
 
-class EntityTarget: Listener {
+class EntityTarget : Listener {
     @EventHandler
     fun onEvent(e: EntityTargetEvent) {
         VanishEvents().playerTarget(e)

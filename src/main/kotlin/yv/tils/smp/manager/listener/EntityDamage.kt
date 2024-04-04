@@ -6,7 +6,7 @@ import org.bukkit.event.entity.EntityDamageEvent
 import yv.tils.smp.manager.commands.FlyCMD
 import yv.tils.smp.manager.commands.GodCMD
 
-class EntityDamage: Listener {
+class EntityDamage : Listener {
     @EventHandler
     fun onEvent(e: EntityDamageEvent) {
         FlyCMD().onLandingDamage(e)

@@ -26,11 +26,12 @@ class FusionCraftingGUI {
     }
 
     private fun generateGUI(player: Player) {
-        val questSlots: List<Int> = listOf(11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 38, 39, 40, 41, 42)
+        val questSlots: List<Int> =
+            listOf(11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 38, 39, 40, 41, 42)
 
         val inv = Bukkit.createInventory(player, 54, ColorUtils().convert("<gold>Fusion Crafting"))
 
-        loop@for (quest in questThumbnails) {
+        loop@ for (quest in questThumbnails) {
             for (slot in questSlots) {
                 if (inv.getItem(slot) == null) {
                     inv.setItem(slot, quest.value)
@@ -149,18 +150,26 @@ class FusionCraftingGUI {
 
         for (input in fusion) {
             if (input.key.startsWith("input.")) {
-                val mapKey = input.key.split(".")[0] + "." + input.key.split(".")[1]  + ".0"
+                val mapKey = input.key.split(".")[0] + "." + input.key.split(".")[1] + ".0"
                 if (mapKey == input.key) {
                     for (i in 0 until (input.value as MutableList<*>).size) {
                         when (i) {
                             0 -> {
-                                val item = ItemStack(Material.valueOf((input.value as MutableList<MutableMap<String, String>>)[i]["item"]?.uppercase() ?: "DIRT"))
+                                val item = ItemStack(
+                                    Material.valueOf(
+                                        (input.value as MutableList<MutableMap<String, String>>)[i]["item"]?.uppercase()
+                                            ?: "DIRT"
+                                    )
+                                )
                                 items.add(item)
                             }
+
                             1 -> {
                                 val item = items[items.size - 1]
-                                item.amount = (input.value as MutableList<MutableMap<String, String>>)[i]["amount"]?.toInt() ?: 1
+                                item.amount =
+                                    (input.value as MutableList<MutableMap<String, String>>)[i]["amount"]?.toInt() ?: 1
                             }
+
                             2 -> {
                                 val item = items[items.size - 1]
                                 val meta = item.itemMeta
@@ -171,7 +180,7 @@ class FusionCraftingGUI {
 
                         val item = items[items.size - 1]
                         val meta = item.itemMeta
-                        meta.displayName(ColorUtils().convert("<red>✘<gray> | <aqua>" + mapKey.split(".")[1] + " <gray>(" + (input.value as MutableList<MutableMap<String, String>>)[1]["amount"] + "x)" ))
+                        meta.displayName(ColorUtils().convert("<red>✘<gray> | <aqua>" + mapKey.split(".")[1] + " <gray>(" + (input.value as MutableList<MutableMap<String, String>>)[1]["amount"] + "x)"))
                         item.itemMeta = meta
                     }
                 }
@@ -197,15 +206,21 @@ class FusionCraftingGUI {
             if (output.key.startsWith("output.")) {
                 val mapKey = output.key.split(".")[0] + "." + output.key.split(".")[1]
                 if (mapKey == output.key) {
-                    val item = ItemStack(Material.valueOf((output.value as MutableList<MutableMap<String, String>>)[0]["item"]?.uppercase() ?: "DIRT"))
+                    val item = ItemStack(
+                        Material.valueOf(
+                            (output.value as MutableList<MutableMap<String, String>>)[0]["item"]?.uppercase() ?: "DIRT"
+                        )
+                    )
                     item.amount = (output.value as MutableList<MutableMap<String, String>>)[1]["amount"]?.toInt() ?: 1
                     val meta = item.itemMeta
-                    meta.displayName(ColorUtils().convert("<gold>" + (output.value as MutableList<MutableMap<String, String>>)[2]["name"] + " <gray>(" + (output.value as MutableList<MutableMap<String, String>>)[1]["amount"] + "x)" ))
-                    meta.lore(listOf(
-                        ColorUtils().convert("<gray>" + (output.value as MutableList<MutableMap<String, String>>)[3]["lore"]),
-                        ColorUtils().convert(" "),
-                        ColorUtils().convert("<gray>Item Data: " + (output.value as MutableList<MutableMap<String, String>>)[4]["data"])
-                    ))
+                    meta.displayName(ColorUtils().convert("<gold>" + (output.value as MutableList<MutableMap<String, String>>)[2]["name"] + " <gray>(" + (output.value as MutableList<MutableMap<String, String>>)[1]["amount"] + "x)"))
+                    meta.lore(
+                        listOf(
+                            ColorUtils().convert("<gray>" + (output.value as MutableList<MutableMap<String, String>>)[3]["lore"]),
+                            ColorUtils().convert(" "),
+                            ColorUtils().convert("<gray>Item Data: " + (output.value as MutableList<MutableMap<String, String>>)[4]["data"])
+                        )
+                    )
                     item.itemMeta = meta
 
                     items.add(item)
@@ -215,22 +230,25 @@ class FusionCraftingGUI {
 
         val neededSlots = items.size
 
-        when(neededSlots) {
+        when (neededSlots) {
             1 -> {
                 //Use slot 25
                 inv.setItem(25, items[0])
             }
+
             2 -> {
                 //Use slots 24 and 25
                 inv.setItem(24, items[0])
                 inv.setItem(25, items[1])
             }
+
             3 -> {
                 //Use slots 16, 25, and 34
                 inv.setItem(16, items[0])
                 inv.setItem(25, items[1])
                 inv.setItem(34, items[2])
             }
+
             4 -> {
                 //Use slots 16, 24, 25, and 34
                 inv.setItem(16, items[0])
@@ -238,6 +256,7 @@ class FusionCraftingGUI {
                 inv.setItem(25, items[2])
                 inv.setItem(34, items[3])
             }
+
             5 -> {
                 //Use slots 15, 16, 25, 33, and 34
                 inv.setItem(15, items[0])
@@ -246,6 +265,7 @@ class FusionCraftingGUI {
                 inv.setItem(33, items[3])
                 inv.setItem(34, items[4])
             }
+
             else -> {
                 //Use slots 15, 16, 24, 25, 33, and 34
                 inv.setItem(15, items[0])

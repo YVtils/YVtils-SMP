@@ -39,7 +39,13 @@ class TempMute {
         }
     }
 
-    private fun tempmutePlayer(target: OfflinePlayer, sender: CommandSender, duration: Int, unit: String, reason: String) {
+    private fun tempmutePlayer(
+        target: OfflinePlayer,
+        sender: CommandSender,
+        duration: Int,
+        unit: String,
+        reason: String,
+    ) {
         if (Mute().checkMute(target)) {
             if (sender is Player) {
                 sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_ALREADY_MUTED))

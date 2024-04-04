@@ -36,10 +36,12 @@ class InvSee {
     }
 
     private fun getInv(target: Player): Inventory {
-        val inv = Bukkit.createInventory(null, 54,
+        val inv = Bukkit.createInventory(
+            null, 54,
             StringReplacer().listReplacer(
                 Language().getMessage(
-                    LangStrings.MODULE_INVSEE_INVENTORY),
+                    LangStrings.MODULE_INVSEE_INVENTORY
+                ),
                 listOf("player"),
                 listOf(target.name)
             )
@@ -60,8 +62,8 @@ class InvSee {
         j = 0
         for (i in 18..53) {
             if (i < 45) {
-                inv.setItem(i, invContent[i-9])
-            }else {
+                inv.setItem(i, invContent[i - 9])
+            } else {
                 inv.setItem(i, invContent[j])
                 j++
             }
@@ -92,8 +94,10 @@ class InvSee {
         val invsee_invRaw = Language().getRawMessage(LangStrings.MODULE_INVSEE_INVENTORY)
         val invsee_inv = ColorUtils().convert(invsee_invRaw).toString()
 
-        if (player.openInventory.title().toString().startsWith(invsee_inv.split("<")[0]) && e.inventory.location == null) {
-            if (e.slot == 0 || e.slot in 5 .. 6 || e.slot in 8..17) e.isCancelled = true
+        if (player.openInventory.title().toString()
+                .startsWith(invsee_inv.split("<")[0]) && e.inventory.location == null
+        ) {
+            if (e.slot == 0 || e.slot in 5..6 || e.slot in 8..17) e.isCancelled = true
         }
     }
 }

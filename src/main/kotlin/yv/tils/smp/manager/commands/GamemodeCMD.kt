@@ -1,6 +1,5 @@
 package yv.tils.smp.manager.commands
 
-import dev.jorel.commandapi.Execution
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.*
 import org.bukkit.GameMode
@@ -19,7 +18,18 @@ class GamemodeCMD {
         withAliases("gamemode")
 
         stringArgument("gamemode", false) {
-            replaceSuggestions(ArgumentSuggestions.strings("survival", "creative", "adventure", "spectator", "0", "1", "2", "3"))
+            replaceSuggestions(
+                ArgumentSuggestions.strings(
+                    "survival",
+                    "creative",
+                    "adventure",
+                    "spectator",
+                    "0",
+                    "1",
+                    "2",
+                    "3"
+                )
+            )
             playerArgument("player", true) {
                 anyExecutor { sender, args ->
 
@@ -30,7 +40,7 @@ class GamemodeCMD {
 
                     if (args[1] is Player) {
                         val target = args[1] as Player
-                        gamemodeSwitch(target, args[0].toString() , sender)
+                        gamemodeSwitch(target, args[0].toString(), sender)
                     } else {
                         gamemodeSwitch(sender as Player, args[0].toString())
                     }
@@ -50,24 +60,28 @@ class GamemodeCMD {
 
                 player.gameMode = GameMode.SURVIVAL
             }
+
             "creative", "1" -> {
                 list_en = listOf("Creative")
                 list_de = listOf("Kreativ")
 
                 player.gameMode = GameMode.CREATIVE
             }
+
             "adventure", "2" -> {
                 list_en = listOf("Adventure")
                 list_de = listOf("Abenteuer")
 
                 player.gameMode = GameMode.ADVENTURE
             }
+
             "spectator", "3" -> {
                 list_en = listOf("Spectator")
                 list_de = listOf("Beobachter")
 
                 player.gameMode = GameMode.SPECTATOR
             }
+
             else -> {
                 player.sendMessage(
                     Language().getMessage(LangStrings.COMMAND_USAGE).append(
@@ -89,11 +103,13 @@ class GamemodeCMD {
             list_en
         }
 
-        player.sendMessage(StringReplacer().listReplacer(
-            Language().getMessage(player.uniqueId, LangStrings.GAMEMODE_SWITCH),
-            listOf("gamemode"),
-            list
-        ))
+        player.sendMessage(
+            StringReplacer().listReplacer(
+                Language().getMessage(player.uniqueId, LangStrings.GAMEMODE_SWITCH),
+                listOf("gamemode"),
+                list
+            )
+        )
 
 
         val list2: List<String> = if (Language.playerLang[player.uniqueId]?.equals("en") == true) {
@@ -106,17 +122,21 @@ class GamemodeCMD {
 
         if (player != sender) {
             if (sender is Player) {
-                sender.sendMessage(StringReplacer().listReplacer(
-                    Language().getMessage(sender.uniqueId, LangStrings.GAMEMODE_SWITCH_OTHER),
-                    listOf("gamemode", "player"),
-                    listOf(list2[0], player.name)
-                ))
+                sender.sendMessage(
+                    StringReplacer().listReplacer(
+                        Language().getMessage(sender.uniqueId, LangStrings.GAMEMODE_SWITCH_OTHER),
+                        listOf("gamemode", "player"),
+                        listOf(list2[0], player.name)
+                    )
+                )
             } else {
-                sender.sendMessage(StringReplacer().listReplacer(
-                    Language().getMessage(LangStrings.GAMEMODE_SWITCH_OTHER),
-                    listOf("gamemode", "player"),
-                    listOf(list2[0], player.name)
-                ))
+                sender.sendMessage(
+                    StringReplacer().listReplacer(
+                        Language().getMessage(LangStrings.GAMEMODE_SWITCH_OTHER),
+                        listOf("gamemode", "player"),
+                        listOf(list2[0], player.name)
+                    )
+                )
             }
         }
     }

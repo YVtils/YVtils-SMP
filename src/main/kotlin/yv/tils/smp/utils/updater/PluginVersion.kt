@@ -21,11 +21,18 @@ class PluginVersion {
 
     fun onPlayerJoin(player: Player) {
         if ((player.hasPermission("yvtils.smp.update") || player.isOp) && plVersion != version) {
-            player.sendMessage(StringReplacer().listReplacer(
-                Language().getMessage(player.uniqueId, LangStrings.PLAYER_PLUGIN_UPDATE_AVAILABLE),
-                listOf("newversion", "oldversion", "prefix", "link"),
-                listOf(version, plVersion, Vars().prefix, "<click:open_url:https://yvnetwork.de/yvtils-smp/modrinth>https://yvnetwork.de/yvtils-smp/modrinth</click>")
-            ))
+            player.sendMessage(
+                StringReplacer().listReplacer(
+                    Language().getMessage(player.uniqueId, LangStrings.PLAYER_PLUGIN_UPDATE_AVAILABLE),
+                    listOf("newversion", "oldversion", "prefix", "link"),
+                    listOf(
+                        version,
+                        plVersion,
+                        Vars().prefix,
+                        "<click:open_url:https://yvnetwork.de/yvtils-smp/modrinth>https://yvnetwork.de/yvtils-smp/modrinth</click>"
+                    )
+                )
+            )
         }
     }
 
@@ -34,17 +41,21 @@ class PluginVersion {
         webRequest()
 
         if (plVersion != version) {
-            YVtils.instance.server.consoleSender.sendMessage(StringReplacer().listReplacer(
-                Language().getMessage(LangStrings.PLUGIN_UPDATE_AVAILABLE),
-                listOf("newversion", "oldversion", "prefix", "link"),
-                listOf(version, plVersion, Vars().prefix, "https://yvnetwork.de/yvtils-smp/modrinth")
-            ))
-        }else {
-            YVtils.instance.server.consoleSender.sendMessage(StringReplacer().listReplacer(
-                Language().getMessage(LangStrings.PLUGIN_UP_TO_DATE),
-                listOf("prefix"),
-                listOf(Vars().prefix)
-            ))
+            YVtils.instance.server.consoleSender.sendMessage(
+                StringReplacer().listReplacer(
+                    Language().getMessage(LangStrings.PLUGIN_UPDATE_AVAILABLE),
+                    listOf("newversion", "oldversion", "prefix", "link"),
+                    listOf(version, plVersion, Vars().prefix, "<click:open_url:https://yvnetwork.de/yvtils-smp/modrinth>https://yvnetwork.de/yvtils-smp/modrinth</click>")
+                )
+            )
+        } else {
+            YVtils.instance.server.consoleSender.sendMessage(
+                StringReplacer().listReplacer(
+                    Language().getMessage(LangStrings.PLUGIN_UP_TO_DATE),
+                    listOf("prefix"),
+                    listOf(Vars().prefix)
+                )
+            )
         }
     }
 
@@ -82,7 +93,7 @@ class PluginVersion {
                     "yv.tils.smp.utils.updater.PluginVersion.webRequest()"
                 )
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             println("webRequest() catch")
 
             println(e.cause)

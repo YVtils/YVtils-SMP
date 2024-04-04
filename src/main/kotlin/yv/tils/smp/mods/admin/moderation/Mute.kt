@@ -96,7 +96,8 @@ class Mute {
                 StringReplacer().listReplacer(
                     Language().getMessage(player.uniqueId, LangStrings.MUTED_TRY_TO_WRITE),
                     listOf("prefix", "reason", "duration"),
-                    listOf(Vars().prefix,
+                    listOf(
+                        Vars().prefix,
                         mutedPlayers_yml.mutedPlayer[player.uniqueId]?.get(0)
                             ?: Language().getRawMessage(player.uniqueId, LangStrings.MOD_NO_REASON),
                         duration

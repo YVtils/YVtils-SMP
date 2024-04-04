@@ -45,7 +45,13 @@ class InvOpen {
     }
 
     private fun customInv(player: HumanEntity) {
-        val inv = inventory[player.uniqueId]?.let { Bukkit.createInventory(player, it.size, ColorUtils().convert("Container Clone")) }
+        val inv = inventory[player.uniqueId]?.let {
+            Bukkit.createInventory(
+                player,
+                it.size,
+                ColorUtils().convert("Container Clone")
+            )
+        }
 
         if (inv == null) return
 

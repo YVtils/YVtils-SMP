@@ -8,7 +8,7 @@ import yv.tils.smp.mods.admin.vanish.VanishGUI
 import yv.tils.smp.mods.fusionCrafting.GUIListener
 import yv.tils.smp.utils.invSync.InvSync
 
-class InvClick: Listener {
+class InvClick : Listener {
     @EventHandler
     fun onEvent(e: InventoryClickEvent) {
         VanishGUI().invInteraction(e)

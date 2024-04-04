@@ -1,10 +1,6 @@
 package yv.tils.smp.mods.fusionCrafting.fusions.lightBlock
 
-import net.kyori.adventure.text.Component
-import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.inventory.ItemStack
-import yv.tils.smp.utils.color.ColorUtils
 
 class LightBlock {
     fun configFile(ymlFile: YamlConfiguration): YamlConfiguration {

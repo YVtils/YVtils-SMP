@@ -15,7 +15,7 @@ class StatusCommand {
         withAliases("prefix", "role")
 
         literalArgument("set", false) {
-            greedyStringArgument("status" ,false) {
+            greedyStringArgument("status", false) {
                 playerExecutor { player, args ->
                     setStatus(player, args[0] as String)
                 }
@@ -140,7 +140,7 @@ class StatusCommand {
 
         val display = StatusConfig.config["display"] as String
 
-         val displayCompo = StringReplacer().listReplacer(
+        val displayCompo = StringReplacer().listReplacer(
             ColorUtils().convert(display),
             listOf("status", "playerName"),
             listOf(status, player.name)

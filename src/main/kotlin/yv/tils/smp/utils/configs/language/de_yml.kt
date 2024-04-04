@@ -77,7 +77,8 @@ class de_yml {
             "<red>Fehlende Berechtigung:"
         )
 
-        ymlFile.addDefault("SPAWN_ELYTRA_BOOST",
+        ymlFile.addDefault(
+            "SPAWN_ELYTRA_BOOST",
             "<white>Um dich zu boosten drücke"
         )
 
@@ -102,7 +103,6 @@ class de_yml {
             "FLY_COMMAND_ENABLE_OTHER",
             "<gray><player> kann nun fliegen!"
         )
-
 
         ymlFile.addDefault(
             "FLY_COMMAND_DISABLE_OTHER",

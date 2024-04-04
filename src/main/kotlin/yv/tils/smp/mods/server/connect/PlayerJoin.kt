@@ -15,7 +15,11 @@ class PlayerJoin {
     private var state = 1
 
     fun eventReceiver(e: PlayerJoinEvent) {
-        Debugger().log("PlayerJoin - Event Receiver", "Player ${e.player.name} joined the server", "yv.tils.smp.mods.server.connect.PlayerJoin.eventReceiver()")
+        Debugger().log(
+            "PlayerJoin - Event Receiver",
+            "Player ${e.player.name} joined the server",
+            "yv.tils.smp.mods.server.connect.PlayerJoin.eventReceiver()"
+        )
         funcStarter(state, e)
     }
 
@@ -29,7 +33,7 @@ class PlayerJoin {
     }
 
 
-    private fun vanishJoin(e: PlayerJoinEvent, player: Player, ) {
+    private fun vanishJoin(e: PlayerJoinEvent, player: Player) {
         if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!) {
             e.joinMessage(null)
             setupPlayer(e, player)
@@ -39,7 +43,7 @@ class PlayerJoin {
         }
     }
 
-    private fun sendJoinMessage(e: PlayerJoinEvent, player: Player, ) {
+    private fun sendJoinMessage(e: PlayerJoinEvent, player: Player) {
         e.joinMessage(generateJoinMessage(player))
         funcStarter(state++, e)
     }
@@ -49,7 +53,11 @@ class PlayerJoin {
 
         val random = messages.indices.random()
 
-        Debugger().log("PlayerQuit - Generate Join Message", "Generated Following Join Message: ${messages[random]}", "yv.tils.smp.mods.server.connect.PlayerJoin.generateJoinMessage()")
+        Debugger().log(
+            "PlayerQuit - Generate Join Message",
+            "Generated Following Join Message: ${messages[random]}",
+            "yv.tils.smp.mods.server.connect.PlayerJoin.generateJoinMessage()"
+        )
 
         return StringReplacer().listReplacer(
             Component.text(messages[random]),
@@ -58,15 +66,19 @@ class PlayerJoin {
         )
     }
 
-    private fun setupPlayer(e: PlayerJoinEvent, player: Player, ) {
-        Debugger().log("PlayerJoin - Setup Player", "Player ${player.name} joined the server", "yv.tils.smp.mods.server.connect.PlayerJoin.setupPlayer()")
+    private fun setupPlayer(e: PlayerJoinEvent, player: Player) {
+        Debugger().log(
+            "PlayerJoin - Setup Player",
+            "Player ${player.name} joined the server",
+            "yv.tils.smp.mods.server.connect.PlayerJoin.setupPlayer()"
+        )
 
         Language.playerLang[player.uniqueId] = player.locale()
 
         funcStarter(state++, e)
     }
 
-    private fun otherActions(e: PlayerJoinEvent, player: Player, ) {
+    private fun otherActions(e: PlayerJoinEvent, player: Player) {
         PluginVersion().onPlayerJoin(player)
 
         funcStarter(state++, e)

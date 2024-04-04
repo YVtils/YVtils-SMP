@@ -29,7 +29,10 @@ class YVtils : JavaPlugin() {
     override fun onEnable() {
         Debugger().log(
             "YVtils SMP Start",
-            Language().directFormat("This is the first action of the plugin!", "Dies ist die erste Aktion des Plugins!"),
+            Language().directFormat(
+                "This is the first action of the plugin!",
+                "Dies ist die erste Aktion des Plugins!"
+            ),
             "yv.tils.smp.YVtils"
         )
 

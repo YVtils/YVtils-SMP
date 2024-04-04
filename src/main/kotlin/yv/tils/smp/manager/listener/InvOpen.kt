@@ -5,7 +5,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryOpenEvent
 import yv.tils.smp.utils.invSync.InvOpen
 
-class InvOpen: Listener {
+class InvOpen : Listener {
     @EventHandler
     fun onEvent(e: InventoryOpenEvent) {
         InvOpen().onInvOpen(e)

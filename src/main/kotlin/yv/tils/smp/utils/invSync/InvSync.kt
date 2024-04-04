@@ -107,8 +107,8 @@ class InvSync {
             inv.getItem(2),
             inv.getItem(1)
         )
-        val invContent = inv.contents.copyOfRange(18, 44+1)
-        val invHotbar = inv.contents.copyOfRange(45, 53+1)
+        val invContent = inv.contents.copyOfRange(18, 44 + 1)
+        val invHotbar = inv.contents.copyOfRange(45, 53 + 1)
 
         inv.setItem(53, ItemStack(Material.GREEN_BED))
         inv.setItem(45, ItemStack(Material.RED_BED))

@@ -32,7 +32,7 @@ class TempBan {
                             val duration = args[1] as Int
                             val unit = args[2] as String
                             val reason = args[3] ?: Language().getRawMessage(LangStrings.MOD_NO_REASON)
-                            banPlayer(target, sender, duration, unit , reason as String)
+                            banPlayer(target, sender, duration, unit, reason as String)
                         }
                     }
                 }

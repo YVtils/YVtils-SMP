@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerGameModeChangeEvent
 import yv.tils.smp.manager.commands.FlyCMD
 import yv.tils.smp.mods.admin.vanish.VanishEvents
 
-class PlayerGamemodeSwitch: Listener {
+class PlayerGamemodeSwitch : Listener {
     @EventHandler
     fun onEvent(e: PlayerGameModeChangeEvent) {
         FlyCMD().onGamemodeSwitch(e)

@@ -42,17 +42,19 @@ class HealCMD {
             if (sender is Player) {
                 sender.sendMessage(
                     StringReplacer().listReplacer(
-                    Language().getMessage(sender.uniqueId, LangStrings.HEAL_OTHER_PLAYER_HEALED),
-                    listOf("player"),
-                    listOf(player.name)
-                ))
-            }else {
+                        Language().getMessage(sender.uniqueId, LangStrings.HEAL_OTHER_PLAYER_HEALED),
+                        listOf("player"),
+                        listOf(player.name)
+                    )
+                )
+            } else {
                 sender.sendMessage(
                     StringReplacer().listReplacer(
-                    Language().getMessage(LangStrings.HEAL_OTHER_PLAYER_HEALED),
-                    listOf("player"),
-                    listOf(player.name)
-                ))
+                        Language().getMessage(LangStrings.HEAL_OTHER_PLAYER_HEALED),
+                        listOf("player"),
+                        listOf(player.name)
+                    )
+                )
             }
         }
 

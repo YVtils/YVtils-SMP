@@ -26,7 +26,11 @@ class FusionLoader {
         LightBlock().configFile(lightBlockYML)
         lightBlockYML.save(lightBlockFile)
 
-        Debugger().log("Generated default fusion", "Generated default fusion", "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt")
+        Debugger().log(
+            "Generated default fusion",
+            "Generated default fusion",
+            "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt"
+        )
     }
 
     fun loadQuestThumbnail() {
@@ -52,7 +56,11 @@ class FusionLoader {
             questThumbnails[name] = displayItem
             component2name[displayItem.displayName()] = name
 
-            Debugger().log("Loaded quest thumbnail", "Name: $name | File: ${file.path} | Map: ${questThumbnails[name]}", "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt")
+            Debugger().log(
+                "Loaded quest thumbnail",
+                "Name: $name | File: ${file.path} | Map: ${questThumbnails[name]}",
+                "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt"
+            )
         }
     }
 
@@ -82,7 +90,11 @@ class FusionLoader {
             questMap["output.$output"] = suboutputSection
         }
 
-        Debugger().log("Loaded quest", "Name: $quest | File: ${file.path} | Map: $questMap", "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt")
+        Debugger().log(
+            "Loaded quest",
+            "Name: $quest | File: ${file.path} | Map: $questMap",
+            "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt"
+        )
         return questMap
     }
 }

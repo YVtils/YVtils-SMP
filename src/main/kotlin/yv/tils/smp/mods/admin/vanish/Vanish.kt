@@ -12,7 +12,6 @@ import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.StringReplacer
 import yv.tils.smp.utils.internalAPI.Vars
 import java.util.*
-import kotlin.collections.HashMap
 import kotlin.collections.MutableMap
 import kotlin.collections.component1
 import kotlin.collections.component2
@@ -42,7 +41,7 @@ class Vanish {
                     try {
                         val target = args[0] as Player
                         quickVanish(target, sender)
-                    }catch (_: Exception) {
+                    } catch (_: Exception) {
                         quickVanish(sender as Player, sender)
                     }
                 }
@@ -54,7 +53,7 @@ class Vanish {
                 try {
                     val target = args[0] as Player
                     vanish(target, player)
-                }catch (_: Exception) {
+                } catch (_: Exception) {
                     vanish(player, player)
                 }
             }
@@ -82,8 +81,8 @@ class Vanish {
             VanishGUI().vanishRegister(player, false)
             disableVanish(player)
         } else {
-          VanishGUI().vanishRegister(player, true)
-          enableVanish(player)
+            VanishGUI().vanishRegister(player, true)
+            enableVanish(player)
         }
 
         if (sender != player) {

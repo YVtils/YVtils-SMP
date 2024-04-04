@@ -3,8 +3,8 @@ package yv.tils.smp.utils
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
-import java.util.*
 import java.net.URI
+import java.util.*
 
 class MojangAPI {
     fun name2uuid(playerName: String): UUID? {
@@ -13,12 +13,12 @@ class MojangAPI {
             val map: MutableMap<String, String> = getWebsite(url)
 
             map["id"] = (
-                map["id"]!!.substring(0, 8) + "-" +
-                map["id"]!!.substring(8, 12) + "-" +
-                map["id"]!!.substring(12, 16) + "-" +
-                map["id"]!!.substring(16, 20) + "-" +
-                map["id"]!!.substring(20)
-            )
+                    map["id"]!!.substring(0, 8) + "-" +
+                            map["id"]!!.substring(8, 12) + "-" +
+                            map["id"]!!.substring(12, 16) + "-" +
+                            map["id"]!!.substring(16, 20) + "-" +
+                            map["id"]!!.substring(20)
+                    )
 
             return UUID.fromString(map["id"])
         } catch (e: Exception) {
@@ -71,7 +71,7 @@ class MojangAPI {
 
                 map[s.split(":")[0]] = s.split(":")[1]
             }
-        }else {
+        } else {
             println("HTTP request failed with response code: $responseCode")
         }
         return map

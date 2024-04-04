@@ -14,7 +14,11 @@ class PlayerQuit {
     private var state = 1
 
     fun eventReceiver(event: PlayerQuitEvent) {
-        Debugger().log("PlayerQuit - Event Receiver", "Player ${event.player.name} quit the server", "yv.tils.smp.mods.server.connect.PlayerQuit.eventReceiver()")
+        Debugger().log(
+            "PlayerQuit - Event Receiver",
+            "Player ${event.player.name} quit the server",
+            "yv.tils.smp.mods.server.connect.PlayerQuit.eventReceiver()"
+        )
         funcStarter(state, event)
     }
 
@@ -45,7 +49,11 @@ class PlayerQuit {
 
         val random = messages.indices.random()
 
-        Debugger().log("PlayerQuit - Generate Quit Message", "Generated Following Quit Message: ${messages[random]}", "yv.tils.smp.mods.server.connect.PlayerQuit.generateQuitMessage()")
+        Debugger().log(
+            "PlayerQuit - Generate Quit Message",
+            "Generated Following Quit Message: ${messages[random]}",
+            "yv.tils.smp.mods.server.connect.PlayerQuit.generateQuitMessage()"
+        )
 
         return StringReplacer().listReplacer(
             Component.text(messages[random]),

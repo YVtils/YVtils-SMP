@@ -10,7 +10,6 @@ import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.StringReplacer
 import java.util.*
-import kotlin.collections.HashMap
 
 class GodCMD {
     companion object {
@@ -70,7 +69,7 @@ class GodCMD {
                         )
                     )
                 }
-            }else {
+            } else {
                 if (god[uuid] == null || god[uuid] == false) {
                     sender.sendMessage(
                         StringReplacer().listReplacer(

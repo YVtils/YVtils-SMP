@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 import yv.tils.smp.mods.server.connect.PlayerQuit
 import yv.tils.smp.mods.status.StatusJoinQuit
 
-class PlayerQuitServer: Listener {
+class PlayerQuitServer : Listener {
     @EventHandler
     fun onEvent(e: PlayerQuitEvent) {
         PlayerQuit().eventReceiver(e)
