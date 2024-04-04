@@ -45,7 +45,12 @@ class PluginVersion {
                 StringReplacer().listReplacer(
                     Language().getMessage(LangStrings.PLUGIN_UPDATE_AVAILABLE),
                     listOf("newversion", "oldversion", "prefix", "link"),
-                    listOf(version, plVersion, Vars().prefix, "<click:open_url:https://yvnetwork.de/yvtils-smp/modrinth>https://yvnetwork.de/yvtils-smp/modrinth</click>")
+                    listOf(
+                        version,
+                        plVersion,
+                        Vars().prefix,
+                        "<click:open_url:https://yvnetwork.de/yvtils-smp/modrinth>https://yvnetwork.de/yvtils-smp/modrinth</click>"
+                    )
                 )
             )
         } else {

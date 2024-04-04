@@ -16,7 +16,7 @@ class Debugger {
 
     private var log: String = ""
 
-    fun log(title: String = "null", desc: String = "null", where: String = "null",) {
+    fun log(title: String = "null", desc: String = "null", where: String = "null") {
         if (YVtils.instance.config.getBoolean("debug")) {
             log = ""
 
@@ -36,7 +36,7 @@ class Debugger {
         }
     }
 
-    fun log(title: String = "null", desc: Component = Component.text("null"), where: String = "null",) {
+    fun log(title: String = "null", desc: Component = Component.text("null"), where: String = "null") {
         if (YVtils.instance.config.getBoolean("debug")) {
             log = ""
 
