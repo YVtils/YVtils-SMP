@@ -74,7 +74,7 @@ class en_yml {
         )
         ymlFile.addDefault(
             "SPAWN_ELYTRA_BOOST",
-            "<white>To boost yourself press"
+            "<white>Press <yellow><key><white> to boost yourself"
         )
         ymlFile.addDefault(
             "SMP_START_MESSAGE",

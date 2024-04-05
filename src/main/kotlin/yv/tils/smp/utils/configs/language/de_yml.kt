@@ -79,7 +79,7 @@ class de_yml {
 
         ymlFile.addDefault(
             "SPAWN_ELYTRA_BOOST",
-            "<white>Um dich zu boosten drücke"
+            "<white>Benutze <yellow><key><white> um dich zu boosten"
         )
 
         ymlFile.addDefault(

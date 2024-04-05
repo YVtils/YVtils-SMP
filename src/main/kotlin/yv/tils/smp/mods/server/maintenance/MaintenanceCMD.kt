@@ -1,4 +1,4 @@
-package yv.tils.smp.manager.commands
+package yv.tils.smp.mods.server.maintenance
 
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.executors.CommandArguments
@@ -14,6 +14,7 @@ import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.StringReplacer
 import yv.tils.smp.utils.internalAPI.Vars
+import kotlin.toString
 
 class MaintenanceCMD {
     companion object {

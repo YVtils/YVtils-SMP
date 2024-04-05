@@ -7,6 +7,10 @@ import yv.tils.smp.mods.admin.invSee.InvSee
 import yv.tils.smp.mods.admin.moderation.*
 import yv.tils.smp.mods.admin.vanish.Vanish
 import yv.tils.smp.mods.fusionCrafting.FusionCraftingGUI
+import yv.tils.smp.mods.other.message.MSGCommand
+import yv.tils.smp.mods.other.message.ReplyCommand
+import yv.tils.smp.mods.server.maintenance.MaintenanceCMD
+import yv.tils.smp.mods.sit.SitCommand
 import yv.tils.smp.mods.status.StatusCommand
 
 class Commands {
@@ -16,6 +20,10 @@ class Commands {
         CommandAPI.unregister("ban", true)
         CommandAPI.unregister("pardon", true)
         CommandAPI.unregister("kick", true)
+        CommandAPI.unregister("w", true)
+        CommandAPI.unregister("whisper", true)
+        CommandAPI.unregister("msg", true)
+        CommandAPI.unregister("tell", true)
     }
 
     fun registerCommands() {
@@ -24,11 +32,28 @@ class Commands {
         SpeedCMD()
         HealCMD()
         GlobalMuteCMD()
-        MaintenanceCMD()
         SeedCMD()
+
+        modulesCommands()
+    }
+
+    private fun modulesCommands() {
+        FusionCraftingGUI()
+
+        StatusCommand()
+
+        SitCommand()
+
+        MaintenanceCMD()
+
+        MSGCommand()
+        ReplyCommand()
+
         Vanish()
+
         InvSee()
         EcSee()
+
         Kick()
         Ban()
         TempBan()
@@ -36,11 +61,5 @@ class Commands {
         Mute()
         TempMute()
         Unmute()
-        modulesCommands()
-    }
-
-    private fun modulesCommands() {
-        FusionCraftingGUI()
-        StatusCommand()
     }
 }

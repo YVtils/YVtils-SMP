@@ -146,9 +146,15 @@ class StatusCommand {
             listOf(status, player.name)
         )
 
+        val displayCompoNameTag = StringReplacer().listReplacer(
+            ColorUtils().convert(display),
+            listOf("status", "playerName"),
+            listOf(status, "")
+        )
+
         player.displayName(displayCompo)
         player.playerListName(displayCompo)
-        StatusTeamManager().addPlayer(player, displayCompo)
+        StatusTeamManager().addPlayer(player, displayCompoNameTag)
 
         StatusConfig().changeValue(player.uniqueId.toString(), status)
 

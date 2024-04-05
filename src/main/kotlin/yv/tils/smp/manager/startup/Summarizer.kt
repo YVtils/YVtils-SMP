@@ -1,18 +1,19 @@
 package yv.tils.smp.manager.startup
 
 import dev.jorel.commandapi.CommandAPI
+import yv.tils.smp.mods.other.SpawnElytra
 import yv.tils.smp.utils.logger.Debugger
 
 class Summarizer {
     fun startup() {
-
-
         val configs = Configs()
         configs.register()
 
         Debugger().log("Starting up", "Configs loaded", "yv.tils.smp.manager.startup.Summarizer")
 
         Debugger().log("Starting up", "Listeners loading", "yv.tils.smp.manager.startup.Summarizer")
+
+        SpawnElytra()
 
         val listeners = Listeners()
         listeners.register()

@@ -22,8 +22,14 @@ class config_yml {
         ymlFile.addDefault("modules.oldVersion", true)
         ymlFile.addDefault("modules.multiMine", true)
 
+        ymlFile.addDefault("spawnElytra.active", true)
+        ymlFile.addDefault("spawnElytra.radius", 50)
+        ymlFile.addDefault("spawnElytra.multiplyValue", 5)
+
         ymlFile.addDefault("joinMessages", joinMessages())
         ymlFile.addDefault("leaveMessages", leaveMessages())
+
+        ymlFile.addDefault("msg.design", "<yellow>[<red><sender> <yellow>-> <red><receiver><yellow>]<white> <message>")
 
         ymlFile.addDefault("maintenance", false)
         ymlFile.addDefault("debug", false)

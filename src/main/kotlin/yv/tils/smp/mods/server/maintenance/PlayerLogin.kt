@@ -2,7 +2,6 @@ package yv.tils.smp.mods.server.maintenance
 
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerLoginEvent
-import yv.tils.smp.manager.commands.MaintenanceCMD
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 
