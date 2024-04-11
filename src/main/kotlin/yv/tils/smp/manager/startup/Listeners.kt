@@ -24,5 +24,6 @@ class Listeners {
         plugin.server.pluginManager.registerEvents(PlayerToggleFlight(), plugin)
         plugin.server.pluginManager.registerEvents(EntityToggleGlide(), plugin)
         plugin.server.pluginManager.registerEvents(PrepareAnvil(), plugin)
+        plugin.server.pluginManager.registerEvents(BlockBreak(), plugin)
     }
 }

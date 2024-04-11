@@ -8,6 +8,8 @@ import yv.tils.smp.utils.configs.global.config_yml
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.configs.language.de_yml
 import yv.tils.smp.utils.configs.language.en_yml
+import yv.tils.smp.utils.configs.multiMine.MultiMineConfig
+import yv.tils.smp.utils.configs.multiMine.config_yml_multiMine
 import yv.tils.smp.utils.configs.status.config_yml_status
 import yv.tils.smp.utils.configs.status.save_yml_status
 
@@ -22,8 +24,11 @@ class Configs {
 
         mutedPlayers_yml().strings()
 
+        config_yml_multiMine().strings()
+
         Config().loadConfig()
         mutedPlayers_yml().loadConfig()
+        MultiMineConfig().loadConfig()
     }
 
     fun language() {
