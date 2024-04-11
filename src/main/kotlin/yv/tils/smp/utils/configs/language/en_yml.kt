@@ -555,6 +555,11 @@ class en_yml {
             "<white>Use Dye to toggle mob target <newline><white>If enabled mobs won't target you"
         )
 
+        ymlFile.addDefault(
+            "FORGING_TOO_EXPENSIVE",
+            "<white>To combine these items, you will need <yellow><level> levels"
+        )
+
         ymlFile.options().copyDefaults(true)
         ymlFile.save(file)
     }

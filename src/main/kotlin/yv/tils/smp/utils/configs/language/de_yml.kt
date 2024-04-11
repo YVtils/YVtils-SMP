@@ -563,27 +563,32 @@ class de_yml {
         ymlFile.addDefault(
             "MODULE_VANISH_VANISH_LORE",
             "<white>Verwende Farbstoff, um das Verschwinden umzuschalten."
-        );
+        )
 
         ymlFile.addDefault(
             "MODULE_VANISH_LAYER_LORE",
             "<white>Klicke auf die Karte, um zwischen Ebenen zu wechseln. <newline><white>Klicke auf den Farbstoff, um die Verwendung von Ebenen umzuschalten. <newline><newline><gray>Ebene 1 < Ebene 2 < Ebene 3 | Höhere Ebenen können niedrigere sehen, aber nicht umgekehrt."
-        );
+        )
 
         ymlFile.addDefault(
             "MODULE_VANISH_ITEM_PICKUP_LORE",
             "<white>Verwende Farbstoff, um das Aufnehmen von Gegenständen umzuschalten. <newline><white>Wenn aktiviert, kannst du Gegenstände aufnehmen."
-        );
+        )
 
         ymlFile.addDefault(
             "MODULE_VANISH_INV_INTERACTION_LORE",
             "<white>Verwende Farbstoff, um die lautlose Inventar interaktion umzuschalten. <newline><white>Wenn aktiviert, werden Kisten für andere Spieler nicht als geöffnet sichtbar sein."
-        );
+        )
 
         ymlFile.addDefault(
             "MODULE_VANISH_MOB_TARGET_LORE",
             "<white>Verwende Farbstoff, um das Anvisieren von Kreaturen umzuschalten. <newline><white>Wenn aktiviert, werden Kreaturen dich nicht anvisieren."
-        );
+        )
+
+        ymlFile.addDefault(
+            "FORGING_TOO_EXPENSIVE",
+            "<white>Das kombinieren dieser Items wird <yellow><level> Level <white>kosten"
+        )
 
 
         ymlFile.options().copyDefaults(true)

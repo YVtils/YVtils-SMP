@@ -26,6 +26,8 @@ class config_yml {
         ymlFile.addDefault("spawnElytra.radius", 50)
         ymlFile.addDefault("spawnElytra.multiplyValue", 5)
 
+        ymlFile.addDefault("disableTooExpensive", true)
+
         ymlFile.addDefault("joinMessages", joinMessages())
         ymlFile.addDefault("leaveMessages", leaveMessages())
 

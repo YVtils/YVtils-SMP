@@ -2,7 +2,6 @@ package yv.tils.smp.manager.startup
 
 import yv.tils.smp.YVtils
 import yv.tils.smp.manager.listener.*
-import yv.tils.smp.mods.other.SpawnElytra
 
 class Listeners {
     fun register() {
@@ -24,5 +23,6 @@ class Listeners {
         plugin.server.pluginManager.registerEvents(PlayerSwapHandItems(), plugin)
         plugin.server.pluginManager.registerEvents(PlayerToggleFlight(), plugin)
         plugin.server.pluginManager.registerEvents(EntityToggleGlide(), plugin)
+        plugin.server.pluginManager.registerEvents(PrepareAnvil(), plugin)
     }
 }
