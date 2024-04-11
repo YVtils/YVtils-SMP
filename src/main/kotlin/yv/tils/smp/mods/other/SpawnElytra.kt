@@ -46,13 +46,7 @@ class SpawnElytra {
                     if (FlyCMD.fly.containsKey(player.uniqueId) && FlyCMD.fly[player.uniqueId] == true) return@forEach
                     if (player.gameMode != GameMode.SURVIVAL) return@forEach
                     player.allowFlight = isInSpawnRadius(player)
-                    println("- Flying -")
-                    println(flying)
-                    println("- Boosted -")
-                    println(boosted)
-                    println("-")
                     if (flying.contains(player) && !player.location.block.getRelative(BlockFace.DOWN).type.isAir) {
-                        println("DEBUG 55 | Player landed")
                         player.allowFlight = false
                         player.isFlying = false
                         player.isGliding = false
@@ -118,7 +112,7 @@ class SpawnElytra {
     }
 
     fun onToggleGlide(e: EntityToggleGlideEvent) {
-        if (e.entityType == EntityType.PLAYER && flying.contains(e.entity)) e.isCancelled = true
+        if (e.entityType == EntityType.PLAYER && flying.contains(e.entity) || !e.isGliding) e.isCancelled = true
     }
 
     fun isInSpawnRadius(player: Player): Boolean {
