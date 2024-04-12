@@ -11,6 +11,8 @@ plugins {
 group = "yv.tils"
 version = "1.0.0"
 
+val jdaVersion = "5.0.0-beta.22"
+
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
@@ -20,6 +22,7 @@ dependencies {
     paperweight.paperDevBundle("1.20.4-R0.1-SNAPSHOT")
     implementation("dev.jorel", "commandapi-bukkit-shade", "9.3.0")
     implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.3.0")
+    implementation("net.dv8tion:JDA:$jdaVersion")
 }
 
 tasks {
