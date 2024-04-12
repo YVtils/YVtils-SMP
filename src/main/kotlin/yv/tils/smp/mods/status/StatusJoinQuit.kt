@@ -5,7 +5,8 @@ import org.bukkit.event.player.PlayerQuitEvent
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.configs.status.StatusConfig
+import yv.tils.smp.utils.internalAPI.Placeholder
 
 class StatusJoinQuit {
     fun loadPlayer(e: PlayerJoinEvent) {
@@ -16,14 +17,14 @@ class StatusJoinQuit {
             if (StatusCommand().setStatusDisplay(player, status as String)) {
                 val display = StatusConfig.config["display"] as String
 
-                val displayCompo = StringReplacer().listReplacer(
+                val displayCompo = Placeholder().replacer(
                     ColorUtils().convert(display),
                     listOf("status", "playerName"),
                     listOf(status, player.name)
                 )
 
                 player.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(LangStrings.MODULE_STATUS_SELECTED_STATUS_JOIN_ANNOUNCEMENT),
                         listOf("status"),
                         listOf(ColorUtils().convert(displayCompo))

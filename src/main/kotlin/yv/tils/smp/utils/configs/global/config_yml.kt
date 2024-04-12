@@ -19,7 +19,6 @@ class config_yml {
         ymlFile.addDefault("modules.sit", true)
         ymlFile.addDefault("modules.server", true)
         ymlFile.addDefault("modules.position", true)
-        ymlFile.addDefault("modules.oldVersion", true)
         ymlFile.addDefault("modules.multiMine", true)
 
         ymlFile.addDefault("spawnElytra.active", true)

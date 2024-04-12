@@ -5,7 +5,7 @@ import org.bukkit.entity.Player
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import yv.tils.smp.utils.logger.Debugger
 import java.io.BufferedReader
@@ -22,7 +22,7 @@ class PluginVersion {
     fun onPlayerJoin(player: Player) {
         if ((player.hasPermission("yvtils.smp.update") || player.isOp) && plVersion != version) {
             player.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(player.uniqueId, LangStrings.PLAYER_PLUGIN_UPDATE_AVAILABLE),
                     listOf("newversion", "oldversion", "prefix", "link"),
                     listOf(
@@ -42,7 +42,7 @@ class PluginVersion {
 
         if (plVersion != version) {
             YVtils.instance.server.consoleSender.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(LangStrings.PLUGIN_UPDATE_AVAILABLE),
                     listOf("newversion", "oldversion", "prefix", "link"),
                     listOf(
@@ -55,7 +55,7 @@ class PluginVersion {
             )
         } else {
             YVtils.instance.server.consoleSender.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(LangStrings.PLUGIN_UP_TO_DATE),
                     listOf("prefix"),
                     listOf(Vars().prefix)

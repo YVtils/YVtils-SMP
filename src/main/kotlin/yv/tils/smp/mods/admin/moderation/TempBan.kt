@@ -10,7 +10,7 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import java.util.*
 
@@ -73,7 +73,7 @@ class TempBan {
         for (player in Bukkit.getOnlinePlayers()) {
             if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
                 player.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_TEMPBAN),
                         listOf("prefix", "player", "moderator", "reason", "duration"),
                         listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())
@@ -83,7 +83,7 @@ class TempBan {
         }
 
         YVtils.instance.server.consoleSender.sendMessage(
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_TEMPBAN),
                 listOf("prefix", "player", "moderator", "reason", "duration"),
                 listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())

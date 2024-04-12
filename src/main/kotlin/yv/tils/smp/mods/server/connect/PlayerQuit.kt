@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 import yv.tils.smp.mods.admin.vanish.Vanish
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.logger.Debugger
 
 class PlayerQuit {
@@ -55,7 +55,7 @@ class PlayerQuit {
             "yv.tils.smp.mods.server.connect.PlayerQuit.generateQuitMessage()"
         )
 
-        return StringReplacer().listReplacer(
+        return Placeholder().replacer(
             Component.text(messages[random]),
             listOf("player"),
             listOf(player.name)

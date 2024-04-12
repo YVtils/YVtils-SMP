@@ -5,8 +5,8 @@ import net.kyori.adventure.text.minimessage.MiniMessage
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
 
-class StringReplacer {
-    fun listReplacer(inPut: Component, old: List<String>, new: List<String>): Component {
+class Placeholder {
+    fun replacer(inPut: Component, old: List<String>, new: List<String>): Component {
         Debugger().log("InPut", inPut, "yv.tils.smp.utils.internalAPI.StringReplacer.listReplacer()")
         Debugger().log("Old", "$old", "yv.tils.smp.utils.internalAPI.StringReplacer.listReplacer()")
         Debugger().log("New", "$new", "yv.tils.smp.utils.internalAPI.StringReplacer.listReplacer()")

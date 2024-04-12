@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 
 class GlobalMuteCMD {
@@ -75,7 +75,7 @@ class GlobalMuteCMD {
             when (event) {
                 "true" -> {
                     player.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(
                                 player.uniqueId,
                                 LangStrings.GLOBALMUTE_ENABLE_ANNOUNCEMENT
@@ -88,7 +88,7 @@ class GlobalMuteCMD {
 
                 "false" -> {
                     player.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(
                                 player.uniqueId,
                                 LangStrings.GLOBALMUTE_DISABLE_ANNOUNCEMENT
@@ -102,7 +102,7 @@ class GlobalMuteCMD {
                 "toggle" -> {
                     if (globalMute) {
                         player.sendMessage(
-                            StringReplacer().listReplacer(
+                            Placeholder().replacer(
                                 Language().getMessage(
                                     player.uniqueId,
                                     LangStrings.GLOBALMUTE_ENABLE_ANNOUNCEMENT
@@ -113,7 +113,7 @@ class GlobalMuteCMD {
                         )
                     } else {
                         player.sendMessage(
-                            StringReplacer().listReplacer(
+                            Placeholder().replacer(
                                 Language().getMessage(
                                     player.uniqueId,
                                     LangStrings.GLOBALMUTE_DISABLE_ANNOUNCEMENT
@@ -134,7 +134,7 @@ class GlobalMuteCMD {
 
         if (oldState == globalMute) {
             sender.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(
                         LangStrings.GLOBALMUTE_ALREADY_STATE
                     ),
@@ -148,7 +148,7 @@ class GlobalMuteCMD {
         when (event) {
             "true" -> {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(
                             LangStrings.GLOBALMUTE_ENABLE_FEEDBACK
                         ),
@@ -160,7 +160,7 @@ class GlobalMuteCMD {
 
             "false" -> {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(
                             LangStrings.GLOBALMUTE_DISABLE_FEEDBACK
                         ),
@@ -173,7 +173,7 @@ class GlobalMuteCMD {
             "toggle" -> {
                 if (globalMute) {
                     sender.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(
                                 LangStrings.GLOBALMUTE_ENABLE_FEEDBACK
                             ),
@@ -183,7 +183,7 @@ class GlobalMuteCMD {
                     )
                 } else {
                     sender.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(
                                 LangStrings.GLOBALMUTE_DISABLE_FEEDBACK
                             ),
@@ -204,7 +204,7 @@ class GlobalMuteCMD {
 
             e.isCancelled = true
             e.player.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(
                         e.player.uniqueId,
                         LangStrings.GLOBALMUTE_TRY_TO_WRITE

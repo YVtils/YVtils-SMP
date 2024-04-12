@@ -8,7 +8,7 @@ import yv.tils.smp.manager.startup.Configs
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Runtime
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import yv.tils.smp.utils.logger.Debugger
 
@@ -39,7 +39,7 @@ class YVtils : JavaPlugin() {
         Configs().language()
 
         server.consoleSender.sendMessage(
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(LangStrings.START_MESSAGE),
                 listOf("prefix"),
                 listOf(Vars().prefix)
@@ -51,7 +51,7 @@ class YVtils : JavaPlugin() {
         yv.tils.smp.manager.startup.Summarizer().startup()
 
         server.consoleSender.sendMessage(
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(LangStrings.START_COMPLETED_MESSAGE),
                 listOf("prefix"),
                 listOf(Vars().prefix)

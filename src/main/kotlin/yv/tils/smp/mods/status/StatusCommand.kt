@@ -6,7 +6,8 @@ import org.bukkit.entity.Player
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.configs.status.StatusConfig
+import yv.tils.smp.utils.internalAPI.Placeholder
 
 class StatusCommand {
     val command = commandTree("status") {
@@ -56,14 +57,14 @@ class StatusCommand {
         if (setStatusDisplay(player, status)) {
             val display = StatusConfig.config["display"] as String
 
-            val displayCompo = StringReplacer().listReplacer(
+            val displayCompo = Placeholder().replacer(
                 ColorUtils().convert(display),
                 listOf("status", "playerName"),
                 listOf(status, player.name)
             )
 
             player.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(LangStrings.MODULE_STATUS_SET),
                     listOf("status"),
                     listOf(ColorUtils().convert(displayCompo))
@@ -81,14 +82,14 @@ class StatusCommand {
         if (setStatusDisplay(player, status)) {
             val display = StatusConfig.config["display"] as String
 
-            val displayCompo = StringReplacer().listReplacer(
+            val displayCompo = Placeholder().replacer(
                 ColorUtils().convert(display),
                 listOf("status", "playerName"),
                 listOf(status, player.name)
             )
 
             player.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(LangStrings.MODULE_STATUS_SET),
                     listOf("status"),
                     listOf(ColorUtils().convert(displayCompo))
@@ -110,7 +111,7 @@ class StatusCommand {
             setStatusDisplay(target, "")
 
             player.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(LangStrings.MODULE_STATUS_CLEAR_OTHER_CLEARED),
                     listOf("player"),
                     listOf(target.name)
@@ -140,13 +141,13 @@ class StatusCommand {
 
         val display = StatusConfig.config["display"] as String
 
-        val displayCompo = StringReplacer().listReplacer(
+        val displayCompo = Placeholder().replacer(
             ColorUtils().convert(display),
             listOf("status", "playerName"),
             listOf(status, player.name)
         )
 
-        val displayCompoNameTag = StringReplacer().listReplacer(
+        val displayCompoNameTag = Placeholder().replacer(
             ColorUtils().convert(display),
             listOf("status", "playerName"),
             listOf(status, "")

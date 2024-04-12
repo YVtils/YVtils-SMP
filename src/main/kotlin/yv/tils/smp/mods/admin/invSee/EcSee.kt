@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import java.util.*
 
 class EcSee {
@@ -33,7 +33,7 @@ class EcSee {
     private fun getInv(target: Player): Inventory {
         val inv = Bukkit.createInventory(
             null, 27,
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(
                     LangStrings.MODULE_INVSEE_ENDERCHEST
                 ),

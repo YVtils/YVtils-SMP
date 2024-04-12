@@ -10,7 +10,7 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import java.util.*
 
@@ -77,7 +77,7 @@ class TempMute {
 
         if (target.isOnline) {
             target.player?.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(target.uniqueId, LangStrings.PLAYER_GOT_TEMPMUTED),
                     listOf("prefix", "reason", "duration"),
                     listOf(Vars().prefix, reason, expireAfter.time.toString())
@@ -88,7 +88,7 @@ class TempMute {
         for (player in Bukkit.getOnlinePlayers()) {
             if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
                 player.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_TEMPMUTE),
                         listOf("prefix", "player", "moderator", "reason", "duration"),
                         listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())
@@ -98,7 +98,7 @@ class TempMute {
         }
 
         YVtils.instance.server.consoleSender.sendMessage(
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_TEMPMUTE),
                 listOf("prefix", "player", "moderator", "reason", "duration"),
                 listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())

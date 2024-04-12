@@ -7,7 +7,7 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import java.util.UUID
 
 class AntiTooExpensive {
@@ -27,7 +27,7 @@ class AntiTooExpensive {
         val player = e.viewers[0]
 
         if (e.getResult() != null && inv.getRepairCost() >= 40 && (messageCooldown[player.uniqueId] == null || messageCooldown[player.uniqueId] == 0)) {
-            player.sendMessage(StringReplacer().listReplacer(
+            player.sendMessage(Placeholder().replacer(
                 Language().getMessage(player.uniqueId, LangStrings.FORGING_TOO_EXPENSIVE),
                 listOf("level"),
                 listOf(inv.getRepairCost().toString())

@@ -15,7 +15,7 @@ import yv.tils.smp.manager.commands.FlyCMD
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 
 /**
  * Inspired by this Tutorial from Coole Pizza: https://www.youtube.com/watch?v=S9f_mFiYT50
@@ -83,7 +83,7 @@ class SpawnElytra {
         flying.add(player)
 
         player.sendActionBar(
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(player.uniqueId, LangStrings.SPAWN_ELYTRA_BOOST),
                 listOf(
                     "key"

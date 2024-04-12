@@ -12,7 +12,7 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import kotlin.toString
 
@@ -90,7 +90,7 @@ class MaintenanceCMD {
     private fun senderAnnouncement(sender: CommandSender, event: String) {
         if (oldState == maintenance) {
             sender.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(
                         LangStrings.MAINTENANCE_ALREADY_STATE
                     ),
@@ -104,7 +104,7 @@ class MaintenanceCMD {
         when (event) {
             "true" -> {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(
                             LangStrings.MAINTENANCE_COMMAND_ACTIVATE
                         ),
@@ -116,7 +116,7 @@ class MaintenanceCMD {
 
             "false" -> {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(
                             LangStrings.MAINTENANCE_COMMAND_DEACTIVATE
                         ),
@@ -129,7 +129,7 @@ class MaintenanceCMD {
             "toggle" -> {
                 if (maintenance) {
                     sender.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(
                                 LangStrings.MAINTENANCE_COMMAND_ACTIVATE
                             ),
@@ -139,7 +139,7 @@ class MaintenanceCMD {
                     )
                 } else {
                     sender.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(
                                 LangStrings.MAINTENANCE_COMMAND_DEACTIVATE
                             ),

@@ -1,8 +1,10 @@
-package yv.tils.smp.mods.status
+package yv.tils.smp.utils.configs.status
 
 import org.bukkit.configuration.file.YamlConfiguration
 import yv.tils.smp.YVtils
 import java.io.File
+import java.util.HashMap
+import kotlin.collections.set
 
 class StatusConfig {
     companion object {

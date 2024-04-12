@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import java.util.*
 
 class InvSee {
@@ -38,7 +38,7 @@ class InvSee {
     private fun getInv(target: Player): Inventory {
         val inv = Bukkit.createInventory(
             null, 54,
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(
                     LangStrings.MODULE_INVSEE_INVENTORY
                 ),

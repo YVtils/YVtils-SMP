@@ -10,7 +10,7 @@ import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import java.util.UUID
 
 class MSGCommand {
@@ -44,7 +44,7 @@ class MSGCommand {
         }
 
         if (sender == target) {
-            val noteLayout = StringReplacer().listReplacer(
+            val noteLayout = Placeholder().replacer(
                 Language().getMessage(LangStrings.MSG_NOTE),
                 listOf("message"),
                 listOf(message)
@@ -57,7 +57,7 @@ class MSGCommand {
 
         val display = Config.config["msg.design"] as String
 
-        val layout = StringReplacer().listReplacer(
+        val layout = Placeholder().replacer(
             ColorUtils().convert(display),
             listOf("sender", "receiver", "message"),
             listOf(senderName, targetName, message)

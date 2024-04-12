@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 
 class SpeedCMD {
     val command = commandTree("speed") {
@@ -84,7 +84,7 @@ class SpeedCMD {
         player.flySpeed = floatSpeed / 10
 
         player.sendMessage(
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(player.uniqueId, LangStrings.SPEED_CHANGE_SELF),
                 listOf("speed"),
                 listOf(speed)
@@ -94,7 +94,7 @@ class SpeedCMD {
         if (sender != player) {
             if (sender is Player) {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(sender.uniqueId, LangStrings.SPEED_CHANGE_OTHER),
                         listOf("speed", "player"),
                         listOf(speed, player.name)
@@ -102,7 +102,7 @@ class SpeedCMD {
                 )
             } else {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(LangStrings.SPEED_CHANGE_OTHER),
                         listOf("speed", "player"),
                         listOf(speed, player.name)
@@ -121,7 +121,7 @@ class SpeedCMD {
         if (sender != player) {
             if (sender is Player) {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(sender.uniqueId, LangStrings.SPEED_RESET_OTHER),
                         listOf("player"),
                         listOf(player.name)
@@ -129,7 +129,7 @@ class SpeedCMD {
                 )
             } else {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(LangStrings.SPEED_RESET_OTHER),
                         listOf("player"),
                         listOf(player.name)

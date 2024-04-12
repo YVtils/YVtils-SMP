@@ -12,7 +12,7 @@ import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.configs.admin.mutedPlayers_yml
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import java.io.File
 import java.util.*
@@ -48,7 +48,7 @@ class Mute {
 
         if (target.isOnline) {
             target.player?.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(target.uniqueId, LangStrings.PLAYER_GOT_MUTED),
                     listOf("prefix", "reason"),
                     listOf(Vars().prefix, reason)
@@ -59,7 +59,7 @@ class Mute {
         for (player in Bukkit.getOnlinePlayers()) {
             if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
                 player.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_MUTE),
                         listOf("prefix", "player", "moderator", "reason"),
                         listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
@@ -69,7 +69,7 @@ class Mute {
         }
 
         YVtils.instance.server.consoleSender.sendMessage(
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_MUTE),
                 listOf("prefix", "player", "moderator", "reason"),
                 listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
@@ -93,7 +93,7 @@ class Mute {
             }
 
             player.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(player.uniqueId, LangStrings.MUTED_TRY_TO_WRITE),
                     listOf("prefix", "reason", "duration"),
                     listOf(

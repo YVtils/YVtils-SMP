@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import yv.tils.smp.mods.admin.vanish.Vanish
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.logger.Debugger
 import yv.tils.smp.utils.updater.PluginVersion
 
@@ -59,7 +59,7 @@ class PlayerJoin {
             "yv.tils.smp.mods.server.connect.PlayerJoin.generateJoinMessage()"
         )
 
-        return StringReplacer().listReplacer(
+        return Placeholder().replacer(
             Component.text(messages[random]),
             listOf("player"),
             listOf(player.name)

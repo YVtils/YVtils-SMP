@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 
 class HealCMD {
     val command = commandTree("heal") {
@@ -41,7 +41,7 @@ class HealCMD {
         if (sender != player) {
             if (sender is Player) {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(sender.uniqueId, LangStrings.HEAL_OTHER_PLAYER_HEALED),
                         listOf("player"),
                         listOf(player.name)
@@ -49,7 +49,7 @@ class HealCMD {
                 )
             } else {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(LangStrings.HEAL_OTHER_PLAYER_HEALED),
                         listOf("player"),
                         listOf(player.name)

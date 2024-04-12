@@ -9,7 +9,7 @@ import yv.tils.smp.mods.server.connect.PlayerJoin
 import yv.tils.smp.mods.server.connect.PlayerQuit
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import java.util.*
 import kotlin.collections.MutableMap
@@ -88,7 +88,7 @@ class Vanish {
         if (sender != player) {
             if (sender is Player) {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(sender.uniqueId, LangStrings.VANISH_TOGGLE_OTHER),
                         listOf("prefix", "player"),
                         listOf(Vars().prefix, player.name)
@@ -96,7 +96,7 @@ class Vanish {
                 )
             } else {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(LangStrings.VANISH_TOGGLE_OTHER),
                         listOf("prefix", "player"),
                         listOf(Vars().prefix, player.name)
@@ -139,7 +139,7 @@ class Vanish {
 
         if ((oldVanish.containsKey(player.uniqueId) && vanish.containsKey(player.uniqueId)) && oldVanish[player.uniqueId] == vanish[player.uniqueId]) {
             player.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(
                         player.uniqueId,
                         LangStrings.VANISH_REFRESH
@@ -154,7 +154,7 @@ class Vanish {
                 if (value == player.uniqueId) {
                     val target = Bukkit.getPlayer(key)
                     target?.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(
                                 target.uniqueId,
                                 LangStrings.VANISH_REFRESH_OTHER
@@ -172,7 +172,7 @@ class Vanish {
         Bukkit.broadcast(quitMessage)
 
         player.sendMessage(
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(
                     player.uniqueId,
                     LangStrings.VANISH_ACTIVATE
@@ -199,7 +199,7 @@ class Vanish {
 
         if ((oldVanish.containsKey(player.uniqueId) && vanish.containsKey(player.uniqueId)) && oldVanish[player.uniqueId] == vanish[player.uniqueId]) {
             player.sendMessage(
-                StringReplacer().listReplacer(
+                Placeholder().replacer(
                     Language().getMessage(
                         player.uniqueId,
                         LangStrings.VANISH_REFRESH
@@ -214,7 +214,7 @@ class Vanish {
                 if (value == player.uniqueId) {
                     val target = Bukkit.getPlayer(key)
                     target?.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(
                                 target.uniqueId,
                                 LangStrings.VANISH_REFRESH_OTHER
@@ -231,7 +231,7 @@ class Vanish {
 
         Bukkit.broadcast(joinMessage)
         player.sendMessage(
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(
                     player.uniqueId,
                     LangStrings.VANISH_DEACTIVATE

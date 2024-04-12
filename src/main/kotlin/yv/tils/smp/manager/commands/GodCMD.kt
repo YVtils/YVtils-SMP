@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageEvent
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import java.util.*
 
 class GodCMD {
@@ -54,7 +54,7 @@ class GodCMD {
             if (sender is Player) {
                 if (god[uuid] == null || god[uuid] == false) {
                     sender.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(sender.uniqueId, LangStrings.GODMODE_COMMAND_DISABLE_OTHER),
                             listOf("player"),
                             listOf(player.name)
@@ -62,7 +62,7 @@ class GodCMD {
                     )
                 } else {
                     sender.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(sender.uniqueId, LangStrings.GODMODE_COMMAND_ENABLE_OTHER),
                             listOf("player"),
                             listOf(player.name)
@@ -72,7 +72,7 @@ class GodCMD {
             } else {
                 if (god[uuid] == null || god[uuid] == false) {
                     sender.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(LangStrings.GODMODE_COMMAND_ENABLE_OTHER),
                             listOf("player"),
                             listOf(player.name)
@@ -80,7 +80,7 @@ class GodCMD {
                     )
                 } else {
                     sender.sendMessage(
-                        StringReplacer().listReplacer(
+                        Placeholder().replacer(
                             Language().getMessage(LangStrings.GODMODE_COMMAND_DISABLE_OTHER),
                             listOf("player"),
                             listOf(player.name)

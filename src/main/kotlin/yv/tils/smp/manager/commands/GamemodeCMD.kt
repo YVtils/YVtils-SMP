@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 
 class GamemodeCMD {
     val command = commandTree("gm") {
@@ -104,7 +104,7 @@ class GamemodeCMD {
         }
 
         player.sendMessage(
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(player.uniqueId, LangStrings.GAMEMODE_SWITCH),
                 listOf("gamemode"),
                 list
@@ -123,7 +123,7 @@ class GamemodeCMD {
         if (player != sender) {
             if (sender is Player) {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(sender.uniqueId, LangStrings.GAMEMODE_SWITCH_OTHER),
                         listOf("gamemode", "player"),
                         listOf(list2[0], player.name)
@@ -131,7 +131,7 @@ class GamemodeCMD {
                 )
             } else {
                 sender.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(LangStrings.GAMEMODE_SWITCH_OTHER),
                         listOf("gamemode", "player"),
                         listOf(list2[0], player.name)

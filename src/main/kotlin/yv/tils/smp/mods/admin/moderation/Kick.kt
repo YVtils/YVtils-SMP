@@ -9,7 +9,7 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.StringReplacer
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 
 class Kick {
@@ -43,7 +43,7 @@ class Kick {
         for (player in Bukkit.getOnlinePlayers()) {
             if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
                 player.sendMessage(
-                    StringReplacer().listReplacer(
+                    Placeholder().replacer(
                         Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_KICK),
                         listOf("prefix", "player", "moderator", "reason"),
                         listOf(Vars().prefix, target.name, sender.name, reason)
@@ -53,7 +53,7 @@ class Kick {
         }
 
         YVtils.instance.server.consoleSender.sendMessage(
-            StringReplacer().listReplacer(
+            Placeholder().replacer(
                 Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_KICK),
                 listOf("prefix", "player", "moderator", "reason"),
                 listOf(Vars().prefix, target.name, sender.name, reason)
