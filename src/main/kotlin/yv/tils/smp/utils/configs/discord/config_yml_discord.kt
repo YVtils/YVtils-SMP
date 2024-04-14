@@ -24,10 +24,7 @@ class config_yml_discord {
         ymlFile.addDefault("embedSettings.authorIconURL", "URL")
 
         ymlFile.addDefault("whitelistFeature.channel", ColorUtils().convert(Language().directFormat("CHANNEL ID", "KANAL ID")))
-        ymlFile.addDefault(
-            "whitelistFeature.role",
-            ColorUtils().convert(Language().directFormat("ROLE ID 1, ROLE ID 2, ROLE ID ...", "ROLLEN ID 1, ROLLEN ID 2, ROLLEN ID ..."))
-        )
+        ymlFile.addDefault("whitelistFeature.role", ColorUtils().convert(Language().directFormat("ROLE ID 1, ROLE ID 2, ROLE ID ...", "ROLLEN ID 1, ROLLEN ID 2, ROLLEN ID ...")))
 
         ymlFile.addDefault("serverInfoCommand.permission", ColorUtils().convert(Language().directFormat("PERMISSION", "BERECHTIGUNG")))
 
