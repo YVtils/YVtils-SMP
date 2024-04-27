@@ -23,10 +23,11 @@ import java.util.concurrent.TimeUnit
 
 class SelfAdd : ListenerAdapter() {
     override fun onMessageReceived(e: MessageReceivedEvent) {
+
         if (!e.channel.type.isMessage()) return
         if (e.author.isBot) return
         if (e.channelType.compareTo(ChannelType.TEXT) != 0) return
-        if (e.channel.id != DiscordConfig.config["whitelistFeature.channel"]) return
+        if (e.channel.id != DiscordConfig.config["whitelistFeature.channel"].toString()) return
 
         val channel = e.channel.asTextChannel()
         val userID = e.author.id
@@ -59,7 +60,11 @@ class SelfAdd : ListenerAdapter() {
                 if (ImportWhitelist().reader(userID, null, null).contains(userID)) {
                     val whitelist = ImportWhitelist().reader(userID, null, null)
                     val oldPlayer = Bukkit.getOfflinePlayer(whitelist[1])
-                    oldPlayer.isWhitelisted = false
+
+                    Bukkit.getScheduler().runTask(YVtils.instance, Runnable {
+                        oldPlayer.isWhitelisted = false
+                    })
+
                     whitelistRemove(userID, oldPlayer.name.toString(), oldPlayer.uniqueId.toString())
 
                     try {
@@ -68,10 +73,10 @@ class SelfAdd : ListenerAdapter() {
                         val roles = role.split(",")
 
                         for (r in roles) {
-                            runCatching {
+                            try {
                                 val role = e.guild.getRoleById(r)
                                 e.member?.let { role?.let { it1 -> e.guild.addRoleToMember(it, it1) } }?.queue()
-                            }
+                            } catch (_: NumberFormatException) {}
                         }
 
                         YVtils.instance.server.consoleSender.sendMessage(Placeholder().replacer(
@@ -81,7 +86,11 @@ class SelfAdd : ListenerAdapter() {
                         ))
 
                         channel.sendMessageEmbeds(AccountChange().embed(whitelist[1], e.message.contentRaw).build()).complete().delete().queueAfter(5, TimeUnit.SECONDS)
-                        player.isWhitelisted = true
+
+                        Bukkit.getScheduler().runTask(YVtils.instance, Runnable {
+                            player.isWhitelisted = true
+                        })
+
                         ImportWhitelist.whitelistManager.add("$userID,$name,${player.uniqueId}")
                         DiscordConfig().changeValue(userID, "$name ${player.uniqueId}")
                     } catch (_: HierarchyException) {
@@ -94,10 +103,10 @@ class SelfAdd : ListenerAdapter() {
                         val roles = role.split(",")
 
                         for (r in roles) {
-                            runCatching {
+                            try {
                                 val role = e.guild.getRoleById(r)
                                 e.member?.let { role?.let { it1 -> e.guild.addRoleToMember(it, it1) } }?.queue()
-                            }
+                            } catch (_: NumberFormatException) {}
                         }
 
                         YVtils.instance.server.consoleSender.sendMessage(
@@ -108,6 +117,11 @@ class SelfAdd : ListenerAdapter() {
                             )
                         )
                         channel.sendMessageEmbeds(AccountAdded().embed(e.message.contentRaw).build()).complete().delete().queueAfter(5, TimeUnit.SECONDS)
+                        Bukkit.getScheduler().runTask(YVtils.instance, Runnable {
+                            player.isWhitelisted = true
+                        })
+                        ImportWhitelist.whitelistManager.add("$userID,$name,${player.uniqueId}")
+                        DiscordConfig().changeValue(userID, "$name ${player.uniqueId}")
                     } catch (_: HierarchyException) {
                         channel.sendMessageEmbeds(RoleHierarchyError().embed(DiscordConfig.config["whitelistFeature.role"].toString(), e.guild).build()).complete().delete().queueAfter(15, TimeUnit.SECONDS)
                     }

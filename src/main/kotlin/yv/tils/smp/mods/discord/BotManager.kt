@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.discord.commandManager.CMDHandler
 import yv.tils.smp.mods.discord.commandManager.CMDRegister
+import yv.tils.smp.mods.discord.whitelist.ForceRemove
+import yv.tils.smp.mods.discord.whitelist.SelfAdd
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.discord.DiscordConfig
 import yv.tils.smp.utils.configs.global.Config
@@ -26,11 +28,11 @@ class BotManager {
     }
 
     val token = DiscordConfig.config["botToken"] as String
-    val mainGuild = DiscordConfig.config["mainGuild"] as String
+    val mainGuild = DiscordConfig.config["mainGuild"] as Long
     val status = DiscordConfig.config["botSettings.onlineStatus"] as String
     val activity = DiscordConfig.config["botSettings.activity"] as String
     val activityMessage = DiscordConfig.config["botSettings.activityMessage"] as String
-    val logChannel = DiscordConfig.config["logChannel"] as String
+    val logChannel = DiscordConfig.config["logChannel"] as Long
 
     fun startBot() {
         if (active) {
@@ -75,6 +77,8 @@ class BotManager {
 
         builder.addEventListeners(CMDRegister())
         builder.addEventListeners(CMDHandler())
+        builder.addEventListeners(ForceRemove())
+        builder.addEventListeners(SelfAdd())
 
         try {
             jda = builder.build()

@@ -12,14 +12,14 @@ import yv.tils.smp.utils.internalAPI.Placeholder
 class RoleHierarchyError {
     val builder = EmbedBuilder()
 
-    fun embed(role: String, guild: Guild): EmbedBuilder {
+    fun embed(role: String, guild: Guild?): EmbedBuilder {
         val role = role.replace(" ", "")
         val roles = role.split(",")
         var role1: Role
 
         val list = mutableListOf<String>()
         for (r in roles) {
-            role1 = guild.getRoleById(r)!!
+            role1 = guild?.getRoleById(r)!!
             list.add(role1.asMention)
         }
 

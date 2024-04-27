@@ -231,19 +231,19 @@ class en_yml {
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_CHANGE",
-            "Discord user '<discorduser>' has changed his whitelisted account from '<oldname>' to '<newname>'"
+            "Discord user '<discordUser>' has changed his whitelisted account from '<oldName>' to '<newName>'"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_ADD",
-            "Discord user '<discorduser>' has added his Minecraft account '<name>' to the whitelist"
+            "Discord user '<discordUser>' has added his Minecraft account '<name>' to the whitelist"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_WRONG",
-            "Discord user '<discorduser>' has tried to whitelist the Minecraft account '<name>', but it failed! -> Account does not exist"
+            "Discord user '<discordUser>' has tried to whitelist the Minecraft account '<name>', but it failed! -> Account does not exist"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_SERVERERROR_CHECK_INPUT",
-            "Discord user '<discorduser>' has tried to whitelist the Minecraft account '<name>', but it failed! -> Authentication server is not reachable"
+            "Discord user '<discordUser>' has tried to whitelist the Minecraft account '<name>', but it failed! -> Authentication server is not reachable"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_NAME_CHANGE",
@@ -251,7 +251,7 @@ class en_yml {
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_NAME_CHANGE",
-            "<oldname> -> <newname>"
+            "<oldName> -> <newName>"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_NAME_ADD",
@@ -259,7 +259,7 @@ class en_yml {
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_NAME_ADD",
-            "Account Name"
+            "Account Name: <accountName>"
         )
 
         ymlFile.addDefault(
@@ -316,11 +316,11 @@ class en_yml {
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REPLACE_TITLE",
-            "You successfully changed the whitelisted account of <dcname>!"
+            "You successfully changed the whitelisted account of <dcName>!"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REPLACE_DESC",
-            "<oldname> -> <newname>"
+            "<oldName> -> <newName>"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REMOVE_TITLE",
@@ -332,7 +332,7 @@ class en_yml {
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REMOVED_TITLE",
-            "You successfully removed the Minecraft account <mcname> (<dcname>) from the whitelist!"
+            "You successfully removed the Minecraft account <mcName> (<dcName>) from the whitelist!"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REMOVED_DESC",
@@ -340,15 +340,15 @@ class en_yml {
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_CMD_REGISTERED_ADD",
-            "Discord user '<discorduser>' has whitelisted the Minecraft account '<mcname>' (linked with '<dcname>')"
+            "Discord user '<discordUser>' has whitelisted the Minecraft account '<mcName>' (linked with '<dcName>')"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_CMD_REGISTERED_CHANGE",
-            "Discord user '<discorduser>' has changed the linked account from '<dcname>' from '<oldname>' to '<newname>'"
+            "Discord user '<discordUser>' has changed the linked account from '<dcName>' from '<oldName>' to '<newName>'"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_CMD_REGISTERED_REMOVE",
-            "Discord user '<discorduser>' has removed the Minecraft account '<mcname>' (linked with '<dcname>') from the whitelist"
+            "Discord user '<discordUser>' has removed the Minecraft account '<mcName>' (linked with '<dcName>') from the whitelist"
         )
         ymlFile.addDefault(
             "EMBED_CMD_ROLE_ADD_ERROR_TITLE",

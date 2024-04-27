@@ -43,7 +43,7 @@ class CMDRegister : ListenerAdapter() {
         val data2 = SubcommandData("forceremove", ColorUtils().convert(Language().directFormat("Gives you a menu, where you can select one account, which will be removed from the whitelist",
             "Gibt ein Menu zurück, in dem du einen Account auswählen kannst, welcher von der whitelist entfernt wird")))
 
-        val data3 = SubcommandData("list", ColorUtils().convert(Language().directFormat("Let you check if a Minecraft Account is whitelisted, when yes with wich discord account it is linked",
+        val data3 = SubcommandData("check", ColorUtils().convert(Language().directFormat("Let you check if a Minecraft Account is whitelisted, when yes with wich discord account it is linked",
             "Lässt dich überprüfen ob ein Minecraft Account auf der whitelist ist, wenn ja siehst du auch mit welchem Discord Account dieser gelinkt ist")))
 
         val options1: MutableList<OptionData> = mutableListOf()

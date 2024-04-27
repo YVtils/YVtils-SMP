@@ -26,11 +26,15 @@ class DiscordConfig {
         }
     }
 
-    fun changeValue(key: String, value: Any) {
+    fun changeValue(key: String, value: Any? = null) {
         val file = File(YVtils.instance.dataFolder.path, "discord/" + "save.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
-        saves[key] = value
+        if (value == null) {
+            saves.remove(key)
+        } else {
+            saves[key] = value
+        }
 
         ymlFile.set(key, value)
         ymlFile.save(file)

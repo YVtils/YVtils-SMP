@@ -251,19 +251,19 @@ class de_yml {
 
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_CHANGE",
-            "Discord User '<discorduser>' hat seinen gewhitelisteten Account von '<oldname>' zu '<newname>' geändert"
+            "Discord User '<discordUser>' hat seinen gewhitelisteten Account von '<oldName>' zu '<newName>' geändert"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_ADD",
-            "Discord User '<discorduser>' hat seinen Minecraft Account '<name>' zur Whitelist hinzugefügt"
+            "Discord User '<discordUser>' hat seinen Minecraft Account '<name>' zur Whitelist hinzugefügt"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_WRONG",
-            "Discord User '<discorduser>' hat versucht den Minecraft Account '<name>' zur Whitelist hinzuzufügen, aber es ist fehlgeschlagen! -> Account existiert nicht"
+            "Discord User '<discordUser>' hat versucht den Minecraft Account '<name>' zur Whitelist hinzuzufügen, aber es ist fehlgeschlagen! -> Account existiert nicht"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_REGISTERED_NAME_SERVERERROR_CHECK_INPUT",
-            "Discord User '<discorduser>' hat versucht den Minecraft Account '<name>' zur Whitelist hinzuzufügen, aber es ist fehlgeschlagen! -> Überprüfungsserver sind nicht erreichbar"
+            "Discord User '<discordUser>' hat versucht den Minecraft Account '<name>' zur Whitelist hinzuzufügen, aber es ist fehlgeschlagen! -> Überprüfungsserver sind nicht erreichbar"
         )
 
         ymlFile.addDefault(
@@ -273,7 +273,7 @@ class de_yml {
 
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_NAME_CHANGE",
-            "<oldname> -> <newname>"
+            "<oldName> -> <newName>"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_NAME_ADD",
@@ -281,7 +281,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_NAME_ADD",
-            "Account Name: <accountname>"
+            "Account Name: <accountName>"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_NAME_NOTEXISTING",
@@ -322,11 +322,11 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_CHECK_WHITELISTED_DESC",
-            "Account Name: <mcname> • Dieser Account ist als '<dcname>' auf der Whitelist!"
+            "Account Name: <mcName> • Dieser Account ist als '<dcName>' auf der Whitelist!"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_CHECK_NOT_WHITELISTED_DESC",
-            "Account Name: <mcname> • Dieser Account ist nicht auf der Whitelist!"
+            "Account Name: <mcName> • Dieser Account ist nicht auf der Whitelist!"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_ADD_TITLE",
@@ -334,16 +334,16 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_ADD_DESC",
-            "Minecraft Account: <mcname> • Discord Account: <dcName>"
+            "Minecraft Account: <mcName> • Discord Account: <dcName>"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REPLACE_TITLE",
-            "Du hast erfolgreich den gewhitelisteten Account von <dcname> geändert!"
+            "Du hast erfolgreich den gewhitelisteten Account von <dcName> geändert!"
         )
 
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REPLACE_DESC",
-            "<oldname> -> <newname>"
+            "<oldName> -> <newName>"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REMOVE_TITLE",
@@ -355,7 +355,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REMOVED_TITLE",
-            "Du hast erfolgreich den Account von <mcname> (<dcname>) von der whitelist entfernt!"
+            "Du hast erfolgreich den Account von <mcName> (<dcName>) von der whitelist entfernt!"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_REMOVED_DESC",
@@ -363,15 +363,15 @@ class de_yml {
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_CMD_REGISTERED_ADD",
-            "Discord User '<discorduser>' hat den Minecraft Account '<mcname>' (verbunden mit '<dcname>') zur whitelist hinzugefügt"
+            "Discord User '<discordUser>' hat den Minecraft Account '<mcName>' (verbunden mit '<dcName>') zur whitelist hinzugefügt"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_CMD_REGISTERED_CHANGE",
-            "Discord User '<discorduser>' hat den gewhitelisteten Account von '<dcname>' von '<oldname>' zu '<newname>' geändert"
+            "Discord User '<discordUser>' hat den gewhitelisteten Account von '<dcName>' von '<oldName>' zu '<newName>' geändert"
         )
         ymlFile.addDefault(
             "MODULE_DISCORD_CMD_REGISTERED_REMOVE",
-            "Discord User '<discorduser>' hat den Minecraft Account '<mcname>' (verbunden mit '<dcname>') von der whitelist entfernt"
+            "Discord User '<discordUser>' hat den Minecraft Account '<mcName>' (verbunden mit '<dcName>') von der whitelist entfernt"
         )
 
         ymlFile.addDefault(

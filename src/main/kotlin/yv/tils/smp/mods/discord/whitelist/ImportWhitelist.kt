@@ -8,14 +8,17 @@ class ImportWhitelist {
         var whitelistManager: MutableList<String> = mutableListOf()
     }
 
-    fun impoprter() {
+    fun importer() {
         val keys = DiscordConfig.saves.keys
 
         for (key in keys) {
             val values = DiscordConfig.saves[key] as String
 
+            if (key == "documentation") continue
+
             val value = values.split(" ")
-            whitelistManager.add(key + "," + value[1] + "," + value[2])
+
+            whitelistManager.add(key + "," + value[0] + "," + value[1])
         }
     }
 
