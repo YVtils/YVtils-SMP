@@ -9,6 +9,7 @@ import io.papermc.paper.event.player.AsyncChatEvent
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import yv.tils.smp.YVtils
+import yv.tils.smp.mods.discord.sync.chatSync.SyncChats
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
@@ -48,16 +49,22 @@ class GlobalMuteCMD {
             "toggle" -> {
                 oldState = globalMute
                 globalMute = !globalMute
+
+                SyncChats.active = !globalMute
             }
 
             "true" -> {
                 oldState = globalMute
                 globalMute = true
+
+                SyncChats.active = false
             }
 
             "false" -> {
                 oldState = globalMute
                 globalMute = false
+
+                SyncChats.active = true
             }
         }
 

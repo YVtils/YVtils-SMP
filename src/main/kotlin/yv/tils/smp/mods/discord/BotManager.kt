@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.discord.commandManager.CMDHandler
 import yv.tils.smp.mods.discord.commandManager.CMDRegister
+import yv.tils.smp.mods.discord.sync.chatSync.SyncChats
 import yv.tils.smp.mods.discord.whitelist.ForceRemove
 import yv.tils.smp.mods.discord.whitelist.SelfAdd
 import yv.tils.smp.utils.color.ColorUtils
@@ -79,6 +80,7 @@ class BotManager {
         builder.addEventListeners(CMDHandler())
         builder.addEventListeners(ForceRemove())
         builder.addEventListeners(SelfAdd())
+        builder.addEventListeners(SyncChats())
 
         try {
             jda = builder.build()

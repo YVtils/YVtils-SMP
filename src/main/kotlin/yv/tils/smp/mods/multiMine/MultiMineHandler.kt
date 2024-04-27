@@ -1,6 +1,7 @@
 package yv.tils.smp.mods.multiMine
 
 import org.bukkit.Bukkit
+import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -79,6 +80,7 @@ class MultiMineHandler {
         if (!checkTool(block, item)) return
         if (checkCooldown(e.player.uniqueId)) return
         if (e.player.isSneaking) return
+        if (e.player.gameMode != GameMode.SURVIVAL) return
 
         brokenMap[player.uniqueId] = 0
 
