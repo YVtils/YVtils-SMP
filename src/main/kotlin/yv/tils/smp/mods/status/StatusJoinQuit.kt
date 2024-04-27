@@ -8,6 +8,8 @@ import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.configs.status.StatusConfig
 import yv.tils.smp.utils.internalAPI.Placeholder
 
+// TODO: Test if somehow still replicable: Wenn man sich einen Status gibt, den aber in der YML komplett rauslöscht & neu startet, hat man den Status in der Console trotzdem 😄
+
 class StatusJoinQuit {
     fun loadPlayer(e: PlayerJoinEvent) {
         val player = e.player

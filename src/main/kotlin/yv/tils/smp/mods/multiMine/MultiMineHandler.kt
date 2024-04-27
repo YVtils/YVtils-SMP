@@ -14,11 +14,12 @@ import yv.tils.smp.utils.configs.multiMine.MultiMineConfig
 import java.util.UUID
 
 // TODO: Add fast Leave decay
+// TODO: Fix XP drop (Only first block drops XP)
 
 class MultiMineHandler {
     companion object {
-        val active = Config.config["module.multiMine"] as Boolean
-        val animationTime = MultiMineConfig.config["animationTime"] as Long
+        val active = Config.config["modules.multiMine"] as Boolean
+        val animationTime = MultiMineConfig.config["animationTime"] as Int
         val cooldownTime = MultiMineConfig.config["cooldownTime"] as Int
         val breakLimit = MultiMineConfig.config["breakLimit"] as Int
 
@@ -108,7 +109,7 @@ class MultiMineHandler {
                         Bukkit.getScheduler().runTaskLater(YVtils.instance, Runnable {
                             newBlock.breakNaturally(item)
                             breakBlock(newLoc, player, item)
-                        }, animationTime)
+                        }, animationTime * 1L)
                     }
                 }
             }
