@@ -2,6 +2,7 @@ package yv.tils.smp.utils.configs.discord
 
 import org.bukkit.configuration.file.YamlConfiguration
 import yv.tils.smp.YVtils
+import yv.tils.smp.utils.logger.Debugger
 import java.io.File
 
 class DiscordConfig {
@@ -38,5 +39,16 @@ class DiscordConfig {
 
         ymlFile.set(key, value)
         ymlFile.save(file)
+    }
+
+    fun readChannelID(key: String): String {
+        Debugger().log("Reading channel ID", "Key: $key | Value: ${config[key]}", "yv.tils.smp.utils.configs.discord.DiscordConfig")
+
+        try {
+            return config[key] as String
+        } catch (_: ClassCastException) {
+            val value = config[key] as Long
+            return value.toString()
+        }
     }
 }

@@ -11,6 +11,7 @@ import yv.tils.smp.utils.logger.Debugger
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
+import java.net.URI
 import java.net.URL
 
 class PluginVersion {
@@ -29,7 +30,7 @@ class PluginVersion {
                         version,
                         plVersion,
                         Vars().prefix,
-                        "<click:open_url:https://yvnetwork.de/yvtils-smp/modrinth>https://yvnetwork.de/yvtils-smp/modrinth</click>"
+                        "<click:open_url:https://yvtils.net/yvtils/modrinth/smp>https://yvtils.net/yvtils/modrinth/smp</click>"
                     )
                 )
             )
@@ -49,7 +50,7 @@ class PluginVersion {
                         version,
                         plVersion,
                         Vars().prefix,
-                        "<click:open_url:https://yvnetwork.de/yvtils-smp/modrinth>https://yvnetwork.de/yvtils-smp/modrinth</click>"
+                        "<click:open_url:https://yvtils.net/yvtils/modrinth/smp>https://yvtils.net/yvtils/modrinth/smp</click>"
                     )
                 )
             )
@@ -66,8 +67,8 @@ class PluginVersion {
 
     private fun webRequest() {
         try {
-            val url = "https://yvnetwork.de/yvtils/smp_paper.txt"
-            val connection = URL(url).openConnection() as HttpURLConnection
+            val url = "https://yvtils.net/yvtils/version/smp.txt"
+            val connection = URI(url).toURL().openConnection() as HttpURLConnection
             connection.requestMethod = "GET"
 
             val responseCode = connection.responseCode

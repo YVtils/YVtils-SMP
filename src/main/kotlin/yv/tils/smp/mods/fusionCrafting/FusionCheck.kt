@@ -63,7 +63,7 @@ class FusionCheck {
                 ) {
                     val item = inv.getItem(slot) ?: return
                     val meta = item.itemMeta
-                    meta.addEnchant(Enchantment.DURABILITY, 1, true)
+                    meta.addEnchant(Enchantment.UNBREAKING, 1, true)
                     meta.displayName(ColorUtils().convert("<green>✔<gray> | <aqua>${mapKey.split(".")[1]} <gray>(${items[0].amount}x)"))
                     item.itemMeta = meta
 

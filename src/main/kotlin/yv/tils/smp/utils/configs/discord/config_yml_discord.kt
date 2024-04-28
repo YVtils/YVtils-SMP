@@ -11,7 +11,7 @@ class config_yml_discord {
     private var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
     fun strings() {
-        ymlFile.addDefault("documentation", "https://yvnetwork.de/yvtils-smp/docs")
+        ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
 
         ymlFile.addDefault("botToken", ColorUtils().convert(Language().directFormat("YOUR TOKEN HERE", "DEINEN BOT TOKEN")))
         ymlFile.addDefault("mainGuild", "Guild ID")

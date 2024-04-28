@@ -16,6 +16,9 @@ import yv.tils.smp.utils.configs.status.save_yml_status
 
 class Configs {
     fun register() {
+        de_yml().strings()
+        en_yml().strings()
+
         config_yml().strings()
         config_yml_status().strings()
         config_yml_discord().strings()
@@ -25,16 +28,13 @@ class Configs {
         save_yml_discord().strings()
 
         mutedPlayers_yml().strings()
+    }
 
+    fun load() {
+        Language().getLanguageFiles()
         Config().loadConfig()
         mutedPlayers_yml().loadConfig()
         MultiMineConfig().loadConfig()
         DiscordConfig().loadConfig()
-    }
-
-    fun language() {
-        de_yml().strings()
-        en_yml().strings()
-        Language().getLanguageFiles()
     }
 }

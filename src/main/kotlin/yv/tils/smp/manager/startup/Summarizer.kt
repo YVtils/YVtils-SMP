@@ -6,11 +6,6 @@ import yv.tils.smp.utils.logger.Debugger
 
 class Summarizer {
     fun startup() {
-        val configs = Configs()
-        configs.register()
-
-        Debugger().log("Starting up", "Configs loaded", "yv.tils.smp.manager.startup.Summarizer")
-
         Debugger().log("Starting up", "Listeners loading", "yv.tils.smp.manager.startup.Summarizer")
 
         SpawnElytra()

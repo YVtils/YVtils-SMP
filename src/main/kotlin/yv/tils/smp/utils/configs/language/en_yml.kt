@@ -9,7 +9,7 @@ class en_yml {
     private var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
     fun strings() {
-        ymlFile.addDefault("documentation", "https://yvnetwork.de/yvtils-smp/docs")
+        ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
         ymlFile.addDefault(
             "Language",
             "EN"

@@ -24,19 +24,23 @@ class YVtils : JavaPlugin() {
         instance = this
         CommandAPI.onLoad(CommandAPIBukkitConfig(instance).silentLogs(true))
         key = NamespacedKey(this, "yvtils")
+
+        val configs = Configs()
+        configs.register()
+        configs.load()
+
+        Debugger().log("Starting up", "Configs loaded", "yv.tils.smp.manager.startup.Summarizer")
     }
 
     override fun onEnable() {
         Debugger().log(
             "YVtils SMP Start",
             Language().directFormat(
-                "This is the first action of the plugin!",
-                "Dies ist die erste Aktion des Plugins!"
+                "This is the first real action of the plugin!",
+                "Dies ist die erste richtige Aktion des Plugins!"
             ),
             "yv.tils.smp.YVtils"
         )
-
-        Configs().language()
 
         server.consoleSender.sendMessage(
             Placeholder().replacer(

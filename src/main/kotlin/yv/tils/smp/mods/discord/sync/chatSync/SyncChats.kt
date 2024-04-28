@@ -14,13 +14,12 @@ import yv.tils.smp.utils.configs.language.Language
 class SyncChats : ListenerAdapter() {
     companion object {
         var active = DiscordConfig.config["chatSync.enabled"] as Boolean
-        val channelID = DiscordConfig.config["chatSync.channel"] as Long
+        val channelID = DiscordConfig().readChannelID("chatSync.channel")
         val minecraftPermission = "yvtils.smp.chatSync"
         val discordPermission = DiscordConfig.config["chatSync.permission"] as String
     }
 
     fun minecraftToDiscord(e: AsyncChatEvent) {
-        val author = e.player.name
         val message = e.message()
 
         if (!active) return

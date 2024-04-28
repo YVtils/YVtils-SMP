@@ -29,11 +29,11 @@ class BotManager {
     }
 
     val token = DiscordConfig.config["botToken"] as String
-    val mainGuild = DiscordConfig.config["mainGuild"] as Long
+    val mainGuild = DiscordConfig().readChannelID("mainGuild")
     val status = DiscordConfig.config["botSettings.onlineStatus"] as String
     val activity = DiscordConfig.config["botSettings.activity"] as String
     val activityMessage = DiscordConfig.config["botSettings.activityMessage"] as String
-    val logChannel = DiscordConfig.config["logChannel"] as Long
+    val logChannel = DiscordConfig().readChannelID("logChannel")
 
     fun startBot() {
         if (active) {

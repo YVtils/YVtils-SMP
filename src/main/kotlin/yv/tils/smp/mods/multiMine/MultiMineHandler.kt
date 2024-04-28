@@ -101,6 +101,7 @@ class MultiMineHandler {
 
         brokenMap[player.uniqueId] = brokenMap[player.uniqueId]!! + 1
 
+        // TODO Try adding priority to the blocks on y axis
         for (i in -1..1) {
             for (j in -1..1) {
                 for (k in -1..1) {
@@ -118,6 +119,7 @@ class MultiMineHandler {
         }
     }
 
+    // TODO Dropping the item writes a stack trace to the console
     fun damageItem(player: Player, damage: Int, item: ItemStack): Boolean {
         val damageable: Damageable = item.itemMeta as Damageable
 

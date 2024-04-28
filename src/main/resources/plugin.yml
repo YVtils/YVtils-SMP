@@ -2,12 +2,12 @@ name: YVtils-SMP
 version: 1.0.0
 main: yv.tils.smp.YVtils
 author: WolfiiYV
-api-version: "1.18"
+api-version: "1.20"
 contributor:
   - SlWed
   - black_Kittys
   - Silver
-website: https://yvnetwork.de/yvtils/smp
+website: https://yvtils.net/yvtils/smp
 prefix: YVtils-SMP
 libraries:
   - "dev.jorel:commandapi-bukkit-shade:9.3.0"
