@@ -6,10 +6,14 @@ import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.utils.MemberCachePolicy
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.core.Logger
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.discord.commandManager.CMDHandler
 import yv.tils.smp.mods.discord.commandManager.CMDRegister
 import yv.tils.smp.mods.discord.sync.chatSync.SyncChats
+import yv.tils.smp.mods.discord.sync.consoleSync.GetConsole
+import yv.tils.smp.mods.discord.sync.consoleSync.SendCMD
 import yv.tils.smp.mods.discord.whitelist.ForceRemove
 import yv.tils.smp.mods.discord.whitelist.SelfAdd
 import yv.tils.smp.utils.color.ColorUtils
@@ -81,6 +85,7 @@ class BotManager {
         builder.addEventListeners(ForceRemove())
         builder.addEventListeners(SelfAdd())
         builder.addEventListeners(SyncChats())
+        builder.addEventListeners(SendCMD())
 
         try {
             jda = builder.build()
@@ -95,6 +100,14 @@ class BotManager {
             YVtils.instance.server.consoleSender.sendMessage(Language().getMessage(LangStrings.MODULE_DISCORD_STARTUP_FAILED))
             e.printStackTrace()
         }
+
+        val appender: GetConsole = GetConsole()
+        runCatching {
+            val logger = LogManager.getRootLogger() as Logger
+            logger.addAppender(appender)
+        }
+        appender.syncTask()
+
 
         YVtils.instance.server.consoleSender.sendMessage(Language().getMessage(LangStrings.MODULE_DISCORD_STARTUP_FINISHED))
     }

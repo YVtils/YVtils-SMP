@@ -19,6 +19,7 @@ class SyncChats : ListenerAdapter() {
         val discordPermission = DiscordConfig.config["chatSync.permission"] as String
     }
 
+    // TODO Test if color codes are getting filtered
     fun minecraftToDiscord(e: AsyncChatEvent) {
         val message = e.message()
 

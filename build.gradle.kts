@@ -4,7 +4,7 @@ plugins {
     application
     kotlin("jvm") version "1.9.22"
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.papermc.paperweight.userdev") version "1.6.2"
+    id("io.papermc.paperweight.userdev") version "1.6.3"
     id("xyz.jpenilla.run-paper") version "2.1.0"
 }
 
@@ -19,9 +19,9 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.20.5-R0.1-SNAPSHOT")
-    implementation("dev.jorel", "commandapi-bukkit-shade", "9.3.0")
-    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.3.0")
+    paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
+    implementation("dev.jorel", "commandapi-bukkit-shade", "9.4.0")
+    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.4.0")
     implementation("net.dv8tion:JDA:$jdaVersion")
 }
 
@@ -48,7 +48,7 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.20.4")
+        minecraftVersion("1.20.6")
     }
 }
 
