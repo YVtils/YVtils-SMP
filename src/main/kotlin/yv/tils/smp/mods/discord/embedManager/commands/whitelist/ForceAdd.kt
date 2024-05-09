@@ -30,14 +30,14 @@ class ForceAdd {
             .setTitle(ColorUtils().convert(
                 Placeholder().replacer(
                     Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_REPLACE_TITLE),
-                    listOf("dcName", "mcOldName", "mcNewName"),
+                    listOf("dcName", "oldName", "newName"),
                     listOf(dc, mcOld, mcNew)
                 )
             ))
             .setDescription(ColorUtils().convert(
                 Placeholder().replacer(
                     Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_REPLACE_DESC),
-                    listOf("dcName", "mcOldName", "mcNewName"),
+                    listOf("dcName", "oldName", "newName"),
                     listOf(dc, mcOld, mcNew)
                 )
             ))

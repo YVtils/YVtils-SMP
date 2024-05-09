@@ -8,6 +8,7 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.mods.discord.embedManager.commands.HelpEmbed
 import yv.tils.smp.mods.discord.embedManager.commands.ServerInfoEmbed
 import yv.tils.smp.mods.discord.embedManager.whitelist.discord.ForceRemove
+import yv.tils.smp.mods.discord.whitelist.ForceAdd
 import yv.tils.smp.mods.discord.whitelist.ImportWhitelist
 import java.io.File
 
@@ -29,7 +30,11 @@ class CMDHandler : ListenerAdapter() {
             "whitelist" -> {
                 when (args) {
                     "forceadd" -> {
-                        e.reply("forceadd").queue()
+                        try {
+                            e.reply("").setEmbeds(ForceAdd().onMessageReceived(e.getOption("mc_name")!!.asString, e.getOption("dc_name")?.asMember!!, e.member!!, e.guild!!).build()).setEphemeral(true).queue()
+                        }catch (_: NullPointerException) {
+                            e.reply("").setEmbeds(ForceAdd().onMessageReceived(e.getOption("mc_name")!!.asString, null, e.member!!, e.guild!!).build()).setEphemeral(true).queue()
+                        }
                     }
                     "forceremove" -> {
                         var site: Int

@@ -1,6 +1,5 @@
 package yv.tils.smp.mods.discord.sync.consoleSync
 
-import net.dv8tion.jda.api.entities.Message
 import org.apache.logging.log4j.core.LogEvent
 import org.apache.logging.log4j.core.appender.AbstractAppender
 import org.bukkit.scheduler.BukkitRunnable
@@ -22,12 +21,6 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
 
     init {
         start()
-
-        object : BukkitRunnable() {
-            override fun run() {
-                println("Unnecessary console message spam")
-            }
-        }.runTaskTimerAsynchronously(YVtils.instance, 20, 20)
     }
 
     private fun sendMessage() {
