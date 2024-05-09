@@ -1,5 +1,6 @@
 package yv.tils.smp.mods.discord.sync.consoleSync
 
+import net.dv8tion.jda.api.entities.Message
 import org.apache.logging.log4j.core.LogEvent
 import org.apache.logging.log4j.core.appender.AbstractAppender
 import org.bukkit.scheduler.BukkitRunnable
@@ -13,6 +14,10 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
     companion object {
         var active = Config.config["modules.discord"] as Boolean
         val channelID = DiscordConfig().readChannelID("consoleSync.channel")
+
+        private var message = StringBuilder()
+        private var newContentLength = 0
+        private var messageID = ""
     }
 
     init {
@@ -21,50 +26,66 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
         object : BukkitRunnable() {
             override fun run() {
                 println("Unnecessary console message spam")
-                sendMessage()
             }
-        }.runTaskTimerAsynchronously(YVtils.instance, 10, 10)
+        }.runTaskTimerAsynchronously(YVtils.instance, 20, 20)
     }
 
-    private var message = StringBuilder()
-
-    private var newContentLength = 0
-
     private fun sendMessage() {
-        val messageContent = message.toString()
+        var messageContent = message.toString()
+
         if (messageContent.isNotEmpty()) {
-            val chunks = messageContent.chunked(2000)
+            if (messageID.isNotEmpty()) {
+                val oldMessageContent = jda.getTextChannelById(channelID)?.retrieveMessageById(messageID)?.complete()?.contentRaw ?: ""
+                messageContent = oldMessageContent + "\n" + messageContent
+            }
+
+            val chunks = splitMessage(messageContent)
+            messageContent = ""
+            message = StringBuilder()
+
             chunks.forEachIndexed { index, chunk ->
-                var remainingChunk = chunk
-                while (remainingChunk.isNotEmpty()) {
-                    val currentChunk = if (remainingChunk.length > 2000) {
-                        remainingChunk.substring(0, 2000)
-                    } else {
-                        remainingChunk
-                    }
-                    val formattedChunk = "```$currentChunk```"
-                    if (messageID == "") {
-                        jda.getTextChannelById(channelID)?.sendMessage(formattedChunk)?.queue { messageID = it.id }
-                    } else {
-                        if ((messageLength(messageID) + currentChunk.length) <= 1999) {
-                            jda.getTextChannelById(channelID)?.editMessageById(messageID, formattedChunk)?.queue()
-                        } else {
-                            jda.getTextChannelById(channelID)?.sendMessage(formattedChunk)?.queue { messageID = it.id }
-                        }
-                    }
-                    remainingChunk = if (remainingChunk.length > 2000) {
-                        remainingChunk.substring(2000)
-                    } else {
-                        ""
-                    }
+                val formattedChunk = "```$chunk```"
+
+                var currentMessage = if (messageID.isEmpty()) {
+                    jda.getTextChannelById(channelID)?.sendMessage(formattedChunk)?.complete()
+                } else {
+                    jda.getTextChannelById(channelID)?.editMessageById(messageID, formattedChunk)?.complete()
+                }
+
+                messageID = currentMessage?.id ?: ""
+                var messageLength = currentMessage?.contentRaw?.length ?: 0
+
+                if (messageLength >= 1900) {
+                    messageID = ""
+                }
+
+                if (chunks.size > 1) {
+                    messageID = ""
                 }
             }
         }
     }
 
+    private fun splitMessage(message: String): List<String> {
+        val chunks = mutableListOf<String>()
+        val split = message.split("\n")
+        var currentChunk = ""
 
-    private fun messageLength(messageID: String): Int {
-        return jda.getTextChannelById(channelID)?.retrieveMessageById(messageID)?.complete()?.contentRaw?.length ?: 0
+        for (i in 0 until split.size) {
+            var splitPart = split[i].replace("```", "")
+
+            if (currentChunk.length + splitPart.length < 1990) {
+                currentChunk += "\n" + splitPart
+            } else {
+                currentChunk = currentChunk.trim()
+                chunks.add(currentChunk)
+                currentChunk = "\n" + splitPart
+            }
+        }
+
+        currentChunk = currentChunk.trim()
+        chunks.add(currentChunk)
+        return chunks
     }
 
     override fun append(event: LogEvent) {
@@ -75,14 +96,12 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
         message.append(newContent)
     }
 
-    private var messageID = ""
-
     fun syncTask() {
         if (!active) return
         object : BukkitRunnable() {
             override fun run() {
                 sendMessage()
             }
-        }.runTaskTimerAsynchronously(YVtils.instance, 20, 20 * 3)
+        }.runTaskTimerAsynchronously(YVtils.instance, 20, 20 * 5)
     }
 }
