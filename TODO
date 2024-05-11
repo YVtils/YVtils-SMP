@@ -1,0 +1,14 @@
+Testing:
+    /seed Command - Multiple Seeds
+    Discord Module Chat Sync - Color Codes getting filtered? ("<green>Hey" should look in Discord "Hey")
+    Status Module - When deleting out of config and then restart, status still shown in console
+
+Coding:
+    Fusion
+    Multi Mine Module (MMM) - Custom Blocks
+    MMM - Fix XP Drops
+    MMM - Fast leaf decay
+    MMM - Bug when dropping used item to break blocks
+
+Other:
+    Find cause of paper error appearing sometimes
