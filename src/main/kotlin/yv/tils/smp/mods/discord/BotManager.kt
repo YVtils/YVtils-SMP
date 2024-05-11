@@ -14,6 +14,9 @@ import yv.tils.smp.mods.discord.commandManager.CMDRegister
 import yv.tils.smp.mods.discord.sync.chatSync.SyncChats
 import yv.tils.smp.mods.discord.sync.consoleSync.GetConsole
 import yv.tils.smp.mods.discord.sync.consoleSync.SendCMD
+import yv.tils.smp.mods.discord.sync.stats.CollectStats
+import yv.tils.smp.mods.discord.sync.stats.StatsChannel
+import yv.tils.smp.mods.discord.sync.stats.StatsDescription
 import yv.tils.smp.mods.discord.whitelist.ForceRemove
 import yv.tils.smp.mods.discord.whitelist.SelfAdd
 import yv.tils.smp.utils.color.ColorUtils
@@ -108,12 +111,17 @@ class BotManager {
         }
         appender.syncTask()
 
+        CollectStats().collect()
 
         YVtils.instance.server.consoleSender.sendMessage(Language().getMessage(LangStrings.MODULE_DISCORD_STARTUP_FINISHED))
     }
 
     fun stopBot() {
         if (active) {
+
+            StatsChannel().deleteChannels()
+            StatsDescription().serverShutdown()
+
             try {
                 builder.setStatus(OnlineStatus.OFFLINE)
                 jda.shutdown()

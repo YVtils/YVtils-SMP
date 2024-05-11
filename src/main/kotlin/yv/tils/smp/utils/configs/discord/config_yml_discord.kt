@@ -37,6 +37,16 @@ class config_yml_discord {
         ymlFile.addDefault("consoleSync.enabled", true)
         ymlFile.addDefault("consoleSync.channel", ColorUtils().convert(Language().directFormat("CHANNEL ID", "KANAL ID")))
 
+        ymlFile.addDefault("serverStats.enabled", true)
+        ymlFile.addDefault("serverStats.mode", "both")
+        ymlFile.addDefault("serverStats.channel", ColorUtils().convert(Language().directFormat("CHANNEL ID", "KANAL ID")))
+        ymlFile.addDefault("serverStats.layout.serverStatus.text", "<emoji> | SERVER <status>")
+        ymlFile.addDefault("serverStats.layout.serverStatus.emoji.online", "💚")
+        ymlFile.addDefault("serverStats.layout.serverStatus.emoji.offline", "❤️")
+        ymlFile.addDefault("serverStats.layout.serverVersion", "💻 | VERSION <version>")
+        ymlFile.addDefault("serverStats.layout.lastPlayerCount", "🎮 | PLAYERS <count>")
+        ymlFile.addDefault("serverStats.layout.lastRefreshed", "⌚ | <time>")
+
         ymlFile.addDefault("logChannel", ColorUtils().convert(Language().directFormat("CHANNEL ID", "KANAL ID")))
 
         ymlFile.options().copyDefaults(true)

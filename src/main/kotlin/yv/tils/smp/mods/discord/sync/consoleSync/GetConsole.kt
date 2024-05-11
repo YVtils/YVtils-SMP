@@ -6,12 +6,11 @@ import org.bukkit.scheduler.BukkitRunnable
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.discord.BotManager.Companion.jda
 import yv.tils.smp.utils.configs.discord.DiscordConfig
-import yv.tils.smp.utils.configs.global.Config
 import java.text.SimpleDateFormat
 
 class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
     companion object {
-        var active = Config.config["modules.discord"] as Boolean
+        var active = DiscordConfig.config["consoleSync.enabled"] as Boolean
         val channelID = DiscordConfig().readChannelID("consoleSync.channel")
 
         private var message = StringBuilder()
@@ -33,7 +32,6 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
             }
 
             val chunks = splitMessage(messageContent)
-            messageContent = ""
             message = StringBuilder()
 
             chunks.forEachIndexed { index, chunk ->

@@ -15,15 +15,15 @@ import yv.tils.smp.mods.status.StatusCommand
 
 class Commands {
     fun unregisterCommands() {
-        CommandAPI.unregister("gamemode", true)
-        CommandAPI.unregister("seed", true)
-        CommandAPI.unregister("ban", true)
-        CommandAPI.unregister("pardon", true)
-        CommandAPI.unregister("kick", true)
-        CommandAPI.unregister("w", true)
-        CommandAPI.unregister("whisper", true)
-        CommandAPI.unregister("msg", true)
-        CommandAPI.unregister("tell", true)
+        CommandAPI.unregister("gamemode")
+        CommandAPI.unregister("seed")
+        CommandAPI.unregister("ban")
+        CommandAPI.unregister("pardon")
+        CommandAPI.unregister("kick")
+        CommandAPI.unregister("w")
+        CommandAPI.unregister("whisper")
+        CommandAPI.unregister("msg")
+        CommandAPI.unregister("tell")
     }
 
     fun registerCommands() {

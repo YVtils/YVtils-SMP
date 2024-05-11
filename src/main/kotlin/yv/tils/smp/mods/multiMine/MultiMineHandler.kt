@@ -119,7 +119,7 @@ class MultiMineHandler {
         }
     }
 
-    // TODO Dropping the item writes a stack trace to the console
+    // TODO Dropping the used item writes a stack trace to the console
     fun damageItem(player: Player, damage: Int, item: ItemStack): Boolean {
         val damageable: Damageable = item.itemMeta as Damageable
 
