@@ -54,7 +54,7 @@ class CollectStats {
                         active = false
                     }
                 }
-            }, 0, 20 * 60 * 5)
+            }, 0, 20 * 60 * 10)
         }
     }
 

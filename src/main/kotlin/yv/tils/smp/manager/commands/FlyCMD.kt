@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
+import yv.tils.smp.utils.internalAPI.Placeholder
 import java.util.*
 
 class FlyCMD {
@@ -56,9 +57,17 @@ class FlyCMD {
 
             if (player != sender) {
                 if (sender is Player) {
-                    sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.FLY_COMMAND_ENABLE_OTHER))
+                    sender.sendMessage(Placeholder().replacer(
+                        Language().getMessage(sender.uniqueId, LangStrings.FLY_COMMAND_ENABLE_OTHER),
+                        listOf("player"),
+                        listOf(player.name)
+                    ))
                 } else {
-                    sender.sendMessage(Language().getMessage(LangStrings.FLY_COMMAND_ENABLE_OTHER))
+                    sender.sendMessage(Placeholder().replacer(
+                        Language().getMessage(LangStrings.FLY_COMMAND_ENABLE_OTHER),
+                        listOf("player"),
+                        listOf(player.name)
+                    ))
                 }
             }
         } else {
@@ -76,9 +85,17 @@ class FlyCMD {
 
             if (player != sender) {
                 if (sender is Player) {
-                    sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.FLY_COMMAND_DISABLE_OTHER))
+                    sender.sendMessage(Placeholder().replacer(
+                        Language().getMessage(sender.uniqueId, LangStrings.FLY_COMMAND_DISABLE_OTHER),
+                        listOf("player"),
+                        listOf(player.name)
+                    ))
                 } else {
-                    sender.sendMessage(Language().getMessage(LangStrings.FLY_COMMAND_DISABLE_OTHER))
+                    sender.sendMessage(Placeholder().replacer(
+                        Language().getMessage(LangStrings.FLY_COMMAND_DISABLE_OTHER),
+                        listOf("player"),
+                        listOf(player.name)
+                    ))
                 }
             }
         }

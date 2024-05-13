@@ -19,7 +19,6 @@ class Listeners {
         plugin.server.pluginManager.registerEvents(InvOpen(), plugin)
         plugin.server.pluginManager.registerEvents(InvClose(), plugin)
         plugin.server.pluginManager.registerEvents(InvClick(), plugin)
-        plugin.server.pluginManager.registerEvents(InvInteract(), plugin)
         plugin.server.pluginManager.registerEvents(PlayerSwapHandItems(), plugin)
         plugin.server.pluginManager.registerEvents(PlayerToggleFlight(), plugin)
         plugin.server.pluginManager.registerEvents(EntityToggleGlide(), plugin)

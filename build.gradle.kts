@@ -1,27 +1,39 @@
+
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
-    kotlin("jvm") version "1.9.22"
-    id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.papermc.paperweight.userdev") version "1.6.3"
-    id("xyz.jpenilla.run-paper") version "2.1.0"
+    java
+    kotlin("jvm") version "1.9.24"
+    kotlin("plugin.serialization") version "1.9.23"
+
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+
+    id("io.papermc.paperweight.userdev") version "1.7.1"
+
+    id("xyz.jpenilla.run-paper") version "2.3.0"
 }
 
 group = "yv.tils"
 version = "1.0.0"
 
-val jdaVersion = "5.0.0-beta.23"
+val jdaVersion = "5.0.0-beta.24"
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
 }
 
+paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
+
 dependencies {
     paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
-    implementation("dev.jorel", "commandapi-bukkit-shade", "9.4.1")
+
+    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.4.1")
     implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.4.1")
+
     implementation("net.dv8tion:JDA:$jdaVersion")
 }
 
@@ -31,7 +43,7 @@ tasks {
     }
 
     assemble {
-        dependsOn(reobfJar)
+        //dependsOn(reobfJar)
     }
 
     compileJava {
