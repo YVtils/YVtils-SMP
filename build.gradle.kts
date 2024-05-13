@@ -1,5 +1,3 @@
-
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -26,13 +24,13 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
 }
 
-paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
+paperweight.reobfArtifactConfiguration.set(io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION)
 
 dependencies {
     paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
 
-    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.4.1")
-    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.4.1")
+    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.5.0-SNAPSHOT")
+    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.5.0-SNAPSHOT")
 
     implementation("net.dv8tion:JDA:$jdaVersion")
 }
