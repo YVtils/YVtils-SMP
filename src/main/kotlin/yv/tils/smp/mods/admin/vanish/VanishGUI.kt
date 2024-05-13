@@ -32,7 +32,7 @@ class VanishGUI {
         val vanishLore = mutableListOf<Component>()
         vanishMeta.displayName(ColorUtils().convert("<#96C8FF>Vanish"))
         vanishMeta.color = Color.fromRGB(246, 246, 246)
-        vanishMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        vanishMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         vanishLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_VANISH_LORE))
         vanishMeta.lore(vanishLore)
         vanish.itemMeta = vanishMeta
@@ -44,7 +44,7 @@ class VanishGUI {
         val layerMeta = layer.itemMeta
         val layerLore = mutableListOf<Component>()
         layerMeta.displayName(ColorUtils().convert("<#96C8FF>Layer"))
-        layerMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        layerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         layerLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_LAYER_LORE))
         layerMeta.lore(layerLore)
         layer.itemMeta = layerMeta
@@ -56,7 +56,7 @@ class VanishGUI {
         val itemPickupMeta = itemPickup.itemMeta
         val itemPickupLore = mutableListOf<Component>()
         itemPickupMeta.displayName(ColorUtils().convert("<#96C8FF>Item Pickup"))
-        itemPickupMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        itemPickupMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         itemPickupLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_ITEM_PICKUP_LORE))
         itemPickupMeta.lore(itemPickupLore)
         itemPickup.itemMeta = itemPickupMeta
@@ -68,7 +68,7 @@ class VanishGUI {
         val invInteractionMeta = invInteraction.itemMeta
         val invInteractionLore = mutableListOf<Component>()
         invInteractionMeta.displayName(ColorUtils().convert("<#96C8FF>Silent Inventory Interaction"))
-        invInteractionMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        invInteractionMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         invInteractionLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_INV_INTERACTION_LORE))
         invInteractionMeta.lore(invInteractionLore)
         invInteraction.itemMeta = invInteractionMeta
@@ -80,7 +80,7 @@ class VanishGUI {
         val mobTargetMeta = mobTarget.itemMeta
         val mobTargetLore = mutableListOf<Component>()
         mobTargetMeta.displayName(ColorUtils().convert("<#96C8FF>Anti Mob Target"))
-        mobTargetMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        mobTargetMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         mobTargetLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_MOB_TARGET_LORE))
         mobTargetMeta.lore(mobTargetLore)
         mobTarget.itemMeta = mobTargetMeta
@@ -94,7 +94,7 @@ class VanishGUI {
         val fillerMeta = filler.itemMeta
         val fillerLore = mutableListOf<Component>()
         fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         fillerLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_FILLER_LORE))
         fillerMeta.lore(fillerLore)
         filler.itemMeta = fillerMeta
@@ -118,7 +118,7 @@ class VanishGUI {
             val vanishToggle = ItemStack(Material.RED_DYE)
             val vanishToggleMeta = vanishToggle.itemMeta
             vanishToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[DISABLED]"))
-            vanishToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            vanishToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             vanishToggle.itemMeta = vanishToggleMeta
 
             inv.setItem(19, vanishToggle)
@@ -126,7 +126,7 @@ class VanishGUI {
             val vanishToggle = ItemStack(Material.LIME_DYE)
             val vanishToggleMeta = vanishToggle.itemMeta
             vanishToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[ENABLED]"))
-            vanishToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            vanishToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             vanishToggle.itemMeta = vanishToggleMeta
 
             inv.setItem(19, vanishToggle)
@@ -134,7 +134,7 @@ class VanishGUI {
             val vanishToggle = ItemStack(Material.RED_DYE)
             val vanishToggleMeta = vanishToggle.itemMeta
             vanishToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[DISABLED]"))
-            vanishToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            vanishToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             vanishToggle.itemMeta = vanishToggleMeta
 
             inv.setItem(19, vanishToggle)
@@ -145,7 +145,7 @@ class VanishGUI {
             val layerToggle = ItemStack(Material.RED_DYE)
             val layerToggleMeta = layerToggle.itemMeta
             layerToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[DISABLED]"))
-            layerToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            layerToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             layerToggle.itemMeta = layerToggleMeta
 
             inv.setItem(21, layerToggle)
@@ -153,7 +153,7 @@ class VanishGUI {
             val layerToggle = ItemStack(Material.LIME_DYE)
             val layerToggleMeta = layerToggle.itemMeta
             layerToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[ENABLED]"))
-            layerToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            layerToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             layerToggle.itemMeta = layerToggleMeta
 
             inv.setItem(21, layerToggle)
@@ -162,7 +162,7 @@ class VanishGUI {
             val layerToggle = ItemStack(Material.LIME_DYE)
             val layerToggleMeta = layerToggle.itemMeta
             layerToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[ENABLED]"))
-            layerToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            layerToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             layerToggle.itemMeta = layerToggleMeta
 
             inv.setItem(21, layerToggle)
@@ -171,7 +171,7 @@ class VanishGUI {
             val layerToggle = ItemStack(Material.LIME_DYE)
             val layerToggleMeta = layerToggle.itemMeta
             layerToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[ENABLED]"))
-            layerToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            layerToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             layerToggle.itemMeta = layerToggleMeta
 
             inv.setItem(21, layerToggle)
@@ -180,7 +180,7 @@ class VanishGUI {
             val layerToggle = ItemStack(Material.RED_DYE)
             val layerToggleMeta = layerToggle.itemMeta
             layerToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[DISABLED]"))
-            layerToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            layerToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             layerToggle.itemMeta = layerToggleMeta
 
             inv.setItem(21, layerToggle)
@@ -191,7 +191,7 @@ class VanishGUI {
             val itemPickupToggle = ItemStack(Material.RED_DYE)
             val itemPickupToggleMeta = itemPickupToggle.itemMeta
             itemPickupToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[DISABLED]"))
-            itemPickupToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            itemPickupToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             itemPickupToggle.itemMeta = itemPickupToggleMeta
 
             inv.setItem(23, itemPickupToggle)
@@ -199,7 +199,7 @@ class VanishGUI {
             val itemPickupToggle = ItemStack(Material.LIME_DYE)
             val itemPickupToggleMeta = itemPickupToggle.itemMeta
             itemPickupToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[ENABLED]"))
-            itemPickupToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            itemPickupToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             itemPickupToggle.itemMeta = itemPickupToggleMeta
 
             inv.setItem(23, itemPickupToggle)
@@ -207,7 +207,7 @@ class VanishGUI {
             val itemPickupToggle = ItemStack(Material.RED_DYE)
             val itemPickupToggleMeta = itemPickupToggle.itemMeta
             itemPickupToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[DISABLED]"))
-            itemPickupToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            itemPickupToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             itemPickupToggle.itemMeta = itemPickupToggleMeta
 
             inv.setItem(23, itemPickupToggle)
@@ -218,7 +218,7 @@ class VanishGUI {
             val invInteractionToggle = ItemStack(Material.RED_DYE)
             val invInteractionToggleMeta = invInteractionToggle.itemMeta
             invInteractionToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[DISABLED]"))
-            invInteractionToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            invInteractionToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             invInteractionToggle.itemMeta = invInteractionToggleMeta
 
             inv.setItem(24, invInteractionToggle)
@@ -226,7 +226,7 @@ class VanishGUI {
             val invInteractionToggle = ItemStack(Material.LIME_DYE)
             val invInteractionToggleMeta = invInteractionToggle.itemMeta
             invInteractionToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[ENABLED]"))
-            invInteractionToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            invInteractionToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             invInteractionToggle.itemMeta = invInteractionToggleMeta
 
             inv.setItem(24, invInteractionToggle)
@@ -234,7 +234,7 @@ class VanishGUI {
             val invInteractionToggle = ItemStack(Material.RED_DYE)
             val invInteractionToggleMeta = invInteractionToggle.itemMeta
             invInteractionToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[DISABLED]"))
-            invInteractionToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            invInteractionToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             invInteractionToggle.itemMeta = invInteractionToggleMeta
 
             inv.setItem(24, invInteractionToggle)
@@ -245,7 +245,7 @@ class VanishGUI {
             val mobTargetToggle = ItemStack(Material.RED_DYE)
             val mobTargetToggleMeta = mobTargetToggle.itemMeta
             mobTargetToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[DISABLED]"))
-            mobTargetToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            mobTargetToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             mobTargetToggle.itemMeta = mobTargetToggleMeta
 
             inv.setItem(25, mobTargetToggle)
@@ -253,7 +253,7 @@ class VanishGUI {
             val mobTargetToggle = ItemStack(Material.LIME_DYE)
             val mobTargetToggleMeta = mobTargetToggle.itemMeta
             mobTargetToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[ENABLED]"))
-            mobTargetToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            mobTargetToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             mobTargetToggle.itemMeta = mobTargetToggleMeta
 
             inv.setItem(25, mobTargetToggle)
@@ -261,7 +261,7 @@ class VanishGUI {
             val mobTargetToggle = ItemStack(Material.RED_DYE)
             val mobTargetToggleMeta = mobTargetToggle.itemMeta
             mobTargetToggleMeta.displayName(ColorUtils().convert("<#96C8FF>[DISABLED]"))
-            mobTargetToggleMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+            mobTargetToggleMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
             mobTargetToggle.itemMeta = mobTargetToggleMeta
 
             inv.setItem(25, mobTargetToggle)

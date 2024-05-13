@@ -22,7 +22,7 @@ class YVtils : JavaPlugin() {
 
     override fun onLoad() {
         instance = this
-        CommandAPI.onLoad(CommandAPIBukkitConfig(instance).silentLogs(true))
+        CommandAPI.onLoad(CommandAPIBukkitConfig(instance).silentLogs(false))
         key = NamespacedKey(this, "yvtils")
 
         val configs = Configs()

@@ -13,8 +13,8 @@ class RoleHierarchyError {
     val builder = EmbedBuilder()
 
     fun embed(role: String, guild: Guild?): EmbedBuilder {
-        val role = role.replace(" ", "")
-        val roles = role.split(",")
+        val roleList = role.replace(" ", "")
+        val roles = roleList.split(",")
         var role1: Role
 
         val list = mutableListOf<String>()

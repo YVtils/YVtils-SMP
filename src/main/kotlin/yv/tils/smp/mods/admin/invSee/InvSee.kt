@@ -74,7 +74,7 @@ class InvSee {
         val filler = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
         val fillerMeta = filler.itemMeta
         fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         filler.itemMeta = fillerMeta
 
         inv.setItem(0, filler)

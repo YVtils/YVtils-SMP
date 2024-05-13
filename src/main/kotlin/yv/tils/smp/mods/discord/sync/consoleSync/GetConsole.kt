@@ -34,7 +34,7 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
             val chunks = splitMessage(messageContent)
             message = StringBuilder()
 
-            chunks.forEachIndexed { index, chunk ->
+            chunks.forEachIndexed { _, chunk ->
                 val formattedChunk = "```$chunk```"
 
                 var currentMessage = if (messageID.isEmpty()) {
