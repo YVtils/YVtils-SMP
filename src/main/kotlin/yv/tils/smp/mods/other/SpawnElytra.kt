@@ -2,6 +2,7 @@ package yv.tils.smp.mods.other
 
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
+import org.bukkit.Material
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
@@ -10,6 +11,7 @@ import org.bukkit.event.entity.EntityToggleGlideEvent
 import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
+import org.bukkit.inventory.ItemStack
 import yv.tils.smp.YVtils
 import yv.tils.smp.manager.commands.FlyCMD
 import yv.tils.smp.utils.configs.global.Config
@@ -112,6 +114,12 @@ class SpawnElytra {
     }
 
     fun onToggleGlide(e: EntityToggleGlideEvent) {
+        if (e.entityType != EntityType.PLAYER) return
+
+        var player = e.entity as Player
+
+        if (player.inventory.chestplate?.type == Material.ELYTRA) return
+
         if (e.entityType == EntityType.PLAYER && flying.contains(e.entity) || !e.isGliding) e.isCancelled = true
     }
 

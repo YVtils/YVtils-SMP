@@ -145,6 +145,8 @@ class MultiMineHandler {
     }
 
     fun checkTool(block: Block, tool: ItemStack): Boolean {
+        if (tool.type == Material.AIR) return false
+
         return block.getDrops(tool).isNotEmpty()
     }
 
