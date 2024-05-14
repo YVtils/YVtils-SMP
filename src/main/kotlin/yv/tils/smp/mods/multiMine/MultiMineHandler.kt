@@ -88,6 +88,8 @@ class MultiMineHandler {
         breakBlock(loc, player, item)
     }
 
+    var itemBroke = false
+
     fun breakBlock(loc: Location, player: Player, item: ItemStack) {
         if (brokenMap[player.uniqueId]!! >= breakLimit) {
             return
@@ -95,6 +97,8 @@ class MultiMineHandler {
 
         if (brokenMap[player.uniqueId]!! != 0) {
             try {
+                if (itemBroke) return
+
                 if (damageItem(player, 1, item)) {
                     return
                 }
@@ -126,6 +130,8 @@ class MultiMineHandler {
         val damageable: Damageable = item.itemMeta as Damageable
 
         if (damageable.damage + damage >= item.type.maxDurability) {
+            println("Item broke!")
+            itemBroke = true
             player.inventory.removeItem(item)
             player.playSound(player.location, Sound.ENTITY_ITEM_BREAK, 1f, 1f)
             return true
