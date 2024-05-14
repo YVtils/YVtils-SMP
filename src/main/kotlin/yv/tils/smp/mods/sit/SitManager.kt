@@ -33,11 +33,11 @@ class SitManager {
         val world = location.getWorld()
         val sit: ArmorStand = world.spawnEntity(location.subtract(x, y, z), EntityType.ARMOR_STAND) as ArmorStand
 
-        sit.setInvulnerable(true);
-        sit.setInvisible(true);
-        sit.setGravity(false);
+        sit.setInvulnerable(true)
+        sit.setInvisible(true)
+        sit.setGravity(false)
 
-        return sit;
+        return sit
     }
 
     fun standUp(player: Player, armorStand: ArmorStand, x: Double, y: Double, z: Double) {
