@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.event.block.BlockBreakEvent
@@ -15,7 +16,6 @@ import yv.tils.smp.utils.configs.multiMine.MultiMineConfig
 import java.util.UUID
 
 // TODO: Add fast Leave decay
-// TODO: Fix XP drop (Only first block drops XP)
 
 class MultiMineHandler {
     companion object {
@@ -94,14 +94,17 @@ class MultiMineHandler {
         }
 
         if (brokenMap[player.uniqueId]!! != 0) {
-            if (damageItem(player, 1, item)) {
+            try {
+                if (damageItem(player, 1, item)) {
+                    return
+                }
+            } catch (_: NullPointerException) {
                 return
             }
         }
 
         brokenMap[player.uniqueId] = brokenMap[player.uniqueId]!! + 1
 
-        // TODO Try adding priority to the blocks on y axis
         for (i in -1..1) {
             for (j in -1..1) {
                 for (k in -1..1) {
@@ -110,7 +113,7 @@ class MultiMineHandler {
 
                     if (checkBlock(newBlock.type, blocks) && checkTool(newBlock, item)) {
                         Bukkit.getScheduler().runTaskLater(YVtils.instance, Runnable {
-                            newBlock.breakNaturally(item)
+                            newBlock.breakNaturally(item, true, true)
                             breakBlock(newLoc, player, item)
                         }, animationTime * 1L)
                     }
@@ -119,12 +122,12 @@ class MultiMineHandler {
         }
     }
 
-    // TODO Dropping the used item writes a stack trace to the console
     fun damageItem(player: Player, damage: Int, item: ItemStack): Boolean {
         val damageable: Damageable = item.itemMeta as Damageable
 
         if (damageable.damage + damage >= item.type.maxDurability) {
             player.inventory.removeItem(item)
+            player.playSound(player.location, Sound.ENTITY_ITEM_BREAK, 1f, 1f)
             return true
         } else {
             item.damage(damage, player)
