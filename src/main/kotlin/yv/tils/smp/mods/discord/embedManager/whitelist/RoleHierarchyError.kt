@@ -25,13 +25,15 @@ class RoleHierarchyError {
 
         return builder
             .setTitle(ColorUtils().convert(Language().getMessage(LangStrings.EMBED_CMD_ROLE_ADD_ERROR_TITLE)))
-            .setDescription(ColorUtils().convert(
-                Placeholder().replacer(
-                    Language().getMessage(LangStrings.EMBED_CMD_ROLE_ADD_ERROR_DESC),
-                    listOf("role"),
-                    list
+            .setDescription(
+                ColorUtils().convert(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.EMBED_CMD_ROLE_ADD_ERROR_DESC),
+                        listOf("role"),
+                        list
+                    )
                 )
-            ))
+            )
             .setColor(EmbedVars.errorColor)
             .setFooter(EmbedVars.footerText, EmbedVars.footerIcon)
             .setAuthor(EmbedVars.authorName, EmbedVars.authorLink, EmbedVars.authorIcon)

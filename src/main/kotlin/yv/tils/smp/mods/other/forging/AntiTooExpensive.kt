@@ -27,16 +27,18 @@ class AntiTooExpensive {
         val player = e.viewers[0]
 
         if (e.getResult() != null && inv.getRepairCost() >= 40 && (messageCooldown[player.uniqueId] == null || messageCooldown[player.uniqueId] == 0)) {
-            player.sendMessage(Placeholder().replacer(
-                Language().getMessage(player.uniqueId, LangStrings.FORGING_TOO_EXPENSIVE),
-                listOf("level"),
-                listOf(inv.getRepairCost().toString())
-            ))
+            player.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(player.uniqueId, LangStrings.FORGING_TOO_EXPENSIVE),
+                    listOf("level"),
+                    listOf(inv.getRepairCost().toString())
+                )
+            )
             messageCooldown[player.uniqueId] = 10
 
             Bukkit.getScheduler().runTaskLater(YVtils.instance, Runnable {
                 messageCooldown[player.uniqueId] = 0
-            }, 20*10)
+            }, 20 * 10)
         }
     }
 }

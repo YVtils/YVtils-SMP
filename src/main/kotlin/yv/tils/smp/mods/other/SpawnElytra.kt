@@ -11,7 +11,6 @@ import org.bukkit.event.entity.EntityToggleGlideEvent
 import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
-import org.bukkit.inventory.ItemStack
 import yv.tils.smp.YVtils
 import yv.tils.smp.manager.commands.FlyCMD
 import yv.tils.smp.utils.configs.global.Config

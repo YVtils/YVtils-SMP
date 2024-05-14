@@ -12,13 +12,11 @@ class MojangAPI {
             val url = "https://api.mojang.com/users/profiles/minecraft/$playerName"
             val map: MutableMap<String, String> = getWebsite(url)
 
-            map["id"] = (
-                    map["id"]!!.substring(0, 8) + "-" +
-                            map["id"]!!.substring(8, 12) + "-" +
-                            map["id"]!!.substring(12, 16) + "-" +
-                            map["id"]!!.substring(16, 20) + "-" +
-                            map["id"]!!.substring(20)
-                    )
+            map["id"] = map["id"]!!.substring(0, 8) + "-" +
+                    map["id"]!!.substring(8, 12) + "-" +
+                    map["id"]!!.substring(12, 16) + "-" +
+                    map["id"]!!.substring(16, 20) + "-" +
+                    map["id"]!!.substring(20)
 
             return UUID.fromString(map["id"])
         } catch (e: Exception) {

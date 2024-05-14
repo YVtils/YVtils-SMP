@@ -53,13 +53,15 @@ class ForceRemove {
         }
 
         return builder
-            .setTitle(ColorUtils().convert(
-                Placeholder().replacer(
-                    Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_REMOVED_TITLE),
-                    listOf("mcName", "dcName"),
-                    list
+            .setTitle(
+                ColorUtils().convert(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_REMOVED_TITLE),
+                        listOf("mcName", "dcName"),
+                        list
+                    )
                 )
-            ))
+            )
             .setDescription(ColorUtils().convert(Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_REMOVED_DESC)))
             .addField("Whitelisted Players:", playerCount.toString(), true)
             .addField("Whitelist Status:", status, true)
@@ -79,7 +81,7 @@ class ForceRemove {
         }
 
         var options = mutableListOf<SelectOption>()
-        val start = ((site - 1) * 25)
+        val start = (site - 1) * 25
 
         for (i in start until list.size) {
             options.add(SelectOption.of(list[i], list[i]))

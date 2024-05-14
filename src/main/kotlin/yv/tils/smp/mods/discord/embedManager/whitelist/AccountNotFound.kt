@@ -13,13 +13,15 @@ class AccountNotFound {
     fun embed(accName: String): EmbedBuilder {
         return builder
             .setTitle(ColorUtils().convert(Language().getMessage(LangStrings.EMBED_BUILDER_TITLE_NAME_NOTEXISTING)))
-            .setDescription(ColorUtils().convert(
-                Placeholder().replacer(
-                    Language().getMessage(LangStrings.EMBED_BUILDER_DESCRIPTION_NAME_NOTEXISTING),
-                    listOf("accountName"),
-                    listOf(accName)
+            .setDescription(
+                ColorUtils().convert(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.EMBED_BUILDER_DESCRIPTION_NAME_NOTEXISTING),
+                        listOf("accountName"),
+                        listOf(accName)
+                    )
                 )
-            ))
+            )
             .setColor(EmbedVars.errorColor)
             .setFooter(EmbedVars.footerText, EmbedVars.footerIcon)
             .setAuthor(EmbedVars.authorName, EmbedVars.authorLink, EmbedVars.authorIcon)

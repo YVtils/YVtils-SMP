@@ -7,8 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin
 import yv.tils.smp.manager.startup.Configs
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.Runtime
 import yv.tils.smp.utils.internalAPI.Placeholder
+import yv.tils.smp.utils.internalAPI.Runtime
 import yv.tils.smp.utils.internalAPI.Vars
 import yv.tils.smp.utils.logger.Debugger
 

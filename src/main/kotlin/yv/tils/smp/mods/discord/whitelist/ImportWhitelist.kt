@@ -44,7 +44,11 @@ class ImportWhitelist {
         request.add("null")
         request.add("null")
 
-        Debugger().log("ImportWhitelist", "InPut: $dc, $mc, $uuid | OutPut: $request", "yv.tils.smp.mods.discord.whitelist.ImportWhitelist.reader")
+        Debugger().log(
+            "ImportWhitelist",
+            "InPut: $dc, $mc, $uuid | OutPut: $request",
+            "yv.tils.smp.mods.discord.whitelist.ImportWhitelist.reader"
+        )
         return request
     }
 }

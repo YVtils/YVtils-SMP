@@ -27,7 +27,8 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
 
         if (messageContent.isNotEmpty()) {
             if (messageID.isNotEmpty()) {
-                val oldMessageContent = jda.getTextChannelById(channelID)?.retrieveMessageById(messageID)?.complete()?.contentRaw ?: ""
+                val oldMessageContent =
+                    jda.getTextChannelById(channelID)?.retrieveMessageById(messageID)?.complete()?.contentRaw ?: ""
                 messageContent = oldMessageContent + "\n" + messageContent
             }
 
@@ -89,7 +90,8 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
     override fun append(event: LogEvent) {
         if (!active) return
 
-        val newContent = "[${SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(event.timeMillis)} ${event.level}] ${event.message.formattedMessage}\n"
+        val newContent =
+            "[${SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(event.timeMillis)} ${event.level}] ${event.message.formattedMessage}\n"
         newContentLength += newContent.length
         message.append(newContent)
     }

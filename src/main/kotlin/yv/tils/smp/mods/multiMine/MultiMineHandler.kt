@@ -27,45 +27,7 @@ class MultiMineHandler {
         val cooldownMap: MutableMap<UUID, Int> = mutableMapOf()
         val brokenMap: MutableMap<UUID, Int> = mutableMapOf()
 
-        val blocks = listOf(
-            Material.OAK_LOG,
-            Material.BIRCH_LOG,
-            Material.SPRUCE_LOG,
-            Material.JUNGLE_LOG,
-            Material.ACACIA_LOG,
-            Material.DARK_OAK_LOG,
-            Material.CRIMSON_STEM,
-            Material.WARPED_STEM,
-            Material.STRIPPED_OAK_LOG,
-            Material.STRIPPED_BIRCH_LOG,
-            Material.STRIPPED_SPRUCE_LOG,
-            Material.STRIPPED_JUNGLE_LOG,
-            Material.STRIPPED_ACACIA_LOG,
-            Material.STRIPPED_DARK_OAK_LOG,
-            Material.STRIPPED_CRIMSON_STEM,
-            Material.STRIPPED_WARPED_STEM,
-
-            Material.COAL_ORE,
-            Material.IRON_ORE,
-            Material.GOLD_ORE,
-            Material.DIAMOND_ORE,
-            Material.EMERALD_ORE,
-            Material.LAPIS_ORE,
-            Material.REDSTONE_ORE,
-            Material.COPPER_ORE,
-            Material.DEEPSLATE_COAL_ORE,
-            Material.DEEPSLATE_IRON_ORE,
-            Material.DEEPSLATE_GOLD_ORE,
-            Material.DEEPSLATE_DIAMOND_ORE,
-            Material.DEEPSLATE_EMERALD_ORE,
-            Material.DEEPSLATE_LAPIS_ORE,
-            Material.DEEPSLATE_REDSTONE_ORE,
-            Material.DEEPSLATE_COPPER_ORE,
-            Material.NETHER_QUARTZ_ORE,
-            Material.NETHER_GOLD_ORE,
-            Material.ANCIENT_DEBRIS,
-            Material.GLOWSTONE,
-            )
+        val blocks = MultiMineConfig.config["blocks"] as MutableList<Material>
     }
 
     fun trigger(e: BlockBreakEvent) {
@@ -130,7 +92,6 @@ class MultiMineHandler {
         val damageable: Damageable = item.itemMeta as Damageable
 
         if (damageable.damage + damage >= item.type.maxDurability) {
-            println("Item broke!")
             itemBroke = true
             player.inventory.removeItem(item)
             player.playSound(player.location, Sound.ENTITY_ITEM_BREAK, 1f, 1f)

@@ -57,17 +57,21 @@ class FlyCMD {
 
             if (player != sender) {
                 if (sender is Player) {
-                    sender.sendMessage(Placeholder().replacer(
-                        Language().getMessage(sender.uniqueId, LangStrings.FLY_COMMAND_ENABLE_OTHER),
-                        listOf("player"),
-                        listOf(player.name)
-                    ))
+                    sender.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(sender.uniqueId, LangStrings.FLY_COMMAND_ENABLE_OTHER),
+                            listOf("player"),
+                            listOf(player.name)
+                        )
+                    )
                 } else {
-                    sender.sendMessage(Placeholder().replacer(
-                        Language().getMessage(LangStrings.FLY_COMMAND_ENABLE_OTHER),
-                        listOf("player"),
-                        listOf(player.name)
-                    ))
+                    sender.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(LangStrings.FLY_COMMAND_ENABLE_OTHER),
+                            listOf("player"),
+                            listOf(player.name)
+                        )
+                    )
                 }
             }
         } else {
@@ -85,17 +89,21 @@ class FlyCMD {
 
             if (player != sender) {
                 if (sender is Player) {
-                    sender.sendMessage(Placeholder().replacer(
-                        Language().getMessage(sender.uniqueId, LangStrings.FLY_COMMAND_DISABLE_OTHER),
-                        listOf("player"),
-                        listOf(player.name)
-                    ))
+                    sender.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(sender.uniqueId, LangStrings.FLY_COMMAND_DISABLE_OTHER),
+                            listOf("player"),
+                            listOf(player.name)
+                        )
+                    )
                 } else {
-                    sender.sendMessage(Placeholder().replacer(
-                        Language().getMessage(LangStrings.FLY_COMMAND_DISABLE_OTHER),
-                        listOf("player"),
-                        listOf(player.name)
-                    ))
+                    sender.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(LangStrings.FLY_COMMAND_DISABLE_OTHER),
+                            listOf("player"),
+                            listOf(player.name)
+                        )
+                    )
                 }
             }
         }

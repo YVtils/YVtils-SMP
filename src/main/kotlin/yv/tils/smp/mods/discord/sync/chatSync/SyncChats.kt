@@ -34,10 +34,12 @@ class SyncChats : ListenerAdapter() {
             val channel = BotManager.jda.getTextChannelById(channelID) ?: return
             channel.sendMessageEmbeds(Embed().embed(sender, message).build()).queue()
         } catch (_: NumberFormatException) {
-            YVtils.instance.server.consoleSender.sendMessage(Language().directFormat(
-                "Invalid channel ID: '$channelID'! Make sure to put a valid channel ID in the config file or disable this feature! (plugins/YVtils-SMP/discord/config.yml/chatSync)",
-                "Ungültige Kanal ID: '$channelID'! Kontrolliere das eine gültige Kanal ID in der Config steht oder deaktiviere dieses Feature! (plugins/YVtils-SMP/discord/config.yml/chatSync)"
-            ))
+            YVtils.instance.server.consoleSender.sendMessage(
+                Language().directFormat(
+                    "Invalid channel ID: '$channelID'! Make sure to put a valid channel ID in the config file or disable this feature! (plugins/YVtils-SMP/discord/config.yml/chatSync)",
+                    "Ungültige Kanal ID: '$channelID'! Kontrolliere das eine gültige Kanal ID in der Config steht oder deaktiviere dieses Feature! (plugins/YVtils-SMP/discord/config.yml/chatSync)"
+                )
+            )
 
             active = false
         }

@@ -30,7 +30,8 @@ class ForceAdd {
         }
 
         runCatching {
-            val url = URI("https://api.mojang.com/users/profiles/minecraft/$mc").toURL().openConnection() as HttpURLConnection
+            val url =
+                URI("https://api.mojang.com/users/profiles/minecraft/$mc").toURL().openConnection() as HttpURLConnection
             url.requestMethod = "GET"
 
             val statusCode = url.responseCode
@@ -62,7 +63,8 @@ class ForceAdd {
                                 try {
                                     val role = guild.getRoleById(r)
                                     dc.let { role?.let { it1 -> guild.addRoleToMember(it, it1) } }?.queue()
-                                } catch (_: NumberFormatException) {}
+                                } catch (_: NumberFormatException) {
+                                }
                             }
 
                             Bukkit.getScheduler().runTask(YVtils.instance, Runnable {
@@ -72,14 +74,19 @@ class ForceAdd {
                             ImportWhitelist.whitelistManager.add("$userID,$mc,${player.uniqueId}")
                             DiscordConfig().changeValue(userID, "$mc ${player.uniqueId}")
                         } catch (_: HierarchyException) {
-                            return RoleHierarchyError().embed(DiscordConfig.config["whitelistFeature.role"].toString(), guild)
+                            return RoleHierarchyError().embed(
+                                DiscordConfig.config["whitelistFeature.role"].toString(),
+                                guild
+                            )
                         }
                     }
-                    YVtils.instance.server.consoleSender.sendMessage(Placeholder().replacer(
-                        Language().getMessage(LangStrings.MODULE_DISCORD_CMD_REGISTERED_CHANGE),
-                        listOf("discordUser", "dcName", "oldName", "newName"),
-                        listOf(exec.user.globalName, userName, whitelist[1], mc) as List<String>
-                    ))
+                    YVtils.instance.server.consoleSender.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(LangStrings.MODULE_DISCORD_CMD_REGISTERED_CHANGE),
+                            listOf("discordUser", "dcName", "oldName", "newName"),
+                            listOf(exec.user.globalName, userName, whitelist[1], mc) as List<String>
+                        )
+                    )
                     return ForceAdd().embedReplace(userName, whitelist[1], mc)
                 } else {
                     if (dc == null) {
@@ -99,7 +106,8 @@ class ForceAdd {
                                 try {
                                     val role = guild.getRoleById(r)
                                     dc.let { role?.let { it1 -> guild.addRoleToMember(it, it1) } }?.queue()
-                                } catch (_: NumberFormatException) {}
+                                } catch (_: NumberFormatException) {
+                                }
                             }
 
                             Bukkit.getScheduler().runTask(YVtils.instance, Runnable {
@@ -109,14 +117,19 @@ class ForceAdd {
                             ImportWhitelist.whitelistManager.add("$userID,$mc,${player.uniqueId}")
                             DiscordConfig().changeValue(userID, "$mc ${player.uniqueId}")
                         } catch (_: HierarchyException) {
-                            return RoleHierarchyError().embed(DiscordConfig.config["whitelistFeature.role"].toString(), guild)
+                            return RoleHierarchyError().embed(
+                                DiscordConfig.config["whitelistFeature.role"].toString(),
+                                guild
+                            )
                         }
                     }
-                    YVtils.instance.server.consoleSender.sendMessage(Placeholder().replacer(
-                        Language().getMessage(LangStrings.MODULE_DISCORD_CMD_REGISTERED_ADD),
-                        listOf("discordUser", "dcName", "mcName"),
-                        listOf(exec.user.globalName, userName, mc) as List<String>
-                    ))
+                    YVtils.instance.server.consoleSender.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(LangStrings.MODULE_DISCORD_CMD_REGISTERED_ADD),
+                            listOf("discordUser", "dcName", "mcName"),
+                            listOf(exec.user.globalName, userName, mc) as List<String>
+                        )
+                    )
                     return ForceAdd().embed(mc, userName)
                 }
             } else if (statusCode == HttpURLConnection.HTTP_BAD_REQUEST) {

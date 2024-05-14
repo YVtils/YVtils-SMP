@@ -22,20 +22,37 @@ class CMDHandler : ListenerAdapter() {
                 val serverIcon = File("./server-icon.png")
 
                 if (serverIcon.exists()) {
-                    e.reply("").setEmbeds(ServerInfoEmbed().embed(e.user).build()).setEphemeral(true).addFiles(FileUpload.fromData(serverIcon, "server-icon.png")).queue()
+                    e.reply("").setEmbeds(ServerInfoEmbed().embed(e.user).build()).setEphemeral(true)
+                        .addFiles(FileUpload.fromData(serverIcon, "server-icon.png")).queue()
                 } else {
                     e.reply("").setEmbeds(ServerInfoEmbed().embed(e.user).build()).setEphemeral(true).queue()
                 }
             }
+
             "whitelist" -> {
                 when (args) {
                     "forceadd" -> {
                         try {
-                            e.reply("").setEmbeds(ForceAdd().onMessageReceived(e.getOption("mc_name")!!.asString, e.getOption("dc_name")?.asMember!!, e.member!!, e.guild!!).build()).setEphemeral(true).queue()
-                        }catch (_: NullPointerException) {
-                            e.reply("").setEmbeds(ForceAdd().onMessageReceived(e.getOption("mc_name")!!.asString, null, e.member!!, e.guild!!).build()).setEphemeral(true).queue()
+                            e.reply("").setEmbeds(
+                                ForceAdd().onMessageReceived(
+                                    e.getOption("mc_name")!!.asString,
+                                    e.getOption("dc_name")?.asMember!!,
+                                    e.member!!,
+                                    e.guild!!
+                                ).build()
+                            ).setEphemeral(true).queue()
+                        } catch (_: NullPointerException) {
+                            e.reply("").setEmbeds(
+                                ForceAdd().onMessageReceived(
+                                    e.getOption("mc_name")!!.asString,
+                                    null,
+                                    e.member!!,
+                                    e.guild!!
+                                ).build()
+                            ).setEphemeral(true).queue()
                         }
                     }
+
                     "forceremove" -> {
                         var site: Int
                         var maxSite: Int
@@ -52,18 +69,26 @@ class CMDHandler : ListenerAdapter() {
                             maxSite = 1
                         }
 
-                        e.reply("").setEmbeds(ForceRemove().embed((ImportWhitelist.whitelistManager.size), YVtils.instance.server.hasWhitelist(), site).build())
+                        e.reply("").setEmbeds(
+                            ForceRemove().embed(
+                                ImportWhitelist.whitelistManager.size,
+                                YVtils.instance.server.hasWhitelist(),
+                                site
+                            ).build()
+                        )
                             .setComponents(
                                 ActionRow.of(ForceRemove().makeButtons(ImportWhitelist.whitelistManager.size, 1)),
                                 ActionRow.of(ForceRemove().makeDropDown(1).build())
                             )
                             .setEphemeral(true).queue()
                     }
+
                     "check" -> {
                         e.reply("check").queue()
                     }
                 }
             }
+
             "help" -> {
                 e.reply("").setEmbeds(HelpEmbed().embed().build()).setEphemeral(true).queue()
             }

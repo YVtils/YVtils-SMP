@@ -2,10 +2,10 @@ package yv.tils.smp.mods.discord.sync.stats
 
 import net.dv8tion.jda.api.Permission
 import yv.tils.smp.mods.discord.BotManager.Companion.jda
-import yv.tils.smp.mods.discord.sync.stats.CollectStats.Companion.serverStatusText
-import yv.tils.smp.mods.discord.sync.stats.CollectStats.Companion.serverVersionText
 import yv.tils.smp.mods.discord.sync.stats.CollectStats.Companion.lastPlayerCountText
 import yv.tils.smp.mods.discord.sync.stats.CollectStats.Companion.lastRefreshedText
+import yv.tils.smp.mods.discord.sync.stats.CollectStats.Companion.serverStatusText
+import yv.tils.smp.mods.discord.sync.stats.CollectStats.Companion.serverVersionText
 import java.util.EnumSet
 
 class StatsChannel {
@@ -18,22 +18,38 @@ class StatsChannel {
             val channelIDList = mutableListOf<String>()
 
             guild.createVoiceChannel(serverStatusText).queue { channel ->
-                channel.manager.putPermissionOverride(guild.publicRole, EnumSet.of(Permission.VIEW_CHANNEL), EnumSet.of(Permission.VOICE_CONNECT)).queue()
+                channel.manager.putPermissionOverride(
+                    guild.publicRole,
+                    EnumSet.of(Permission.VIEW_CHANNEL),
+                    EnumSet.of(Permission.VOICE_CONNECT)
+                ).queue()
                 channelIDList.add(channel.id)
             }
 
             guild.createVoiceChannel(serverVersionText).queue { channel ->
-                channel.manager.putPermissionOverride(guild.publicRole, EnumSet.of(Permission.VIEW_CHANNEL), EnumSet.of(Permission.VOICE_CONNECT)).queue()
+                channel.manager.putPermissionOverride(
+                    guild.publicRole,
+                    EnumSet.of(Permission.VIEW_CHANNEL),
+                    EnumSet.of(Permission.VOICE_CONNECT)
+                ).queue()
                 channelIDList.add(channel.id)
             }
 
             guild.createVoiceChannel(lastPlayerCountText).queue { channel ->
-                channel.manager.putPermissionOverride(guild.publicRole, EnumSet.of(Permission.VIEW_CHANNEL), EnumSet.of(Permission.VOICE_CONNECT)).queue()
+                channel.manager.putPermissionOverride(
+                    guild.publicRole,
+                    EnumSet.of(Permission.VIEW_CHANNEL),
+                    EnumSet.of(Permission.VOICE_CONNECT)
+                ).queue()
                 channelIDList.add(channel.id)
             }
 
             guild.createVoiceChannel(lastRefreshedText).queue { channel ->
-                channel.manager.putPermissionOverride(guild.publicRole, EnumSet.of(Permission.VIEW_CHANNEL), EnumSet.of(Permission.VOICE_CONNECT)).queue()
+                channel.manager.putPermissionOverride(
+                    guild.publicRole,
+                    EnumSet.of(Permission.VIEW_CHANNEL),
+                    EnumSet.of(Permission.VOICE_CONNECT)
+                ).queue()
                 channelIDList.add(channel.id)
             }
 
@@ -58,12 +74,15 @@ class StatsChannel {
                     0 -> {
                         channel.manager.setName(serverStatusText).queue()
                     }
+
                     1 -> {
                         channel.manager.setName(serverVersionText).queue()
                     }
+
                     2 -> {
                         channel.manager.setName(lastPlayerCountText).queue()
                     }
+
                     3 -> {
                         channel.manager.setName(lastRefreshedText).queue()
                     }

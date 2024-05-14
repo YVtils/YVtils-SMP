@@ -1,5 +1,6 @@
 package yv.tils.smp.utils.configs.multiMine
 
+import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
 import yv.tils.smp.YVtils
 import java.io.File
@@ -16,5 +17,13 @@ class MultiMineConfig {
         for (key in ymlFile.getKeys(true)) {
             config[key] = ymlFile.get(key) as Any
         }
+    }
+
+    fun updateBlockList(blocks: MutableList<Material>) {
+        var file = File(YVtils.instance.dataFolder.path, "multiMine/" + "config.yml")
+        var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
+
+        ymlFile.set("blocks", blocks)
+        ymlFile.save(file)
     }
 }

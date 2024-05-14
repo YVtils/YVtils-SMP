@@ -13,13 +13,15 @@ class ForceAdd {
     fun embed(mc: String, dc: String): EmbedBuilder {
         return builder
             .setTitle(ColorUtils().convert(Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_ADD_TITLE)))
-            .setDescription(ColorUtils().convert(
-                Placeholder().replacer(
-                    Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_ADD_DESC),
-                    listOf("mcName", "dcName"),
-                    listOf(mc, dc)
+            .setDescription(
+                ColorUtils().convert(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_ADD_DESC),
+                        listOf("mcName", "dcName"),
+                        listOf(mc, dc)
+                    )
                 )
-            ))
+            )
             .setColor(EmbedVars.successColor)
             .setFooter(EmbedVars.footerText, EmbedVars.footerIcon)
             .setAuthor(EmbedVars.authorName, EmbedVars.authorLink, EmbedVars.authorIcon)
@@ -27,20 +29,24 @@ class ForceAdd {
 
     fun embedReplace(dc: String, mcOld: String, mcNew: String): EmbedBuilder {
         return builder
-            .setTitle(ColorUtils().convert(
-                Placeholder().replacer(
-                    Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_REPLACE_TITLE),
-                    listOf("dcName", "oldName", "newName"),
-                    listOf(dc, mcOld, mcNew)
+            .setTitle(
+                ColorUtils().convert(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_REPLACE_TITLE),
+                        listOf("dcName", "oldName", "newName"),
+                        listOf(dc, mcOld, mcNew)
+                    )
                 )
-            ))
-            .setDescription(ColorUtils().convert(
-                Placeholder().replacer(
-                    Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_REPLACE_DESC),
-                    listOf("dcName", "oldName", "newName"),
-                    listOf(dc, mcOld, mcNew)
+            )
+            .setDescription(
+                ColorUtils().convert(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_REPLACE_DESC),
+                        listOf("dcName", "oldName", "newName"),
+                        listOf(dc, mcOld, mcNew)
+                    )
                 )
-            ))
+            )
             .setColor(EmbedVars.infoColor)
             .setFooter(EmbedVars.footerText, EmbedVars.footerIcon)
             .setAuthor(EmbedVars.authorName, EmbedVars.authorLink, EmbedVars.authorIcon)

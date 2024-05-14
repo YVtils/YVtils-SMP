@@ -9,8 +9,7 @@ class SitCommand {
         withUsage("sit")
         withAliases("chair")
 
-        playerExecutor {
-            player, _ ->
+        playerExecutor { player, _ ->
             if (SitManager().isSitting(player.uniqueId)) {
                 SitManager().sitGetter(player)
             } else {

@@ -42,7 +42,11 @@ class DiscordConfig {
     }
 
     fun readChannelID(key: String): String {
-        Debugger().log("Reading channel ID", "Key: $key | Value: ${config[key]}", "yv.tils.smp.utils.configs.discord.DiscordConfig")
+        Debugger().log(
+            "Reading channel ID",
+            "Key: $key | Value: ${config[key]}",
+            "yv.tils.smp.utils.configs.discord.DiscordConfig"
+        )
 
         try {
             return config[key] as String

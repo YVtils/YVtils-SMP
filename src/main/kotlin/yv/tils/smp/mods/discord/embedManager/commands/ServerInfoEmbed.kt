@@ -34,7 +34,11 @@ class ServerInfoEmbed {
             .setTitle("Minecraft Server Info")
             .setThumbnail("attachment://server-icon.png")
             .addField("Version", version, true)
-            .addField("Players", "${YVtils.instance.server.onlinePlayers.size}/${YVtils.instance.server.maxPlayers}", true)
+            .addField(
+                "Players",
+                "${YVtils.instance.server.onlinePlayers.size}/${YVtils.instance.server.maxPlayers}",
+                true
+            )
             .addField("Difficulty", YVtils.instance.server.worlds[0].difficulty.name, true)
             .addField("Linked Account", mcName, false)
             .setColor(EmbedVars.infoColor)

@@ -20,13 +20,15 @@ class Check {
 
         builder
             .setTitle(ColorUtils().convert(Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_CHECK_TITLE)))
-            .setDescription(ColorUtils().convert(
-                Placeholder().replacer(
-                    Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_CHECK_WHITELISTED_DESC),
-                    listOf("mcName", "dcName"),
-                    listOf(mc, list[0])
+            .setDescription(
+                ColorUtils().convert(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.EMBED_CMD_WHITELIST_CHECK_WHITELISTED_DESC),
+                        listOf("mcName", "dcName"),
+                        listOf(mc, list[0])
+                    )
                 )
-            ))
+            )
             .setFooter(EmbedVars.footerText, EmbedVars.footerIcon)
             .setAuthor(EmbedVars.authorName, EmbedVars.authorLink, EmbedVars.authorIcon)
 

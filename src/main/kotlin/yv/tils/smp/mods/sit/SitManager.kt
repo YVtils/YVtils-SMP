@@ -40,7 +40,7 @@ class SitManager {
         return sit;
     }
 
-    fun standUp(player: Player, armorStand: ArmorStand, x : Double, y : Double, z : Double) {
+    fun standUp(player: Player, armorStand: ArmorStand, x: Double, y: Double, z: Double) {
         val uuid = player.getUniqueId()
         if (!isSitting(uuid)) {
             return

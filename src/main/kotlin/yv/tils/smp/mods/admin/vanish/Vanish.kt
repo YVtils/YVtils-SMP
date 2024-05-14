@@ -137,7 +137,7 @@ class Vanish {
         player.isSleepingIgnored = true
         player.isSilent = true
 
-        if ((oldVanish.containsKey(player.uniqueId) && vanish.containsKey(player.uniqueId)) && oldVanish[player.uniqueId] == vanish[player.uniqueId]) {
+        if (oldVanish.containsKey(player.uniqueId) && vanish.containsKey(player.uniqueId) && oldVanish[player.uniqueId] == vanish[player.uniqueId]) {
             player.sendMessage(
                 Placeholder().replacer(
                     Language().getMessage(
@@ -197,7 +197,7 @@ class Vanish {
         player.canPickupItems = true
         player.isSilent = false
 
-        if ((oldVanish.containsKey(player.uniqueId) && vanish.containsKey(player.uniqueId)) && oldVanish[player.uniqueId] == vanish[player.uniqueId]) {
+        if (oldVanish.containsKey(player.uniqueId) && vanish.containsKey(player.uniqueId) && oldVanish[player.uniqueId] == vanish[player.uniqueId]) {
             player.sendMessage(
                 Placeholder().replacer(
                     Language().getMessage(

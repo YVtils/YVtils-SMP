@@ -52,7 +52,13 @@ class BotManager {
     }
 
     private fun checkToken(): Boolean {
-        if (!(token.isEmpty() || token.isBlank() || token == ColorUtils().convert(Language().directFormat("YOUR TOKEN HERE", "DEINEN BOT TOKEN")))) {
+        if (!(token.isEmpty() || token.isBlank() || token == ColorUtils().convert(
+                Language().directFormat(
+                    "YOUR TOKEN HERE",
+                    "DEINEN BOT TOKEN"
+                )
+            ))
+        ) {
             builder = JDABuilder.createDefault(token)
             return true
         } else {
@@ -126,10 +132,12 @@ class BotManager {
                 builder.setStatus(OnlineStatus.OFFLINE)
                 jda.shutdown()
             } catch (e: Exception) {
-                YVtils.instance.server.consoleSender.sendMessage(Language().directFormat(
-                    "There was an error while shutting down the bot, for more details enable debug in the config.yml file!",
-                    "Es gab einen Fehler beim Herunterfahren des Bots, um weitere Details zu erhalten, aktiviere das Debuggen in der config.yml-Datei"
-                ))
+                YVtils.instance.server.consoleSender.sendMessage(
+                    Language().directFormat(
+                        "There was an error while shutting down the bot, for more details enable debug in the config.yml file!",
+                        "Es gab einen Fehler beim Herunterfahren des Bots, um weitere Details zu erhalten, aktiviere das Debuggen in der config.yml-Datei"
+                    )
+                )
 
                 val message: String = e.message.toString()
                 Debugger().log("Bot shutting down failed!", message, "yv.tils.smp.mods.discord.BotManager.stopBot()")

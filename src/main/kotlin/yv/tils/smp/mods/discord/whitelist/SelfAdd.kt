@@ -39,7 +39,8 @@ class SelfAdd : ListenerAdapter() {
 
         if (!name.matches(Regex("[a-zA-Z0-9_]+"))) {
             channel.deleteMessageById(messageID).queue()
-            channel.sendMessageEmbeds(AccountCanNotExist().embed(e.message.contentRaw).build()).complete().delete().queueAfter(5, TimeUnit.SECONDS)
+            channel.sendMessageEmbeds(AccountCanNotExist().embed(e.message.contentRaw).build()).complete().delete()
+                .queueAfter(5, TimeUnit.SECONDS)
             return
         }
 
@@ -47,12 +48,14 @@ class SelfAdd : ListenerAdapter() {
 
         if (player.isWhitelisted) {
             channel.deleteMessageById(messageID).queue()
-            channel.sendMessageEmbeds(AccountAlreadyListed().embed(e.message.contentRaw).build()).complete().delete().queueAfter(5, TimeUnit.SECONDS)
+            channel.sendMessageEmbeds(AccountAlreadyListed().embed(e.message.contentRaw).build()).complete().delete()
+                .queueAfter(5, TimeUnit.SECONDS)
             return
         }
 
         runCatching {
-            val url = URI("https://api.mojang.com/users/profiles/minecraft/$name").toURL().openConnection() as HttpURLConnection
+            val url = URI("https://api.mojang.com/users/profiles/minecraft/$name").toURL()
+                .openConnection() as HttpURLConnection
             url.requestMethod = "GET"
 
             val statusCode = url.responseCode
@@ -76,16 +79,20 @@ class SelfAdd : ListenerAdapter() {
                             try {
                                 val role = e.guild.getRoleById(r)
                                 e.member?.let { role?.let { it1 -> e.guild.addRoleToMember(it, it1) } }?.queue()
-                            } catch (_: NumberFormatException) {}
+                            } catch (_: NumberFormatException) {
+                            }
                         }
 
-                        YVtils.instance.server.consoleSender.sendMessage(Placeholder().replacer(
-                            Language().getMessage(LangStrings.MODULE_DISCORD_REGISTERED_NAME_CHANGE),
-                            listOf("discordUser", "oldName", "newName"),
-                            listOf(e.member?.user?.globalName, whitelist[1], name) as List<String>
-                        ))
+                        YVtils.instance.server.consoleSender.sendMessage(
+                            Placeholder().replacer(
+                                Language().getMessage(LangStrings.MODULE_DISCORD_REGISTERED_NAME_CHANGE),
+                                listOf("discordUser", "oldName", "newName"),
+                                listOf(e.member?.user?.globalName, whitelist[1], name) as List<String>
+                            )
+                        )
 
-                        channel.sendMessageEmbeds(AccountChange().embed(whitelist[1], e.message.contentRaw).build()).complete().delete().queueAfter(5, TimeUnit.SECONDS)
+                        channel.sendMessageEmbeds(AccountChange().embed(whitelist[1], e.message.contentRaw).build())
+                            .complete().delete().queueAfter(5, TimeUnit.SECONDS)
 
                         Bukkit.getScheduler().runTask(YVtils.instance, Runnable {
                             player.isWhitelisted = true
@@ -94,7 +101,12 @@ class SelfAdd : ListenerAdapter() {
                         ImportWhitelist.whitelistManager.add("$userID,$name,${player.uniqueId}")
                         DiscordConfig().changeValue(userID, "$name ${player.uniqueId}")
                     } catch (_: HierarchyException) {
-                        channel.sendMessageEmbeds(RoleHierarchyError().embed(DiscordConfig.config["whitelistFeature.role"].toString(), e.guild).build()).complete().delete().queueAfter(15, TimeUnit.SECONDS)
+                        channel.sendMessageEmbeds(
+                            RoleHierarchyError().embed(
+                                DiscordConfig.config["whitelistFeature.role"].toString(),
+                                e.guild
+                            ).build()
+                        ).complete().delete().queueAfter(15, TimeUnit.SECONDS)
                     }
                 } else {
                     try {
@@ -106,7 +118,8 @@ class SelfAdd : ListenerAdapter() {
                             try {
                                 val role = e.guild.getRoleById(r)
                                 e.member?.let { role?.let { it1 -> e.guild.addRoleToMember(it, it1) } }?.queue()
-                            } catch (_: NumberFormatException) {}
+                            } catch (_: NumberFormatException) {
+                            }
                         }
 
                         YVtils.instance.server.consoleSender.sendMessage(
@@ -116,30 +129,42 @@ class SelfAdd : ListenerAdapter() {
                                 listOf(e.member?.user?.globalName, name) as List<String>
                             )
                         )
-                        channel.sendMessageEmbeds(AccountAdded().embed(e.message.contentRaw).build()).complete().delete().queueAfter(5, TimeUnit.SECONDS)
+                        channel.sendMessageEmbeds(AccountAdded().embed(e.message.contentRaw).build()).complete()
+                            .delete().queueAfter(5, TimeUnit.SECONDS)
                         Bukkit.getScheduler().runTask(YVtils.instance, Runnable {
                             player.isWhitelisted = true
                         })
                         ImportWhitelist.whitelistManager.add("$userID,$name,${player.uniqueId}")
                         DiscordConfig().changeValue(userID, "$name ${player.uniqueId}")
                     } catch (_: HierarchyException) {
-                        channel.sendMessageEmbeds(RoleHierarchyError().embed(DiscordConfig.config["whitelistFeature.role"].toString(), e.guild).build()).complete().delete().queueAfter(15, TimeUnit.SECONDS)
+                        channel.sendMessageEmbeds(
+                            RoleHierarchyError().embed(
+                                DiscordConfig.config["whitelistFeature.role"].toString(),
+                                e.guild
+                            ).build()
+                        ).complete().delete().queueAfter(15, TimeUnit.SECONDS)
                     }
                 }
             } else if (statusCode == HttpURLConnection.HTTP_BAD_REQUEST) {
-                YVtils.instance.server.consoleSender.sendMessage(Placeholder().replacer(
-                    Language().getMessage(LangStrings.MODULE_DISCORD_REGISTERED_NAME_WRONG),
-                    listOf("discordUser", "name"),
-                    listOf(e.member?.user?.globalName, name) as List<String>
-                ))
-                channel.sendMessageEmbeds(AccountNotFound().embed(e.message.contentRaw).build()).complete().delete().queueAfter(15, TimeUnit.SECONDS)
+                YVtils.instance.server.consoleSender.sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.MODULE_DISCORD_REGISTERED_NAME_WRONG),
+                        listOf("discordUser", "name"),
+                        listOf(e.member?.user?.globalName, name) as List<String>
+                    )
+                )
+                channel.sendMessageEmbeds(AccountNotFound().embed(e.message.contentRaw).build()).complete().delete()
+                    .queueAfter(15, TimeUnit.SECONDS)
             } else {
-                YVtils.instance.server.consoleSender.sendMessage(Placeholder().replacer(
-                    Language().getMessage(LangStrings.MODULE_DISCORD_REGISTERED_NAME_SERVERERROR_CHECK_INPUT),
-                    listOf("discordUser", "name"),
-                    listOf(e.member?.user?.globalName, name) as List<String>
-                ))
-                channel.sendMessageEmbeds(AccountCheckError().embed(e.message.contentRaw).build()).complete().delete().queueAfter(15, TimeUnit.SECONDS)
+                YVtils.instance.server.consoleSender.sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.MODULE_DISCORD_REGISTERED_NAME_SERVERERROR_CHECK_INPUT),
+                        listOf("discordUser", "name"),
+                        listOf(e.member?.user?.globalName, name) as List<String>
+                    )
+                )
+                channel.sendMessageEmbeds(AccountCheckError().embed(e.message.contentRaw).build()).complete().delete()
+                    .queueAfter(15, TimeUnit.SECONDS)
             }
         }
     }

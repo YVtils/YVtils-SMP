@@ -44,7 +44,11 @@ class ForceRemove : ListenerAdapter() {
                 return
             }
 
-            Debugger().log("ForceRemove", "Removed ${args[1]} from the whitelist", "yv.tils.smp.mods.discord.whitelist.ForceRemove")
+            Debugger().log(
+                "ForceRemove",
+                "Removed ${args[1]} from the whitelist",
+                "yv.tils.smp.mods.discord.whitelist.ForceRemove"
+            )
 
             runCatching {
                 try {
@@ -55,7 +59,12 @@ class ForceRemove : ListenerAdapter() {
                         guild?.getRoleById(r)?.let { guild.removeRoleFromMember(user, it) }?.queue()
                     }
                 } catch (_: NumberFormatException) {
-                    e.reply("").setEmbeds(RoleHierarchyError().embed(DiscordConfig.config["whitelistFeature.role"] as String, guild).build()).setEphemeral(true).queue()
+                    e.reply("").setEmbeds(
+                        RoleHierarchyError().embed(
+                            DiscordConfig.config["whitelistFeature.role"] as String,
+                            guild
+                        ).build()
+                    ).setEphemeral(true).queue()
                 }
             }
 
@@ -65,7 +74,14 @@ class ForceRemove : ListenerAdapter() {
         }
     }
 
-    private fun reply(exec: String?, mc: String, dc: String, size: Int, args: MutableList<String>, e: StringSelectInteractionEvent) {
+    private fun reply(
+        exec: String?,
+        mc: String,
+        dc: String,
+        size: Int,
+        args: MutableList<String>,
+        e: StringSelectInteractionEvent,
+    ) {
         YVtils.instance.server.consoleSender.sendMessage(
             Placeholder().replacer(
                 Language().getMessage(LangStrings.MODULE_DISCORD_CMD_REGISTERED_REMOVE),

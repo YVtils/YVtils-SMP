@@ -37,7 +37,7 @@ class VanishEvents {
                     for ((key1, value1) in Vanish.layer) {
                         if (value1 <= Vanish.layer[player.uniqueId]!!) {
                             for (viewer in Bukkit.getOnlinePlayers()) {
-                                if ((viewer.uniqueId == key1 && value1 != 4) && (Vanish.vanish.containsKey(viewer.uniqueId) && Vanish.vanish[viewer.uniqueId]!!)) {
+                                if (viewer.uniqueId == key1 && value1 != 4 && (Vanish.vanish.containsKey(viewer.uniqueId) && Vanish.vanish[viewer.uniqueId]!!)) {
                                     player.showPlayer(YVtils.instance, viewer)
                                     viewer.showPlayer(YVtils.instance, player)
                                 }

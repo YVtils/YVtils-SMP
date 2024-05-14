@@ -43,13 +43,16 @@ class CollectStats {
                     "channels" -> {
                         StatsChannel().updateChannels()
                     }
+
                     "description" -> {
                         StatsDescription().updateDescription()
                     }
+
                     "both" -> {
                         StatsChannel().updateChannels()
                         StatsDescription().updateDescription()
                     }
+
                     else -> {
                         active = false
                     }
@@ -80,7 +83,10 @@ class CollectStats {
         lastRefreshed = dateFormat.format(System.currentTimeMillis())
 
         serverStatusText = layoutServerStatus.replace("<status>", serverStatus)
-        serverStatusText = serverStatusText.replace("<emoji>", if (serverStatus == "ONLINE") serverStatusEmojiOnline else serverStatusEmojiOffline)
+        serverStatusText = serverStatusText.replace(
+            "<emoji>",
+            if (serverStatus == "ONLINE") serverStatusEmojiOnline else serverStatusEmojiOffline
+        )
         serverVersionText = layoutServerVersion.replace("<version>", serverVersion)
         lastPlayerCountText = layoutLastPlayerCount.replace("<count>", lastPlayerCount)
         lastRefreshedText = layoutLastRefreshed.replace("<time>", lastRefreshed)
