@@ -64,6 +64,7 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
 
         for (i in 0 until split.size) {
             var splitPart = split[i].replace("```", "")
+            splitPart = removeAnsiEscapeCodes(splitPart)
 
             if (currentChunk.length + splitPart.length < 1990) {
                 currentChunk += "\n" + splitPart
@@ -78,6 +79,12 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
         chunks.add(currentChunk)
         return chunks
     }
+
+    private fun removeAnsiEscapeCodes(text: String): String {
+        val ansiEscape = Regex("\u001B\\[[0-?]*[ -/]*[@-~]")
+        return ansiEscape.replace(text, "")
+    }
+
 
     override fun append(event: LogEvent) {
         if (!active) return
