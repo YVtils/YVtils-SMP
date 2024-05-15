@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
-    java
+//    java
     kotlin("jvm") version "1.9.24"
     kotlin("plugin.serialization") version "1.9.24"
 
@@ -19,10 +19,9 @@ version = "1.0.0"
 val jdaVersion = "5.0.0-beta.24"
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://repo.codemc.org/repository/maven-public/")
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 }
 
 paperweight.reobfArtifactConfiguration.set(io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION)
