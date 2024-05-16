@@ -8,22 +8,38 @@ import java.io.File
 class MultiMineConfig {
     companion object {
         val config: MutableMap<String, Any> = mutableMapOf()
+        val blockList: MutableList<Material> = mutableListOf()
     }
 
     fun loadConfig() {
-        var file = File(YVtils.instance.dataFolder.path, "multiMine/" + "config.yml")
-        var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
+        val file = File(YVtils.instance.dataFolder.path, "multiMine/" + "config.yml")
+        val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
         for (key in ymlFile.getKeys(true)) {
             config[key] = ymlFile.get(key) as Any
         }
+
+        loadBlockList()
     }
 
-    fun updateBlockList(blocks: MutableList<Material>) {
-        var file = File(YVtils.instance.dataFolder.path, "multiMine/" + "config.yml")
-        var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
+    private fun loadBlockList() {
+        val file = File(YVtils.instance.dataFolder.path, "multiMine/" + "config.yml")
+        val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
-        ymlFile.set("blocks", blocks)
+        val blocks = ymlFile.getList("blocks") as List<String>
+        blocks.forEach {
+            blockList.add(Material.getMaterial(it)!!)
+        }
+    }
+
+
+    fun updateBlockList(blocks: MutableList<Material>) {
+        val file = File(YVtils.instance.dataFolder.path, "multiMine/" + "config.yml")
+        val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
+
+        val newBlocks = blocks.map { it.name }
+
+        ymlFile.set("blocks", newBlocks)
         ymlFile.save(file)
     }
 }

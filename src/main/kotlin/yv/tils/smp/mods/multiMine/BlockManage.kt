@@ -6,11 +6,17 @@ import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.itemStackArgument
 import dev.jorel.commandapi.kotlindsl.stringArgument
 import org.bukkit.Material
+import org.bukkit.block.ShulkerBox
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.BlockStateMeta
+import org.bukkit.inventory.meta.BundleMeta
 import yv.tils.smp.mods.multiMine.MultiMineHandler.Companion.blocks
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.configs.multiMine.MultiMineConfig
+import yv.tils.smp.utils.internalAPI.Placeholder
 
 class BlockManage {
     val command = commandTree("multiMine") {
@@ -31,11 +37,11 @@ class BlockManage {
                 anyExecutor { sender, args ->
                     when (args[0]) {
                         "add" -> {
-                            addBlock(sender, args[1] as Material)
+                            addBlock(sender, args[1])
                         }
 
                         "remove" -> {
-                            removeBlock(sender, args[1] as Material)
+                            removeBlock(sender, args[1])
                         }
 
                         "addMultiple" -> {
@@ -51,43 +57,73 @@ class BlockManage {
         }
     }
 
-    private fun addBlock(sender: CommandSender, block: Material) {
-        var block = block
+    private fun addBlock(sender: CommandSender, block: Any?) {
+        val block = block as ItemStack?
+        var material = block?.type
         if (sender !is Player) {
-            if (block == null) {
-                // TODO: Non Player -> No block specified
+            if (material == null) {
+                sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_NO_BLOCK))
                 return
             }
+
+            modifyBlockList("+", material, sender)
+            sender.sendMessage(Placeholder().replacer(
+                Language().getMessage(LangStrings.MODULE_MULTIMINE_ADD_BLOCK),
+                listOf("block"),
+                listOf(material.name)
+            ))
         } else {
-            if (block == null) {
+            if (material == null) {
                 if (sender.inventory.itemInMainHand.type == Material.AIR) {
-                    // TODO: Player -> No block in hand or specified
+                    sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_NO_BLOCK_IN_HAND))
+                    return
                 } else {
-                    block = sender.inventory.itemInMainHand.type
+                    material = sender.inventory.itemInMainHand.type
                 }
             }
 
-            modifyBlockList("+", block)
+            modifyBlockList("+", material, sender)
+            sender.sendMessage(Placeholder().replacer(
+                Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_ADD_BLOCK),
+                listOf("block"),
+                listOf(material.name)
+            ))
         }
     }
 
-    private fun removeBlock(sender: CommandSender, block: Material) {
-        var block = block
+    private fun removeBlock(sender: CommandSender, block: Any?) {
+        val block = block as ItemStack?
+        var material = block?.type
         if (sender !is Player) {
-            if (block == null) {
-                // TODO: Non Player -> No block specified
+            if (material == null) {
+                sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_NO_BLOCK))
                 return
             }
+
+            modifyBlockList("-", material, sender)
+            sender.sendMessage(Placeholder().replacer(
+                Language().getMessage(LangStrings.MODULE_MULTIMINE_REMOVE_BLOCK),
+                listOf("block"),
+                listOf(material.name)
+            ))
         } else {
-            if (block == null) {
+            if (material == null) {
                 if (sender.inventory.itemInMainHand.type == Material.AIR) {
-                    // TODO: Player -> No block in hand or specified
+                    sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_NO_BLOCK_IN_HAND))
+                    return
                 } else {
-                    block = sender.inventory.itemInMainHand.type
+                    material = sender.inventory.itemInMainHand.type
                 }
             }
 
-            modifyBlockList("-", block)
+            modifyBlockList("-", material, sender)
+            sender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_REMOVE_BLOCK),
+                    listOf("block"),
+                    listOf(material.name)
+                )
+            )
         }
     }
 
@@ -118,51 +154,92 @@ class BlockManage {
     private fun loadContainerContent(container: ItemStack): List<Material> {
         val content = mutableListOf<Material>()
 
-
+        if (container.type == Material.BUNDLE) {
+            val bundle = container.itemMeta as BundleMeta
+            for (item in bundle.items) {
+                content.add(item.type)
+            }
+        } else {
+            val shulkerBox = container.itemMeta as BlockStateMeta
+            val inventory = shulkerBox.blockState as ShulkerBox
+            for (item in inventory.inventory.contents) {
+                if (item != null) {
+                    content.add(item.type)
+                }
+            }
+        }
 
         return content
     }
 
     private fun addMultiple(sender: CommandSender) {
         if (sender !is Player) {
-            // TODO: Non Player -> Not able to add multiple blocks
+            sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_MULTIPLE_CONSOLE))
             return
         }
 
-        val player = sender
-
-        if (checkForContainer(player.inventory.itemInMainHand.type)) {
-            // TODO: Player -> No container in hand
+        if (!checkForContainer(sender.inventory.itemInMainHand.type)) {
+            sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_NO_CONTAINER_IN_HAND))
             return
         }
 
-        for (block in loadContainerContent(player.inventory.itemInMainHand)) {
-            modifyBlockList("+", block)
+        val blocks = mutableListOf<Material>()
+
+        for (block in loadContainerContent(sender.inventory.itemInMainHand)) {
+            modifyBlockList("+", block, sender)
+            blocks.add(block)
         }
+
+        sender.sendMessage(
+            Placeholder().replacer(
+                Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_ADD_MULTIPLE),
+                listOf("blocks"),
+                listOf(blocks.joinToString(", ") { it.name })
+            )
+        )
     }
 
     private fun removeMultiple(sender: CommandSender) {
         if (sender !is Player) {
-            // TODO: Non Player -> Not able to remove multiple blocks
+            sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_MULTIPLE_CONSOLE))
             return
         }
 
-        val player = sender
-
-        if (checkForContainer(player.inventory.itemInMainHand.type)) {
-            // TODO: Player -> No container in hand
+        if (!checkForContainer(sender.inventory.itemInMainHand.type)) {
+            sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_NO_CONTAINER_IN_HAND))
             return
         }
 
-        for (block in loadContainerContent(player.inventory.itemInMainHand)) {
-            modifyBlockList("-", block)
+        val blocks = mutableListOf<Material>()
+
+        for (block in loadContainerContent(sender.inventory.itemInMainHand)) {
+            modifyBlockList("-", block, sender)
+            blocks.add(block)
         }
+
+        sender.sendMessage(
+            Placeholder().replacer(
+                Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_REMOVE_MULTIPLE),
+                listOf("blocks"),
+                listOf(blocks.joinToString(", ") { it.name })
+            )
+        )
     }
 
-    private fun modifyBlockList(identifier: String, block: Material) {
+    private fun modifyBlockList(identifier: String, block: Material, sender: CommandSender) {
         if (identifier == "+") {
+            if (blocks.contains(block)) {
+                sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_BLOCK_ALREADY_IN_LIST))
+                return
+            }
+
             blocks.add(block)
         } else if (identifier == "-") {
+            if (!blocks.contains(block)) {
+                sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_BLOCK_NOT_IN_LIST))
+                return
+            }
+
             blocks.remove(block)
         }
         MultiMineConfig().updateBlockList(blocks)

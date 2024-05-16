@@ -590,6 +590,55 @@ class de_yml {
             "<white>Das kombinieren dieser Items wird <yellow><level> Level <white>kosten"
         )
 
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_ADD_BLOCK",
+            "<white>Der Block <yellow><block> <white>wurde zur MultiMine Liste hinzugefügt!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_REMOVE_BLOCK",
+            "<white>Der Block <yellow><block> <white>wurde von der MultiMine Liste entfernt!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_ADD_MULTIPLE",
+            "<white>Folgende Blöcke wurden zur MultiMine Liste hinzugefügt: <newline><yellow><blocks>"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_REMOVE_MULTIPLE",
+            "<white>Folgende Blöcke wurden von der MultiMine Liste entfernt: <newline><yellow><blocks>"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_NO_BLOCK",
+            "<white>Es wurde kein Block angegeben!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_NO_BLOCK_IN_HAND",
+            "<white>Es wurde kein Block in der Hand gefunden!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_NO_CONTAINER_IN_HAND",
+            "<white>Es wurde kein Container in der Hand gefunden!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_MULTIPLE_CONSOLE",
+            "<white>Es können nicht mehrere Blöcke über die Konsole hinzugefügt werden!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_BLOCK_ALREADY_IN_LIST",
+            "<white>Der Block <yellow><block> <white>ist bereits in der Liste!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_BLOCK_NOT_IN_LIST",
+            "<white>Der Block <yellow><block> <white>ist nicht in der Liste!"
+        )
 
         ymlFile.options().copyDefaults(true)
         ymlFile.save(file)

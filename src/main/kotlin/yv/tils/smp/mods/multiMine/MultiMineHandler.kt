@@ -16,6 +16,7 @@ import yv.tils.smp.utils.configs.multiMine.MultiMineConfig
 import java.util.UUID
 
 // TODO: Add fast Leave decay
+// TODO: Try making the break process better for the performance
 
 class MultiMineHandler {
     companion object {
@@ -27,7 +28,7 @@ class MultiMineHandler {
         val cooldownMap: MutableMap<UUID, Int> = mutableMapOf()
         val brokenMap: MutableMap<UUID, Int> = mutableMapOf()
 
-        val blocks = MultiMineConfig.config["blocks"] as MutableList<Material>
+        val blocks = MultiMineConfig.blockList
     }
 
     fun trigger(e: BlockBreakEvent) {
@@ -50,9 +51,9 @@ class MultiMineHandler {
         breakBlock(loc, player, item)
     }
 
-    var itemBroke = false
+    private var itemBroke = false
 
-    fun breakBlock(loc: Location, player: Player, item: ItemStack) {
+    private fun breakBlock(loc: Location, player: Player, item: ItemStack) {
         if (brokenMap[player.uniqueId]!! >= breakLimit) {
             return
         }
@@ -88,7 +89,7 @@ class MultiMineHandler {
         }
     }
 
-    fun damageItem(player: Player, damage: Int, item: ItemStack): Boolean {
+    private fun damageItem(player: Player, damage: Int, item: ItemStack): Boolean {
         val damageable: Damageable = item.itemMeta as Damageable
 
         if (damageable.damage + damage >= item.type.maxDurability) {
@@ -102,19 +103,19 @@ class MultiMineHandler {
         }
     }
 
-    fun setCooldown(player: UUID) {
+    private fun setCooldown(player: UUID) {
         cooldownMap[player] = cooldownTime
     }
 
-    fun checkCooldown(player: UUID): Boolean {
+    private fun checkCooldown(player: UUID): Boolean {
         return cooldownMap[player] != null && cooldownMap[player] != 0
     }
 
-    fun checkBlock(material: Material, blocks: List<Material>): Boolean {
+    private fun checkBlock(material: Material, blocks: List<Material>): Boolean {
         return blocks.contains(material)
     }
 
-    fun checkTool(block: Block, tool: ItemStack): Boolean {
+    private fun checkTool(block: Block, tool: ItemStack): Boolean {
         if (tool.type == Material.AIR) return false
 
         return block.getDrops(tool).isNotEmpty()

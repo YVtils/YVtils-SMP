@@ -14,7 +14,7 @@ class config_yml_multiMine {
 
         ymlFile.addDefault("animationTime", 3)
         ymlFile.addDefault("cooldownTime", 3)
-        ymlFile.addDefault("breakLimit", 100)
+        ymlFile.addDefault("breakLimit", 250)
         ymlFile.addDefault("blocks", createTemplateBlocks())
 
         ymlFile.options().copyDefaults(true)
