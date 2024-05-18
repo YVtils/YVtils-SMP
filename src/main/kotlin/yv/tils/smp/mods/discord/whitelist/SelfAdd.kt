@@ -60,8 +60,8 @@ class SelfAdd : ListenerAdapter() {
 
             val statusCode = url.responseCode
             if (statusCode == HttpURLConnection.HTTP_OK) {
-                if (ImportWhitelist().reader(userID, null, null).contains(userID)) {
-                    val whitelist = ImportWhitelist().reader(userID, null, null)
+                if (ImportWhitelist().reader(dc = userID).contains(userID)) {
+                    val whitelist = ImportWhitelist().reader(dc = userID)
                     val oldPlayer = Bukkit.getOfflinePlayer(whitelist[1])
 
                     Bukkit.getScheduler().runTask(YVtils.instance, Runnable {

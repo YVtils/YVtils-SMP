@@ -12,6 +12,7 @@ class config_yml {
         ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
         ymlFile.addDefault("language", "en")
         ymlFile.addDefault("prefix", "<dark_gray>[<blue>YVtils-SMP<dark_gray>]<white>")
+        ymlFile.addDefault("serverName", "SMP Server")
         ymlFile.addDefault("modules.fusion", true)
         ymlFile.addDefault("modules.status", true)
         ymlFile.addDefault("modules.discord", true)

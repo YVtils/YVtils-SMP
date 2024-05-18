@@ -28,7 +28,7 @@ import yv.tils.smp.utils.logger.Debugger
 
 class BotManager {
     companion object {
-        val active = Config.config["modules.discord"] as Boolean
+        var active = Config.config["modules.discord"] as Boolean
 
         lateinit var instance: BotManager
         lateinit var jda: JDA
@@ -64,6 +64,7 @@ class BotManager {
         } else {
             YVtils.instance.server.consoleSender.sendMessage(Language().getMessage(LangStrings.MODULE_DISCORD_NO_BOT_TOKEN_GIVEN))
             YVtils.instance.server.consoleSender.sendMessage(Language().getMessage(LangStrings.MODULE_DISCORD_STARTUP_FAILED))
+            active = false
             return false
         }
     }
@@ -110,7 +111,7 @@ class BotManager {
             e.printStackTrace()
         }
 
-        val appender: GetConsole = GetConsole()
+        val appender = GetConsole()
         runCatching {
             val logger = LogManager.getRootLogger() as Logger
             logger.addAppender(appender)
@@ -124,14 +125,28 @@ class BotManager {
 
     fun stopBot() {
         if (active) {
-
-            StatsChannel().deleteChannels()
-            StatsDescription().serverShutdown()
-
             try {
-                builder.setStatus(OnlineStatus.OFFLINE)
-                jda.shutdown()
-            } catch (e: Exception) {
+                StatsChannel().deleteChannels()
+                StatsDescription().serverShutdown()
+
+                GetConsole.active = false
+                GetConsole().stop()
+
+                try {
+                    builder.setStatus(OnlineStatus.OFFLINE)
+                    jda.shutdown()
+                } catch (e: Exception) {
+                    YVtils.instance.server.consoleSender.sendMessage(
+                        Language().directFormat(
+                            "There was an error while shutting down the bot, for more details enable debug in the config.yml file!",
+                            "Es gab einen Fehler beim Herunterfahren des Bots, um weitere Details zu erhalten, aktiviere das Debuggen in der config.yml-Datei"
+                        )
+                    )
+
+                    val message: String = e.message.toString()
+                    Debugger().log("Bot shutting down failed!", message, "yv.tils.smp.mods.discord.BotManager.stopBot()")
+                }
+            }catch (e: UninitializedPropertyAccessException) {
                 YVtils.instance.server.consoleSender.sendMessage(
                     Language().directFormat(
                         "There was an error while shutting down the bot, for more details enable debug in the config.yml file!",

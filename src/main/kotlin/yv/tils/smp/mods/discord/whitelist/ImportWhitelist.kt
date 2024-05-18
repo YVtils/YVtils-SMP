@@ -22,7 +22,7 @@ class ImportWhitelist {
         }
     }
 
-    fun reader(dc: String?, mc: String?, uuid: String?): MutableList<String> {
+    fun reader(dc: String? = null, mc: String? = null, uuid: String? = null): MutableList<String> {
         val request: MutableList<String> = mutableListOf()
 
         loop@ for (manager in whitelistManager) {

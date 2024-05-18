@@ -38,14 +38,14 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
             chunks.forEachIndexed { _, chunk ->
                 val formattedChunk = "```$chunk```"
 
-                var currentMessage = if (messageID.isEmpty()) {
+                val currentMessage = if (messageID.isEmpty()) {
                     jda.getTextChannelById(channelID)?.sendMessage(formattedChunk)?.complete()
                 } else {
                     jda.getTextChannelById(channelID)?.editMessageById(messageID, formattedChunk)?.complete()
                 }
 
                 messageID = currentMessage?.id ?: ""
-                var messageLength = currentMessage?.contentRaw?.length ?: 0
+                val messageLength = currentMessage?.contentRaw?.length ?: 0
 
                 if (messageLength >= 1900) {
                     messageID = ""
@@ -63,8 +63,8 @@ class GetConsole : AbstractAppender("YVtilsSMPLogger", null, null, true, null) {
         val split = message.split("\n")
         var currentChunk = ""
 
-        for (i in 0 until split.size) {
-            var splitPart = split[i].replace("```", "")
+        for (element in split) {
+            var splitPart = element.replace("```", "")
             splitPart = removeAnsiEscapeCodes(splitPart)
 
             if (currentChunk.length + splitPart.length < 1990) {

@@ -30,4 +30,52 @@ class Placeholder {
 
         return outPut
     }
+
+    fun replacer(inPut: Component, replace: Map<String, Any>): Component {
+        Debugger().log("InPut", inPut, "yv.tils.smp.utils.internalAPI.StringReplacer.listReplacer()")
+        Debugger().log("Replace", "$replace", "yv.tils.smp.utils.internalAPI.StringReplacer.listReplacer()")
+
+        var text = MiniMessage.miniMessage().serialize(inPut)
+
+        text = text.replace("\\<", "<")
+
+        for (i in replace.keys) {
+            val oldString = "<$i>"
+            text = text.replace(oldString, replace[i].toString())
+        }
+
+        if (text.startsWith(" ")) {
+            text = text.replaceFirst(" ", "")
+        }
+
+        val outPut = ColorUtils().convert(text)
+
+        Debugger().log("OutPut", outPut, "yv.tils.smp.utils.internalAPI.StringReplacer.listReplacer()")
+
+        return outPut
+    }
+
+    fun replacer(inPut: String, replace: Map<String, Any>): Component {
+        Debugger().log("InPut", inPut, "yv.tils.smp.utils.internalAPI.StringReplacer.listReplacer()")
+        Debugger().log("Replace", "$replace", "yv.tils.smp.utils.internalAPI.StringReplacer.listReplacer()")
+
+        var text = inPut
+
+        text = text.replace("\\<", "<")
+
+        for (i in replace.keys) {
+            val oldString = "<$i>"
+            text = text.replace(oldString, replace[i].toString())
+        }
+
+        if (text.startsWith(" ")) {
+            text = text.replaceFirst(" ", "")
+        }
+
+        val outPut = ColorUtils().convert(text)
+
+        Debugger().log("OutPut", outPut, "yv.tils.smp.utils.internalAPI.StringReplacer.listReplacer()")
+
+        return outPut
+    }
 }

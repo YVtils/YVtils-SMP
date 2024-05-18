@@ -11,6 +11,8 @@ import yv.tils.smp.utils.configs.language.de_yml
 import yv.tils.smp.utils.configs.language.en_yml
 import yv.tils.smp.utils.configs.multiMine.MultiMineConfig
 import yv.tils.smp.utils.configs.multiMine.config_yml_multiMine
+import yv.tils.smp.utils.configs.server.ServerConfig
+import yv.tils.smp.utils.configs.server.config_yml_server
 import yv.tils.smp.utils.configs.status.config_yml_status
 import yv.tils.smp.utils.configs.status.save_yml_status
 
@@ -26,6 +28,7 @@ class Configs {
 
         save_yml_status().strings()
         save_yml_discord().strings()
+        config_yml_server().strings()
 
         mutedPlayers_yml().strings()
     }
@@ -36,5 +39,6 @@ class Configs {
         mutedPlayers_yml().loadConfig()
         MultiMineConfig().loadConfig()
         DiscordConfig().loadConfig()
+        ServerConfig().loadConfig()
     }
 }

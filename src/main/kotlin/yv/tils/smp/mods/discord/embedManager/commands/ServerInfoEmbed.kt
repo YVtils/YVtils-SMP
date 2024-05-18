@@ -12,7 +12,7 @@ class ServerInfoEmbed {
 
     fun embed(user: User): EmbedBuilder {
         var version = YVtils.instance.server.minecraftVersion
-        var viaVersion = YVtils.instance.server.pluginManager.getPlugin("ViaVersion") != null
+        val viaVersion = YVtils.instance.server.pluginManager.getPlugin("ViaVersion") != null
 
         if (viaVersion) {
             version = "$version +"
@@ -23,11 +23,11 @@ class ServerInfoEmbed {
             serverIP = ""
         }
 
-        var userID = user.id
+        val userID = user.id
         var mcName = "-"
 
-        if (ImportWhitelist().reader(userID, null, null)[0] == userID) {
-            mcName = ImportWhitelist().reader(userID, null, null)[1]
+        if (ImportWhitelist().reader(dc = userID)[0] == userID) {
+            mcName = ImportWhitelist().reader(dc = userID)[1]
         }
 
         builder

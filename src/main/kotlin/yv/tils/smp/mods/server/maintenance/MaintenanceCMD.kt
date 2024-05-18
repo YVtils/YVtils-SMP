@@ -8,13 +8,11 @@ import dev.jorel.commandapi.kotlindsl.stringArgument
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.event.player.PlayerKickEvent
-import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
-import kotlin.toString
 
 class MaintenanceCMD {
     companion object {
@@ -83,8 +81,6 @@ class MaintenanceCMD {
                 }
             }
         }
-
-        YVtils.instance.server.consoleSender.sendMessage(Language().getMessage(LangStrings.GLOBALMUTE_DISABLE_ANNOUNCEMENT))
     }
 
     private fun senderAnnouncement(sender: CommandSender, event: String) {

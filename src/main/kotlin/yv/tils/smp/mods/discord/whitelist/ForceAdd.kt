@@ -18,8 +18,8 @@ import java.net.URI
 class ForceAdd {
     fun onMessageReceived(mc: String, dc: Member?, exec: Member, guild: Guild): EmbedBuilder {
         val player = Bukkit.getOfflinePlayer(mc)
-        var userID = dc?.user?.id ?: "~$mc"
-        var userName = dc?.user?.name ?: "~$mc"
+        val userID = dc?.user?.id ?: "~$mc"
+        val userName = dc?.user?.name ?: "~$mc"
 
         if (!mc.matches(Regex("[a-zA-Z0-9_]+"))) {
             return AccountCanNotExist().embed(mc)
@@ -36,8 +36,8 @@ class ForceAdd {
 
             val statusCode = url.responseCode
             if (statusCode == HttpURLConnection.HTTP_OK) {
-                if (ImportWhitelist().reader(userID, null, null).contains(userID)) {
-                    val whitelist = ImportWhitelist().reader(userID, null, null)
+                if (ImportWhitelist().reader(dc = userID).contains(userID)) {
+                    val whitelist = ImportWhitelist().reader(dc = userID)
                     val oldPlayer = Bukkit.getOfflinePlayer(whitelist[1])
 
                     Bukkit.getScheduler().runTask(YVtils.instance, Runnable {

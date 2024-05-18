@@ -8,6 +8,7 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.mods.discord.embedManager.commands.HelpEmbed
 import yv.tils.smp.mods.discord.embedManager.commands.ServerInfoEmbed
 import yv.tils.smp.mods.discord.embedManager.whitelist.discord.ForceRemove
+import yv.tils.smp.mods.discord.whitelist.Check
 import yv.tils.smp.mods.discord.whitelist.ForceAdd
 import yv.tils.smp.mods.discord.whitelist.ImportWhitelist
 import java.io.File
@@ -84,7 +85,9 @@ class CMDHandler : ListenerAdapter() {
                     }
 
                     "check" -> {
-                        e.reply("check").queue()
+                        e.reply("").setEmbeds(
+                            Check().whitelistCheck(e.getOption("name")!!.asString).build()
+                        ).setEphemeral(true).queue()
                     }
                 }
             }
