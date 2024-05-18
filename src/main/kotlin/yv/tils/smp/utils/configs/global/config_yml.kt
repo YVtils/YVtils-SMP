@@ -19,7 +19,7 @@ class config_yml {
         ymlFile.addDefault("modules.admin", true)
         ymlFile.addDefault("modules.sit", true)
         ymlFile.addDefault("modules.server", true)
-        ymlFile.addDefault("modules.position", true)
+        ymlFile.addDefault("modules.waypoints", true)
         ymlFile.addDefault("modules.multiMine", true)
 
         ymlFile.addDefault("spawnElytra.active", true)

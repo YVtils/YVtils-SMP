@@ -15,6 +15,9 @@ import yv.tils.smp.utils.configs.server.ServerConfig
 import yv.tils.smp.utils.configs.server.config_yml_server
 import yv.tils.smp.utils.configs.status.config_yml_status
 import yv.tils.smp.utils.configs.status.save_yml_status
+import yv.tils.smp.utils.configs.waypoints.WaypointConfig
+import yv.tils.smp.utils.configs.waypoints.config_yml_waypoints
+import yv.tils.smp.utils.configs.waypoints.save_yml_waypoints
 
 class Configs {
     fun register() {
@@ -25,10 +28,12 @@ class Configs {
         config_yml_status().strings()
         config_yml_discord().strings()
         config_yml_multiMine().strings()
+        config_yml_server().strings()
+        config_yml_waypoints().strings()
 
         save_yml_status().strings()
         save_yml_discord().strings()
-        config_yml_server().strings()
+        save_yml_waypoints().strings()
 
         mutedPlayers_yml().strings()
     }
@@ -40,5 +45,6 @@ class Configs {
         MultiMineConfig().loadConfig()
         DiscordConfig().loadConfig()
         ServerConfig().loadConfig()
+        WaypointConfig().loadConfig()
     }
 }

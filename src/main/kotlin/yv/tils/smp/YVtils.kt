@@ -2,6 +2,7 @@ package yv.tils.smp
 
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
+import dev.jorel.commandapi.CommandAPIConfig
 import org.bukkit.NamespacedKey
 import org.bukkit.plugin.java.JavaPlugin
 import yv.tils.smp.manager.startup.Configs
@@ -22,7 +23,7 @@ class YVtils : JavaPlugin() {
 
     override fun onLoad() {
         instance = this
-        CommandAPI.onLoad(CommandAPIBukkitConfig(instance).silentLogs(true))
+        CommandAPI.onLoad(CommandAPIBukkitConfig(instance).silentLogs(true).usePluginNamespace())
         key = NamespacedKey(this, "yvtils")
 
         val configs = Configs()
