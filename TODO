@@ -5,10 +5,7 @@ Testing:
 
 Coding:
     Fusion
-    Multi Mine Module (MMM) - Custom Blocks
-    MMM - Fix XP Drops
     MMM - Fast leaf decay
-    MMM - Bug when dropping used item to break blocks
 
 Other:
-    Find cause of paper error appearing sometimes
+    Find cause of paper error appearing sometimes -> Could be from CommandAPI: https://github.com/JorelAli/CommandAPI/issues/503

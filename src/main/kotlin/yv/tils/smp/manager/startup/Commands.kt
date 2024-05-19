@@ -13,6 +13,7 @@ import yv.tils.smp.mods.other.message.ReplyCommand
 import yv.tils.smp.mods.server.maintenance.MaintenanceCMD
 import yv.tils.smp.mods.sit.SitCommand
 import yv.tils.smp.mods.status.StatusCommand
+import yv.tils.smp.mods.waypoints.WaypointCommand
 
 class Commands {
     fun unregisterCommands() {
@@ -64,5 +65,7 @@ class Commands {
         Unmute()
 
         BlockManage()
+
+        WaypointCommand()
     }
 }

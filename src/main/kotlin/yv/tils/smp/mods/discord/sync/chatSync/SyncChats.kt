@@ -31,27 +31,31 @@ class SyncChats : ListenerAdapter() {
 
     private fun sendDiscordMessage(sender: Player, message: String) {
         try {
-            val channel = BotManager.jda.getTextChannelById(channelID) ?: return
-            channel.sendMessageEmbeds(Embed().embed(sender, message).build()).queue()
-        } catch (_: NumberFormatException) {
-            YVtils.instance.server.consoleSender.sendMessage(
-                Language().directFormat(
-                    "Invalid channel ID: '$channelID'! Make sure to put a valid channel ID in the config file or disable this feature! (plugins/YVtils-SMP/discord/config.yml/chatSync)",
-                    "Ungültige Kanal ID: '$channelID'! Kontrolliere das eine gültige Kanal ID in der Config steht oder deaktiviere dieses Feature! (plugins/YVtils-SMP/discord/config.yml/chatSync)"
+            try {
+                val channel = BotManager.jda.getTextChannelById(channelID) ?: return
+                channel.sendMessageEmbeds(Embed().embed(sender, message).build()).queue()
+            } catch (_: NumberFormatException) {
+                YVtils.instance.server.consoleSender.sendMessage(
+                    Language().directFormat(
+                        "Invalid channel ID: '$channelID'! Make sure to put a valid channel ID in the config file or disable this feature! (plugins/YVtils-SMP/discord/config.yml/chatSync)",
+                        "Ungültige Kanal ID: '$channelID'! Kontrolliere das eine gültige Kanal ID in der Config steht oder deaktiviere dieses Feature! (plugins/YVtils-SMP/discord/config.yml/chatSync)"
+                    )
                 )
-            )
 
+                active = false
+            }
+        } catch (_: UninitializedPropertyAccessException) {
             active = false
         }
     }
 
-    fun discordToMinecraft(e: MessageReceivedEvent) {
+    private fun discordToMinecraft(e: MessageReceivedEvent) {
         val author = e.author.name
         val message = e.message.contentDisplay
 
         if (!active) return
         if (e.author.isBot) return
-        if (e.channel.id != channelID.toString()) return
+        if (e.channel.id != channelID) return
 
         try {
             if (!e.member!!.hasPermission(Permission.valueOf(discordPermission))) return
