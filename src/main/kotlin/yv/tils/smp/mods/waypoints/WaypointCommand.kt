@@ -62,7 +62,7 @@ class WaypointCommand {
                 }
             }
             "delete" -> {
-                if (checkWaypoint(player, name)) {
+                if (checkWaypoint(player, name) && WaypointConfig().requestCreator(player.uniqueId.toString(), name)) {
                     deleteWaypoint(player, name)
                 } else {
                     println("TEMP MESSAGE: Waypoint not found!")

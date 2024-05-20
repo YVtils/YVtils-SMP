@@ -127,9 +127,20 @@ class WaypointConfig {
     }
 
     fun requestVisibility(uuid: String, name: String): String {
+        try {
+            val waypoint = waypoints["PUBLIC"]?.find { it.name == name } ?: return "private"
+            return waypoint.visibility
+        } catch (_: NullPointerException) {
+            val waypoint = waypoints[uuid]?.find { it.name == name } ?: return "private"
+            return waypoint.visibility
+        }
+    }
+
+    fun requestCreator(uuid: String, name: String): Boolean {
         val file = File(YVtils.instance.dataFolder.path, "waypoints/" + "save.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
-        return ymlFile.getString("$uuid.$name.visibility") ?: "private"
+        ymlFile.getString("$uuid.$name") ?: return false
+        return true
     }
 }
