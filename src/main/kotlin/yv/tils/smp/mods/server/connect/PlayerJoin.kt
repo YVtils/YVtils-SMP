@@ -3,7 +3,9 @@ package yv.tils.smp.mods.server.connect
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent
+import yv.tils.smp.YVtils
 import yv.tils.smp.mods.admin.vanish.Vanish
+import yv.tils.smp.mods.waypoints.WaypointPath
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
@@ -28,16 +30,15 @@ class PlayerJoin {
             1 -> vanishJoin(e, e.player)
             2 -> sendJoinMessage(e, e.player)
             3 -> setupPlayer(e, e.player)
-            4 -> otherActions(e, e.player)
+            4 -> hideWaypointMarkers(e, e.player)
+            5 -> otherActions(e, e.player)
         }
     }
-
 
     private fun vanishJoin(e: PlayerJoinEvent, player: Player) {
         if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!) {
             e.joinMessage(null)
-            setupPlayer(e, player)
-            state = -1
+            state = 3
         } else {
             funcStarter(state++, e)
         }
@@ -76,6 +77,12 @@ class PlayerJoin {
         Language.playerLang[player.uniqueId] = player.locale()
 
         funcStarter(state++, e)
+    }
+
+    private fun hideWaypointMarkers(e: PlayerJoinEvent, player: Player) {
+        WaypointPath.crystalList.forEach {
+            player.hideEntity(YVtils.instance, it)
+        }
     }
 
     private fun otherActions(e: PlayerJoinEvent, player: Player) {

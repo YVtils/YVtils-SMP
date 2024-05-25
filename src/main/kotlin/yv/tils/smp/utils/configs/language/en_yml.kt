@@ -610,7 +610,45 @@ class en_yml {
             "<white>The block <yellow><block> <white>is not in the list!"
         )
 
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_ALREADY_EXISTS",
+            "<white>The waypoint <yellow><waypoint> <white>already exists!"
+        )
 
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_NOT_FOUND",
+            "<white>The waypoint <yellow><waypoint> <white>does not exist!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_CREATED",
+            "<white>The waypoint <yellow><waypoint> <white>got created!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_DELETED",
+            "<white>The waypoint <yellow><waypoint> <white>got deleted!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_DELETE_NOT_ALLOWED",
+            "<white>You are not allowed to delete the waypoint <yellow><waypoint><white>!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_NAVIGATE_STARTED",
+            "<white>Navigating to <yellow><waypoint> <white>started!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_NAVIGATE_STOPPED",
+            "<white>Navigating to <yellow><waypoint> <white>stopped!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_NAVIGATE_FINISHED",
+            "<white>Navigating to <yellow><waypoint> <white>finished!"
+        )
 
         ymlFile.options().copyDefaults(true)
         ymlFile.save(file)

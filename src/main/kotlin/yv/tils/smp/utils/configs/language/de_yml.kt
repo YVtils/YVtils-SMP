@@ -640,6 +640,46 @@ class de_yml {
             "<white>Der Block <yellow><block> <white>ist nicht in der Liste!"
         )
 
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_ALREADY_EXISTS",
+            "<white>Der Wegpunkt <yellow><waypoint> <white>existiert bereits!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_NOT_FOUND",
+            "<white>Der Wegpunkt <yellow><waypoint> <white>existiert nicht!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_CREATED",
+            "<white>Der Wegpunkt <yellow><waypoint> <white>wurde erstellt!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_DELETED",
+            "<white>Der Wegpunkt <yellow><waypoint> <white>wurde gelöscht!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_DELETE_NOT_ALLOWED",
+            "<white>Du bist nicht berechtigt, den Wegpunkt <yellow><waypoint> <white>zu löschen!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_NAVIGATE_STARTED",
+            "<white>Die Navigation zum Wegpunkt <yellow><waypoint> <white>wurde gestartet!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_NAVIGATE_STOPPED",
+            "<white>Die Navigation zum Wegpunkt <yellow><waypoint> <white>wurde gestoppt!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_WAYPOINT_NAVIGATE_FINISHED",
+            "<white>Die Navigation zum Wegpunkt <yellow><waypoint> <white>wurde beendet!"
+        )
+
         ymlFile.options().copyDefaults(true)
         ymlFile.save(file)
     }

@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerQuitEvent
 import yv.tils.smp.mods.admin.vanish.Vanish
+import yv.tils.smp.mods.waypoints.WaypointPath
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
@@ -26,6 +27,7 @@ class PlayerQuit {
         when (state) {
             1 -> vanishQuit(e, e.player)
             2 -> sendQuitMessage(e, e.player)
+            3 -> stopNavigation(e, e.player)
         }
     }
 
@@ -60,5 +62,15 @@ class PlayerQuit {
             listOf("player"),
             listOf(player.name)
         )
+    }
+
+    private fun stopNavigation(e: PlayerQuitEvent, player: Player) {
+        val navigations = WaypointPath.navigatingPlayers
+        if (navigations.containsKey(player)) {
+            navigations[player]?.task?.cancel()
+            navigations[player]?.endCrystal?.remove()
+            navigations.remove(player)
+        }
+        funcStarter(state++, e)
     }
 }

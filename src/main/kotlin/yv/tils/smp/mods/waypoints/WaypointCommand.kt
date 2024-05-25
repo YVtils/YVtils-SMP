@@ -9,8 +9,11 @@ import dev.jorel.commandapi.kotlindsl.*
 import org.bukkit.Location
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.configs.waypoints.WaypointConfig
 import yv.tils.smp.utils.configs.waypoints.WaypointConfig.Companion.waypoints
+import yv.tils.smp.utils.internalAPI.Placeholder
 import java.util.concurrent.CompletableFuture
 import kotlin.math.roundToInt
 
@@ -36,8 +39,7 @@ class WaypointCommand {
 
                 stringArgument("visibility", true) {
                     replaceSuggestions(
-                        // TODO: Add unlisted as option
-                        ArgumentSuggestions.strings("public", "private")
+                        ArgumentSuggestions.strings("public", "private", "unlisted")
                     )
 
                     playerExecutor { sender, args ->
@@ -58,21 +60,54 @@ class WaypointCommand {
                 if (!checkWaypoint(player, name)) {
                     createWaypoint(player, name, visibility)
                 } else {
-                    println("TEMP MESSAGE: Waypoint already exists!")
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MODULE_WAYPOINT_ALREADY_EXISTS),
+                            mapOf(
+                                "waypoint" to name
+                            )
+                        )
+                    )
                 }
             }
             "delete" -> {
-                if (checkWaypoint(player, name) && WaypointConfig().requestCreator(player.uniqueId.toString(), name)) {
+                if (checkWaypoint(player, name)) {
+                    if (!WaypointConfig().requestCreator(player.uniqueId.toString(), name)) {
+                        player.sendMessage(
+                            Placeholder().replacer(
+                                Language().getMessage(player.uniqueId, LangStrings.MODULE_WAYPOINT_DELETE_NOT_ALLOWED),
+                                mapOf(
+                                    "waypoint" to name
+                                )
+                            )
+                        )
+                        return
+                    }
+
                     deleteWaypoint(player, name)
                 } else {
-                    println("TEMP MESSAGE: Waypoint not found!")
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MODULE_WAYPOINT_NOT_FOUND),
+                            mapOf(
+                                "waypoint" to name
+                            )
+                        )
+                    )
                 }
             }
             "navigate" -> {
                 if (checkWaypoint(player, name)) {
                     navigateWaypoints(player, name)
                 } else {
-                    println("TEMP MESSAGE: Waypoint not found!")
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MODULE_WAYPOINT_NOT_FOUND),
+                            mapOf(
+                                "waypoint" to name
+                            )
+                        )
+                    )
                 }
             }
             else -> {
@@ -84,38 +119,45 @@ class WaypointCommand {
     private fun createWaypoint(player: Player, name: String, visibility: String, location: Location = player.location) {
         WaypointConfig().addWaypoint(player.uniqueId.toString(), name, visibility, location.x, location.y, location.z, location.world.name)
 
-        // TODO: Message
-        println("TEMP MESSAGE: Waypoint created!")
+        player.sendMessage(
+            Placeholder().replacer(
+                Language().getMessage(player.uniqueId, LangStrings.MODULE_WAYPOINT_CREATED),
+                mapOf(
+                    "waypoint" to name
+                )
+            )
+        )
     }
 
     private fun deleteWaypoint(player: Player, name: String) {
-        println("TEMP MESSAGE: Waypoint deleted!")
-
-
         WaypointConfig().removeWaypoint(player.uniqueId.toString(), name)
 
-        // TODO: Message
+        player.sendMessage(
+            Placeholder().replacer(
+                Language().getMessage(player.uniqueId, LangStrings.MODULE_WAYPOINT_DELETED),
+                mapOf(
+                    "waypoint" to name
+                )
+            )
+        )
     }
 
     private fun navigateWaypoints(player: Player, name: String) {
-        println("TEMP MESSAGE: Navigating to waypoint!")
-
         val visibility = WaypointConfig().requestVisibility(player.uniqueId.toString(), name)
 
         if (visibility.lowercase() == "public") {
             val waypoint = waypoints["PUBLIC"]?.find { it.name == name } ?: return
-            WaypointPath().generatePath(player, waypoint.x, waypoint.y, waypoint.z, waypoint.world)
+            WaypointPath().generatePath(player, waypoint.x, waypoint.y, waypoint.z, waypoint.world, name)
         } else if (visibility.lowercase() == "private") {
             val waypoint = waypoints[player.uniqueId.toString()]?.find { it.name == name } ?: return
-            WaypointPath().generatePath(player, waypoint.x, waypoint.y, waypoint.z, waypoint.world)
+            WaypointPath().generatePath(player, waypoint.x, waypoint.y, waypoint.z, waypoint.world, name)
+        } else if (visibility.lowercase() == "unlisted") {
+            val waypoint = waypoints["UNLISTED"]?.find { it.name == name } ?: return
+            WaypointPath().generatePath(player, waypoint.x, waypoint.y, waypoint.z, waypoint.world, name)
         }
-
-        // TODO: Message
     }
 
     private fun checkWaypoint(player: Player, name: String): Boolean {
-        println("TEMP MESSAGE: Checking waypoint")
-
         val playerWaypoints = waypoints[player.uniqueId.toString()]
 
         if (playerWaypoints != null) {
@@ -130,6 +172,16 @@ class WaypointCommand {
 
         if (publicWaypoints != null) {
             for (waypoint in publicWaypoints) {
+                if (waypoint.name == name) {
+                    return true
+                }
+            }
+        }
+
+        val unlistedWaypoints = waypoints["UNLISTED"]
+
+        if (unlistedWaypoints != null) {
+            for (waypoint in unlistedWaypoints) {
                 if (waypoint.name == name) {
                     return true
                 }

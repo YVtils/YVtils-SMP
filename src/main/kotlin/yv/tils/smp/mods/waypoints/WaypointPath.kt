@@ -12,6 +12,9 @@ import org.bukkit.scheduler.BukkitTask
 import org.bukkit.util.Vector
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
+import yv.tils.smp.utils.internalAPI.Placeholder
 import kotlin.math.atan2
 
 class WaypointPath {
@@ -27,7 +30,7 @@ class WaypointPath {
         val task: BukkitTask
     )
 
-    fun generatePath(player: Player, x: Double, y: Double, z: Double, worldName: String) {
+    fun generatePath(player: Player, x: Double, y: Double, z: Double, worldName: String, waypointName: String) {
         val world = Bukkit.getWorld(worldName)
         val location = Location(world, x, y, z)
 
@@ -36,6 +39,16 @@ class WaypointPath {
                 navigatingPlayers[player]?.task?.cancel()
                 navigatingPlayers[player]?.endCrystal?.remove()
                 navigatingPlayers.remove(player)
+
+                player.sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(player.uniqueId, LangStrings.MODULE_WAYPOINT_NAVIGATE_STOPPED),
+                        mapOf(
+                            "waypoint" to waypointName
+                        )
+                    )
+                )
+
                 return
             } else {
                 navigatingPlayers[player]?.task?.cancel()
@@ -44,10 +57,19 @@ class WaypointPath {
             }
         }
 
-        navigate(player, location)
+        navigate(player, location, waypointName)
+
+        player.sendMessage(
+            Placeholder().replacer(
+                Language().getMessage(player.uniqueId, LangStrings.MODULE_WAYPOINT_NAVIGATE_STARTED),
+                mapOf(
+                    "waypoint" to waypointName
+                )
+            )
+        )
     }
 
-    private fun navigate(player: Player, location: Location) {
+    private fun navigate(player: Player, location: Location, waypointName: String) {
         val endCrystal = spawnEndCrystal(player, location)
 
         val task = object : BukkitRunnable() {
@@ -57,6 +79,18 @@ class WaypointPath {
 
                 if ((location.world == player.location.world) && location.distance(player.location) < 10) {
                     removeCrystal(endCrystal)
+
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MODULE_WAYPOINT_NAVIGATE_FINISHED),
+                            mapOf(
+                                "waypoint" to waypointName
+                            )
+                        )
+                    )
+
+                    navigatingPlayers.remove(player)
+
                     cancel()
                     return
                 }
@@ -111,22 +145,23 @@ class WaypointPath {
         val x = targetLoc.x - currentLoc.x
         val z = targetLoc.z - currentLoc.z
 
-        val angle = Math.toDegrees(atan2(z, x)) + 90 - (currentLoc.yaw + 180)
+        var angle = Math.toDegrees(atan2(z, x)) - currentLoc.yaw
 
-        // TODO: Test if all directions are working correct
-        // ⇑⇒⇓⇖⇗⇘⇙⇐
-        // ↑→↓↖↗↘↙←
+        angle = ((angle + 180) % 360 + 360) % 360 - 180
+
         return when (angle) {
-            in -75.0 .. -15.0 -> "↖"
-            in -105.0 .. -75.0 -> "←"
-            in -165.0 .. -105.0 -> "↙"
-            in -195.0 .. -165.0 -> "↓"
-            in 105.0 .. 195.0 -> "↘"
-            in 75.0 .. 105.0 -> "→"
-            in 15.0 .. 75.0 -> "↗"
+            in -22.5 .. 22.5 -> "←"
+            in 22.5 .. 67.5 -> "↖"
+            in 67.5 .. 112.5 -> "↑"
+            in 112.5 .. 157.5 -> "↗"
+            in 157.5 .. 180.0, in -180.0 .. -157.5 -> "→"
+            in -157.5 .. -112.5 -> "↘"
+            in -112.5 .. -67.5 -> "↓"
+            in -67.5 .. -22.5 -> "↙"
             else -> "↑"
         }
     }
+
 
     private fun spawnEndCrystal(player: Player, location: Location): EnderCrystal {
         val world = location.world
@@ -150,7 +185,6 @@ class WaypointPath {
         endCrystal.isGlowing = true
         endCrystal.isSilent = true
 
-        // TODO New joined players see the end crystal
         for (playerLoop in Bukkit.getOnlinePlayers()) {
             playerLoop.hideEntity(YVtils.instance, endCrystal)
         }

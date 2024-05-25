@@ -62,6 +62,7 @@ class SpawnElytra {
     fun onWorldChange(e: PlayerChangedWorldEvent) {
         val player = e.player
         if (FlyCMD.fly.containsKey(player.uniqueId) && FlyCMD.fly[player.uniqueId] == true) return
+        if (player.gameMode != GameMode.SURVIVAL) return
         player.allowFlight = false
         player.isFlying = false
         player.isGliding = false

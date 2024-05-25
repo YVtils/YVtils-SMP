@@ -60,38 +60,14 @@ class WaypointConfig {
                 ymlFile.getString("$key.world")!!
             )
 
-            try {
-                if (visibility.lowercase() == "public") {
-                    waypoints["PUBLIC"]!!.add(waypoint)
-                } else {
-                    waypoints[uuid]!!.add(waypoint)
-                }
-            } catch (e: NullPointerException) {
-                if (visibility.lowercase() == "public") {
-                    waypoints["PUBLIC"] = mutableListOf(waypoint)
-                } else {
-                    waypoints[uuid] = mutableListOf(waypoint)
-                }
-            }
+            addWaypointToList(visibility, waypoint, uuid)
         }
     }
 
     fun addWaypoint(uuid: String, name: String, visibility: String, x: Double, y: Double, z: Double, world: String) {
         val waypoint = Waypoint(name, visibility, x, y, z, world)
 
-        try {
-            if (visibility.lowercase() == "public") {
-                waypoints["PUBLIC"]!!.add(waypoint)
-            } else {
-                waypoints[uuid]!!.add(waypoint)
-            }
-        } catch (e: NullPointerException) {
-            if (visibility.lowercase() == "public") {
-                waypoints["PUBLIC"] = mutableListOf(waypoint)
-            } else {
-                waypoints[uuid] = mutableListOf(waypoint)
-            }
-        }
+        addWaypointToList(visibility, waypoint, uuid)
 
         val file = File(YVtils.instance.dataFolder.path, "waypoints/" + "save.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
@@ -119,6 +95,11 @@ class WaypointConfig {
             val waypoint = waypoints[uuid]?.find { it.name == name } ?: return
 
             waypoints[uuid]?.remove(waypoint)
+        } else if (visibility.lowercase() == "unlisted") {
+            val waypoint = waypoints["UNLISTED"]?.find { it.name == name } ?: return
+
+            waypoints["UNLISTED"]?.remove(waypoint)
+            waypoints[uuid]?.remove(waypoint)
         }
 
         ymlFile.set("$uuid.$name", null)
@@ -128,7 +109,7 @@ class WaypointConfig {
 
     fun requestVisibility(uuid: String, name: String): String {
         try {
-            val waypoint = waypoints["PUBLIC"]?.find { it.name == name } ?: return "private"
+            val waypoint = waypoints["PUBLIC"]?.find { it.name == name } ?: waypoints["UNLISTED"]?.find { it.name == name } ?: return "private"
             return waypoint.visibility
         } catch (_: NullPointerException) {
             val waypoint = waypoints[uuid]?.find { it.name == name } ?: return "private"
@@ -142,5 +123,36 @@ class WaypointConfig {
 
         ymlFile.getString("$uuid.$name") ?: return false
         return true
+    }
+
+    private fun addWaypointToList(visibility: String, waypoint: Waypoint, uuid: String = "") {
+        val currentPublicWaypoints = waypoints["PUBLIC"]
+        val currentUnlistedWaypoints = waypoints["UNLISTED"]
+        val currentPrivateWaypoints = waypoints[uuid]
+
+        if (visibility.lowercase() == "public") {
+            if (currentPublicWaypoints != null) {
+                currentPublicWaypoints.add(waypoint)
+            } else {
+                waypoints["PUBLIC"] = mutableListOf(waypoint)
+            }
+        } else if (visibility.lowercase() == "unlisted") {
+            if (currentUnlistedWaypoints != null) {
+                currentUnlistedWaypoints.add(waypoint)
+            } else {
+                waypoints["UNLISTED"] = mutableListOf(waypoint)
+            }
+            if (currentPrivateWaypoints != null) {
+                currentPrivateWaypoints.add(waypoint)
+            } else {
+                waypoints[uuid] = mutableListOf(waypoint)
+            }
+        } else {
+            if (currentPrivateWaypoints != null) {
+                currentPrivateWaypoints.add(waypoint)
+            } else {
+                waypoints[uuid] = mutableListOf(waypoint)
+            }
+        }
     }
 }
