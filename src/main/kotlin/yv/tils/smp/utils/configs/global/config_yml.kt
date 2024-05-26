@@ -31,6 +31,8 @@ class config_yml {
         ymlFile.addDefault("joinMessages", joinMessages())
         ymlFile.addDefault("leaveMessages", leaveMessages())
 
+        ymlFile.addDefault("allowChatColors", true)
+
         ymlFile.addDefault("msg.design", "<yellow>[<red><sender> <yellow>-> <red><receiver><yellow>]<white> <message>")
 
         ymlFile.addDefault("maintenance", false)

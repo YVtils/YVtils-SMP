@@ -16,7 +16,7 @@ class SeedCMD {
         withPermission("yvtils.smp.command.seed")
         withUsage("seed show")
 
-        literalArgument("show", true) {
+        literalArgument("show", false) {
             anyExecutor { sender, _ ->
                 val seedMap: MutableMap<Long, String> = mutableMapOf()
 

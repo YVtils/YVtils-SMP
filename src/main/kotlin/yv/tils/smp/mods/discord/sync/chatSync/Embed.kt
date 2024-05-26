@@ -8,11 +8,8 @@ class Embed {
     val builder = EmbedBuilder()
 
     fun embed(sender: Player, message: String): EmbedBuilder {
-
-        println("DEBUG | " + "https://cravatar.eu/helmhead/" + sender.uniqueId + "/600")
-
         return builder
-            .setAuthor(sender.getName(), null, "https://cravatar.eu/helmhead/" + sender.uniqueId + "/600")
+            .setAuthor(sender.name, null, "https://cravatar.eu/helmhead/" + sender.uniqueId + "/600")
             .setDescription(message)
             .setColor(Color(0xABFF99))
     }
