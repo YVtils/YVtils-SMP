@@ -29,8 +29,8 @@ paperweight.reobfArtifactConfiguration.set(io.papermc.paperweight.userdev.ReobfA
 dependencies {
     paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
 
-    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.5.0-SNAPSHOT")
-    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.5.0-SNAPSHOT")
+    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.4.2")
+    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.4.2")
 
     implementation("net.dv8tion:JDA:$jdaVersion")
 }
