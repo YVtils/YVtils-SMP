@@ -45,3 +45,4 @@ bin/
 ### CUSTOM ###
 /run/
 /gradle/
+/.kotlin/
