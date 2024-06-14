@@ -305,7 +305,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_NAME_UNALLOWED_CHARACTERS",
-            "Account Name: <accountname> • Du hast unerlaubte Zeichen verwendet! Erlaubt sind: a-z; A-Z; 0-9; _"
+            "Account Name: <accountName> • Du hast unerlaubte Zeichen verwendet! Erlaubt sind: a-z; A-Z; 0-9; _"
         )
 
         ymlFile.addDefault(
@@ -314,7 +314,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_ACCOUNT_ALREADY_WHITELISTED",
-            "Account Name: <accountname> • Dieser Account ist bereits auf der Whitelist!"
+            "Account Name: <accountName> • Dieser Account ist bereits auf der Whitelist!"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_CHECK_TITLE",

@@ -268,7 +268,7 @@ class en_yml {
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_NAME_NOTEXISTING",
-            "Account Name"
+            "Account Name: <accountName> • Check the name and try again! If you think this could be a bug, contact the developer or server owner!"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_SERVER_ERROR",
@@ -276,7 +276,7 @@ class en_yml {
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_SERVER_ERROR",
-            "Account Name: <accountname> • Try again in a few minutes/hours! If this error persist contact the developer!"
+            "Account Name: <accountName> • Try again in a few minutes/hours! If this error persist contact the developer!"
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_TITLE_NAME_UNALLOWED_CHARACTERS",
@@ -292,7 +292,7 @@ class en_yml {
         )
         ymlFile.addDefault(
             "EMBED_BUILDER_DESCRIPTION_ACCOUNT_ALREADY_WHITELISTED",
-            "Account Name: <accountname> • This account is already whitelisted!"
+            "Account Name: <accountName> • This account is already whitelisted!"
         )
         ymlFile.addDefault(
             "EMBED_CMD_WHITELIST_CHECK_TITLE",
