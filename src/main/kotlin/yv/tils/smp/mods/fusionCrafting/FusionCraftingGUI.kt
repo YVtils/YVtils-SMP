@@ -25,7 +25,7 @@ class FusionCraftingGUI {
         }
     }
 
-    private fun generateGUI(player: Player) {
+    fun generateGUI(player: HumanEntity) {
         val questSlots: List<Int> =
             listOf(11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 38, 39, 40, 41, 42)
 
@@ -42,7 +42,7 @@ class FusionCraftingGUI {
                     val nextPageMeta = nextPage.itemMeta as PotionMeta
                     nextPageMeta.displayName(ColorUtils().convert("<green>Next Page"))
                     nextPageMeta.color = Color.fromRGB(85, 150, 95)
-                    nextPageMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+                    nextPageMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
                     nextPage.itemMeta = nextPageMeta
                     inv.setItem(53, nextPage)
 
@@ -50,7 +50,7 @@ class FusionCraftingGUI {
                     val lastPageMeta = nextPage.itemMeta as PotionMeta
                     lastPageMeta.displayName(ColorUtils().convert("<red>Last Page"))
                     lastPageMeta.color = Color.fromRGB(150, 85, 95)
-                    lastPageMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+                    lastPageMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
                     lastPage.itemMeta = lastPageMeta
                     inv.setItem(45, lastPage)
 
@@ -58,7 +58,7 @@ class FusionCraftingGUI {
                     val pageCountMeta = nextPage.itemMeta as PotionMeta
                     pageCountMeta.displayName(ColorUtils().convert("<yellow>Page: 1"))
                     pageCountMeta.color = Color.fromRGB(200, 175, 20)
-                    pageCountMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+                    pageCountMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
                     pageCount.itemMeta = pageCountMeta
                     inv.setItem(49, pageCount)
 
@@ -70,7 +70,7 @@ class FusionCraftingGUI {
         val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
         val fillerMeta = outerFiller.itemMeta
         fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         outerFiller.itemMeta = fillerMeta
 
         val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
@@ -102,14 +102,14 @@ class FusionCraftingGUI {
         val backMeta = back.itemMeta as PotionMeta
         backMeta.color = Color.fromRGB(150, 85, 95)
         backMeta.displayName(ColorUtils().convert("<red>Back"))
-        backMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        backMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         back.itemMeta = backMeta
         inv.setItem(backSlot, back)
 
         val accept = ItemStack(Material.LIME_STAINED_GLASS_PANE)
         val acceptMeta = accept.itemMeta
         acceptMeta.displayName(ColorUtils().convert("<green>Accept Recipe"))
-        acceptMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        acceptMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         accept.itemMeta = acceptMeta
 
         for (slot in acceptSlots) {
@@ -122,7 +122,7 @@ class FusionCraftingGUI {
         val filler = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
         val fillerMeta = filler.itemMeta
         fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         filler.itemMeta = fillerMeta
 
         val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)

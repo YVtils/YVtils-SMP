@@ -1,6 +1,7 @@
 package yv.tils.smp.mods.fusionCrafting
 
 import org.bukkit.Material
+import org.bukkit.entity.HumanEntity
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
@@ -28,7 +29,7 @@ class GUIListener {
                     val questMap = FusionLoader().loadQuest(questName)
 
                     Debugger().log(
-                        "Opened quest",
+                        "Opened fusion",
                         "Name: $questName | Map: $questMap",
                         "yv.tils.smp.mods.fusionCrafting.GUIListener"
                     )
@@ -63,29 +64,58 @@ class GUIListener {
             when (slot) {
                 in acceptSlots -> {
                     // Accept
+                    if (!FusionCheck.canAccept) return
 
                     var i = 0
-                    while (player.inventory.firstEmpty() != -1) {
+                    while (i < 6) {
                         when (i) {
-                            0 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(15, inv))
-                            1 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(16, inv))
-                            2 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(24, inv))
-                            3 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(25, inv))
-                            4 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(33, inv))
-                            5 -> player.inventory.setItem(player.inventory.firstEmpty(), checkOutput(34, inv))
+                            0 -> addToInventory(player, checkOutput(15, inv))
+                            1 -> addToInventory(player, checkOutput(16, inv))
+                            2 -> addToInventory(player, checkOutput(24, inv))
+                            3 -> addToInventory(player, checkOutput(25, inv))
+                            4 -> addToInventory(player, checkOutput(33, inv))
+                            5 -> addToInventory(player, checkOutput(34, inv))
                             else -> break
                         }
                         i++
                     }
 
-                    println("This would accept the fusion")
+                    for (item in FusionCheck.fusionItems) {
+                        player.inventory.removeItem(item)
+                    }
                 }
 
                 backSlot -> {
                     // Back
-                    println("This would go back to the main fusion crafting GUI")
+                    FusionCraftingGUI().generateGUI(player)
                 }
             }
+        }
+    }
+
+    private fun addToInventory(player: HumanEntity, item: ItemStack) {
+        for (i in player.inventory.contents) {
+            if (i != null && i.isSimilar(item) && i.amount + item.amount <= i.maxStackSize) {
+                i.amount += item.amount
+                return
+            } else if (i != null && i.isSimilar(item)) {
+                if (i.amount == i.maxStackSize) continue
+
+                val remaining = i.maxStackSize - i.amount
+                i.amount = i.maxStackSize
+                item.amount -= remaining
+                addToInventory(player, item)
+                return
+            }
+        }
+
+        if (player.inventory.firstEmpty() == -1) {
+            val loc = player.location
+            loc.y += 1.0
+
+            player.location.world!!.dropItem(loc, item)
+        } else {
+            player.inventory.addItem(item)
         }
     }
 

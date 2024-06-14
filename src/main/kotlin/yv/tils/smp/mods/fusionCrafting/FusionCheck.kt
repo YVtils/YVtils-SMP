@@ -8,6 +8,12 @@ import org.bukkit.inventory.ItemStack
 import yv.tils.smp.utils.color.ColorUtils
 
 class FusionCheck {
+    companion object {
+        val fusionItems = mutableListOf<ItemStack>()
+        var canAccept = false
+        var correctItems = 0
+    }
+
     fun buildItemList(fusion: MutableMap<String, Any>, inv: Inventory, player: Player) {
         val items = mutableListOf<ItemStack>()
 
@@ -22,6 +28,10 @@ class FusionCheck {
                 mapKey = ""
                 items.clear()
             }
+        }
+
+        if (correctItems == fusion.size) {
+            canAccept = true
         }
     }
 
@@ -75,8 +85,11 @@ class FusionCheck {
 
     private fun compareInv(inv: Inventory, items: MutableList<ItemStack>): Boolean {
         for (item in items) {
-            // TODO: Probably best to save the found Item to a var for later removal of the item from the inventory. If possible also slot number.
-            if (inv.containsAtLeast(item, item.amount)) return true
+            if (inv.containsAtLeast(item, item.amount)) {
+                fusionItems.add(item)
+                correctItems++
+                return true
+            }
         }
         return false
     }
