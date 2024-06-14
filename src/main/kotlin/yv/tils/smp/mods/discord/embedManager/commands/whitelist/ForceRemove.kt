@@ -34,7 +34,7 @@ class ForceRemove {
     }
 
     fun embedRemove(playerCount: Int, whitelist: Boolean, site: Int, acc: MutableList<String>): EmbedBuilder {
-        var status = if (whitelist) {
+        val status = if (whitelist) {
             "on"
         } else {
             "off"
@@ -80,7 +80,7 @@ class ForceRemove {
                 .addOption("null", "null")
         }
 
-        var options = mutableListOf<SelectOption>()
+        val options = mutableListOf<SelectOption>()
         val start = (site - 1) * 25
 
         for (i in start until list.size) {

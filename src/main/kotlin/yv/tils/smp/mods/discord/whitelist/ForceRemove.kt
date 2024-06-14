@@ -1,6 +1,8 @@
 package yv.tils.smp.mods.discord.whitelist
 
 import net.dv8tion.jda.api.entities.User
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceVideoEvent
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.components.ActionRow
@@ -19,7 +21,7 @@ class ForceRemove : ListenerAdapter() {
     override fun onStringSelectInteraction(e: StringSelectInteractionEvent) {
         val list = ImportWhitelist.whitelistManager
 
-        if (!e.interaction.values.isEmpty()) {
+        if (e.interaction.values.isNotEmpty()) {
             val guild = e.guild
             var values = e.values.toString()
 
@@ -36,7 +38,7 @@ class ForceRemove : ListenerAdapter() {
             })
             DiscordConfig().changeValue(args[0])
 
-            var user: User
+            val user: User
             try {
                 user = BotManager.jda.getUserById(args[0])!!
             } catch (_: NumberFormatException) {
@@ -71,6 +73,36 @@ class ForceRemove : ListenerAdapter() {
             runCatching {
                 reply(e.member?.user?.globalName, args[1], args[0], list.size, args as MutableList<String>, e)
             }
+        }
+    }
+
+    override fun onButtonInteraction(e: ButtonInteractionEvent) {
+        val buttonID = e.componentId
+
+        when (buttonID) {
+            "whitelist_remove_prev" -> {
+                val currentPage = e.message.embeds[0].footer?.text?.split(" ")?.get(3)?.toInt() ?: 1
+
+                e.editMessageEmbeds(ForceRemove().embed(ImportWhitelist.whitelistManager.size, YVtils.instance.server.hasWhitelist(), currentPage - 1).build())
+                    .setComponents(
+                        ActionRow.of(ForceRemove().makeDropDown(currentPage - 1).build()),
+                        ActionRow.of(ForceRemove().makeButtons(ImportWhitelist.whitelistManager.size, currentPage - 1))
+                    )
+                    .queue()
+            }
+
+            "whitelist_remove_next" -> {
+                val currentPage = e.message.embeds[0].footer?.text?.split(" ")?.get(3)?.toInt() ?: 1
+
+                e.editMessageEmbeds(ForceRemove().embed(ImportWhitelist.whitelistManager.size, YVtils.instance.server.hasWhitelist(), currentPage + 1).build())
+                    .setComponents(
+                        ActionRow.of(ForceRemove().makeDropDown(currentPage + 1).build()),
+                        ActionRow.of(ForceRemove().makeButtons(ImportWhitelist.whitelistManager.size, currentPage + 1))
+                    )
+                    .queue()
+            }
+
+            else -> return
         }
     }
 

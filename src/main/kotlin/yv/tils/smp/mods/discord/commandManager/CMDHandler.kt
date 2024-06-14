@@ -60,7 +60,7 @@ class CMDHandler : ListenerAdapter() {
 
                         try {
                             site = e.getOption("site")!!.asString.toInt()
-                            maxSite = e.getOption("maxsite")!!.asString.toInt()
+                            maxSite = (ImportWhitelist.whitelistManager.size - 1) / 25 + 1
 
                             if (site > maxSite) {
                                 site = 1
@@ -78,8 +78,8 @@ class CMDHandler : ListenerAdapter() {
                             ).build()
                         )
                             .setComponents(
-                                ActionRow.of(ForceRemove().makeButtons(ImportWhitelist.whitelistManager.size, 1)),
-                                ActionRow.of(ForceRemove().makeDropDown(1).build())
+                                ActionRow.of(ForceRemove().makeButtons(ImportWhitelist.whitelistManager.size, site)),
+                                ActionRow.of(ForceRemove().makeDropDown(site).build())
                             )
                             .setEphemeral(true).queue()
                     }
