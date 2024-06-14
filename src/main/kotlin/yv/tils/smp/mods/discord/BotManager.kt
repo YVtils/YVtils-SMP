@@ -25,6 +25,7 @@ import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.logger.Debugger
+import java.time.Duration
 
 class BotManager {
     companion object {
@@ -79,6 +80,7 @@ class BotManager {
             "listening" -> builder.setActivity(Activity.listening(activityMessage))
             "watching" -> builder.setActivity(Activity.watching(activityMessage))
             "competing" -> builder.setActivity(Activity.competing(activityMessage))
+            "custom" -> builder.setActivity(Activity.customStatus(activityMessage))
             else -> builder.setActivity(null)
         }
 
@@ -135,6 +137,11 @@ class BotManager {
                 try {
                     builder.setStatus(OnlineStatus.OFFLINE)
                     jda.shutdown()
+
+                    if (!jda.awaitShutdown(Duration.ofSeconds(10))) {
+                        jda.shutdownNow()
+                        jda.awaitShutdown()
+                    }
                 } catch (e: Exception) {
                     YVtils.instance.server.consoleSender.sendMessage(
                         Language().directFormat(
