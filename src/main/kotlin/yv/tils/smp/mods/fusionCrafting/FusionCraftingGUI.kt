@@ -158,7 +158,7 @@ class FusionCraftingGUI {
                                 val item = ItemStack(
                                     Material.valueOf(
                                         (input.value as MutableList<MutableMap<String, String>>)[i]["item"]?.uppercase()
-                                            ?: "DIRT"
+                                            ?: "BARRIER"
                                     )
                                 )
                                 items.add(item)

@@ -12,12 +12,24 @@ class FusionCheck {
         val fusionItems = mutableListOf<ItemStack>()
         var canAccept = false
         var correctItems = 0
+        var neededItems = 0
+
+        var fusionSave = mutableMapOf<String, Any>()
+        var invSave: Inventory? = null
     }
 
-    fun buildItemList(fusion: MutableMap<String, Any>, inv: Inventory, player: Player) {
+    fun buildItemList(fusion: MutableMap<String, Any> = fusionSave, inv: Inventory = invSave!!, player: Player) {
         val items = mutableListOf<ItemStack>()
 
         var mapKey = ""
+
+        fusionItems.clear()
+        correctItems = 0
+        neededItems = 0
+        canAccept = false
+
+        fusionSave = fusion
+        invSave = inv
 
         for (input in fusion) {
             if (input.key.startsWith("input.")) {
@@ -30,7 +42,7 @@ class FusionCheck {
             }
         }
 
-        if (correctItems == fusion.size) {
+        if (correctItems == neededItems) {
             canAccept = true
         }
     }
@@ -73,10 +85,28 @@ class FusionCheck {
                 ) {
                     val item = inv.getItem(slot) ?: return
                     val meta = item.itemMeta
-                    meta.addEnchant(Enchantment.UNBREAKING, 1, true)
-                    meta.displayName(ColorUtils().convert("<green>✔<gray> | <aqua>${mapKey.split(".")[1]} <gray>(${items[0].amount}x)"))
-                    item.itemMeta = meta
 
+                    meta.setEnchantmentGlintOverride(true)
+                    meta.displayName(ColorUtils().convert("<green>✔<gray> | <aqua>${mapKey.split(".")[1]} <gray>(${items[0].amount}x)"))
+
+                    item.itemMeta = meta
+                    inv.setItem(slot, item)
+                }
+            }
+        } else {
+            if (items.isEmpty()) return
+
+            for (slot in inputSlots) {
+                if (inv.getItem(slot)?.itemMeta?.displayName()
+                        ?.let { ColorUtils().convert(it) } == "<green>✔<gray> | <aqua>${mapKey.split(".")[1]} <gray>(${items[0].amount}x)"
+                ) {
+                    val item = inv.getItem(slot) ?: return
+                    val meta = item.itemMeta
+
+                    meta.setEnchantmentGlintOverride(false)
+                    meta.displayName(ColorUtils().convert("<red>✘<gray> | <aqua>${mapKey.split(".")[1]} <gray>(${items[0].amount}x)"))
+
+                    item.itemMeta = meta
                     inv.setItem(slot, item)
                 }
             }
@@ -84,6 +114,10 @@ class FusionCheck {
     }
 
     private fun compareInv(inv: Inventory, items: MutableList<ItemStack>): Boolean {
+        if (items.isEmpty()) return false
+
+        neededItems++
+
         for (item in items) {
             if (inv.containsAtLeast(item, item.amount)) {
                 fusionItems.add(item)

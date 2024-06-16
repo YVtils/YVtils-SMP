@@ -2,6 +2,7 @@ package yv.tils.smp.mods.fusionCrafting
 
 import org.bukkit.Material
 import org.bukkit.entity.HumanEntity
+import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
@@ -64,7 +65,13 @@ class GUIListener {
             when (slot) {
                 in acceptSlots -> {
                     // Accept
+                    FusionCheck().buildItemList(player = player as Player, inv = inv)
+
                     if (!FusionCheck.canAccept) return
+
+                    for (item in FusionCheck.fusionItems) {
+                        player.inventory.removeItem(item)
+                    }
 
                     var i = 0
                     while (i < 6) {
@@ -80,9 +87,7 @@ class GUIListener {
                         i++
                     }
 
-                    for (item in FusionCheck.fusionItems) {
-                        player.inventory.removeItem(item)
-                    }
+                    FusionCheck().buildItemList(player = player as Player, inv = inv)
                 }
 
                 backSlot -> {
