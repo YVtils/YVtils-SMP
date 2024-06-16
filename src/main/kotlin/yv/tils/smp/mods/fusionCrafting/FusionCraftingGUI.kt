@@ -2,6 +2,7 @@ package yv.tils.smp.mods.fusionCrafting
 
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.playerExecutor
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.Material
@@ -218,13 +219,18 @@ class FusionCraftingGUI {
                     item.amount = (output.value as MutableList<MutableMap<String, String>>)[1]["amount"]?.toInt() ?: 1
                     val meta = item.itemMeta
                     meta.displayName(ColorUtils().convert("<gold>" + (output.value as MutableList<MutableMap<String, String>>)[2]["name"] + " <gray>(" + (output.value as MutableList<MutableMap<String, String>>)[1]["amount"] + "x)"))
-                    meta.lore(
-                        listOf(
-                            ColorUtils().convert("<gray>" + (output.value as MutableList<MutableMap<String, String>>)[3]["lore"]),
-                            ColorUtils().convert(" "),
-                            ColorUtils().convert("<gray>Item Data: " + (output.value as MutableList<MutableMap<String, String>>)[4]["data"])
-                        )
+
+                    val lore: MutableList<Component> = mutableListOf(
+                        ColorUtils().convert("<gray>" + (output.value as MutableList<MutableMap<String, String>>)[3]["lore"]),
                     )
+
+                    if ((output.value as MutableList<MutableMap<String, String>>)[4]["data"] != "") {
+                        lore.add(ColorUtils().convert(" "))
+                        lore.add(ColorUtils().convert("<gray>Item Data: " + (output.value as MutableList<MutableMap<String, String>>)[4]["data"]))
+                    }
+
+                    meta.lore(lore)
+
                     item.itemMeta = meta
 
                     items.add(item)
