@@ -27,10 +27,10 @@ repositories {
 paperweight.reobfArtifactConfiguration.set(io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION)
 
 dependencies {
-    paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21-R0.1-SNAPSHOT")
 
-    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.4.2")
-    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.4.2")
+    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.5.0")
+    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.5.0")
 
     implementation("net.dv8tion:JDA:$jdaVersion")
 }
