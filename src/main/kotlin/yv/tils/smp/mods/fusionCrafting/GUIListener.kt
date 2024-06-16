@@ -27,7 +27,7 @@ class GUIListener {
 
                     // Open Quest
                     val questName = FusionLoader.component2name[e.currentItem!!.displayName()]!!
-                    val questMap = FusionLoader().loadQuest(questName)
+                    val questMap = FusionLoader().loadFusion(questName)
 
                     Debugger().log(
                         "Opened fusion",
@@ -87,7 +87,7 @@ class GUIListener {
                         i++
                     }
 
-                    FusionCheck().buildItemList(player = player as Player, inv = inv)
+                    FusionCheck().buildItemList(player = player, inv = inv)
                 }
 
                 backSlot -> {

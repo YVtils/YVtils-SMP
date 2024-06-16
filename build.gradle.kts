@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -63,7 +64,8 @@ tasks {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "21"
+//    kotlinOptions.jvmTarget = "21"
+    compilerOptions.jvmTarget.set(JvmTarget.JVM_21)
 }
 
 application {

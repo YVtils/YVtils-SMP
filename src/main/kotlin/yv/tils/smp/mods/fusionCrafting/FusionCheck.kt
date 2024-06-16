@@ -1,7 +1,6 @@
 package yv.tils.smp.mods.fusionCrafting
 
 import org.bukkit.Material
-import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack

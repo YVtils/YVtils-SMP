@@ -13,8 +13,8 @@ class Modules {
     }
 
     private fun registerQuests() {
-        FusionLoader().generateDefaultQuests()
-        FusionLoader().loadQuestThumbnail()
+        FusionLoader().generateDefaultFusions()
+        FusionLoader().loadFusionThumbnail()
     }
 
     private fun registerStatus() {

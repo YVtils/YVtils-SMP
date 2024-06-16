@@ -11,7 +11,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
-import yv.tils.smp.mods.fusionCrafting.FusionLoader.Companion.questThumbnails
+import yv.tils.smp.mods.fusionCrafting.FusionLoader.Companion.fusionThumbnails
 import yv.tils.smp.utils.color.ColorUtils
 
 class FusionCraftingGUI {
@@ -31,7 +31,7 @@ class FusionCraftingGUI {
 
         val inv = Bukkit.createInventory(player, 54, ColorUtils().convert("<gold>Fusion Crafting"))
 
-        loop@ for (quest in questThumbnails) {
+        loop@ for (quest in fusionThumbnails) {
             for (slot in questSlots) {
                 if (inv.getItem(slot) == null) {
                     inv.setItem(slot, quest.value)
@@ -173,7 +173,11 @@ class FusionCraftingGUI {
                             2 -> {
                                 val item = items[items.size - 1]
                                 val meta = item.itemMeta
-                                meta.lore(listOf(ColorUtils().convert("<gray>Item Data: " + (input.value as MutableList<MutableMap<String, *>>)[i]["data"])))
+
+                                if ((input.value as MutableList<MutableMap<String, *>>)[i]["data"] != "") {
+                                    meta.lore(listOf(ColorUtils().convert("<gray>Item Data: " + (input.value as MutableList<MutableMap<String, *>>)[i]["data"])))
+                                }
+
                                 item.itemMeta = meta
                             }
                         }
