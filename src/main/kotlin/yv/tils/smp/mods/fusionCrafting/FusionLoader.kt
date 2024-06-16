@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.YVtils
+import yv.tils.smp.mods.fusionCrafting.fusions.invisItemFrames.InvisItemFrame
 import yv.tils.smp.mods.fusionCrafting.fusions.lightBlock.LightBlock
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
@@ -13,11 +14,11 @@ import java.io.File
 
 class FusionLoader {
     companion object {
-        val questThumbnails: MutableMap<String, ItemStack> = mutableMapOf()
+        val fusionThumbnails: MutableMap<String, ItemStack> = mutableMapOf()
         val component2name: MutableMap<Component, String> = mutableMapOf()
     }
 
-    fun generateDefaultQuests() {
+    fun generateDefaultFusions() {
         val file = File(YVtils.instance.dataFolder.path, "fusions")
         if (!file.exists()) file.mkdirs()
 
@@ -26,6 +27,11 @@ class FusionLoader {
         LightBlock().configFile(lightBlockYML)
         lightBlockYML.save(lightBlockFile)
 
+        val invisItemFrameFile = File(YVtils.instance.dataFolder.path, "fusions/invisItemFrame.yml")
+        val invisItemFrameYML: YamlConfiguration = YamlConfiguration.loadConfiguration(invisItemFrameFile)
+        InvisItemFrame().configFile(invisItemFrameYML)
+        invisItemFrameYML.save(invisItemFrameFile)
+
         Debugger().log(
             "Generated default fusion",
             "Generated default fusion",
@@ -33,7 +39,7 @@ class FusionLoader {
         )
     }
 
-    fun loadQuestThumbnail() {
+    fun loadFusionThumbnail() {
         val files = File(YVtils.instance.dataFolder.path, "fusions").listFiles() ?: return
 
         for (file in files) {
@@ -53,18 +59,18 @@ class FusionLoader {
             displayItemMeta.lore(lore)
             displayItem.itemMeta = displayItemMeta
 
-            questThumbnails[name] = displayItem
+            fusionThumbnails[name] = displayItem
             component2name[displayItem.displayName()] = name
 
             Debugger().log(
-                "Loaded quest thumbnail",
-                "Name: $name | File: ${file.path} | Map: ${questThumbnails[name]}",
+                "Loaded fusion thumbnail",
+                "Name: $name | File: ${file.path} | Map: ${fusionThumbnails[name]}",
                 "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt"
             )
         }
     }
 
-    fun loadQuest(quest: String): MutableMap<String, Any> {
+    fun loadFusion(quest: String): MutableMap<String, Any> {
         val file = File(YVtils.instance.dataFolder.path, "fusions/$quest.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
@@ -91,7 +97,7 @@ class FusionLoader {
         }
 
         Debugger().log(
-            "Loaded quest",
+            "Loaded fusion",
             "Name: $quest | File: ${file.path} | Map: $questMap",
             "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt"
         )
