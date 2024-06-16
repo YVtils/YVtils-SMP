@@ -21,11 +21,9 @@ class GUIListener {
 
             when (slot) {
                 11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 38, 39, 40, 41, 42 -> {
-                    // Quest
                     if (e.currentItem == null) return
                     if (e.currentItem!!.type == Material.LIGHT_GRAY_STAINED_GLASS_PANE) return
 
-                    // Open Quest
                     val questName = FusionLoader.component2name[e.currentItem!!.displayName()]!!
                     val questMap = FusionLoader().loadFusion(questName)
 
@@ -39,14 +37,12 @@ class GUIListener {
                 }
 
                 45 -> {
-                    // Last Page
                     if (e.currentItem == null) return
                     if (e.currentItem!!.type == Material.GRAY_STAINED_GLASS_PANE) return
                     println("This would go to the last page")
                 }
 
                 53 -> {
-                    // Next Page
                     if (e.currentItem == null) return
                     if (e.currentItem!!.type == Material.GRAY_STAINED_GLASS_PANE) return
                     println("This would go to the next page")
@@ -64,7 +60,6 @@ class GUIListener {
 
             when (slot) {
                 in acceptSlots -> {
-                    // Accept
                     FusionCheck().buildItemList(player = player as Player, inv = inv)
 
                     if (!FusionCheck.canAccept) return
@@ -91,7 +86,6 @@ class GUIListener {
                 }
 
                 backSlot -> {
-                    // Back
                     FusionCraftingGUI().generateGUI(player)
                 }
             }

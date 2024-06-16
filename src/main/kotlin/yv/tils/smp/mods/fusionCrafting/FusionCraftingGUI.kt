@@ -242,25 +242,21 @@ class FusionCraftingGUI {
 
         when (neededSlots) {
             1 -> {
-                //Use slot 25
                 inv.setItem(25, items[0])
             }
 
             2 -> {
-                //Use slots 24 and 25
                 inv.setItem(24, items[0])
                 inv.setItem(25, items[1])
             }
 
             3 -> {
-                //Use slots 16, 25, and 34
                 inv.setItem(16, items[0])
                 inv.setItem(25, items[1])
                 inv.setItem(34, items[2])
             }
 
             4 -> {
-                //Use slots 16, 24, 25, and 34
                 inv.setItem(16, items[0])
                 inv.setItem(24, items[1])
                 inv.setItem(25, items[2])
@@ -268,7 +264,6 @@ class FusionCraftingGUI {
             }
 
             5 -> {
-                //Use slots 15, 16, 25, 33, and 34
                 inv.setItem(15, items[0])
                 inv.setItem(16, items[1])
                 inv.setItem(25, items[2])
@@ -277,7 +272,6 @@ class FusionCraftingGUI {
             }
 
             else -> {
-                //Use slots 15, 16, 24, 25, 33, and 34
                 inv.setItem(15, items[0])
                 inv.setItem(16, items[1])
                 inv.setItem(24, items[2])
