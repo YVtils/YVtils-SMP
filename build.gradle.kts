@@ -30,8 +30,8 @@ paperweight.reobfArtifactConfiguration.set(io.papermc.paperweight.userdev.ReobfA
 dependencies {
     paperweight.paperDevBundle("1.21-R0.1-SNAPSHOT")
 
-    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.5.0")
-    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.5.0")
+    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.5.1")
+    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.5.1")
 
     implementation("net.dv8tion:JDA:$jdaVersion")
 }
@@ -59,7 +59,7 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.20.6")
+        minecraftVersion("1.21")
     }
 }
 

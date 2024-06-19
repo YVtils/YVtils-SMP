@@ -3,8 +3,10 @@ package yv.tils.smp.mods.server.connect
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.admin.vanish.Vanish
+import yv.tils.smp.mods.fusionCrafting.FusionKeys
 import yv.tils.smp.mods.waypoints.WaypointPath
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.Language
@@ -31,7 +33,8 @@ class PlayerJoin {
             2 -> sendJoinMessage(e, e.player)
             3 -> setupPlayer(e, e.player)
             4 -> hideWaypointMarkers(e, e.player)
-            5 -> otherActions(e, e.player)
+            5 -> checkFusionDupe(e, e.player)
+            6 -> otherActions(e, e.player)
         }
     }
 
@@ -83,6 +86,24 @@ class PlayerJoin {
         WaypointPath.crystalList.forEach {
             player.hideEntity(YVtils.instance, it)
         }
+
+        funcStarter(state++, e)
+    }
+
+    private fun checkFusionDupe(e: PlayerJoinEvent, player: Player) {
+        val inv = player.inventory
+
+        for (i in inv.contents) {
+            if (i != null && i.itemMeta.persistentDataContainer.has(
+                    FusionKeys.fusionGUIKey,
+                    PersistentDataType.STRING
+                )
+            ) {
+                player.inventory.removeItem(i)
+            }
+        }
+
+        funcStarter(state++, e)
     }
 
     private fun otherActions(e: PlayerJoinEvent, player: Player) {

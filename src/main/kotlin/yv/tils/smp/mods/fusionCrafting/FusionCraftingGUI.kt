@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
+import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.mods.fusionCrafting.FusionLoader.Companion.fusionThumbnails
 import yv.tils.smp.utils.color.ColorUtils
 
@@ -88,6 +89,12 @@ class FusionCraftingGUI {
             }
         }
 
+        for (i in 0 until inv.size) {
+            val item = inv.getItem(i) ?: continue
+            item.itemMeta.persistentDataContainer.set(FusionKeys.fusionGUIKey, PersistentDataType.STRING, "fusion")
+            inv.setItem(i, item)
+        }
+
         player.openInventory(inv)
     }
 
@@ -139,6 +146,12 @@ class FusionCraftingGUI {
             }
 
             inv.setItem(i, filler)
+        }
+
+        for (i in 0 until inv.size) {
+            val item = inv.getItem(i) ?: continue
+            item.itemMeta.persistentDataContainer.set(FusionKeys.fusionGUIKey, PersistentDataType.STRING, "fusion")
+            inv.setItem(i, item)
         }
 
         player.openInventory(inv)

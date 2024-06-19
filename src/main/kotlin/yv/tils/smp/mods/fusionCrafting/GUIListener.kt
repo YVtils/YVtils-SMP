@@ -4,6 +4,7 @@ import org.bukkit.Material
 import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import yv.tils.smp.utils.color.ColorUtils
@@ -93,6 +94,12 @@ class GUIListener {
     }
 
     private fun addToInventory(player: HumanEntity, item: ItemStack) {
+        if (item.type == Material.AIR) return
+
+        val meta = item.itemMeta
+        meta.persistentDataContainer.remove(FusionKeys.fusionGUIKey)
+        item.itemMeta = meta
+
         for (i in player.inventory.contents) {
             if (i != null && i.isSimilar(item) && i.amount + item.amount <= i.maxStackSize) {
                 i.amount += item.amount
@@ -128,5 +135,21 @@ class GUIListener {
         }
 
         return item
+    }
+
+    fun onInventoryClose(e: InventoryCloseEvent) {
+        val player = e.player
+        val inv = e.inventory
+
+        if (ColorUtils().convert(player.openInventory.title()).startsWith("<gold>Fusion Crafting - ") || player.openInventory.title() == ColorUtils().convert("<gold>Fusion Crafting")) {
+            for (item in inv.contents) {
+                if (item != null) {
+                    val meta = item.itemMeta
+                    if (meta.persistentDataContainer.has(FusionKeys.fusionGUIKey)) {
+                        player.inventory.removeItem(item)
+                    }
+                }
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryCloseEvent
 import yv.tils.smp.mods.admin.vanish.VanishGUI
+import yv.tils.smp.mods.fusionCrafting.GUIListener
 import yv.tils.smp.utils.invSync.InvClose
 
 class InvClose : Listener {
@@ -11,5 +12,6 @@ class InvClose : Listener {
     fun onEvent(e: InventoryCloseEvent) {
         VanishGUI().guiClose(e)
         InvClose().onInvClose(e)
+        GUIListener().onInventoryClose(e)
     }
 }
