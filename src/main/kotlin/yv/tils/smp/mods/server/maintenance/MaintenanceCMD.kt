@@ -19,7 +19,7 @@ class MaintenanceCMD {
         var maintenance: Boolean = false
     }
 
-    var oldState: Boolean = false
+    private var oldState: Boolean = false
 
     val command = commandTree("maintenance") {
         withPermission("yvtils.smp.command.maintenance")

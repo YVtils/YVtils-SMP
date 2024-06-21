@@ -2,7 +2,7 @@ name: YVtils-SMP
 version: 1.0.0
 main: yv.tils.smp.YVtils
 author: WolfiiYV
-api-version: "1.20"
+api-version: "1.21"
 contributor:
   - SlWed
   - black_Kittys

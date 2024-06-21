@@ -46,7 +46,7 @@ class de_yml {
 
         ymlFile.addDefault(
             "PLAYER_PLUGIN_UPDATE_AVAILABLE",
-            "<prefix> <white>Update verfügbar:<newline><yellow>Verwendete Version: <gray><oldversion><newline><yellow>Neueste Version: <gray><newversion><newline><yellow>Download: <gray><link>"
+            "<prefix> <white>Update verfügbar:<newline><yellow>Verwendete Version: <gray><oldVersion><newline><yellow>Neueste Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
         )
 
         ymlFile.addDefault(

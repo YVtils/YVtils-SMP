@@ -16,6 +16,7 @@ class StatusCommand {
         withAliases("prefix", "role")
 
         literalArgument("set", false) {
+            withPermission("yvtils.smp.command.status.set")
             greedyStringArgument("status", false) {
                 playerExecutor { player, args ->
                     setStatus(player, args[0] as String)
@@ -35,6 +36,7 @@ class StatusCommand {
 
         literalArgument("clear", false) {
             playerArgument("player", true) {
+                withPermission("yvtils.smp.command.status.clear.others")
                 anyExecutor { sender, args ->
                     if (args[0] is Player) {
                         clearStatus(sender as Player, args[0] as Player)

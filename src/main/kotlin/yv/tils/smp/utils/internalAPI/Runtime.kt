@@ -6,13 +6,13 @@ class Runtime {
     val mods: MutableList<String> = ArrayList()
 
     fun loadedMods(): List<String> {
-        if (YVtils.instance.config.getBoolean("Modules.Discord")) mods.add("Discord")
-        if (YVtils.instance.config.getBoolean("Modules.Status")) mods.add("Status")
-        if (YVtils.instance.config.getBoolean("Modules.Sit")) mods.add("Sit")
-        if (YVtils.instance.config.getBoolean("Modules.MultiMine")) mods.add("MultiMine")
-        if (YVtils.instance.config.getBoolean("Modules.CCR")) mods.add("CCR")
-        if (YVtils.instance.config.getBoolean("Modules.Server")) mods.add("Server")
-        if (YVtils.instance.config.getBoolean("Modules.Admin")) mods.add("Admin")
+        if (YVtils.instance.config.getBoolean("modules.discord")) mods.add("Discord")
+        if (YVtils.instance.config.getBoolean("modules.status")) mods.add("Status")
+        if (YVtils.instance.config.getBoolean("modules.sit")) mods.add("Sit")
+        if (YVtils.instance.config.getBoolean("modules.multiMine")) mods.add("MultiMine")
+        if (YVtils.instance.config.getBoolean("modules.fusion")) mods.add("Fusion")
+        if (YVtils.instance.config.getBoolean("modules.server")) mods.add("Server")
+        if (YVtils.instance.config.getBoolean("modules.admin")) mods.add("Admin")
 
         return mods
     }

@@ -12,42 +12,42 @@ class SitManager {
     }
 
     fun sit(player: Player) {
-        val uuid = player.getUniqueId()
+        val uuid = player.uniqueId
 
         if (isSitting(uuid)) {
             return
         }
         sittingPlayers.add(uuid)
 
-        sitDown(0.0, 1.975, 0.0, player.getLocation()).addPassenger(player)
+        sitDown(0.0, 1.975, 0.0, player.location).addPassenger(player)
     }
 
     fun sitGetter(player: Player) {
-        if (player.getVehicle() is ArmorStand) {
-            val sit = player.getVehicle() as ArmorStand
+        if (player.vehicle is ArmorStand) {
+            val sit = player.vehicle as ArmorStand
             standUp(player, sit, 0.0, 1.975, 0.0)
         }
     }
 
-    fun sitDown(x: Double, y: Double, z: Double, location: Location): ArmorStand {
+    private fun sitDown(x: Double, y: Double, z: Double, location: Location): ArmorStand {
         val world = location.getWorld()
         val sit: ArmorStand = world.spawnEntity(location.subtract(x, y, z), EntityType.ARMOR_STAND) as ArmorStand
 
-        sit.setInvulnerable(true)
-        sit.setInvisible(true)
+        sit.isInvulnerable = true
+        sit.isInvisible = true
         sit.setGravity(false)
 
         return sit
     }
 
     fun standUp(player: Player, armorStand: ArmorStand, x: Double, y: Double, z: Double) {
-        val uuid = player.getUniqueId()
+        val uuid = player.uniqueId
         if (!isSitting(uuid)) {
             return
         }
 
         armorStand.remove()
-        player.teleport(player.getLocation().add(x, y, z))
+        player.teleport(player.location.add(x, y, z))
         sittingPlayers.remove(uuid)
     }
 

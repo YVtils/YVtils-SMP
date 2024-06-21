@@ -2,7 +2,6 @@ package yv.tils.smp.manager.startup
 
 import yv.tils.smp.YVtils
 import yv.tils.smp.manager.listener.*
-import yv.tils.smp.mods.fusionCrafting.enchantments.Invisible
 
 class Listeners {
     fun register() {
@@ -34,7 +33,6 @@ class Listeners {
 
         // Block-related events
         plugin.server.pluginManager.registerEvents(BlockBreak(), plugin)
-        plugin.server.pluginManager.registerEvents(BlockPlace(), plugin)
         plugin.server.pluginManager.registerEvents(HangingPlace(), plugin)
         plugin.server.pluginManager.registerEvents(HangingBreak(), plugin)
 

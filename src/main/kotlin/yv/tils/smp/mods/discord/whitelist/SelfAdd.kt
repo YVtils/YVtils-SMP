@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 class SelfAdd : ListenerAdapter() {
     override fun onMessageReceived(e: MessageReceivedEvent) {
 
-        if (!e.channel.type.isMessage()) return
+        if (!e.channel.type.isMessage) return
         if (e.author.isBot) return
         if (e.channelType.compareTo(ChannelType.TEXT) != 0) return
         if (e.channel.id != DiscordConfig.config["whitelistFeature.channel"].toString()) return

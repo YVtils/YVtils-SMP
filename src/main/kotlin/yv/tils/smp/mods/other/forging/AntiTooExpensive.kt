@@ -26,12 +26,12 @@ class AntiTooExpensive {
 
         val player = e.viewers[0]
 
-        if (e.getResult() != null && inv.getRepairCost() >= 40 && (messageCooldown[player.uniqueId] == null || messageCooldown[player.uniqueId] == 0)) {
+        if (e.result != null && inv.repairCost >= 40 && (messageCooldown[player.uniqueId] == null || messageCooldown[player.uniqueId] == 0)) {
             player.sendMessage(
                 Placeholder().replacer(
                     Language().getMessage(player.uniqueId, LangStrings.FORGING_TOO_EXPENSIVE),
                     listOf("level"),
-                    listOf(inv.getRepairCost().toString())
+                    listOf(inv.repairCost.toString())
                 )
             )
             messageCooldown[player.uniqueId] = 10

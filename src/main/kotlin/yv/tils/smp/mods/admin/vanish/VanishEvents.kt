@@ -31,7 +31,7 @@ class VanishEvents {
                 target.hidePlayer(YVtils.instance, player)
                 player.hidePlayer(YVtils.instance, target)
 
-                if (!Vanish.vanish.containsKey(target.getUniqueId())) player.showPlayer(YVtils.instance, target)
+                if (!Vanish.vanish.containsKey(target.uniqueId)) player.showPlayer(YVtils.instance, target)
 
                 if (Vanish.layer[player.uniqueId] != 4) {
                     for ((key1, value1) in Vanish.layer) {

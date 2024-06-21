@@ -1,7 +1,6 @@
 package yv.tils.smp.mods.server.motd
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent
-import com.destroystokyo.paper.profile.PlayerProfile
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
@@ -40,9 +39,6 @@ class GenerateMOTD {
         val profiles = mutableListOf<PaperServerListPingEvent.ListedPlayerInfo>()
 
         for (line in ServerConfig.config["playerCountHover"] as List<String>) {
-
-            //            val profile = FakePlayerProfile.create(legacy.serialize(handlePlaceholders(line)))
-//            profiles.add(profile)
             val profile: PaperServerListPingEvent.ListedPlayerInfo = PaperServerListPingEvent.ListedPlayerInfo(
                 legacy.serialize(handlePlaceholders(line)),
                 UUID.randomUUID()

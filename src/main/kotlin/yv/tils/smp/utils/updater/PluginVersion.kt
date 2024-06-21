@@ -3,6 +3,7 @@ package yv.tils.smp.utils.updater
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import yv.tils.smp.YVtils
+import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
@@ -20,11 +21,15 @@ class PluginVersion {
     }
 
     fun onPlayerJoin(player: Player) {
+        if (!(Config.config["playerUpdateMessage"] as Boolean)) {
+            return
+        }
+
         if ((player.hasPermission("yvtils.smp.update") || player.isOp) && plVersion != version) {
             player.sendMessage(
                 Placeholder().replacer(
                     Language().getMessage(player.uniqueId, LangStrings.PLAYER_PLUGIN_UPDATE_AVAILABLE),
-                    listOf("newversion", "oldversion", "prefix", "link"),
+                    listOf("newVersion", "oldVersion", "prefix", "link"),
                     listOf(
                         version,
                         plVersion,

@@ -22,6 +22,8 @@ class config_yml {
         ymlFile.addDefault("modules.waypoints", true)
         ymlFile.addDefault("modules.multiMine", true)
 
+        ymlFile.addDefault("playerUpdateMessage", true)
+
         ymlFile.addDefault("spawnElytra.active", true)
         ymlFile.addDefault("spawnElytra.radius", 50)
         ymlFile.addDefault("spawnElytra.multiplyValue", 5)

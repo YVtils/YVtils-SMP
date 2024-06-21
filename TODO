@@ -5,7 +5,10 @@ Testing:
 
 Coding:
     Fusion
-    MMM - Fast leaf decay
+        - Add more fusions
+        - Add Ingame possibility to add/edit fusions
+    MMM
+        - Fast leaf decay
 
 Other:
     Find cause of paper error appearing sometimes -> Could be from CommandAPI: https://github.com/JorelAli/CommandAPI/issues/503
