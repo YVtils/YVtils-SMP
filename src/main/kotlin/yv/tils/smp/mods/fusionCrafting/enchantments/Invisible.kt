@@ -62,6 +62,5 @@ class Invisible {
                 location.world!!.dropItem(location, item)
             }
         }
-
     }
 }
