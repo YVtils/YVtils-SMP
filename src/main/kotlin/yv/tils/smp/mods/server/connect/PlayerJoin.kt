@@ -95,7 +95,7 @@ class PlayerJoin {
 
         for (i in inv.contents) {
             if (i != null && i.itemMeta.persistentDataContainer.has(
-                    FusionKeys.fusionGUIKey,
+                    FusionKeys.FUSION_GUI.key,
                     PersistentDataType.STRING
                 )
             ) {

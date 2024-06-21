@@ -4,6 +4,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.utils.color.ColorUtils
 
 class FusionCheck {
@@ -60,7 +61,13 @@ class FusionCheck {
             val data = dataList[2]["data"] as String
 
             item.amount = (input.value as MutableList<MutableMap<String, String>>)[1]["amount"]?.toInt() ?: 1
-            // TODO: Implement data logic. Example: "Data1; Data2; Data3; ..." | ""
+
+            for (singleData in data.split(";")) {
+                if (singleData == "") continue
+                singleData.replace(" ", "")
+
+                item.itemMeta.persistentDataContainer.set(FusionKeys.valueOf("FUSION_${singleData.uppercase()}").key, PersistentDataType.STRING, "true")
+            }
 
             items.add(item)
         } else {

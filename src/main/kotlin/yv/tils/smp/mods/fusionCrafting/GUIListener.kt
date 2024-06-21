@@ -93,11 +93,12 @@ class GUIListener {
         }
     }
 
+    // TODO: Item which is given to players still contains amount in name
     private fun addToInventory(player: HumanEntity, item: ItemStack) {
         if (item.type == Material.AIR) return
 
         val meta = item.itemMeta
-        meta.persistentDataContainer.remove(FusionKeys.fusionGUIKey)
+        meta.persistentDataContainer.remove(FusionKeys.FUSION_GUI.key)
         item.itemMeta = meta
 
         for (i in player.inventory.contents) {
@@ -145,7 +146,7 @@ class GUIListener {
             for (item in inv.contents) {
                 if (item != null) {
                     val meta = item.itemMeta
-                    if (meta.persistentDataContainer.has(FusionKeys.fusionGUIKey)) {
+                    if (meta.persistentDataContainer.has(FusionKeys.FUSION_GUI.key)) {
                         player.inventory.removeItem(item)
                     }
                 }

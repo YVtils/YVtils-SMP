@@ -91,7 +91,7 @@ class FusionCraftingGUI {
 
         for (i in 0 until inv.size) {
             val item = inv.getItem(i) ?: continue
-            item.itemMeta.persistentDataContainer.set(FusionKeys.fusionGUIKey, PersistentDataType.STRING, "fusion")
+            item.itemMeta.persistentDataContainer.set(FusionKeys.FUSION_GUI.key, PersistentDataType.STRING, "fusion")
             inv.setItem(i, item)
         }
 
@@ -150,7 +150,7 @@ class FusionCraftingGUI {
 
         for (i in 0 until inv.size) {
             val item = inv.getItem(i) ?: continue
-            item.itemMeta.persistentDataContainer.set(FusionKeys.fusionGUIKey, PersistentDataType.STRING, "fusion")
+            item.itemMeta.persistentDataContainer.set(FusionKeys.FUSION_GUI.key, PersistentDataType.STRING, "fusion")
             inv.setItem(i, item)
         }
 
@@ -240,6 +240,13 @@ class FusionCraftingGUI {
                     if ((output.value as MutableList<MutableMap<String, String>>)[4]["data"] != "") {
                         lore.add(ColorUtils().convert(" "))
                         lore.add(ColorUtils().convert("<gray>Item Data: " + (output.value as MutableList<MutableMap<String, String>>)[4]["data"]))
+
+                        for (singleData in (output.value as MutableList<MutableMap<String, String>>)[4]["data"]!!.split(";")) {
+                            if (singleData == "") continue
+                            singleData.replace(" ", "")
+
+                            meta.persistentDataContainer.set(FusionKeys.valueOf("FUSION_${singleData.uppercase()}").key, PersistentDataType.STRING, "true")
+                        }
                     }
 
                     meta.lore(lore)
