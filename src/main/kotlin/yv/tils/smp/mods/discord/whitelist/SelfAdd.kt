@@ -77,8 +77,8 @@ class SelfAdd : ListenerAdapter() {
 
                         for (r in roles) {
                             try {
-                                val role = e.guild.getRoleById(r)
-                                e.member?.let { role?.let { it1 -> e.guild.addRoleToMember(it, it1) } }?.queue()
+                                val guildRole = e.guild.getRoleById(r)
+                                e.member?.let { guildRole?.let { it1 -> e.guild.addRoleToMember(it, it1) } }?.queue()
                             } catch (_: NumberFormatException) {
                             }
                         }
@@ -116,8 +116,8 @@ class SelfAdd : ListenerAdapter() {
 
                         for (r in roles) {
                             try {
-                                val role = e.guild.getRoleById(r)
-                                e.member?.let { role?.let { it1 -> e.guild.addRoleToMember(it, it1) } }?.queue()
+                                val guildRole = e.guild.getRoleById(r)
+                                e.member?.let { guildRole?.let { it1 -> e.guild.addRoleToMember(it, it1) } }?.queue()
                             } catch (_: NumberFormatException) {
                             }
                         }
