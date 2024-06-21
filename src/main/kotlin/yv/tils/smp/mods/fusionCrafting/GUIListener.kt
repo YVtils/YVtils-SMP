@@ -7,6 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
 
@@ -93,11 +94,16 @@ class GUIListener {
         }
     }
 
-    // TODO: Item which is given to players still contains amount in name
     private fun addToInventory(player: HumanEntity, item: ItemStack) {
         if (item.type == Material.AIR) return
 
         val meta = item.itemMeta
+
+        if (meta.persistentDataContainer.has(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)) {
+            val normalItemName = meta.persistentDataContainer.get(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)
+            meta.displayName(ColorUtils().convert(normalItemName!!))
+        }
+
         meta.persistentDataContainer.remove(FusionKeys.FUSION_GUI.key)
         item.itemMeta = meta
 

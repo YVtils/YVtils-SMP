@@ -232,10 +232,16 @@ class FusionCraftingGUI {
                     item.amount = (output.value as MutableList<MutableMap<String, String>>)[1]["amount"]?.toInt() ?: 1
                     val meta = item.itemMeta
                     meta.displayName(ColorUtils().convert("<gold>" + (output.value as MutableList<MutableMap<String, String>>)[2]["name"] + " <gray>(" + (output.value as MutableList<MutableMap<String, String>>)[1]["amount"] + "x)"))
+                    meta.persistentDataContainer.set(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING, "<gold>" + (output.value as MutableList<MutableMap<String, String>>)[2]["name"])
 
-                    val lore: MutableList<Component> = mutableListOf(
-                        ColorUtils().convert("<gray>" + (output.value as MutableList<MutableMap<String, String>>)[3]["lore"]),
-                    )
+                    val loreData = (output.value as MutableList<MutableMap<String, String>>)[3]["lore"]
+
+                    val lore: MutableList<Component> = mutableListOf()
+
+                    for (line in loreData!!.split("<newline>")) {
+                        line.replace("<newline>", "")
+                        lore.add(ColorUtils().convert(line))
+                    }
 
                     if ((output.value as MutableList<MutableMap<String, String>>)[4]["data"] != "") {
                         lore.add(ColorUtils().convert(" "))

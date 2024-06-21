@@ -89,7 +89,7 @@ class InvisItemFrame {
         val item = mutableMapOf("item" to "ITEM_FRAME")
         val amount = mutableMapOf("amount" to "4")
         val name = mutableMapOf("name" to "<gold>Invisible Item Frame")
-        val lore = mutableMapOf("lore" to "<white>Place this item Frame and it will be invisible!")
+        val lore = mutableMapOf("lore" to "<white>Place this Item Frame and it will be invisible! <newline><red>Empty Item Frames will be destroyed and dropped after one minute!")
         val data = mutableMapOf("data" to "Invisible")
 
         items.add(mutableListOf(item, amount, name, lore, data))

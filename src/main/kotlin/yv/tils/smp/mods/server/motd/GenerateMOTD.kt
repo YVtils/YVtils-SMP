@@ -29,18 +29,25 @@ class GenerateMOTD {
         e.numPlayers = calcOnlinePlayers()
 
         e.setHidePlayers(false)
-        e.playerSample.clear()
-        e.playerSample.addAll(getHoverText())
+        e.listedPlayers.clear()
+        e.listedPlayers.addAll(getHoverText())
 
         e.motd(getMOTD())
     }
 
-    private fun getHoverText(): Collection<PlayerProfile> {
+    private fun getHoverText(): Collection<PaperServerListPingEvent.ListedPlayerInfo> {
         val legacy: LegacyComponentSerializer = LegacyComponentSerializer.legacySection()
-        val profiles = mutableListOf<PlayerProfile>()
+        val profiles = mutableListOf<PaperServerListPingEvent.ListedPlayerInfo>()
 
         for (line in ServerConfig.config["playerCountHover"] as List<String>) {
-            val profile = FakePlayerProfile.create(legacy.serialize(handlePlaceholders(line)))
+
+            //            val profile = FakePlayerProfile.create(legacy.serialize(handlePlaceholders(line)))
+//            profiles.add(profile)
+            val profile: PaperServerListPingEvent.ListedPlayerInfo = PaperServerListPingEvent.ListedPlayerInfo(
+                legacy.serialize(handlePlaceholders(line)),
+                UUID.randomUUID()
+            )
+
             profiles.add(profile)
         }
 
