@@ -248,10 +248,12 @@ class FusionCraftingGUI {
                         lore.add(ColorUtils().convert("<gray>Item Data: " + (output.value as MutableList<MutableMap<String, String>>)[4]["data"]))
 
                         for (singleData in (output.value as MutableList<MutableMap<String, String>>)[4]["data"]!!.split(";")) {
-                            if (singleData == "") continue
-                            singleData.replace(" ", "")
+                            var data = singleData
+                            if (data == "") continue
+                            data = data.trim()
+                            data = data.replace(" ", "_")
 
-                            meta.persistentDataContainer.set(FusionKeys.valueOf("FUSION_${singleData.uppercase()}").key, PersistentDataType.STRING, "true")
+                            meta.persistentDataContainer.set(FusionKeys.valueOf("FUSION_${data.uppercase()}").key, PersistentDataType.STRING, "true")
                         }
                     }
 

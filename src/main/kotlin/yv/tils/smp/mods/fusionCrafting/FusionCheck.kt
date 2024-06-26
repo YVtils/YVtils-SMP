@@ -63,10 +63,12 @@ class FusionCheck {
             item.amount = (input.value as MutableList<MutableMap<String, String>>)[1]["amount"]?.toInt() ?: 1
 
             for (singleData in data.split(";")) {
-                if (singleData == "") continue
-                singleData.replace(" ", "")
+                var sData = singleData
+                if (sData == "") continue
+                sData = sData.trim()
+                sData = sData.replace(" ", "_")
 
-                item.itemMeta.persistentDataContainer.set(FusionKeys.valueOf("FUSION_${singleData.uppercase()}").key, PersistentDataType.STRING, "true")
+                item.itemMeta.persistentDataContainer.set(FusionKeys.valueOf("FUSION_${sData.uppercase()}").key, PersistentDataType.STRING, "true")
             }
 
             items.add(item)
@@ -131,6 +133,40 @@ class FusionCheck {
                 return true
             }
         }
+
+        for (item in items) {
+            for (slot in inv) {
+                if (slot == null) continue
+
+                if (item.type == slot.type && slot.amount >= item.amount) {
+                    val slotName = slot.displayName()
+                    val itemName = item.displayName()
+
+                    if (slotName != itemName) {
+                        val slotCopy = slot.clone()
+                        val itemCopy = item.clone()
+
+                        val meta = itemCopy.itemMeta
+                        meta.displayName(slotName)
+                        itemCopy.itemMeta = meta
+
+                        val meta2 = slotCopy.itemMeta
+                        meta2.displayName(slotName)
+                        slotCopy.itemMeta = meta2
+
+                        val fusionSlotCopy = slot.clone()
+                        fusionSlotCopy.amount = item.amount
+
+                        if (slotCopy.isSimilar(itemCopy)) {
+                            fusionItems.add(fusionSlotCopy)
+                            correctItems++
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+
         return false
     }
 }

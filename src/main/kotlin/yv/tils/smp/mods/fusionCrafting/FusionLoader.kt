@@ -8,6 +8,7 @@ import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.fusionCrafting.fusions.invisItemFrames.InvisItemFrame
 import yv.tils.smp.mods.fusionCrafting.fusions.lightBlock.LightBlock
+import yv.tils.smp.mods.fusionCrafting.fusions.playerHeads.PlayerHeads
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
 import java.io.File
@@ -31,6 +32,11 @@ class FusionLoader {
         val invisItemFrameYML: YamlConfiguration = YamlConfiguration.loadConfiguration(invisItemFrameFile)
         InvisItemFrame().configFile(invisItemFrameYML)
         invisItemFrameYML.save(invisItemFrameFile)
+
+        val playerHeadsFile = File(YVtils.instance.dataFolder.path, "fusions/playerHeads.yml")
+        val playerHeadsYML: YamlConfiguration = YamlConfiguration.loadConfiguration(playerHeadsFile)
+        PlayerHeads().configFile(playerHeadsYML)
+        playerHeadsYML.save(playerHeadsFile)
 
         Debugger().log(
             "Generated default fusion",

@@ -12,7 +12,6 @@ class config_yml_waypoints {
         ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
 
         ymlFile.addDefault("waypointVisibility", "public")
-        ymlFile.addDefault("waypointLimit", 5)
 
         ymlFile.addDefault("announcePublicWaypoints", true)
 

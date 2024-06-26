@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
+import yv.tils.smp.mods.fusionCrafting.enchantments.PlayerHeadLoad
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
 
@@ -97,27 +98,25 @@ class GUIListener {
     private fun addToInventory(player: HumanEntity, item: ItemStack) {
         if (item.type == Material.AIR) return
 
-        val meta = item.itemMeta
+        var itemClone = item.clone()
 
-        if (meta.persistentDataContainer.has(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)) {
-            val normalItemName = meta.persistentDataContainer.get(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)
-            meta.displayName(ColorUtils().convert(normalItemName!!))
-        }
+        println("Item Before: $itemClone")
 
-        meta.persistentDataContainer.remove(FusionKeys.FUSION_GUI.key)
-        item.itemMeta = meta
+        itemClone = handlePersistentData(itemClone)
+
+        println("Item After: $itemClone")
 
         for (i in player.inventory.contents) {
-            if (i != null && i.isSimilar(item) && i.amount + item.amount <= i.maxStackSize) {
-                i.amount += item.amount
+            if (i != null && i.isSimilar(itemClone) && i.amount + itemClone.amount <= i.maxStackSize) {
+                i.amount += itemClone.amount
                 return
-            } else if (i != null && i.isSimilar(item)) {
+            } else if (i != null && i.isSimilar(itemClone)) {
                 if (i.amount == i.maxStackSize) continue
 
                 val remaining = i.maxStackSize - i.amount
                 i.amount = i.maxStackSize
-                item.amount -= remaining
-                addToInventory(player, item)
+                itemClone.amount -= remaining
+                addToInventory(player, itemClone)
                 return
             }
         }
@@ -126,10 +125,35 @@ class GUIListener {
             val loc = player.location
             loc.y += 1.0
 
-            player.location.world!!.dropItem(loc, item)
+            player.location.world!!.dropItem(loc, itemClone)
         } else {
-            player.inventory.addItem(item)
+            player.inventory.addItem(itemClone)
         }
+    }
+
+    private fun handlePersistentData(item: ItemStack): ItemStack {
+        var meta = item.itemMeta
+
+        if (meta.persistentDataContainer.has(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)) {
+            val normalItemName = meta.persistentDataContainer.get(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)
+            meta.displayName(ColorUtils().convert(normalItemName!!))
+            meta.persistentDataContainer.remove(FusionKeys.FUSION_ITEMNAME.key)
+        }
+
+        if (meta.persistentDataContainer.has(FusionKeys.FUSION_PLAYER_HEAD.key, PersistentDataType.STRING)) {
+            for (fusionItem in FusionCheck.fusionItems) {
+                if (fusionItem.type == Material.NAME_TAG) {
+                    val newMeta = PlayerHeadLoad().loadPlayerHead(fusionItem, item, meta)
+
+                    meta = newMeta
+                }
+            }
+        }
+
+        meta.persistentDataContainer.remove(FusionKeys.FUSION_GUI.key)
+        item.itemMeta = meta
+
+        return item
     }
 
     private fun checkOutput(slot: Int, inv: Inventory): ItemStack {
