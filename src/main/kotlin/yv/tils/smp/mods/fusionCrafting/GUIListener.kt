@@ -100,11 +100,7 @@ class GUIListener {
 
         var itemClone = item.clone()
 
-        println("Item Before: $itemClone")
-
         itemClone = handlePersistentData(itemClone)
-
-        println("Item After: $itemClone")
 
         for (i in player.inventory.contents) {
             if (i != null && i.isSimilar(itemClone) && i.amount + itemClone.amount <= i.maxStackSize) {
