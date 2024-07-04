@@ -1,6 +1,7 @@
 package yv.tils.smp.mods.fusionCrafting
 
 import dev.jorel.commandapi.kotlindsl.commandTree
+import dev.jorel.commandapi.kotlindsl.literalArgument
 import dev.jorel.commandapi.kotlindsl.playerExecutor
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -22,8 +23,16 @@ class FusionCraftingGUI {
         withUsage("/fusion")
         withAliases("ccr", "fc")
 
-        playerExecutor { sender, _ ->
-            generateGUI(sender)
+        literalArgument("create", true) {
+            withPermission("yvtils.smp.fusion.create")
+
+            playerExecutor { sender, args ->
+                if (args[0] == null) {
+                    generateGUI(sender)
+                } else {
+                    // TODO: Open Create GUI
+                }
+            }
         }
     }
 
