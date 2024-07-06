@@ -6,7 +6,7 @@ import yv.tils.smp.mods.admin.invSee.EcSee
 import yv.tils.smp.mods.admin.invSee.InvSee
 import yv.tils.smp.mods.admin.moderation.*
 import yv.tils.smp.mods.admin.vanish.Vanish
-import yv.tils.smp.mods.fusionCrafting.FusionCraftingGUI
+import yv.tils.smp.mods.fusionCrafting.FusionOverview
 import yv.tils.smp.mods.multiMine.BlockManage
 import yv.tils.smp.mods.other.message.MSGCommand
 import yv.tils.smp.mods.other.message.ReplyCommand
@@ -40,7 +40,7 @@ class Commands {
     }
 
     private fun modulesCommands() {
-        FusionCraftingGUI()
+        FusionOverview()
 
         StatusCommand()
 
