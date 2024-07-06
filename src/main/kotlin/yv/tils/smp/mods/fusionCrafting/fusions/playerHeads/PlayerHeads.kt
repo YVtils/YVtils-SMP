@@ -8,6 +8,7 @@ class PlayerHeads {
         ymlFile.addDefault("name", "Player Heads")
         ymlFile.addDefault("displayItem", "PLAYER_HEAD")
         ymlFile.addDefault("description", "<white>Craft an <gold>Player Head <white>from a <gold>specific Player")
+        ymlFile.addDefault("tags", "Decoration; Cosmetic; Player;")
 
         val inputItems = inputItems()
         val outputItems = outputItems()

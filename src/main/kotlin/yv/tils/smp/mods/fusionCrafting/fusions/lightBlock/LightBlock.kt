@@ -8,6 +8,7 @@ class LightBlock {
         ymlFile.addDefault("name", "Light Block")
         ymlFile.addDefault("displayItem", "LIGHT")
         ymlFile.addDefault("description", "<white>Craft an <gold>invisible <white>Light Source")
+        ymlFile.addDefault("tags", "Lighting; Decoration; Utility;")
 
         val inputItems = inputItems()
         val outputItems = outputItems()

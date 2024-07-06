@@ -8,6 +8,7 @@ class InvisItemFrame {
         ymlFile.addDefault("name", "Invisible Item Frame")
         ymlFile.addDefault("displayItem", "ITEM_FRAME")
         ymlFile.addDefault("description", "<white>Craft an <gold>invisible <white>Item Frame")
+        ymlFile.addDefault("tags", "Decoration; Display; Aesthetic;")
 
         val inputItems = inputItems()
         val outputItems = outputItems()
