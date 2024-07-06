@@ -17,6 +17,8 @@ class FusionLoader {
     companion object {
         val fusionThumbnails: MutableMap<String, ItemStack> = mutableMapOf()
         val component2name: MutableMap<Component, String> = mutableMapOf()
+        val tagMap: MutableMap<String, MutableList<String>> = mutableMapOf()
+        val disabledFusions: MutableList<String> = mutableListOf()
     }
 
     fun generateDefaultFusions() {
@@ -51,22 +53,47 @@ class FusionLoader {
         for (file in files) {
             val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
             if (file.extension != "yml") continue
-            if (!ymlFile.getBoolean("enabled")) continue
+            if (!ymlFile.getBoolean("enabled")) {
+                disabledFusions.add(file.nameWithoutExtension)
+            }
 
             val name = file.nameWithoutExtension
             val displayItem = ItemStack(Material.valueOf(ymlFile.getString("displayItem") ?: "DIRT"))
             val displayItemMeta = displayItem.itemMeta
+            val tagList: MutableList<String> = mutableListOf()
+
+            for (tag in ymlFile.getString("tags")!!.split(";")) {
+                var newTag = tag
+
+                newTag = newTag.replace(" ", "")
+                newTag = newTag.replace(";", "")
+
+                if (newTag == "") continue
+
+                tagList.add(newTag)
+            }
+
             displayItemMeta.displayName(ColorUtils().convert("<aqua>" + ymlFile.getString("name")))
-            displayItemMeta.persistentDataContainer.set(YVtils.key, PersistentDataType.STRING, "questGUIItem")
+            displayItemMeta.persistentDataContainer.set(FusionKeys.FUSION_GUI.key, PersistentDataType.STRING, "true")
             val lore = mutableListOf<Component>()
             lore.add(ColorUtils().convert(("<white>" + ymlFile.getString("description"))))
+            lore.add(ColorUtils().convert("<gray>Click to view fusion"))
             lore.add(ColorUtils().convert(" "))
-            lore.add(ColorUtils().convert("<gray>Click to view quest"))
+            lore.add(ColorUtils().convert("<white>Tags: <gray>" + tagList.joinToString(", ")))
+
             displayItemMeta.lore(lore)
             displayItem.itemMeta = displayItemMeta
 
             fusionThumbnails[name] = displayItem
             component2name[displayItem.displayName()] = name
+
+            for (tag in tagList) {
+                if (tagMap.containsKey(tag)) {
+                    tagMap[tag]?.add(name)
+                } else {
+                    tagMap[tag] = mutableListOf(name)
+                }
+            }
 
             Debugger().log(
                 "Loaded fusion thumbnail",
@@ -76,14 +103,14 @@ class FusionLoader {
         }
     }
 
-    fun loadFusion(quest: String): MutableMap<String, Any> {
-        val file = File(YVtils.instance.dataFolder.path, "fusions/$quest.yml")
+    fun loadFusion(fusion: String): MutableMap<String, Any> {
+        val file = File(YVtils.instance.dataFolder.path, "fusions/$fusion.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
-        val questMap = mutableMapOf<String, Any>()
+        val fusionMap = mutableMapOf<String, Any>()
 
-        questMap["name"] = ymlFile.getString("name") ?: "Unknown"
-        questMap["description"] = ymlFile.getString("description") ?: "Unknown"
+        fusionMap["name"] = ymlFile.getString("name") ?: "Unknown"
+        fusionMap["description"] = ymlFile.getString("description") ?: "Unknown"
 
         val inputItems = ymlFile.getConfigurationSection("input")?.getKeys(false)
         val outputItems = ymlFile.getConfigurationSection("output")?.getKeys(false)
@@ -93,20 +120,20 @@ class FusionLoader {
             val inputSectionKeys = inputSection?.getKeys(false)
             for (key in inputSectionKeys!!) {
                 val subinputSection = ymlFile.getMapList("input.$input.$key")
-                questMap["input.$input.$key"] = subinputSection
+                fusionMap["input.$input.$key"] = subinputSection
             }
         }
 
         for (output in outputItems!!) {
             val suboutputSection = ymlFile.getMapList("output.$output")
-            questMap["output.$output"] = suboutputSection
+            fusionMap["output.$output"] = suboutputSection
         }
 
         Debugger().log(
             "Loaded fusion",
-            "Name: $quest | File: ${file.path} | Map: $questMap",
+            "Name: $fusion | File: ${file.path} | Map: $fusionMap",
             "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt"
         )
-        return questMap
+        return fusionMap
     }
 }
