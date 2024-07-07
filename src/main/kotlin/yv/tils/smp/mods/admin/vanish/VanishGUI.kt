@@ -92,11 +92,8 @@ class VanishGUI {
         // Filler
         val filler = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
         val fillerMeta = filler.itemMeta
-        val fillerLore = mutableListOf<Component>()
         fillerMeta.displayName(ColorUtils().convert(" "))
         fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        fillerLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_VANISH_FILLER_LORE))
-        fillerMeta.lore(fillerLore)
         filler.itemMeta = fillerMeta
 
         for (i in 0..<inv.size) {

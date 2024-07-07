@@ -3,29 +3,47 @@ package yv.tils.smp.mods.fusionCrafting
 import org.bukkit.Material
 import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
+import org.bukkit.event.Event
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.mods.fusionCrafting.enchantments.PlayerHeadLoad
+import yv.tils.smp.mods.fusionCrafting.manager.FusionCraftManage
 import yv.tils.smp.mods.fusionCrafting.manager.FusionManagerGUI
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
+import java.util.UUID
 
 class GUIListener {
     fun onInventoryClick(e: InventoryClickEvent) {
         val player = e.whoClicked
         val inv = e.inventory
 
-        if (player.openInventory.title() == ColorUtils().convert("<gold>Fusion Crafting") && e.inventory.location == null) {
-            clickOverview(e, player)
-        } else if (player.openInventory.title() == ColorUtils().convert("<red>Fusion Management") && e.inventory.location == null) {
-            clickManagement(e, player)
-        } else if (ColorUtils().convert(player.openInventory.title()).startsWith("<gold>Fusion Crafting - ") && e.inventory.location == null) {
-            clickCrafting(e, player, inv)
-        } else if (player.openInventory.title() == ColorUtils().convert("<gold>Fusion Manager") && e.inventory.location == null) {
-            clickManager(e, player)
+        if (e.inventory.location != null) {
+            return
+        }
+
+        when (player.openInventory.title()) {
+            ColorUtils().convert("<gold>Fusion Crafting") -> {
+                clickOverview(e, player)
+            }
+            ColorUtils().convert("<red>Fusion Management") -> {
+                clickManagement(e, player)
+            }
+            ColorUtils().convert("<gold>Fusion Manager") -> {
+                clickManager(e, player)
+            }
+            ColorUtils().convert("<gold>Edit Thumbnail") -> {
+                editThumbnail(e, player)
+            }
+            else -> {
+                if (ColorUtils().convert(player.openInventory.title()).startsWith("<gold>Fusion Crafting - ")) {
+                    clickCrafting(e, player, inv)
+                }
+            }
         }
     }
 
@@ -33,6 +51,7 @@ class GUIListener {
         e.isCancelled = true
 
         val slot = e.slot
+        val currentTag = e.inventory.getItem(49)?.itemMeta?.persistentDataContainer?.get(FusionKeys.FUSION_CURRENT_FILTER.key, PersistentDataType.STRING) ?: ""
 
         when (slot) {
             11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 38, 39, 40, 41, 42 -> {
@@ -54,13 +73,13 @@ class GUIListener {
             45 -> {
                 if (e.currentItem == null) return
                 if (e.currentItem!!.type == Material.GRAY_STAINED_GLASS_PANE) return
-                FusionOverview().openOverview(player as Player, "<gold>Fusion Crafting", getCurrentPage(e.inventory) - 1)
+                FusionOverview().openOverview(player as Player, "<gold>Fusion Crafting", getCurrentPage(e.inventory) - 1, currentTag)
             }
 
             53 -> {
                 if (e.currentItem == null) return
                 if (e.currentItem!!.type == Material.GRAY_STAINED_GLASS_PANE) return
-                FusionOverview().openOverview(player as Player, "<gold>Fusion Crafting", getCurrentPage(e.inventory) + 1)
+                FusionOverview().openOverview(player as Player, "<gold>Fusion Crafting", getCurrentPage(e.inventory) + 1, currentTag)
             }
 
             49 -> {
@@ -69,8 +88,6 @@ class GUIListener {
 
                 var tags = FusionLoader.tagMap.keys.toMutableList()
                 tags = tags.sorted().toMutableList()
-
-                val currentTag = e.currentItem!!.itemMeta.persistentDataContainer.get(FusionKeys.FUSION_CURRENT_FILTER.key, PersistentDataType.STRING)
 
                 val clickType = e.click
                 val index = tags.indexOf(currentTag)
@@ -96,6 +113,7 @@ class GUIListener {
         e.isCancelled = true
 
         val slot = e.slot
+        val currentTag = e.inventory.getItem(49)?.itemMeta?.persistentDataContainer?.get(FusionKeys.FUSION_CURRENT_FILTER.key, PersistentDataType.STRING) ?: ""
 
         when (slot) {
             11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 38, 39, 40, 41, 42, 8 -> {
@@ -120,13 +138,13 @@ class GUIListener {
             45 -> {
                 if (e.currentItem == null) return
                 if (e.currentItem!!.type == Material.GRAY_STAINED_GLASS_PANE) return
-                FusionOverview().openOverview(player as Player, "<red>Fusion Management", getCurrentPage(e.inventory) - 1)
+                FusionOverview().openOverview(player as Player, "<red>Fusion Management", getCurrentPage(e.inventory) - 1, currentTag)
             }
 
             53 -> {
                 if (e.currentItem == null) return
                 if (e.currentItem!!.type == Material.GRAY_STAINED_GLASS_PANE) return
-                FusionOverview().openOverview(player as Player, "<red>Fusion Management", getCurrentPage(e.inventory) + 1)
+                FusionOverview().openOverview(player as Player, "<red>Fusion Management", getCurrentPage(e.inventory) + 1, currentTag)
             }
 
             49 -> {
@@ -135,8 +153,6 @@ class GUIListener {
 
                 var tags = FusionLoader.tagMap.keys.toMutableList()
                 tags = tags.sorted().toMutableList()
-
-                val currentTag = e.currentItem!!.itemMeta.persistentDataContainer.get(FusionKeys.FUSION_CURRENT_FILTER.key, PersistentDataType.STRING)
 
                 val clickType = e.click
                 val index = tags.indexOf(currentTag)
@@ -213,13 +229,23 @@ class GUIListener {
         val backSlot = 18
         val deleteSlot = 26
 
+        val thumbnailItem = FusionManagerGUI.playerManager[player.uniqueId]?.thumbnail
+
         when (slot) {
             toggleSlot -> {
-                println("This would toggle the fusion")
+                val currentState = e.currentItem?.type == Material.LIME_DYE
+
+                if (currentState) {
+                    e.currentItem = ItemStack(Material.RED_DYE)
+                    e.currentItem?.itemMeta?.displayName(ColorUtils().convert("<green>ENABLE FUSION"))
+                } else {
+                    e.currentItem = ItemStack(Material.LIME_DYE)
+                    e.currentItem?.itemMeta?.displayName(ColorUtils().convert("<red>DISABLE FUSION"))
+                }
             }
 
             displayItemSlot -> {
-                println("This would open a GUI with the display item")
+                FusionCraftManage().editThumbnailItem(player as Player, thumbnailItem ?: ItemStack(Material.DIRT))
             }
 
             nameSlot -> {
@@ -247,6 +273,34 @@ class GUIListener {
 
             backSlot -> {
                 FusionOverview().openOverview(player as Player, "<red>Fusion Management")
+            }
+        }
+    }
+
+    private fun editThumbnail(e: InventoryClickEvent, player: HumanEntity) {
+        e.isCancelled = true
+
+        val slot = e.slot
+        val rawSlot = e.rawSlot
+
+        if (rawSlot > 8) {
+            e.isCancelled = false
+            return
+        }
+
+        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
+        val fusionName = fusion.fileName
+
+        when (slot) {
+            0 -> {
+                val thumbnailItem = e.inventory.getItem(4) ?: return
+
+                fusion.thumbnail = thumbnailItem
+
+                FusionManagerGUI().openInventory(player as Player, fusionName)
+            }
+            4 -> {
+                 e.isCancelled = false
             }
         }
     }

@@ -17,25 +17,31 @@ import yv.tils.smp.mods.fusionCrafting.FusionKeys
 import yv.tils.smp.mods.fusionCrafting.FusionOverview
 import yv.tils.smp.utils.color.ColorUtils
 import java.io.File
+import java.util.UUID
 
 class FusionManagerGUI {
+    companion object {
+        val playerManager = mutableMapOf<UUID, Fusion>()
+    }
+
     data class Fusion(
-        val state: Boolean,
-        val thumbnail: ItemStack,
-        val name: String,
-        val description: String,
-        val tags: MutableList<String>,
-        val fusionInv: Inventory,
-        val fileName: String
+        var state: Boolean,
+        var thumbnail: ItemStack,
+        var name: String,
+        var description: String,
+        var tags: MutableList<String>,
+        var fusionInv: Inventory,
+        var fileName: String
     )
 
     fun openInventory(player: Player, fusion: String) {
         var inv = Bukkit.createInventory(null, 9*3, ColorUtils().convert("<gold>Fusion Manager"))
 
-        println("Opening Fusion Manager for $fusion")
+        val data = collectData(fusion)
 
-        inv = generateContent(inv, collectData(fusion))
+        inv = generateContent(inv, data)
 
+        playerManager[player.uniqueId] = data
         player.openInventory(inv)
     }
 
@@ -69,7 +75,7 @@ class FusionManagerGUI {
 
             if (newTag == "") continue
 
-            tags.plus(newTag)
+            tags.add(newTag)
         }
 
         fusionInv = FusionCraftManage().buildGUI()
@@ -140,9 +146,9 @@ class FusionManagerGUI {
         displayNameMeta.displayName(ColorUtils().convert("<gold>Display Name"))
 
         displayNameLore.add(ColorUtils().convert(" "))
-        displayNameLore.add(ColorUtils().convert(displayNameContent))
+        displayNameLore.add(ColorUtils().convert("<aqua>$displayNameContent"))
 
-        displayMeta.lore(displayNameLore)
+        displayNameMeta.lore(displayNameLore)
         displayName.itemMeta = displayNameMeta
         inv.setItem(12, displayName)
 
@@ -155,8 +161,9 @@ class FusionManagerGUI {
 
         descriptionList.add(fusion.description)
 
+        descriptionLore.add(ColorUtils().convert(" "))
         for (descLine in descriptionList) {
-            descriptionLore.add(ColorUtils().convert(descLine))
+            descriptionLore.add(ColorUtils().convert("<white>$descLine"))
         }
 
         descriptionMeta.lore(descriptionLore)
@@ -169,8 +176,9 @@ class FusionManagerGUI {
 
         tagsMeta.displayName(ColorUtils().convert("<gold>Filter Tags"))
 
+        tagsLore.add(ColorUtils().convert(" "))
         for (tag in fusion.tags) {
-            tagsLore.add(ColorUtils().convert(tag))
+            tagsLore.add(ColorUtils().convert("<gray>$tag"))
         }
 
         tagsMeta.lore(tagsLore)
