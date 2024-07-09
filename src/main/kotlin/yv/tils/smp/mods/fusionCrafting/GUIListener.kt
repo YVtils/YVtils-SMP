@@ -3,10 +3,8 @@ package yv.tils.smp.mods.fusionCrafting
 import org.bukkit.Material
 import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
-import org.bukkit.event.Event
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
-import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
@@ -15,7 +13,6 @@ import yv.tils.smp.mods.fusionCrafting.manager.FusionCraftManage
 import yv.tils.smp.mods.fusionCrafting.manager.FusionManagerGUI
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
-import java.util.UUID
 
 class GUIListener {
     fun onInventoryClick(e: InventoryClickEvent) {
@@ -249,11 +246,11 @@ class GUIListener {
             }
 
             nameSlot -> {
-                println("This would open a anvil GUI to change the name")
+                FusionCraftManage().editName(player as Player, FusionManagerGUI.playerManager[player.uniqueId]?.name ?: "")
             }
 
             descriptionSlot -> {
-                println("This would close the GUI temporarily and prompt the player toi write the description in chat")
+                FusionCraftManage().editDescription(player as Player, FusionManagerGUI.playerManager[player.uniqueId]?.description ?: "")
             }
 
             tagsSlot -> {
