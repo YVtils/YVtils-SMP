@@ -36,6 +36,9 @@ class GUIListener {
             ColorUtils().convert("<gold>Edit Thumbnail") -> {
                 editThumbnail(e, player)
             }
+            ColorUtils().convert("<gold>Filter Tags") -> {
+                editFilterTags(e, player)
+            }
             else -> {
                 if (ColorUtils().convert(player.openInventory.title()).startsWith("<gold>Fusion Crafting - ")) {
                     clickCrafting(e, player, inv)
@@ -254,10 +257,7 @@ class GUIListener {
             }
 
             tagsSlot -> {
-                println("This would open a GUI to change the tags")
-                /*
-                Each tag own Slot or Anvil GUI and Tags need to be seperated with space, comma or semicolon
-                 */
+                FusionCraftManage().filterTagsGUI(player as Player, FusionManagerGUI.playerManager[player.uniqueId]?.tags ?: mutableListOf())
             }
 
             fusionInvSlot -> {
@@ -298,6 +298,56 @@ class GUIListener {
             }
             4 -> {
                  e.isCancelled = false
+            }
+        }
+    }
+
+    private fun editFilterTags(e: InventoryClickEvent, player: HumanEntity) {
+        e.isCancelled = true
+
+        val slot = e.slot
+        val rawSlot = e.rawSlot
+        val guiSize = e.inventory.size
+
+        val tagSlots = when {
+            guiSize <= 18 -> mutableListOf(0, 1, 2, 3, 4, 5, 6, 7, 8)
+            guiSize <= 27 -> mutableListOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17)
+            guiSize <= 36 -> mutableListOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26)
+            else -> mutableListOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44)
+        }
+
+        val tailSlots = when {
+            guiSize <= 9 -> mutableListOf(9, 10, 11, 12, 13, 14, 15, 16, 17)
+            guiSize <= 18 -> mutableListOf(18, 19, 20, 21, 22, 23, 24, 25, 26)
+            guiSize <= 27 -> mutableListOf(27, 28, 29, 30, 31, 32, 33, 34, 35)
+            guiSize <= 36 -> mutableListOf(36, 37, 38, 39, 40, 41, 42, 43, 44)
+            else -> mutableListOf(45, 46, 47, 48, 49, 50, 51, 52, 53)
+        }
+
+        val siteSlots: MutableList<Int> = mutableListOf(
+            tailSlots[0],
+            tailSlots[8]
+        )
+
+        val newTagSlot = tailSlots[4]
+
+        when (slot) {
+            in tagSlots -> {
+                val clickType = e.click
+
+                if (clickType.isLeftClick) {
+                    println("This would let the player modify the tag")
+                } else if (clickType.isRightClick) {
+                    println("This would let the player delete the tag")
+                }
+            }
+
+            in siteSlots -> {
+                println("This would switch the page")
+            }
+
+            newTagSlot -> {
+                println("This would let the player add a new tag")
             }
         }
     }

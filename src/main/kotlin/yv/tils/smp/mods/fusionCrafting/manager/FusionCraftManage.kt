@@ -1,13 +1,18 @@
 package yv.tils.smp.mods.fusionCrafting.manager
 
+import com.mojang.authlib.GameProfile
+import com.mojang.authlib.properties.Property
 import io.papermc.paper.event.player.AsyncChatEvent
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.SkullMeta
 import yv.tils.smp.YVtils
+import yv.tils.smp.mods.fusionCrafting.FusionGUIHeads
 import yv.tils.smp.utils.color.ColorUtils
 import java.util.*
 
@@ -117,6 +122,115 @@ class FusionCraftManage {
             playerListen.remove(player.uniqueId)
             reopenInventory(player, fusion.fileName)
         }
+    }
+
+    fun filterTagsGUI(player: Player, tags: MutableList<String>) {
+        val guiSize = when {
+            tags.size <= 9 -> 18
+            tags.size <= 18 -> 27
+            tags.size <= 27 -> 27
+            tags.size <= 36 -> 36
+            else -> 54
+        }
+
+        val tailSlots = when {
+            tags.size <= 9 -> mutableListOf(9, 10, 11, 12, 13, 14, 15, 16, 17)
+            tags.size <= 18 -> mutableListOf(18, 19, 20, 21, 22, 23, 24, 25, 26)
+            tags.size <= 27 -> mutableListOf(27, 28, 29, 30, 31, 32, 33, 34, 35)
+            tags.size <= 36 -> mutableListOf(36, 37, 38, 39, 40, 41, 42, 43, 44)
+            else -> mutableListOf(45, 46, 47, 48, 49, 50, 51, 52, 53)
+        }
+
+        val siteSlots: MutableList<Int> = mutableListOf(
+            tailSlots[0],
+            tailSlots[8]
+        )
+
+        val newTagSlot = tailSlots[4]
+
+        val inv = Bukkit.createInventory(null, guiSize, ColorUtils().convert("<gold>Filter Tags"))
+
+        if (tags.size > 45) {
+            val nextPage = ItemStack(Material.PLAYER_HEAD, 1)
+            val nextPageMeta = nextPage.itemMeta as SkullMeta
+            val nextPageGameProfile = GameProfile(UUID.randomUUID(), "PageHead")
+
+            nextPageGameProfile.properties.put("textures", Property("textures", FusionGUIHeads.PAGE_NEXT.texture))
+
+            try {
+                val profileField = nextPageMeta.javaClass.getDeclaredField("profile")
+                profileField.isAccessible = true
+                profileField.set(nextPageMeta, nextPageGameProfile)
+            } catch (e: NoSuchFieldException) {
+                e.printStackTrace()
+            } catch (e: IllegalAccessException) {
+                e.printStackTrace()
+            }
+
+            nextPageMeta.displayName(ColorUtils().convert("<green>Next page"))
+            nextPageMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+            nextPage.itemMeta = nextPageMeta
+            inv.setItem(siteSlots[1], nextPage)
+
+            val lastPage = ItemStack(Material.PLAYER_HEAD, 1)
+            val lastPageMeta = lastPage.itemMeta as SkullMeta
+            val lastPageGameProfile = GameProfile(UUID.randomUUID(), "PageHead")
+
+            lastPageGameProfile.properties.put("textures", Property("textures", FusionGUIHeads.PAGE_BACK.texture))
+
+            try {
+                val profileField = lastPageMeta.javaClass.getDeclaredField("profile")
+                profileField.isAccessible = true
+                profileField.set(lastPageMeta, lastPageGameProfile)
+            } catch (e: NoSuchFieldException) {
+                e.printStackTrace()
+            } catch (e: IllegalAccessException) {
+                e.printStackTrace()
+            }
+
+            lastPageMeta.displayName(ColorUtils().convert("<red>Page back"))
+            lastPageMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+            lastPage.itemMeta = lastPageMeta
+            inv.setItem(siteSlots[0], lastPage)
+        }
+
+        val pageCount = ItemStack(Material.PLAYER_HEAD, 1)
+        val pageCountMeta = pageCount.itemMeta as SkullMeta
+        val gameProfile = GameProfile(UUID.randomUUID(), "PageHead")
+        gameProfile.properties.put("textures", Property("textures", FusionGUIHeads.ADD_FUSION.texture))
+
+        try {
+            val profileField = pageCountMeta.javaClass.getDeclaredField("profile")
+            profileField.isAccessible = true
+            profileField.set(pageCountMeta, gameProfile)
+        } catch (e: NoSuchFieldException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        }
+
+        pageCountMeta.displayName(ColorUtils().convert("<green>Add Tag"))
+        pageCountMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+        pageCount.itemMeta = pageCountMeta
+        inv.setItem(newTagSlot, pageCount)
+
+        for (tag in tags) {
+            val item = ItemStack(Material.PAPER)
+            val meta = item.itemMeta
+            val lore = mutableListOf<Component>()
+            meta.displayName(ColorUtils().convert("<gold>$tag"))
+
+            lore.add(ColorUtils().convert(" "))
+            lore.add(ColorUtils().convert("<green>Left click to edit"))
+            lore.add(ColorUtils().convert("<red>Right click to remove"))
+
+            meta.lore(lore)
+            item.itemMeta = meta
+
+            inv.addItem(item)
+        }
+
+        player.openInventory(inv)
     }
 
     private fun reopenInventory(player: Player, fileName: String) {
