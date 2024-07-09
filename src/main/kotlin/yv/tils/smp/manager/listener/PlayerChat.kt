@@ -2,16 +2,18 @@ package yv.tils.smp.manager.listener
 
 import io.papermc.paper.event.player.AsyncChatEvent
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import yv.tils.smp.YVtils
 import yv.tils.smp.manager.commands.GlobalMuteCMD
 import yv.tils.smp.mods.admin.moderation.Mute
 import yv.tils.smp.mods.discord.sync.chatSync.SyncChats
+import yv.tils.smp.mods.fusionCrafting.manager.FusionCraftManage
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.global.Config
 
 class PlayerChat : Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     fun onEvent(e: AsyncChatEvent) {
         GlobalMuteCMD().playerChatEvent(e)
         Mute().playerChat(e)
@@ -19,8 +21,13 @@ class PlayerChat : Listener {
         colorizeChatMessage(e)
     }
 
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    fun onEventHIGHEST(e: AsyncChatEvent) {
+        FusionCraftManage().listenForEdit(e)
+    }
+
     private fun colorizeChatMessage(e: AsyncChatEvent) {
-        if (Config.config["allowChatColors"] as Boolean) return
+        if (!(Config.config["allowChatColors"] as Boolean)) return
 
         val message = ColorUtils().convertChatMessage(e.originalMessage())
         val sender = e.player
