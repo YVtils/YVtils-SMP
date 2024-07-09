@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.PotionMeta
 import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.fusionCrafting.FusionKeys
-import yv.tils.smp.mods.fusionCrafting.FusionOverview
+import yv.tils.smp.mods.fusionCrafting.FusionLoader
 import yv.tils.smp.utils.color.ColorUtils
 import java.io.File
 import java.util.UUID
@@ -30,14 +30,18 @@ class FusionManagerGUI {
         var name: String,
         var description: String,
         var tags: MutableList<String>,
-        var fusionInv: Inventory,
+        var fusionInv: MutableMap<String, Any>,
         var fileName: String
     )
 
     fun openInventory(player: Player, fusion: String) {
         var inv = Bukkit.createInventory(null, 9*3, ColorUtils().convert("<gold>Fusion Manager"))
 
-        val data = collectData(fusion)
+        val data = if (playerManager.containsKey(player.uniqueId)) {
+            playerManager[player.uniqueId]!!
+        } else {
+            collectData(fusion)
+        }
 
         inv = generateContent(inv, data)
 
@@ -50,8 +54,8 @@ class FusionManagerGUI {
         var thumbnail = ItemStack(Material.ITEM_FRAME)
         var name = ""
         var description = ""
-        val tags: MutableList<String> = mutableListOf()
-        var fusionInv = FusionCraftManage().buildGUI()
+        val tags = mutableListOf<String>()
+        var fusionInv = mutableMapOf<String, Any>()
         var fileName = ""
 
         if (fusionName == "null") {
@@ -78,7 +82,7 @@ class FusionManagerGUI {
             tags.add(newTag)
         }
 
-        fusionInv = FusionCraftManage().buildGUI()
+        fusionInv = FusionLoader().loadFusion(fusionName)
 
         return Fusion(state, thumbnail, name, description, tags, fusionInv, fileName)
     }
@@ -93,7 +97,7 @@ class FusionManagerGUI {
         ymlFile.set("description", fusion.description)
         ymlFile.set("tags", fusion.tags.joinToString(";"))
 
-        val fusionInv = FusionCraftManage().parseGUI(fusion.fusionInv)
+        val fusionInv = fusion.fusionInv
 
         for (fusionItem in fusionInv) {
             val key = fusionItem.key
