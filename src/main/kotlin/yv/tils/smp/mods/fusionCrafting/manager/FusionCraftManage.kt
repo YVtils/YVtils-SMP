@@ -97,7 +97,7 @@ class FusionCraftManage {
         if (stringMsg.lowercase() == "c") {
             player.sendMessage(ColorUtils().convert("<red>Cancelled!"))
             playerListen.remove(player.uniqueId)
-            reopenInventory(player, fusion.fileName)
+            reopenInventory(player, "manage", fusion.fileName)
             return
         }
 
@@ -110,7 +110,7 @@ class FusionCraftManage {
             fusion.name = stringMsg
             player.sendMessage(ColorUtils().convert("<green>Updated name to: <aqua>$stringMsg"))
             playerListen.remove(player.uniqueId)
-            reopenInventory(player, fusion.fileName)
+            reopenInventory(player, "manage", fusion.fileName)
         } else if (playerListen[player.uniqueId] == "fusionDescription") {
             if (strippedMsg.length > 256) {
                 player.sendMessage(ColorUtils().convert("<red>That description is too long!"))
@@ -120,7 +120,13 @@ class FusionCraftManage {
             fusion.description = stringMsg
             player.sendMessage(ColorUtils().convert("<green>Updated description to: <white>$stringMsg"))
             playerListen.remove(player.uniqueId)
-            reopenInventory(player, fusion.fileName)
+            reopenInventory(player, "manage", fusion.fileName)
+        } else if (playerListen[player.uniqueId] == "fusionTagModify") {
+            fusion.tags.add(stringMsg)
+            reopenInventory(player, "tags", fusion.fileName)
+        } else if (playerListen[player.uniqueId] == "fusionTagAdd") {
+            fusion.tags.add(stringMsg)
+            reopenInventory(player, "tags", fusion.fileName)
         }
     }
 
@@ -128,8 +134,8 @@ class FusionCraftManage {
         val guiSize = when {
             tags.size <= 9 -> 18
             tags.size <= 18 -> 27
-            tags.size <= 27 -> 27
-            tags.size <= 36 -> 36
+            tags.size <= 27 -> 36
+            tags.size <= 36 -> 45
             else -> 54
         }
 
@@ -233,9 +239,10 @@ class FusionCraftManage {
         player.openInventory(inv)
     }
 
-    private fun reopenInventory(player: Player, fileName: String) {
+    private fun reopenInventory(player: Player, inv: String, fileName: String) {
         Bukkit.getScheduler().runTaskLater(YVtils.instance, Runnable {
-            FusionManagerGUI().openInventory(player, fileName)
+            if (inv == "manage") FusionManagerGUI().openInventory(player, fileName)
+            if (inv == "tags") filterTagsGUI(player, FusionManagerGUI.playerManager[player.uniqueId]?.tags ?: mutableListOf())
         }, 1)
     }
 }
