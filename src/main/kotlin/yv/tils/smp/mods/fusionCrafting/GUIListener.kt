@@ -313,14 +313,15 @@ class GUIListener {
             guiSize <= 18 -> mutableListOf(0, 1, 2, 3, 4, 5, 6, 7, 8)
             guiSize <= 27 -> mutableListOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17)
             guiSize <= 36 -> mutableListOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26)
+            guiSize <= 45 -> mutableListOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35)
             else -> mutableListOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44)
         }
 
         val tailSlots = when {
-            guiSize <= 9 -> mutableListOf(9, 10, 11, 12, 13, 14, 15, 16, 17)
-            guiSize <= 18 -> mutableListOf(18, 19, 20, 21, 22, 23, 24, 25, 26)
-            guiSize <= 27 -> mutableListOf(27, 28, 29, 30, 31, 32, 33, 34, 35)
-            guiSize <= 36 -> mutableListOf(36, 37, 38, 39, 40, 41, 42, 43, 44)
+            guiSize <= 18 -> mutableListOf(9, 10, 11, 12, 13, 14, 15, 16, 17)
+            guiSize <= 27 -> mutableListOf(18, 19, 20, 21, 22, 23, 24, 25, 26)
+            guiSize <= 36 -> mutableListOf(27, 28, 29, 30, 31, 32, 33, 34, 35)
+            guiSize <= 45 -> mutableListOf(36, 37, 38, 39, 40, 41, 42, 43, 44)
             else -> mutableListOf(45, 46, 47, 48, 49, 50, 51, 52, 53)
         }
 
@@ -331,14 +332,28 @@ class GUIListener {
 
         val newTagSlot = tailSlots[4]
 
+        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
+
         when (slot) {
             in tagSlots -> {
+                if (e.currentItem == null) return
+
                 val clickType = e.click
 
                 if (clickType.isLeftClick) {
-                    println("This would let the player modify the tag")
+                    player.closeInventory()
+                    FusionCraftManage.playerListen[player.uniqueId] = "fusionTagModify"
+                    fusion.tags.remove(e.currentItem?.itemMeta?.displayName()?.let { ColorUtils().convert(it) })
+                    player.sendMessage(ColorUtils().convert(
+                        "<gold>Editing Fusion Tag<newline>" +
+                                "<gray>Current Tag: <white>${e.currentItem?.itemMeta?.displayName()}<newline>" +
+                                "<red>'c' to cancel"
+                    ))
                 } else if (clickType.isRightClick) {
-                    println("This would let the player delete the tag")
+                    FusionManagerGUI.playerManager[player.uniqueId]?.tags?.remove(e.currentItem?.itemMeta?.displayName()
+                        ?.let { ColorUtils().convert(it) }
+                    )
+                    FusionCraftManage().filterTagsGUI(player as Player, FusionManagerGUI.playerManager[player.uniqueId]?.tags ?: mutableListOf())
                 }
             }
 
@@ -347,7 +362,12 @@ class GUIListener {
             }
 
             newTagSlot -> {
-                println("This would let the player add a new tag")
+                player.closeInventory()
+                FusionCraftManage.playerListen[player.uniqueId] = "fusionTagNew"
+                player.sendMessage(ColorUtils().convert(
+                    "<gold>Creating New Fusion Tag<newline>" +
+                            "<red>'c' to cancel"
+                ))
             }
         }
     }
