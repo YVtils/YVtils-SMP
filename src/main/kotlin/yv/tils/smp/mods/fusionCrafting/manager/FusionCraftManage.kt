@@ -80,56 +80,6 @@ class FusionCraftManage {
         playerListen[player.uniqueId] = "fusionDescription"
     }
 
-    fun listenForEdit(e: AsyncChatEvent) {
-        val player = e.player
-        val message = e.message()
-        val coloredMsg = ColorUtils().convertChatMessage(message)
-        val stringMsg = ColorUtils().convert(coloredMsg)
-        val strippedMsg = ColorUtils().strip(stringMsg)
-
-
-        if (!playerListen.contains(player.uniqueId)) return
-
-        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
-
-        e.isCancelled = true
-
-        if (stringMsg.lowercase() == "c") {
-            player.sendMessage(ColorUtils().convert("<red>Cancelled!"))
-            playerListen.remove(player.uniqueId)
-            reopenInventory(player, "manage", fusion.fileName)
-            return
-        }
-
-        if (playerListen[player.uniqueId] == "fusionName") {
-            if (strippedMsg.length > 32) {
-                player.sendMessage(ColorUtils().convert("<red>That name is too long!"))
-                return
-            }
-
-            fusion.name = stringMsg
-            player.sendMessage(ColorUtils().convert("<green>Updated name to: <aqua>$stringMsg"))
-            playerListen.remove(player.uniqueId)
-            reopenInventory(player, "manage", fusion.fileName)
-        } else if (playerListen[player.uniqueId] == "fusionDescription") {
-            if (strippedMsg.length > 256) {
-                player.sendMessage(ColorUtils().convert("<red>That description is too long!"))
-                return
-            }
-
-            fusion.description = stringMsg
-            player.sendMessage(ColorUtils().convert("<green>Updated description to: <white>$stringMsg"))
-            playerListen.remove(player.uniqueId)
-            reopenInventory(player, "manage", fusion.fileName)
-        } else if (playerListen[player.uniqueId] == "fusionTagModify") {
-            fusion.tags.add(stringMsg)
-            reopenInventory(player, "tags", fusion.fileName)
-        } else if (playerListen[player.uniqueId] == "fusionTagAdd") {
-            fusion.tags.add(stringMsg)
-            reopenInventory(player, "tags", fusion.fileName)
-        }
-    }
-
     fun filterTagsGUI(player: Player, tags: MutableList<String>) {
         val guiSize = when {
             tags.size <= 9 -> 18
@@ -237,6 +187,58 @@ class FusionCraftManage {
         }
 
         player.openInventory(inv)
+    }
+
+    fun listenForEdit(e: AsyncChatEvent) {
+        val player = e.player
+        val message = e.message()
+        val coloredMsg = ColorUtils().convertChatMessage(message)
+        val stringMsg = ColorUtils().convert(coloredMsg)
+        val strippedMsg = ColorUtils().strip(stringMsg)
+
+
+        if (!playerListen.contains(player.uniqueId)) return
+
+        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
+
+        e.isCancelled = true
+
+        if (stringMsg.lowercase() == "c" || stringMsg.lowercase() == "cancel") {
+            player.sendMessage(ColorUtils().convert("<red>Cancelled!"))
+            playerListen.remove(player.uniqueId)
+            reopenInventory(player, "manage", fusion.fileName)
+            return
+        }
+
+        if (playerListen[player.uniqueId] == "fusionName") {
+            if (strippedMsg.length > 32) {
+                player.sendMessage(ColorUtils().convert("<red>That name is too long!"))
+                return
+            }
+
+            fusion.name = stringMsg
+            player.sendMessage(ColorUtils().convert("<green>Updated name to: <aqua>$stringMsg"))
+            playerListen.remove(player.uniqueId)
+            reopenInventory(player, "manage", fusion.fileName)
+        } else if (playerListen[player.uniqueId] == "fusionDescription") {
+            if (strippedMsg.length > 256) {
+                player.sendMessage(ColorUtils().convert("<red>That description is too long!"))
+                return
+            }
+
+            fusion.description = stringMsg
+            player.sendMessage(ColorUtils().convert("<green>Updated description to: <white>$stringMsg"))
+            playerListen.remove(player.uniqueId)
+            reopenInventory(player, "manage", fusion.fileName)
+        } else if (playerListen[player.uniqueId]?.startsWith("fusionTagModify") == true) {
+            val oldTag = playerListen[player.uniqueId]?.split(" - ")?.get(1)
+            fusion.tags.remove(oldTag)
+            fusion.tags.add(stringMsg)
+            reopenInventory(player, "tags", fusion.fileName)
+        } else if (playerListen[player.uniqueId] == "fusionTagAdd") {
+            fusion.tags.add(stringMsg)
+            reopenInventory(player, "tags", fusion.fileName)
+        }
     }
 
     private fun reopenInventory(player: Player, inv: String, fileName: String) {

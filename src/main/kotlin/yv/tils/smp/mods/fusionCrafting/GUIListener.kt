@@ -333,6 +333,7 @@ class GUIListener {
         val newTagSlot = tailSlots[4]
 
         val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
+        val itemName = e.currentItem?.itemMeta?.displayName()?.let { ColorUtils().convert(it) } ?: return
 
         when (slot) {
             in tagSlots -> {
@@ -342,18 +343,15 @@ class GUIListener {
 
                 if (clickType.isLeftClick) {
                     player.closeInventory()
-                    FusionCraftManage.playerListen[player.uniqueId] = "fusionTagModify"
-                    fusion.tags.remove(e.currentItem?.itemMeta?.displayName()?.let { ColorUtils().convert(it) })
+                    FusionCraftManage.playerListen[player.uniqueId] = "fusionTagModify - $itemName"
                     player.sendMessage(ColorUtils().convert(
                         "<gold>Editing Fusion Tag<newline>" +
                                 "<gray>Current Tag: <white>${e.currentItem?.itemMeta?.displayName()}<newline>" +
                                 "<red>'c' to cancel"
                     ))
                 } else if (clickType.isRightClick) {
-                    FusionManagerGUI.playerManager[player.uniqueId]?.tags?.remove(e.currentItem?.itemMeta?.displayName()
-                        ?.let { ColorUtils().convert(it) }
-                    )
-                    FusionCraftManage().filterTagsGUI(player as Player, FusionManagerGUI.playerManager[player.uniqueId]?.tags ?: mutableListOf())
+                    fusion.tags.remove(itemName)
+                    FusionCraftManage().filterTagsGUI(player as Player, fusion.tags)
                 }
             }
 
@@ -461,6 +459,8 @@ class GUIListener {
                     }
                 }
             }
+        } else if (FusionManagerGUI.playerManager.containsKey(player.uniqueId)) {
+            FusionManagerGUI.playerManager.remove(player.uniqueId)
         }
     }
 }
