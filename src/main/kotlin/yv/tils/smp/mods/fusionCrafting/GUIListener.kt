@@ -265,10 +265,12 @@ class GUIListener {
             }
 
             deleteSlot -> {
-                println("This would delete the fusion")
+                FusionManagerGUI.playerManager.remove(player.uniqueId)
+                FusionOverview().openOverview(player as Player, "<red>Fusion Management")
             }
 
             backSlot -> {
+                FusionManagerGUI.playerManager.remove(player.uniqueId)
                 FusionOverview().openOverview(player as Player, "<red>Fusion Management")
             }
         }
@@ -306,7 +308,6 @@ class GUIListener {
         e.isCancelled = true
 
         val slot = e.slot
-        val rawSlot = e.rawSlot
         val guiSize = e.inventory.size
 
         val tagSlots = when {
@@ -325,11 +326,6 @@ class GUIListener {
             else -> mutableListOf(45, 46, 47, 48, 49, 50, 51, 52, 53)
         }
 
-        val siteSlots: MutableList<Int> = mutableListOf(
-            tailSlots[0],
-            tailSlots[8]
-        )
-
         val newTagSlot = tailSlots[4]
 
         val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
@@ -346,17 +342,14 @@ class GUIListener {
                     FusionCraftManage.playerListen[player.uniqueId] = "fusionTagModify - $itemName"
                     player.sendMessage(ColorUtils().convert(
                         "<gold>Editing Fusion Tag<newline>" +
-                                "<gray>Current Tag: <white>${e.currentItem?.itemMeta?.displayName()}<newline>" +
+                                "<gray>Current Tag: <white>${ColorUtils().convert(e.currentItem?.itemMeta?.displayName()!!)}<newline>" +
                                 "<red>'c' to cancel"
                     ))
                 } else if (clickType.isRightClick) {
-                    fusion.tags.remove(itemName)
+                    val stripped = ColorUtils().strip(itemName)
+                    fusion.tags.remove(stripped)
                     FusionCraftManage().filterTagsGUI(player as Player, fusion.tags)
                 }
-            }
-
-            in siteSlots -> {
-                println("This would switch the page")
             }
 
             newTagSlot -> {
@@ -449,6 +442,7 @@ class GUIListener {
     fun onInventoryClose(e: InventoryCloseEvent) {
         val player = e.player
         val inv = e.inventory
+        val reason = e.reason
 
         if (ColorUtils().convert(player.openInventory.title()).startsWith("<gold>Fusion Crafting - ") || player.openInventory.title() == ColorUtils().convert("<gold>Fusion Crafting")) {
             for (item in inv.contents) {
@@ -459,7 +453,7 @@ class GUIListener {
                     }
                 }
             }
-        } else if (FusionManagerGUI.playerManager.containsKey(player.uniqueId)) {
+        } else if (FusionManagerGUI.playerManager.containsKey(player.uniqueId) && reason != InventoryCloseEvent.Reason.OPEN_NEW && reason != InventoryCloseEvent.Reason.PLUGIN) {
             FusionManagerGUI.playerManager.remove(player.uniqueId)
         }
     }
