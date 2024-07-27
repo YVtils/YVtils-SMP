@@ -371,7 +371,6 @@ class GUIListener {
     private fun editFusionRecipe(e: InventoryClickEvent, player: HumanEntity) {
         e.isCancelled = true
 
-        val slot = e.slot
         val rawSlot = e.rawSlot
 
         if (rawSlot > 54) {

@@ -37,7 +37,7 @@ class FusionRecipeItemManage {
         player.openInventory(inv)
     }
 
-    fun tfIDK(): MutableMap<String, Any> { // TODO: Rename this function
+    fun parseInvToMap(): MutableMap<String, Any> { // TODO: Rename this function
         return mutableMapOf()
     }
 
