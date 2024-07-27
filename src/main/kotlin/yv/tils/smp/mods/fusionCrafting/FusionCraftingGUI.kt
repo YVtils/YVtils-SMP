@@ -15,8 +15,16 @@ import yv.tils.smp.utils.color.ColorUtils
 
 class FusionCraftingGUI {
     fun fusionGUI(player: HumanEntity, fusion: MutableMap<String, Any>) {
-        val inv = Bukkit.createInventory(null, 54, ColorUtils().convert("<gold>Fusion Crafting - ${fusion["name"]}"))
+        var inv = Bukkit.createInventory(null, 54, ColorUtils().convert("<gold>Fusion Crafting - ${fusion["name"]}"))
 
+        inv = generateFusionGUI(inv, fusion)
+
+        player.openInventory(inv)
+
+        FusionCheck().buildItemList(fusion, inv, player as Player)
+    }
+
+    fun generateFusionGUI(inv: Inventory, fusion: MutableMap<String, Any>): Inventory {
         val inputSlots: List<Int> = listOf(10, 11, 12, 13, 19, 20, 21, 22, 28, 29, 30, 31)
         val outputSlots: List<Int> = listOf(15, 16, 24, 25, 33, 34)
         val acceptSlots = listOf(47, 48, 49, 50, 51, 52)
@@ -70,9 +78,7 @@ class FusionCraftingGUI {
             inv.setItem(i, item)
         }
 
-        player.openInventory(inv)
-
-        FusionCheck().buildItemList(fusion, inv, player as Player)
+        return inv
     }
 
     private fun generateInput(slots: List<Int>, fusion: MutableMap<String, Any>, inv: Inventory) {
@@ -115,6 +121,7 @@ class FusionCraftingGUI {
                         val item = items[items.size - 1]
                         val meta = item.itemMeta
                         meta.displayName(ColorUtils().convert("<red>✘<gray> | <aqua>" + mapKey.split(".")[1] + " <gray>(" + (input.value as MutableList<MutableMap<String, String>>)[1]["amount"] + "x)"))
+                        meta.persistentDataContainer.set(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING, "<aqua>" + mapKey.split(".")[1])
                         item.itemMeta = meta
                     }
                 }

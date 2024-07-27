@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import yv.tils.smp.YVtils
+import yv.tils.smp.mods.fusionCrafting.FusionCraftingGUI
 import yv.tils.smp.mods.fusionCrafting.FusionGUIHeads
 import yv.tils.smp.utils.color.ColorUtils
 import java.util.*
@@ -21,10 +22,51 @@ class FusionCraftManage {
         val playerListen = mutableMapOf<UUID, String>()
     }
 
-    fun buildGUI(): Inventory {
-        val inv = Bukkit.createInventory(null, 9*3, ColorUtils().convert("<gold>Fusion Manager"))
+    fun editFusionRecipe(player: Player, fusion: MutableMap<String, Any>) {
+        var inv = Bukkit.createInventory(null, 54, ColorUtils().convert("<gold>Edit Fusion Recipe"))
 
-        return inv
+        inv = FusionCraftingGUI().generateFusionGUI(inv, fusion)
+
+        val inputSlots: List<Int> = listOf(10, 11, 12, 13, 19, 20, 21, 22, 28, 29, 30, 31)
+        val outputSlots: List<Int> = listOf(15, 16, 24, 25, 33, 34)
+
+        val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+        val fillerMeta = innerFiller.itemMeta
+        fillerMeta.displayName(ColorUtils().convert(" "))
+        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+        innerFiller.itemMeta = fillerMeta
+
+        for (slot in inputSlots) {
+            val item = inv.getItem(slot)
+
+            if (item == innerFiller) {
+                inv.setItem(slot, ItemStack(Material.AIR))
+            }
+        }
+
+        for (slot in outputSlots) {
+            val item = inv.getItem(slot)
+
+            if (item == innerFiller) {
+                inv.setItem(slot, ItemStack(Material.AIR))
+            }
+        }
+
+        for (slot in inputSlots + outputSlots) {
+            val item = inv.getItem(slot) ?: continue
+            val meta = item.itemMeta ?: continue
+            val lore = meta.lore() ?: mutableListOf()
+
+            lore.add(ColorUtils().convert(" "))
+            lore.add(ColorUtils().convert("<green>Left click to edit"))
+            lore.add(ColorUtils().convert("<red>Right click to remove"))
+
+            meta.lore(lore)
+            item.itemMeta = meta
+            inv.setItem(slot, item)
+        }
+
+        player.openInventory(inv)
     }
 
     fun editThumbnailItem(player: Player, item: ItemStack) {

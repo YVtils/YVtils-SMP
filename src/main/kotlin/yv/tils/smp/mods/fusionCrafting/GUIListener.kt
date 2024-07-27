@@ -11,6 +11,7 @@ import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.mods.fusionCrafting.enchantments.PlayerHeadLoad
 import yv.tils.smp.mods.fusionCrafting.manager.FusionCraftManage
 import yv.tils.smp.mods.fusionCrafting.manager.FusionManagerGUI
+import yv.tils.smp.mods.fusionCrafting.manager.FusionRecipeItemManage
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
 
@@ -38,6 +39,9 @@ class GUIListener {
             }
             ColorUtils().convert("<gold>Filter Tags") -> {
                 editFilterTags(e, player)
+            }
+            ColorUtils().convert("<gold>Edit Fusion Recipe") -> {
+                editFusionRecipe(e, player)
             }
             else -> {
                 if (ColorUtils().convert(player.openInventory.title()).startsWith("<gold>Fusion Crafting - ")) {
@@ -261,7 +265,7 @@ class GUIListener {
             }
 
             fusionInvSlot -> {
-                println("This would open the fusion inventory")
+                FusionCraftManage().editFusionRecipe(player as Player, FusionManagerGUI.playerManager[player.uniqueId]?.fusionInv ?: mutableMapOf())
             }
 
             deleteSlot -> {
@@ -270,6 +274,7 @@ class GUIListener {
             }
 
             backSlot -> {
+                FusionManagerGUI().setData(FusionManagerGUI.playerManager[player.uniqueId] ?: return)
                 FusionManagerGUI.playerManager.remove(player.uniqueId)
                 FusionOverview().openOverview(player as Player, "<red>Fusion Management")
             }
@@ -359,6 +364,56 @@ class GUIListener {
                     "<gold>Creating New Fusion Tag<newline>" +
                             "<red>'c' to cancel"
                 ))
+            }
+        }
+    }
+
+    private fun editFusionRecipe(e: InventoryClickEvent, player: HumanEntity) {
+        e.isCancelled = true
+
+        val slot = e.slot
+        val rawSlot = e.rawSlot
+
+        if (rawSlot > 54) {
+            e.isCancelled = false
+            return
+        }
+
+        val inputSlots: List<Int> = listOf(10, 11, 12, 13, 19, 20, 21, 22, 28, 29, 30, 31)
+        val outputSlots: List<Int> = listOf(15, 16, 24, 25, 33, 34)
+
+        when (rawSlot) {
+            in inputSlots -> {
+                val clickType = e.click
+                val item = e.currentItem ?: return
+
+                if (item.type == Material.AIR) return
+
+                if (clickType.isLeftClick) {
+                    FusionRecipeItemManage().openInventory(player as Player, item, "input")
+                } else if (clickType.isRightClick) {
+                    // TODO: Implement delete logic
+                    println("Delete item from fusion")
+                }
+            }
+
+            in outputSlots -> {
+                val clickType = e.click
+                val item = e.currentItem ?: return
+
+                if (item.type == Material.AIR) return
+
+                if (clickType.isLeftClick) {
+                    FusionRecipeItemManage().openInventory(player as Player, item, "output")
+                } else if (clickType.isRightClick) {
+                    // TODO: Implement delete logic
+                    println("Delete item from fusion")
+                }
+            }
+
+            45, 47, 48, 49, 50, 51, 52 -> {
+                println("Save changes (MutableMap<String, Any>)")
+                FusionManagerGUI().openInventory(player as Player, FusionManagerGUI.playerManager[player.uniqueId]?.fileName ?: "")
             }
         }
     }

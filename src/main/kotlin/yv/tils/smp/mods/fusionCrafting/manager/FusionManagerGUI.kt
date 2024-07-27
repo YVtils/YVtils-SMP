@@ -87,6 +87,7 @@ class FusionManagerGUI {
         return Fusion(state, thumbnail, name, description, tags, fusionInv, fileName)
     }
 
+    // TODO: Saves in file, but does not work in lifetime without restart
     fun setData(fusion: Fusion) {
         val file = File(YVtils.instance.dataFolder.path, "fusions/${fusion.fileName}.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
@@ -104,12 +105,39 @@ class FusionManagerGUI {
             val value = fusionItem.value
 
             // TODO: Implement logic to set data
+            /*
+            [23:15:36 INFO]: Input: [{item=ITEM_FRAME}, {amount=1}, {data=}]
+[23:15:36 INFO]: Input: [{item=GLOW_ITEM_FRAME}, {amount=1}, {data=}]
+[23:15:36 INFO]: Input: [{item=Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=White_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Orange_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Magenta_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Light_Blue_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Yellow_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Lime_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Pink_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Gray_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Light_Gray_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Cyan_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Purple_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Blue_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Brown_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Green_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Red_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Input: [{item=Black_Stained_Glass_Pane}, {amount=4}, {data=}]
+[23:15:36 INFO]: Output: [{item=ITEM_FRAME}, {amount=4}, {name=<gold>Invisible Item Frame}, {lore=<white>Place this Item Frame and it will be invisible! <newline><red>Empty Item Frames will be destroyed and dropped after one minute!}, {data=Invisible}]
+
+             */
             if (key.startsWith("input.")) {
                 println("Input: $value")
+//                ymlFile.set("input", value) // TODO: Should work like this but not sure
             } else if (key.startsWith("output.")) {
                 println("Output: $value")
+//                ymlFile.set("output", value) // TODO: Should work like this but not sure
             }
         }
+
+        ymlFile.save(file)
     }
 
     private fun generateContent(inv: Inventory, fusion: Fusion): Inventory {
