@@ -5,6 +5,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -13,10 +14,11 @@ import org.bukkit.inventory.meta.PotionMeta
 import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.mods.fusionCrafting.FusionKeys
 import yv.tils.smp.utils.color.ColorUtils
+import java.util.UUID
 
 class FusionRecipeItemManage {
     companion object {
-        val fusionRecipeItemEdit = mutableMapOf<Player, FusionRecipeItem>()
+        val fusionRecipeItemEdit = mutableMapOf<UUID, FusionRecipeItem>()
     }
 
     data class FusionRecipeItem(
@@ -25,50 +27,51 @@ class FusionRecipeItemManage {
         var amount: Int,
         var lore: List<Component>,
         var data: MutableList<String>,
+        val type: String
     )
+
+    fun parseInvToMap(player: Player): MutableMap<String, Any> {
+        val fusionRecipe = fusionRecipeItemEdit[player.uniqueId] ?: return mutableMapOf()
+        val outputMap = mutableMapOf<String, Any>()
+
+        return outputMap
+    }
 
     fun openInventory(player: Player, item: ItemStack, type: String) {
         var inv = Bukkit.createInventory(null, 9*3, ColorUtils().convert("<gold>Edit Item"))
 
-        val fusionItem = parseItem(item)
+        val fusionItem = if (fusionRecipeItemEdit[player.uniqueId] == null) {
+            parseItem(item, type)
+        } else {
+            fusionRecipeItemEdit[player.uniqueId] ?: return
+        }
 
-        inv = generateContent(inv, fusionItem, type)
+        inv = when (type) {
+            "input" -> inputInventory(inv, fusionItem)
+            "output" -> outputInventory(inv, fusionItem)
+            else -> return
+        }
 
+        fusionRecipeItemEdit[player.uniqueId] = fusionItem
         player.openInventory(inv)
     }
 
-    fun parseInvToMap(): MutableMap<String, Any> { // TODO: Rename this function
-        return mutableMapOf()
-    }
+    private fun inputInventory(inv: Inventory, fusion: FusionRecipeItem): Inventory {
+        var inv = inv
 
-    private fun generateContent(inv: Inventory, fusion: FusionRecipeItem, type: String): Inventory {
-        var slots = listOf(11, 12, 13, 14, 15)
+        val acceptedItems = ItemStack(Material.BARREL)
+        val acceptedItemsMeta = acceptedItems.itemMeta
+        val acceptedItemsLore = mutableListOf<Component>()
 
-        if (type == "output") {
-            val thumbnail = ItemStack(fusion.material)
-            val displayMeta: ItemMeta = thumbnail.itemMeta
-            displayMeta.displayName(ColorUtils().convert("<gold>Display Item"))
+        acceptedItemsMeta.displayName(ColorUtils().convert("<gold>Usable Items"))
 
-            thumbnail.itemMeta = displayMeta
-            inv.setItem(slots[0], thumbnail)
-            slots = slots.drop(1)
-        }
+        acceptedItemsLore.add(ColorUtils().convert(" "))
+        acceptedItemsLore.add(ColorUtils().convert("<gray>Click to view"))
 
-        if (type == "input") {
-            val acceptedItems = ItemStack(Material.BARREL)
-            val acceptedItemsMeta = acceptedItems.itemMeta
-            val acceptedItemsLore = mutableListOf<Component>()
+        acceptedItemsMeta.lore(acceptedItemsLore)
+        acceptedItems.itemMeta = acceptedItemsMeta
+        inv.setItem(11, acceptedItems)
 
-            acceptedItemsMeta.displayName(ColorUtils().convert("<gold>Usable Items"))
-
-            acceptedItemsLore.add(ColorUtils().convert(" "))
-            acceptedItemsLore.add(ColorUtils().convert("<gray>Click to view"))
-
-            acceptedItemsMeta.lore(acceptedItemsLore)
-            acceptedItems.itemMeta = acceptedItemsMeta
-            inv.setItem(slots[0], acceptedItems)
-            slots = slots.drop(1)
-        }
 
         val displayName = ItemStack(Material.NAME_TAG)
         val displayNameMeta = displayName.itemMeta
@@ -82,8 +85,8 @@ class FusionRecipeItemManage {
 
         displayNameMeta.lore(displayNameLore)
         displayName.itemMeta = displayNameMeta
-        inv.setItem(slots[0], displayName)
-        slots = slots.drop(1)
+        inv.setItem(12, displayName)
+
 
         val amountItem = ItemStack(Material.PAPER)
         val amountItemMeta = amountItem.itemMeta
@@ -96,26 +99,8 @@ class FusionRecipeItemManage {
 
         amountItemMeta.lore(amountItemLore)
         amountItem.itemMeta = amountItemMeta
-        inv.setItem(slots[0], amountItem)
-        slots = slots.drop(1)
+        inv.setItem(13, amountItem)
 
-        if (type == "output") {
-            val description = ItemStack(Material.MAP)
-            val descriptionMeta = description.itemMeta
-            val descriptionLore = mutableListOf<Component>()
-
-            descriptionMeta.displayName(ColorUtils().convert("<gold>Item Lore"))
-
-            descriptionLore.add(ColorUtils().convert(" "))
-            for (descLine in fusion.lore) {
-                descriptionLore.add(ColorUtils().convert("<white>${ColorUtils().convert(descLine)}"))
-            }
-
-            descriptionMeta.lore(descriptionLore)
-            description.itemMeta = descriptionMeta
-            inv.setItem(slots[0], description)
-            slots = slots.drop(1)
-        }
 
         val tags = ItemStack(Material.BOOK)
         val tagsMeta = tags.itemMeta
@@ -130,9 +115,90 @@ class FusionRecipeItemManage {
 
         tagsMeta.lore(tagsLore)
         tags.itemMeta = tagsMeta
-        inv.setItem(slots[0], tags)
-        slots = slots.drop(1)
+        inv.setItem(14, tags)
 
+        inv = generalContent(inv)
+
+        return inv
+    }
+
+    private fun outputInventory(inv: Inventory, fusion: FusionRecipeItem): Inventory {
+        var inv = inv
+
+        val thumbnail = ItemStack(fusion.material)
+        val displayMeta: ItemMeta = thumbnail.itemMeta
+        displayMeta.displayName(ColorUtils().convert("<gold>Display Item"))
+
+        thumbnail.itemMeta = displayMeta
+        inv.setItem(11, thumbnail)
+
+
+        val displayName = ItemStack(Material.NAME_TAG)
+        val displayNameMeta = displayName.itemMeta
+        val displayNameContent = fusion.name
+        val displayNameLore = mutableListOf<Component>()
+
+        displayNameMeta.displayName(ColorUtils().convert("<gold>Display Name"))
+
+        displayNameLore.add(ColorUtils().convert(" "))
+        displayNameLore.add(ColorUtils().convert("<aqua>$displayNameContent"))
+
+        displayNameMeta.lore(displayNameLore)
+        displayName.itemMeta = displayNameMeta
+        inv.setItem(12, displayName)
+
+
+        val amountItem = ItemStack(Material.PAPER)
+        val amountItemMeta = amountItem.itemMeta
+        val amountItemLore = mutableListOf<Component>()
+
+        amountItemMeta.displayName(ColorUtils().convert("<gold>Amount"))
+
+        amountItemLore.add(ColorUtils().convert(" "))
+        amountItemLore.add(ColorUtils().convert("<aqua>${fusion.amount}"))
+
+        amountItemMeta.lore(amountItemLore)
+        amountItem.itemMeta = amountItemMeta
+        inv.setItem(13, amountItem)
+
+
+        val description = ItemStack(Material.MAP)
+        val descriptionMeta = description.itemMeta
+        val descriptionLore = mutableListOf<Component>()
+
+        descriptionMeta.displayName(ColorUtils().convert("<gold>Item Lore"))
+
+        descriptionLore.add(ColorUtils().convert(" "))
+        for (descLine in fusion.lore) {
+            descriptionLore.add(ColorUtils().convert("<white>${ColorUtils().convert(descLine)}"))
+        }
+
+        descriptionMeta.lore(descriptionLore)
+        description.itemMeta = descriptionMeta
+        inv.setItem(14, description)
+
+
+        val tags = ItemStack(Material.BOOK)
+        val tagsMeta = tags.itemMeta
+        val tagsLore = mutableListOf<Component>()
+
+        tagsMeta.displayName(ColorUtils().convert("<gold>Data Tags"))
+
+        tagsLore.add(ColorUtils().convert(" "))
+        for (tag in fusion.data) {
+            tagsLore.add(ColorUtils().convert("<gray>$tag"))
+        }
+
+        tagsMeta.lore(tagsLore)
+        tags.itemMeta = tagsMeta
+        inv.setItem(15, tags)
+
+        inv = generalContent(inv)
+
+        return inv
+    }
+
+    private fun generalContent(inv: Inventory): Inventory {
         val back = ItemStack(Material.TIPPED_ARROW)
         val backMeta = back.itemMeta as PotionMeta
         backMeta.color = Color.fromRGB(150, 85, 95)
@@ -163,7 +229,122 @@ class FusionRecipeItemManage {
         return inv
     }
 
-    private fun parseItem(item: ItemStack): FusionRecipeItem {
+    fun editDisplayItem(player: Player) {
+        val displayItem = fusionRecipeItemEdit[player.uniqueId] ?: return
+        val item = ItemStack(displayItem.material)
+        val inv = Bukkit.createInventory(null, 9, ColorUtils().convert("<gold>Edit DisplayItem"))
+
+        inv.setItem(4, item)
+
+        val accept = ItemStack(Material.LIME_STAINED_GLASS_PANE)
+        val acceptMeta = accept.itemMeta
+        acceptMeta.displayName(ColorUtils().convert("<green>Update DisplayItem"))
+        acceptMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+
+        accept.itemMeta = acceptMeta
+        inv.setItem(0, accept)
+
+        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
+        val fillerMeta = outerFiller.itemMeta
+        fillerMeta.displayName(ColorUtils().convert(" "))
+        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+        outerFiller.itemMeta = fillerMeta
+
+        for (i in 0..<inv.size) {
+            if (inv.getItem(i) == null) {
+                inv.setItem(i, outerFiller)
+            }
+        }
+
+        player.openInventory(inv)
+    }
+
+    fun editDisplayName(player: Player) {
+        FusionCraftManage.playerListen[player.uniqueId] = "fusionRecipeItemDisplayName"
+
+        val name = fusionRecipeItemEdit[player.uniqueId]?.name ?: return
+
+        player.sendMessage(ColorUtils().convert(
+            "<gold>Editing Fusion Recipe Item Name<newline>" +
+                    "<gray>Current Name: <white>${name}<newline>" +
+                    "<red>'c' to cancel"
+        ))
+
+        player.closeInventory()
+    }
+
+    fun editAmount(player: Player, clickType: ClickType, item: ItemStack): ItemStack {
+        FusionCraftManage.playerListen[player.uniqueId] = "fusionRecipeItemAmount"
+
+        val amount = fusionRecipeItemEdit[player.uniqueId]?.amount ?: return item
+
+        when (clickType) {
+            ClickType.LEFT -> {
+                if (amount + 1 > 64) {
+                    fusionRecipeItemEdit[player.uniqueId]?.amount = 64
+                    player.sendMessage(ColorUtils().convert("<red>Amount cannot be more than 64"))
+                } else {
+                    fusionRecipeItemEdit[player.uniqueId]?.amount = amount + 1
+                }
+            }
+            ClickType.RIGHT -> {
+                if (amount - 1 < 0) {
+                    fusionRecipeItemEdit[player.uniqueId]?.amount = 1
+                    player.sendMessage(ColorUtils().convert("<red>Amount cannot be less than 1"))
+                } else {
+                    fusionRecipeItemEdit[player.uniqueId]?.amount = amount - 1
+                }
+            }
+            ClickType.SHIFT_LEFT -> {
+                if (amount + 10 > 64) {
+                    fusionRecipeItemEdit[player.uniqueId]?.amount = 64
+                    player.sendMessage(ColorUtils().convert("<red>Amount cannot be more than 64"))
+                } else {
+                    fusionRecipeItemEdit[player.uniqueId]?.amount = amount + 10
+                }
+            }
+            ClickType.SHIFT_RIGHT -> {
+                if (amount - 10 < 0) {
+                    fusionRecipeItemEdit[player.uniqueId]?.amount = 1
+                    player.sendMessage(ColorUtils().convert("<red>Amount cannot be less than 1"))
+                } else {
+                    fusionRecipeItemEdit[player.uniqueId]?.amount = amount - 10
+                }
+            }
+            else -> return item
+        }
+
+        item.amount = fusionRecipeItemEdit[player.uniqueId]?.amount ?: return item
+
+        return item
+    }
+
+    fun editLore(player: Player) {
+        FusionCraftManage.playerListen[player.uniqueId] = "fusionRecipeItemLore"
+
+        val lore = fusionRecipeItemEdit[player.uniqueId]?.lore ?: return
+
+        player.sendMessage(ColorUtils().convert(
+            "<gold>Editing Fusion Recipe Item Lore<newline>" +
+                    "<gray>Current Lore:<newline>" +
+                    "<white>${lore.joinToString("<newline>")}<newline>" +
+                    "<red>'c' to cancel"
+        ))
+
+        player.closeInventory()
+    }
+
+    fun editDataTags(player: Player) {
+        /* TODO
+            Create Inventory with all added data tags
+            Add a slot in the top right corner to add a new data tag
+            When adding a Tag a new GUI will open with all available data tags (DataTags enum)
+            When clicking on a data tag it will be added
+            When clicking on a data tag in the inventory it will be removed
+         */
+    }
+
+    private fun parseItem(item: ItemStack, type: String): FusionRecipeItem {
         val material = item.type
         val name = item.itemMeta.persistentDataContainer.get(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)
         val amount = item.amount
@@ -171,7 +352,7 @@ class FusionRecipeItemManage {
         val data: MutableList<String> = mutableListOf()
 
         if (name == null || lore == null) {
-            return FusionRecipeItem(Material.BARRIER, "null", 0, listOf(Component.text("null")), mutableListOf("null"))
+            return FusionRecipeItem(Material.BARRIER, "null", 0, listOf(Component.text("null")), mutableListOf("null"), "null")
         }
 
         for (line in lore) {
@@ -187,6 +368,6 @@ class FusionRecipeItemManage {
             }
         }
 
-        return FusionRecipeItem(material, name, amount, lore, data)
+        return FusionRecipeItem(material, name, amount, lore, data, type)
     }
 }

@@ -43,6 +43,9 @@ class GUIListener {
             ColorUtils().convert("<gold>Edit Fusion Recipe") -> {
                 editFusionRecipe(e, player)
             }
+            ColorUtils().convert("<gold>Edit Item") -> {
+                editFusionRecipeItem(e, player)
+            }
             else -> {
                 if (ColorUtils().convert(player.openInventory.title()).startsWith("<gold>Fusion Crafting - ")) {
                     clickCrafting(e, player, inv)
@@ -413,6 +416,86 @@ class GUIListener {
             45, 47, 48, 49, 50, 51, 52 -> {
                 println("Save changes (MutableMap<String, Any>)")
                 FusionManagerGUI().openInventory(player as Player, FusionManagerGUI.playerManager[player.uniqueId]?.fileName ?: "")
+            }
+        }
+    }
+
+    private fun editFusionRecipeItem(e: InventoryClickEvent, player: HumanEntity) {
+        e.isCancelled = true
+
+        val rawSlot = e.rawSlot
+
+        if (rawSlot > 9*3) {
+            e.isCancelled = false
+            return
+        }
+
+        val fusionItem = FusionRecipeItemManage.fusionRecipeItemEdit[player.uniqueId] ?: return
+        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
+
+        val displayItemSlot: Int
+        val usableItemsSlot: Int
+        val displayNameSlot: Int
+        val amountSlot: Int
+        val loreSlot: Int
+        val dataSlot: Int
+        val backSlot = 18
+
+        when (fusionItem.type) {
+            "input" -> {
+                displayItemSlot = -1
+                loreSlot = -1
+
+                usableItemsSlot = 11
+                displayNameSlot = 12
+                amountSlot = 13
+                dataSlot = 14
+            }
+            "output" -> {
+                usableItemsSlot = -1
+
+                displayItemSlot = 11
+                displayNameSlot = 12
+                amountSlot = 13
+                loreSlot = 14
+                dataSlot = 15
+            }
+            else -> {
+                return
+            }
+        }
+
+
+        when (rawSlot) {
+            displayItemSlot -> {
+                // Output - Item that will be given to the player
+                FusionRecipeItemManage().editDisplayItem(player as Player)
+            }
+            usableItemsSlot -> {
+                // Input - Overview over all allowed items for this slot
+            }
+            displayNameSlot -> {
+                // Input - Display name of the item list
+                // Output - Display name of the item
+                FusionRecipeItemManage().editDisplayName(player as Player)
+            }
+            amountSlot -> {
+                // Amount of the item
+                val clickType = e.click
+                var item = e.currentItem ?: return
+                item = FusionRecipeItemManage().editAmount(player as Player, clickType, item)
+                e.currentItem = item
+            }
+            loreSlot -> {
+                // Output - Lore of the item
+                FusionRecipeItemManage().editLore(player as Player)
+            }
+            dataSlot -> {
+                // Data of the item
+            }
+            backSlot -> {
+                FusionRecipeItemManage().parseInvToMap(player as Player)
+                FusionCraftManage().editFusionRecipe(player, FusionManagerGUI.playerManager[player.uniqueId]?.fusionInv ?: mutableMapOf())
             }
         }
     }

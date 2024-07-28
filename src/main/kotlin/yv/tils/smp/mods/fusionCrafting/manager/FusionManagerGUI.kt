@@ -138,6 +138,8 @@ class FusionManagerGUI {
         }
 
         ymlFile.save(file)
+
+        FusionLoader().loadFusionThumbnail()
     }
 
     private fun generateContent(inv: Inventory, fusion: Fusion): Inventory {

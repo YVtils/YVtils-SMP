@@ -48,6 +48,11 @@ class FusionLoader {
     }
 
     fun loadFusionThumbnail() {
+        disabledFusions.clear()
+        fusionThumbnails.clear()
+        component2name.clear()
+        tagMap.clear()
+
         val files = File(YVtils.instance.dataFolder.path, "fusions").listFiles() ?: return
 
         for (file in files) {

@@ -206,48 +206,72 @@ class FusionCraftManage {
 
         e.isCancelled = true
 
-        if (stringMsg.lowercase() == "c" || stringMsg.lowercase() == "cancel") {
-            player.sendMessage(ColorUtils().convert("<red>Cancelled!"))
-            playerListen.remove(player.uniqueId)
-            reopenInventory(player, "manage", fusion.fileName)
-            return
-        }
-
-        if (playerListen[player.uniqueId] == "fusionName") {
-            if (strippedMsg.length > 32) {
-                player.sendMessage(ColorUtils().convert("<red>That name is too long!"))
-                return
+        when {
+            stringMsg.lowercase() == "c" || stringMsg.lowercase() == "cancel" -> {
+                player.sendMessage(ColorUtils().convert("<red>Cancelled!"))
+                reopenInventory(player, "manage", fusion.fileName)
             }
 
-            fusion.name = stringMsg
-            player.sendMessage(ColorUtils().convert("<green>Updated name to: <aqua>$stringMsg"))
-            playerListen.remove(player.uniqueId)
-            reopenInventory(player, "manage", fusion.fileName)
-        } else if (playerListen[player.uniqueId] == "fusionDescription") {
-            if (strippedMsg.length > 256) {
-                player.sendMessage(ColorUtils().convert("<red>That description is too long!"))
-                return
+            playerListen[player.uniqueId] == "fusionName" -> {
+                if (strippedMsg.length > 32) {
+                    player.sendMessage(ColorUtils().convert("<red>That name is too long!"))
+                } else {
+                    fusion.name = stringMsg
+                    player.sendMessage(ColorUtils().convert("<green>Updated name to: <aqua>$stringMsg"))
+                    reopenInventory(player, "manage", fusion.fileName)
+                }
             }
 
-            fusion.description = stringMsg
-            player.sendMessage(ColorUtils().convert("<green>Updated description to: <white>$stringMsg"))
-            playerListen.remove(player.uniqueId)
-            reopenInventory(player, "manage", fusion.fileName)
-        } else if (playerListen[player.uniqueId]?.startsWith("fusionTagModify - ") == true) {
-            val oldTag = playerListen[player.uniqueId]?.split(" - ")?.get(1)?.let { ColorUtils().strip(it) }
-            fusion.tags.remove(oldTag)
-            fusion.tags.add(stringMsg)
-            reopenInventory(player, "tags", fusion.fileName)
-        } else if (playerListen[player.uniqueId] == "fusionTagNew") {
-            fusion.tags.add(stringMsg)
-            reopenInventory(player, "tags", fusion.fileName)
+            playerListen[player.uniqueId] == "fusionDescription" -> {
+                if (strippedMsg.length > 256) {
+                    player.sendMessage(ColorUtils().convert("<red>That description is too long!"))
+                } else {
+                    fusion.description = stringMsg
+                    player.sendMessage(ColorUtils().convert("<green>Updated description to: <white>$stringMsg"))
+                    reopenInventory(player, "manage", fusion.fileName)
+                }
+            }
+
+            playerListen[player.uniqueId]?.startsWith("fusionTagModify - ") == true -> {
+                val oldTag = playerListen[player.uniqueId]?.split(" - ")?.get(1)?.let { ColorUtils().strip(it) }
+                fusion.tags.remove(oldTag)
+                fusion.tags.add(stringMsg)
+                reopenInventory(player, "tags", fusion.fileName)
+            }
+            playerListen[player.uniqueId] == "fusionTagNew" -> {
+                fusion.tags.add(stringMsg)
+                reopenInventory(player, "tags", fusion.fileName)
+            }
+
+            playerListen[player.uniqueId] == "fusionRecipeItemDisplayName" -> {
+                val fusionItem = FusionRecipeItemManage.fusionRecipeItemEdit[player.uniqueId] ?: return
+                fusionItem.name = stringMsg
+
+                reopenInventory(player, "recipe", fusion.fileName)
+            }
+
+            playerListen[player.uniqueId] == "fusionRecipeItemLore" -> {
+                val fusionItem = FusionRecipeItemManage.fusionRecipeItemEdit[player.uniqueId] ?: return
+
+                val splitLore: MutableList<Component> = mutableListOf()
+
+                for (line in stringMsg.split("<newline>")) {
+                    splitLore.add(ColorUtils().convert(line))
+                }
+
+                fusionItem.lore = splitLore
+
+                reopenInventory(player, "recipe", fusion.fileName)
+            }
         }
     }
 
     private fun reopenInventory(player: Player, inv: String, fileName: String) {
         Bukkit.getScheduler().runTaskLater(YVtils.instance, Runnable {
+            playerListen.remove(player.uniqueId)
             if (inv == "manage") FusionManagerGUI().openInventory(player, fileName)
             if (inv == "tags") filterTagsGUI(player, FusionManagerGUI.playerManager[player.uniqueId]?.tags ?: mutableListOf())
+            if (inv == "recipe") FusionRecipeItemManage().openInventory(player, ItemStack(Material.DIRT), FusionRecipeItemManage.fusionRecipeItemEdit[player.uniqueId]?.type ?: "null")
         }, 1)
     }
 }
