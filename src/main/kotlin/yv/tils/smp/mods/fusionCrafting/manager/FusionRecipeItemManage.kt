@@ -34,6 +34,9 @@ class FusionRecipeItemManage {
         val fusionRecipe = fusionRecipeItemEdit[player.uniqueId] ?: return mutableMapOf()
         val outputMap = mutableMapOf<String, Any>()
 
+        // TODO: Implement logic
+
+        fusionRecipeItemEdit.remove(player.uniqueId)
         return outputMap
     }
 
@@ -41,7 +44,7 @@ class FusionRecipeItemManage {
         var inv = Bukkit.createInventory(null, 9*3, ColorUtils().convert("<gold>Edit Item"))
 
         val fusionItem = if (fusionRecipeItemEdit[player.uniqueId] == null) {
-            parseItem(item, type)
+            parseItem(player, item, type)
         } else {
             fusionRecipeItemEdit[player.uniqueId] ?: return
         }
@@ -95,10 +98,11 @@ class FusionRecipeItemManage {
         amountItemMeta.displayName(ColorUtils().convert("<gold>Amount"))
 
         amountItemLore.add(ColorUtils().convert(" "))
-        amountItemLore.add(ColorUtils().convert("<aqua>${fusion.amount}"))
+        amountItemLore.add(ColorUtils().convert("<gray>Amount: <aqua>${fusion.amount}"))
 
         amountItemMeta.lore(amountItemLore)
         amountItem.itemMeta = amountItemMeta
+        amountItem.amount = fusion.amount
         inv.setItem(13, amountItem)
 
 
@@ -155,9 +159,10 @@ class FusionRecipeItemManage {
         amountItemMeta.displayName(ColorUtils().convert("<gold>Amount"))
 
         amountItemLore.add(ColorUtils().convert(" "))
-        amountItemLore.add(ColorUtils().convert("<aqua>${fusion.amount}"))
+        amountItemLore.add(ColorUtils().convert("<gray>Amount: <aqua>${fusion.amount}"))
 
         amountItemMeta.lore(amountItemLore)
+        amountItem.itemMeta = amountItemMeta
         amountItem.itemMeta = amountItemMeta
         inv.setItem(13, amountItem)
 
@@ -288,7 +293,7 @@ class FusionRecipeItemManage {
                 }
             }
             ClickType.RIGHT -> {
-                if (amount - 1 < 0) {
+                if (amount - 1 < 1) {
                     fusionRecipeItemEdit[player.uniqueId]?.amount = 1
                     player.sendMessage(ColorUtils().convert("<red>Amount cannot be less than 1"))
                 } else {
@@ -304,7 +309,7 @@ class FusionRecipeItemManage {
                 }
             }
             ClickType.SHIFT_RIGHT -> {
-                if (amount - 10 < 0) {
+                if (amount - 10 < 1) {
                     fusionRecipeItemEdit[player.uniqueId]?.amount = 1
                     player.sendMessage(ColorUtils().convert("<red>Amount cannot be less than 1"))
                 } else {
@@ -316,6 +321,23 @@ class FusionRecipeItemManage {
 
         item.amount = fusionRecipeItemEdit[player.uniqueId]?.amount ?: return item
 
+        val meta = item.itemMeta
+        val lore = meta.lore() ?: return item
+        val newLore = mutableListOf<Component>()
+
+        for (line in lore) {
+            val stringLine = ColorUtils().convert(line)
+
+            if (stringLine.contains("Amount:")) {
+                newLore.add(ColorUtils().convert("<gray>Amount: <aqua>${fusionRecipeItemEdit[player.uniqueId]?.amount}"))
+            } else {
+                newLore.add(line)
+            }
+        }
+
+        meta.lore(newLore)
+        item.itemMeta = meta
+
         return item
     }
 
@@ -323,11 +345,20 @@ class FusionRecipeItemManage {
         FusionCraftManage.playerListen[player.uniqueId] = "fusionRecipeItemLore"
 
         val lore = fusionRecipeItemEdit[player.uniqueId]?.lore ?: return
+        val stringLore = mutableListOf<String>()
+
+        stringLore.add("<gray>---")
+
+        for (line in lore) {
+            stringLore.add(ColorUtils().convert(line))
+        }
+
+        stringLore.add("<gray>---")
 
         player.sendMessage(ColorUtils().convert(
             "<gold>Editing Fusion Recipe Item Lore<newline>" +
                     "<gray>Current Lore:<newline>" +
-                    "<white>${lore.joinToString("<newline>")}<newline>" +
+                    "<white>${stringLore.joinToString("<newline>")}<newline>" +
                     "<red>'c' to cancel"
         ))
 
@@ -344,7 +375,7 @@ class FusionRecipeItemManage {
          */
     }
 
-    private fun parseItem(item: ItemStack, type: String): FusionRecipeItem {
+    private fun parseItem(player: Player, item: ItemStack, type: String): FusionRecipeItem {
         val material = item.type
         val name = item.itemMeta.persistentDataContainer.get(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)
         val amount = item.amount
@@ -368,6 +399,10 @@ class FusionRecipeItemManage {
             }
         }
 
-        return FusionRecipeItem(material, name, amount, lore, data, type)
+        val fusionRecipeItem = FusionRecipeItem(material, name, amount, lore, data, type)
+
+        fusionRecipeItemEdit[player.uniqueId] = fusionRecipeItem
+
+        return fusionRecipeItem
     }
 }
