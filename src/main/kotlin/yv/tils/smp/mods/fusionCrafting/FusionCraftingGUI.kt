@@ -192,6 +192,10 @@ class FusionCraftingGUI {
         val neededSlots = items.size
 
         when (neededSlots) {
+            0 -> {
+                return
+            }
+
             1 -> {
                 inv.setItem(25, items[0])
             }
