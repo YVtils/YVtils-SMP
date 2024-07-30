@@ -5,10 +5,12 @@ import com.mojang.authlib.properties.Property
 import io.papermc.paper.event.player.AsyncChatEvent
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
+import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.PotionMeta
 import org.bukkit.inventory.meta.SkullMeta
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.fusionCrafting.FusionCraftingGUI
@@ -139,6 +141,7 @@ class FusionCraftManage {
         }
 
         val newTagSlot = tailSlots[4]
+        val backSlot = tailSlots[0]
 
         val inv = Bukkit.createInventory(null, guiSize, ColorUtils().convert("<gold>Filter Tags"))
 
@@ -177,6 +180,14 @@ class FusionCraftManage {
 
             inv.addItem(item)
         }
+
+        val backItem = ItemStack(Material.TIPPED_ARROW)
+        val backMeta = backItem.itemMeta as PotionMeta
+        backMeta.color = Color.fromRGB(150, 85, 95)
+        backMeta.displayName(ColorUtils().convert("<red>Back"))
+        backMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+        backItem.itemMeta = backMeta
+        inv.setItem(backSlot, backItem)
 
         val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
         val fillerMeta = outerFiller.itemMeta
