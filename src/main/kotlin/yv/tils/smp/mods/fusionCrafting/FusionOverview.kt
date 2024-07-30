@@ -57,7 +57,7 @@ class FusionOverview {
             val (key, value) = fusionThumbnails.entries.elementAt(i)
             for (slot in fusionSlots) {
                 if (inv.getItem(slot) == null) {
-                    if (FusionLoader.disabledFusions.contains(key)) {
+                    if (FusionLoader.disabledFusions.contains(key) && invTitle != "<red>Fusion Management") {
                         break
                     }
 
