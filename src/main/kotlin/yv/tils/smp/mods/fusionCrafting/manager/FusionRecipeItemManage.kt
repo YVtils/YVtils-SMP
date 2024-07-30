@@ -1,5 +1,7 @@
 package yv.tils.smp.mods.fusionCrafting.manager
 
+import com.mojang.authlib.GameProfile
+import com.mojang.authlib.properties.Property
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Color
@@ -11,10 +13,13 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.inventory.meta.PotionMeta
+import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
+import yv.tils.smp.mods.fusionCrafting.FusionGUIHeads
 import yv.tils.smp.mods.fusionCrafting.FusionKeys
+import yv.tils.smp.mods.fusionCrafting.enchantments.DataTags
 import yv.tils.smp.utils.color.ColorUtils
-import java.util.UUID
+import java.util.*
 
 class FusionRecipeItemManage {
     companion object {
@@ -237,7 +242,7 @@ class FusionRecipeItemManage {
     fun editDisplayItem(player: Player) {
         val displayItem = fusionRecipeItemEdit[player.uniqueId] ?: return
         val item = ItemStack(displayItem.material)
-        val inv = Bukkit.createInventory(null, 9, ColorUtils().convert("<gold>Edit DisplayItem"))
+        val inv = Bukkit.createInventory(null, 9, ColorUtils().convert("<gold>Edit Display Item"))
 
         inv.setItem(4, item)
 
@@ -258,6 +263,42 @@ class FusionRecipeItemManage {
         for (i in 0..<inv.size) {
             if (inv.getItem(i) == null) {
                 inv.setItem(i, outerFiller)
+            }
+        }
+
+        player.openInventory(inv)
+    }
+
+    fun editAcceptedItems(player: Player) {
+        val itemList = parseItemList(player)
+
+        val inv = Bukkit.createInventory(null, 9*4, ColorUtils().convert("<gold>Modify accepted items"))
+
+        val itemSlots = mutableListOf(10, 11, 12, 13, 14, 15, 16, 20, 21, 22, 23, 24)
+
+        for (i in 0 until itemList.size) {
+            inv.setItem(itemSlots[i], itemList[i])
+        }
+
+        val back = ItemStack(Material.TIPPED_ARROW)
+        val backMeta = back.itemMeta as PotionMeta
+        backMeta.color = Color.fromRGB(150, 85, 95)
+        backMeta.displayName(ColorUtils().convert("<red>Back"))
+        backMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+        back.itemMeta = backMeta
+        inv.setItem(31, back)
+
+        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
+        val fillerMeta = outerFiller.itemMeta
+        fillerMeta.displayName(ColorUtils().convert(" "))
+        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+        outerFiller.itemMeta = fillerMeta
+
+        for (i in 0..<inv.size) {
+            if (inv.getItem(i) == null) {
+                if (i !in itemSlots) {
+                    inv.setItem(i, outerFiller)
+                }
             }
         }
 
@@ -366,13 +407,136 @@ class FusionRecipeItemManage {
     }
 
     fun editDataTags(player: Player) {
-        /* TODO
-            Create Inventory with all added data tags
-            Add a slot in the top right corner to add a new data tag
-            When adding a Tag a new GUI will open with all available data tags (DataTags enum)
-            When clicking on a data tag it will be added
-            When clicking on a data tag in the inventory it will be removed
-         */
+        val dataTags = fusionRecipeItemEdit[player.uniqueId]?.data ?: return
+        val inv = Bukkit.createInventory(null, 9*4, ColorUtils().convert("<gold>Edit Data Tags"))
+
+        val tagSlots = mutableListOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25) // Support for 14 tags
+
+        for (i in 0 until dataTags.size) {
+            val tag = ItemStack(Material.PAPER)
+            val tagMeta = tag.itemMeta
+            val tagLore = mutableListOf<Component>()
+
+            tagMeta.displayName(ColorUtils().convert("<gold>${dataTags[i]}"))
+
+            tagLore.add(ColorUtils().convert(" "))
+            tagLore.add(ColorUtils().convert("<gray>Click to remove"))
+
+            tagMeta.lore(tagLore)
+            tag.itemMeta = tagMeta
+            inv.setItem(tagSlots[i], tag)
+        }
+
+        val createHead = ItemStack(Material.PLAYER_HEAD, 1)
+        val createHeadMeta = createHead.itemMeta as SkullMeta
+        val gameProfile = GameProfile(UUID.randomUUID(), "PageHead")
+        gameProfile.properties.put("textures", Property("textures", FusionGUIHeads.ADD_FUSION.texture))
+
+        try {
+            val profileField = createHeadMeta.javaClass.getDeclaredField("profile")
+            profileField.isAccessible = true
+            profileField.set(createHeadMeta, gameProfile)
+        } catch (e: NoSuchFieldException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        }
+
+        createHeadMeta.displayName(ColorUtils().convert("<green>Create Fusion"))
+        createHeadMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+        createHead.itemMeta = createHeadMeta
+        inv.setItem(4, createHead)
+
+        val back = ItemStack(Material.TIPPED_ARROW)
+        val backMeta = back.itemMeta as PotionMeta
+        backMeta.color = Color.fromRGB(150, 85, 95)
+        backMeta.displayName(ColorUtils().convert("<red>Back"))
+        backMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+        back.itemMeta = backMeta
+        inv.setItem(31, back)
+
+        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
+        val fillerMeta = outerFiller.itemMeta
+        fillerMeta.displayName(ColorUtils().convert(" "))
+        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+        outerFiller.itemMeta = fillerMeta
+
+        val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+        innerFiller.itemMeta = fillerMeta
+
+        for (i in 0..<inv.size) {
+            if (inv.getItem(i) == null) {
+                if (i in tagSlots) {
+                    inv.setItem(i, innerFiller)
+                } else {
+                    inv.setItem(i, outerFiller)
+                }
+            }
+        }
+
+        player.openInventory(inv)
+    }
+
+    // TODO: Add support for custom data tags with no functionality
+    fun appendDataTag(player: Player) {
+        val dataTags = fusionRecipeItemEdit[player.uniqueId]?.data ?: return
+        val availableDataTags = mutableListOf<String>()
+
+        for (tag in DataTags.entries) {
+            if (dataTags.contains(tag.key.key.toString())) {
+                continue
+            }
+
+            availableDataTags.add(tag.toString())
+        }
+
+        val inv = Bukkit.createInventory(null, 9*4, ColorUtils().convert("<gold>Append Data Tag"))
+
+        val tagSlots = mutableListOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25) // Support for 14 tags
+
+        for (i in 0 until availableDataTags.size) {
+            val tag = ItemStack(Material.PAPER)
+            val tagMeta = tag.itemMeta
+            val tagLore = mutableListOf<Component>()
+
+            tagMeta.displayName(ColorUtils().convert("<gold>${availableDataTags[i]}"))
+
+            tagLore.add(ColorUtils().convert(" "))
+            tagLore.add(ColorUtils().convert("<gray>Click to add"))
+
+            tagMeta.lore(tagLore)
+            tag.itemMeta = tagMeta
+            inv.setItem(tagSlots[i], tag)
+        }
+
+        val back = ItemStack(Material.TIPPED_ARROW)
+        val backMeta = back.itemMeta as PotionMeta
+        backMeta.color = Color.fromRGB(150, 85, 95)
+        backMeta.displayName(ColorUtils().convert("<red>Back"))
+        backMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+        back.itemMeta = backMeta
+        inv.setItem(31, back)
+
+        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
+        val fillerMeta = outerFiller.itemMeta
+        fillerMeta.displayName(ColorUtils().convert(" "))
+        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+        outerFiller.itemMeta = fillerMeta
+
+        val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+        innerFiller.itemMeta = fillerMeta
+
+        for (i in 0..<inv.size) {
+            if (inv.getItem(i) == null) {
+                if (i in tagSlots) {
+                    inv.setItem(i, innerFiller)
+                } else {
+                    inv.setItem(i, outerFiller)
+                }
+            }
+        }
+
+        player.openInventory(inv)
     }
 
     private fun parseItem(player: Player, item: ItemStack, type: String): FusionRecipeItem {
@@ -404,5 +568,37 @@ class FusionRecipeItemManage {
         fusionRecipeItemEdit[player.uniqueId] = fusionRecipeItem
 
         return fusionRecipeItem
+    }
+
+    private fun parseItemList(player: Player): MutableList<ItemStack> {
+        val itemList = mutableListOf<ItemStack>()
+
+        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return itemList
+        val fusionRecipe = fusionRecipeItemEdit[player.uniqueId] ?: return itemList
+
+        for (f in fusion.fusionInv) {
+            val keySplit0 = f.key.split(".")[0]
+            if (keySplit0 != "input") {
+                continue
+            }
+
+            val keySplit1 = f.key.split(".")[1]
+            val requiredKey = ColorUtils().strip(fusionRecipe.name)
+            if (keySplit1 != requiredKey) {
+                continue
+            }
+
+            val value = f.value as MutableList<MutableMap<String, Any>>
+
+            for (v in value) {
+                if (v.containsKey("item")) {
+                    val item = ItemStack(Material.valueOf(v["item"] as String))
+                    itemList.add(item)
+                    break
+                }
+            }
+        }
+
+        return itemList
     }
 }

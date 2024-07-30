@@ -6,6 +6,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.mods.fusionCrafting.enchantments.PlayerHeadLoad
@@ -14,6 +15,8 @@ import yv.tils.smp.mods.fusionCrafting.manager.FusionManagerGUI
 import yv.tils.smp.mods.fusionCrafting.manager.FusionRecipeItemManage
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
+
+// TODO: Add sounds to GUI interactions
 
 class GUIListener {
     fun onInventoryClick(e: InventoryClickEvent) {
@@ -45,6 +48,18 @@ class GUIListener {
             }
             ColorUtils().convert("<gold>Edit Item") -> {
                 editFusionRecipeItem(e, player)
+            }
+            ColorUtils().convert("<gold>Edit Display Item") -> {
+                editFusionRecipeDisplay(e, player)
+            }
+            ColorUtils().convert("<gold>Modify accepted items") -> {
+                editFusionRecipeInputItems(e, player)
+            }
+            ColorUtils().convert("<gold>Edit Data Tags") -> {
+                editFusionRecipeTags(e, player)
+            }
+            ColorUtils().convert("<gold>Append Data Tag") -> {
+                appendFusionRecipeTags(e, player)
             }
             else -> {
                 if (ColorUtils().convert(player.openInventory.title()).startsWith("<gold>Fusion Crafting - ")) {
@@ -242,13 +257,12 @@ class GUIListener {
             toggleSlot -> {
                 val currentState = e.currentItem?.type == Material.LIME_DYE
 
-                if (currentState) {
-                    e.currentItem = ItemStack(Material.RED_DYE)
-                    e.currentItem?.itemMeta?.displayName(ColorUtils().convert("<green>ENABLE FUSION"))
-                } else {
-                    e.currentItem = ItemStack(Material.LIME_DYE)
-                    e.currentItem?.itemMeta?.displayName(ColorUtils().convert("<red>DISABLE FUSION"))
-                }
+                val item = ItemStack(if (currentState) Material.RED_DYE else Material.LIME_DYE)
+                val meta = item.itemMeta
+                meta.displayName(ColorUtils().convert(if (!currentState) "<red>DISABLE FUSION" else "<green>ENABLE FUSION"))
+                item.itemMeta = meta
+
+                e.inventory.setItem(toggleSlot, item)
             }
 
             displayItemSlot -> {
@@ -272,8 +286,11 @@ class GUIListener {
             }
 
             deleteSlot -> {
+                FusionManagerGUI().deleteFusion(player as Player)
+
                 FusionManagerGUI.playerManager.remove(player.uniqueId)
-                FusionOverview().openOverview(player as Player, "<red>Fusion Management")
+
+                FusionOverview().openOverview(player, "<red>Fusion Management")
             }
 
             backSlot -> {
@@ -335,6 +352,7 @@ class GUIListener {
         }
 
         val newTagSlot = tailSlots[4]
+        val backSlot = tailSlots[0]
 
         val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
         val itemName = e.currentItem?.itemMeta?.displayName()?.let { ColorUtils().convert(it) } ?: return
@@ -368,15 +386,21 @@ class GUIListener {
                             "<red>'c' to cancel"
                 ))
             }
+
+            backSlot -> {
+                FusionManagerGUI().openInventory(player as Player, fusion.fileName)
+            }
         }
     }
 
+    // TODO: Add a way to add new items | Idea: Block all inv movements,
+    //  if clicked on an bottom inv slot add it to fusion (Copy so it does not get removed from player inventory)
     private fun editFusionRecipe(e: InventoryClickEvent, player: HumanEntity) {
         e.isCancelled = true
 
         val rawSlot = e.rawSlot
 
-        if (rawSlot > 54) {
+        if (rawSlot > 9*6 - 1) {
             e.isCancelled = false
             return
         }
@@ -425,7 +449,7 @@ class GUIListener {
 
         val rawSlot = e.rawSlot
 
-        if (rawSlot > 9*3) {
+        if (rawSlot > 9*3 - 1) {
             e.isCancelled = false
             return
         }
@@ -468,34 +492,140 @@ class GUIListener {
 
         when (rawSlot) {
             displayItemSlot -> {
-                // Output - Item that will be given to the player
                 FusionRecipeItemManage().editDisplayItem(player as Player)
             }
             usableItemsSlot -> {
                 // Input - Overview over all allowed items for this slot
+                FusionRecipeItemManage().editAcceptedItems(player as Player)
             }
             displayNameSlot -> {
-                // Input - Display name of the item list
-                // Output - Display name of the item
                 FusionRecipeItemManage().editDisplayName(player as Player)
             }
             amountSlot -> {
-                // Amount of the item
                 val clickType = e.click
                 var item = e.currentItem ?: return
                 item = FusionRecipeItemManage().editAmount(player as Player, clickType, item)
                 e.currentItem = item
             }
             loreSlot -> {
-                // Output - Lore of the item
                 FusionRecipeItemManage().editLore(player as Player)
             }
             dataSlot -> {
-                // Data of the item
+                FusionRecipeItemManage().editDataTags(player as Player)
             }
             backSlot -> {
                 FusionRecipeItemManage().parseInvToMap(player as Player)
                 FusionCraftManage().editFusionRecipe(player, FusionManagerGUI.playerManager[player.uniqueId]?.fusionInv ?: mutableMapOf())
+            }
+        }
+    }
+
+    private fun editFusionRecipeDisplay(e: InventoryClickEvent, player: HumanEntity) {
+        e.isCancelled = true
+
+        val rawSlot = e.rawSlot
+
+        if (rawSlot > 8 || rawSlot == 4) {
+            e.isCancelled = false
+            return
+        }
+
+        if (rawSlot == 0) {
+            val fusionRecipe = FusionRecipeItemManage.fusionRecipeItemEdit[player.uniqueId] ?: return
+            val displayItem = e.inventory.getItem(4) ?: return
+
+            fusionRecipe.material = displayItem.type
+
+            FusionRecipeItemManage().openInventory(player as Player, ItemStack(Material.DIRT), fusionRecipe.type)
+        }
+    }
+
+    private fun editFusionRecipeInputItems(e: InventoryClickEvent, player: HumanEntity) {
+        e.isCancelled = true
+
+        val fusionRecipe = FusionRecipeItemManage.fusionRecipeItemEdit[player.uniqueId] ?: return
+        val rawSlot = e.rawSlot
+        val backButton = 31
+
+        if (rawSlot > 9*4 - 1) {
+            e.isCancelled = false
+            return
+        }
+
+        when (rawSlot) {
+            backButton -> {
+                FusionRecipeItemManage().openInventory(player as Player, ItemStack(Material.DIRT), fusionRecipe.type)
+            }
+        }
+    }
+
+    private fun editFusionRecipeTags(e: InventoryClickEvent, player: HumanEntity) {
+        e.isCancelled = true
+
+        val slot = e.slot
+
+        val newTagSlot = 4
+        val tagSlots = listOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25)
+        val backSlot = 31
+
+        val fusionRecipe = FusionRecipeItemManage.fusionRecipeItemEdit[player.uniqueId] ?: return
+
+        when (slot) {
+            newTagSlot -> {
+                FusionRecipeItemManage().appendDataTag(player as Player)
+            }
+            in tagSlots -> {
+                val item = e.currentItem ?: return
+
+                val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+                val fillerMeta = innerFiller.itemMeta
+                fillerMeta.displayName(ColorUtils().convert(" "))
+                fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+                innerFiller.itemMeta = fillerMeta
+
+                if (item.type == Material.AIR || item == innerFiller) return
+
+                val dataTag = ColorUtils().strip(item.itemMeta.displayName() ?: return)
+
+                fusionRecipe.data.remove(dataTag)
+
+                FusionRecipeItemManage().editDataTags(player as Player)
+            }
+            backSlot -> {
+                FusionRecipeItemManage().openInventory(player as Player, ItemStack(Material.DIRT), fusionRecipe.type)
+            }
+        }
+    }
+
+    private fun appendFusionRecipeTags(e: InventoryClickEvent, player: HumanEntity) {
+        e.isCancelled = true
+
+        val slot = e.slot
+
+        val dataSlots = listOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25)
+        val backSlot = 31
+
+        when (slot) {
+            in dataSlots -> {
+                val item = e.currentItem ?: return
+                val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+                val fillerMeta = innerFiller.itemMeta
+                fillerMeta.displayName(ColorUtils().convert(" "))
+                fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+                innerFiller.itemMeta = fillerMeta
+
+                if (item.type == Material.AIR || item == innerFiller) return
+
+                val dataTag = ColorUtils().strip(item.itemMeta.displayName() ?: return)
+
+                val fusionRecipe = FusionRecipeItemManage.fusionRecipeItemEdit[player.uniqueId] ?: return
+
+                fusionRecipe.data.add(dataTag)
+
+                FusionRecipeItemManage().editDataTags(player as Player)
+            }
+            backSlot -> {
+                FusionRecipeItemManage().editDataTags(player as Player)
             }
         }
     }
