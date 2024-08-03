@@ -514,7 +514,7 @@ class GUIListener {
                 FusionRecipeItemManage().editDataTags(player as Player)
             }
             backSlot -> {
-                FusionRecipeItemManage().parseInvToMap(player as Player)
+                FusionRecipeItemManage().parseDataToMap(player as Player)
                 FusionCraftManage().editFusionRecipe(player, FusionManagerGUI.playerManager[player.uniqueId]?.fusionInv ?: mutableMapOf())
             }
         }
@@ -545,16 +545,18 @@ class GUIListener {
 
         val fusionRecipe = FusionRecipeItemManage.fusionRecipeItemEdit[player.uniqueId] ?: return
         val rawSlot = e.rawSlot
-        val backButton = 31
+        val backButton = 40
+        val itemSlots = mutableListOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34)
 
-        if (rawSlot > 9*4 - 1) {
+        if (rawSlot > 9*5 - 1 || rawSlot in itemSlots) {
             e.isCancelled = false
             return
         }
 
         when (rawSlot) {
             backButton -> {
-                FusionRecipeItemManage().openInventory(player as Player, ItemStack(Material.DIRT), fusionRecipe.type)
+                FusionRecipeItemManage().saveItemList(player as Player, e.inventory)
+                FusionRecipeItemManage().openInventory(player, ItemStack(Material.DIRT), fusionRecipe.type)
             }
         }
     }

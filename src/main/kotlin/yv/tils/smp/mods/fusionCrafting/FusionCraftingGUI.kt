@@ -102,8 +102,7 @@ class FusionCraftingGUI {
 
                             1 -> {
                                 val item = items[items.size - 1]
-                                item.amount =
-                                    (input.value as MutableList<MutableMap<String, String>>)[i]["amount"]?.toInt() ?: 1
+                                item.amount = (input.value as MutableList<MutableMap<String, String>>)[i]["amount"]?.toInt() ?: 1
                             }
 
                             2 -> {

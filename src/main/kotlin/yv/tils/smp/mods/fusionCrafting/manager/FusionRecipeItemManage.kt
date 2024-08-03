@@ -20,6 +20,7 @@ import yv.tils.smp.mods.fusionCrafting.FusionKeys
 import yv.tils.smp.mods.fusionCrafting.enchantments.DataTags
 import yv.tils.smp.utils.color.ColorUtils
 import java.util.*
+import kotlin.system.exitProcess
 
 class FusionRecipeItemManage {
     companion object {
@@ -29,20 +30,73 @@ class FusionRecipeItemManage {
     data class FusionRecipeItem(
         var material: Material,
         var name: String,
+        var oldName: String = "",
         var amount: Int,
         var lore: List<Component>,
         var data: MutableList<String>,
         val type: String
     )
 
-    fun parseInvToMap(player: Player): MutableMap<String, Any> {
-        val fusionRecipe = fusionRecipeItemEdit[player.uniqueId] ?: return mutableMapOf()
-        val outputMap = mutableMapOf<String, Any>()
+    fun parseDataToMap(player: Player) {
+        val fusionRecipe = fusionRecipeItemEdit[player.uniqueId] ?: return
+        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
 
-        // TODO: Implement logic
+        val fusionInv = fusion.fusionInv
+
+        when (fusionRecipe.type) {
+            "input" -> {
+                for (f in fusionInv) {
+                    val fKey = f.key
+                    val fSplited = fKey.split(".")
+                    val fKey0 = fSplited[0]
+
+                    if (fKey0 != "input") {
+                        continue
+                    }
+
+                    val fKey1 = fSplited[1]
+
+                    if (fKey1 != ColorUtils().strip(fusionRecipe.oldName)) {
+                        continue
+                    }
+
+                    val value = f.value as MutableList<MutableMap<String, Any>>
+
+                    for (v in value) {
+                        if (v.containsKey("amount")) {
+                            v["amount"] = fusionRecipe.amount.toString()
+                        }
+
+                        if (v.equals("data")) {
+                            v["data"] = fusionRecipe.data.joinToString { it }
+                        }
+                    }
+
+                    println("Old name: ${fusionRecipe.oldName}")
+                    println("New name: ${fusionRecipe.name}")
+                    println("Key: $fKey")
+                    println("Splited: ${fSplited[0]}.${ColorUtils().strip(fusionRecipe.name)}.${fSplited[2]}")
+
+                    // TODO: Fix error
+
+                    val modifiedKey = if (fusionRecipe.oldName != fusionRecipe.name) {
+                        "${fSplited[0]}.${ColorUtils().strip(fusionRecipe.name)}.${fSplited[2]}"
+                    } else {
+                        fKey
+                    }
+
+                    fusionInv.remove(fKey)
+                    fusionInv[modifiedKey] = value
+                }
+            }
+            "output" -> {
+                val key = "output"
+                // TODO: Add logic
+            }
+            else -> return
+        }
 
         fusionRecipeItemEdit.remove(player.uniqueId)
-        return outputMap
     }
 
     fun openInventory(player: Player, item: ItemStack, type: String) {
@@ -272,12 +326,17 @@ class FusionRecipeItemManage {
     fun editAcceptedItems(player: Player) {
         val itemList = parseItemList(player)
 
-        val inv = Bukkit.createInventory(null, 9*4, ColorUtils().convert("<gold>Modify accepted items"))
+        val inv = Bukkit.createInventory(null, 9*5, ColorUtils().convert("<gold>Modify accepted items"))
 
-        val itemSlots = mutableListOf(10, 11, 12, 13, 14, 15, 16, 20, 21, 22, 23, 24)
+        val itemSlots = mutableListOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34)
 
-        for (i in 0 until itemList.size) {
-            inv.setItem(itemSlots[i], itemList[i])
+        try {
+            for (i in 0 until itemList.size) {
+                inv.setItem(itemSlots[i], itemList[i])
+            }
+        } catch (_: IndexOutOfBoundsException) {
+            player.sendMessage(ColorUtils().convert("<red>There was an error parsing the items (Probably too many items, max 21)"))
+            return
         }
 
         val back = ItemStack(Material.TIPPED_ARROW)
@@ -286,7 +345,7 @@ class FusionRecipeItemManage {
         backMeta.displayName(ColorUtils().convert("<red>Back"))
         backMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         back.itemMeta = backMeta
-        inv.setItem(31, back)
+        inv.setItem(40, back)
 
         val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
         val fillerMeta = outerFiller.itemMeta
@@ -542,12 +601,13 @@ class FusionRecipeItemManage {
     private fun parseItem(player: Player, item: ItemStack, type: String): FusionRecipeItem {
         val material = item.type
         val name = item.itemMeta.persistentDataContainer.get(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)
+        val oldName = name
         val amount = item.amount
         val lore = item.itemMeta.lore()
         val data: MutableList<String> = mutableListOf()
 
         if (name == null || lore == null) {
-            return FusionRecipeItem(Material.BARRIER, "null", 0, listOf(Component.text("null")), mutableListOf("null"), "null")
+            return FusionRecipeItem(Material.BARRIER, "null", "null", 0, listOf(Component.text("null")), mutableListOf("null"), "null")
         }
 
         for (line in lore) {
@@ -563,7 +623,7 @@ class FusionRecipeItemManage {
             }
         }
 
-        val fusionRecipeItem = FusionRecipeItem(material, name, amount, lore, data, type)
+        val fusionRecipeItem = FusionRecipeItem(material, name, oldName!!, amount, lore, data, type)
 
         fusionRecipeItemEdit[player.uniqueId] = fusionRecipeItem
 
@@ -592,7 +652,7 @@ class FusionRecipeItemManage {
 
             for (v in value) {
                 if (v.containsKey("item")) {
-                    val item = ItemStack(Material.valueOf(v["item"] as String))
+                    val item = ItemStack(Material.valueOf((v["item"] as String).uppercase()))
                     itemList.add(item)
                     break
                 }
@@ -600,5 +660,47 @@ class FusionRecipeItemManage {
         }
 
         return itemList
+    }
+
+    // TODO: When using a previous unused slot, the item will be ignored
+    fun saveItemList(player: Player, inv: Inventory) {
+        val itemList = mutableListOf<ItemStack>()
+        val itemSlots = mutableListOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34)
+
+        for (slot in itemSlots) {
+            val item = inv.getItem(slot) ?: continue
+
+            if (item.type == Material.AIR) {
+                continue
+            }
+
+            itemList.add(item)
+        }
+
+        val fusionRecipe = fusionRecipeItemEdit[player.uniqueId] ?: return
+        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
+
+        for (f in fusion.fusionInv) {
+            val keySplit0 = f.key.split(".")[0]
+            if (keySplit0 != "input") {
+                continue
+            }
+
+            val keySplit1 = f.key.split(".")[1]
+            val requiredKey = ColorUtils().strip(fusionRecipe.name)
+            if (keySplit1 != requiredKey) {
+                continue
+            }
+
+            val value = f.value as MutableList<MutableMap<String, Any>>
+
+            for (v in value) {
+                if (v.containsKey("item")) {
+                    val item = itemList.removeAt(0)
+                    v["item"] = item.type.toString().lowercase()
+                    break
+                }
+            }
+        }
     }
 }
