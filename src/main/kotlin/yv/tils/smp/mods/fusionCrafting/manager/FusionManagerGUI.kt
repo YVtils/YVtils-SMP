@@ -92,6 +92,8 @@ class FusionManagerGUI {
         val file = File(YVtils.instance.dataFolder.path, "fusions/${fusion.fileName}.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
+        createBackup(ymlFile, file)
+
         ymlFile.set("enabled", fusion.state)
         ymlFile.set("displayItem", fusion.thumbnail.type.toString())
         ymlFile.set("name", fusion.name)
@@ -117,10 +119,18 @@ class FusionManagerGUI {
         FusionLoader().loadFusionThumbnail()
     }
 
+    private fun createBackup(ymlFile: YamlConfiguration, file: File) {
+        val backupFile = File(YVtils.instance.dataFolder.path, "fusions/backup/${file.nameWithoutExtension}.yml")
+        ymlFile.save(backupFile)
+    }
+
     fun deleteFusion(player: Player) {
         val fusion = playerManager[player.uniqueId] ?: return
 
         val file = File(YVtils.instance.dataFolder.path, "fusions/${fusion.fileName}.yml")
+
+        createBackup(YamlConfiguration.loadConfiguration(file), file)
+
         file.delete()
 
         FusionLoader().loadFusionThumbnail()
