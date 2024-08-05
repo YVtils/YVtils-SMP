@@ -20,7 +20,6 @@ import yv.tils.smp.mods.fusionCrafting.FusionKeys
 import yv.tils.smp.mods.fusionCrafting.enchantments.DataTags
 import yv.tils.smp.utils.color.ColorUtils
 import java.util.*
-import kotlin.system.exitProcess
 
 class FusionRecipeItemManage {
     companion object {
@@ -42,10 +41,11 @@ class FusionRecipeItemManage {
         val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
 
         val fusionInv = fusion.fusionInv
+        val fusionInvCopy = fusionInv.toMutableMap()
 
         when (fusionRecipe.type) {
             "input" -> {
-                for (f in fusionInv) {
+                for (f in fusionInvCopy) {
                     val fKey = f.key
                     val fSplited = fKey.split(".")
                     val fKey0 = fSplited[0]
@@ -72,21 +72,11 @@ class FusionRecipeItemManage {
                         }
                     }
 
-                    println("Old name: ${fusionRecipe.oldName}")
-                    println("New name: ${fusionRecipe.name}")
-                    println("Key: $fKey")
-                    println("Splited: ${fSplited[0]}.${ColorUtils().strip(fusionRecipe.name)}.${fSplited[2]}")
-
-                    // TODO: Fix error
-
-                    val modifiedKey = if (fusionRecipe.oldName != fusionRecipe.name) {
-                        "${fSplited[0]}.${ColorUtils().strip(fusionRecipe.name)}.${fSplited[2]}"
-                    } else {
-                        fKey
+                    if (fusionRecipe.oldName != fusionRecipe.name) {
+                        val newKey = fKey0 + "." + ColorUtils().strip(fusionRecipe.name) + "." + fSplited[2]
+                        fusionInv.remove(fKey)
+                        fusionInv[newKey] = value
                     }
-
-                    fusionInv.remove(fKey)
-                    fusionInv[modifiedKey] = value
                 }
             }
             "output" -> {
