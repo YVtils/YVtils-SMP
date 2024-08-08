@@ -1,6 +1,7 @@
 package yv.tils.smp.mods.fusionCrafting
 
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -16,8 +17,6 @@ import yv.tils.smp.mods.fusionCrafting.manager.FusionRecipeItemManage
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
 
-// TODO: Add sounds to GUI interactions
-
 class GUIListener {
     fun onInventoryClick(e: InventoryClickEvent) {
         val player = e.whoClicked
@@ -29,40 +28,52 @@ class GUIListener {
 
         when (player.openInventory.title()) {
             ColorUtils().convert("<gold>Fusion Crafting") -> {
+                invClickSound(player as Player)
                 clickOverview(e, player)
             }
             ColorUtils().convert("<red>Fusion Management") -> {
+                invClickSound(player as Player)
                 clickManagement(e, player)
             }
             ColorUtils().convert("<gold>Fusion Manager") -> {
+                invClickSound(player as Player)
                 clickManager(e, player)
             }
             ColorUtils().convert("<gold>Edit Thumbnail") -> {
+                invClickSound(player as Player)
                 editThumbnail(e, player)
             }
             ColorUtils().convert("<gold>Filter Tags") -> {
+                invClickSound(player as Player)
                 editFilterTags(e, player)
             }
             ColorUtils().convert("<gold>Edit Fusion Recipe") -> {
+                invClickSound(player as Player)
                 editFusionRecipe(e, player)
             }
             ColorUtils().convert("<gold>Edit Item") -> {
+                invClickSound(player as Player)
                 editFusionRecipeItem(e, player)
             }
             ColorUtils().convert("<gold>Edit Display Item") -> {
+                invClickSound(player as Player)
                 editFusionRecipeDisplay(e, player)
             }
             ColorUtils().convert("<gold>Modify accepted items") -> {
+                invClickSound(player as Player)
                 editFusionRecipeInputItems(e, player)
             }
             ColorUtils().convert("<gold>Edit Data Tags") -> {
+                invClickSound(player as Player)
                 editFusionRecipeTags(e, player)
             }
             ColorUtils().convert("<gold>Append Data Tag") -> {
+                invClickSound(player as Player)
                 appendFusionRecipeTags(e, player)
             }
             else -> {
                 if (ColorUtils().convert(player.openInventory.title()).startsWith("<gold>Fusion Crafting - ")) {
+                    invClickSound(player as Player)
                     clickCrafting(e, player, inv)
                 }
             }
@@ -438,7 +449,6 @@ class GUIListener {
             }
 
             45, 47, 48, 49, 50, 51, 52 -> {
-                println("Save changes (MutableMap<String, Any>)")
                 FusionManagerGUI().openInventory(player as Player, FusionManagerGUI.playerManager[player.uniqueId]?.fileName ?: "")
             }
         }
@@ -639,6 +649,10 @@ class GUIListener {
         return meta.displayName()?.let { ColorUtils().convert(it) }?.split(" ")?.get(1)?.toInt() ?: 1
     }
 
+    private fun invClickSound(player: Player) {
+        player.playSound(player.location, Sound.BLOCK_AMETHYST_CLUSTER_PLACE, 0.5f, 2.0f)
+    }
+
     private fun addToInventory(player: HumanEntity, item: ItemStack) {
         if (item.type == Material.AIR) return
 
@@ -683,7 +697,8 @@ class GUIListener {
         if (meta.persistentDataContainer.has(FusionKeys.FUSION_PLAYER_HEAD.key, PersistentDataType.STRING)) {
             for (fusionItem in FusionCheck.fusionItems) {
                 if (fusionItem.type == Material.NAME_TAG) {
-                    val newMeta = PlayerHeadLoad().loadPlayerHead(fusionItem, item, meta)
+//                    val newMeta = PlayerHeadLoad().deprcLoadPlayerHead(fusionItem, item)
+                    val newMeta = PlayerHeadLoad().loadPlayerHead(fusionItem, item)
 
                     meta = newMeta
                 }
