@@ -104,9 +104,7 @@ class PluginVersion {
                 )
             }
         } catch (e: Exception) {
-            println("webRequest() catch")
-
-            println(e.cause)
+            YVtils.instance.logger.warning("Update Check Error: ${e.message}")
         }
     }
 }
