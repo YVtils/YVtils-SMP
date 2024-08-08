@@ -80,8 +80,47 @@ class FusionRecipeItemManage {
                 }
             }
             "output" -> {
-                val key = "output"
-                // TODO: Add logic
+                for (f in fusionInvCopy) {
+                    val key = f.key
+                    val keySplit = key.split(".")
+                    val key0 = keySplit[0]
+
+                    if (key0 != "output") {
+                        continue
+                    }
+
+                    for (v in f.value as MutableList<MutableMap<String, Any>>) {
+                        if (v.containsKey("name")) {
+                            if (ColorUtils().strip(v["name"] as String) == ColorUtils().strip(fusionRecipe.oldName)) {
+                                v["name"] = fusionRecipe.name
+                            } else {
+                                break
+                            }
+                        }
+
+                        if (v.containsKey("item")) {
+                            v["item"] = fusionRecipe.material.toString()
+                        }
+
+                        if (v.containsKey("amount")) {
+                            v["amount"] = fusionRecipe.amount.toString()
+                        }
+
+                        if (v.containsKey("lore")) {
+                            var loreJoined = ""
+
+                            for (line in fusionRecipe.lore) {
+                                loreJoined += "<newline>${ColorUtils().convert(line)}"
+                            }
+
+                            v["lore"] = loreJoined
+                        }
+
+                        if (v.containsKey("data")) {
+                            v["data"] = fusionRecipe.data.joinToString(separator = ";") { it }
+                        }
+                    }
+                }
             }
             else -> return
         }
@@ -212,9 +251,8 @@ class FusionRecipeItemManage {
 
         amountItemMeta.lore(amountItemLore)
         amountItem.itemMeta = amountItemMeta
-        amountItem.itemMeta = amountItemMeta
+        amountItem.amount = fusion.amount
         inv.setItem(13, amountItem)
-
 
         val description = ItemStack(Material.MAP)
         val descriptionMeta = description.itemMeta
@@ -591,7 +629,6 @@ class FusionRecipeItemManage {
     private fun parseItem(player: Player, item: ItemStack, type: String): FusionRecipeItem {
         val material = item.type
         val name = item.itemMeta.persistentDataContainer.get(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)
-        val oldName = name
         val amount = item.amount
         val lore = item.itemMeta.lore()
         val data: MutableList<String> = mutableListOf()
@@ -600,20 +637,60 @@ class FusionRecipeItemManage {
             return FusionRecipeItem(Material.BARRIER, "null", "null", 0, listOf(Component.text("null")), mutableListOf("null"), "null")
         }
 
-        for (line in lore) {
+        val loreCopy = lore.toMutableList()
+
+        for (line in loreCopy) {
             val stringLine = ColorUtils().convert(line)
 
             if (stringLine.contains("Item Data:")) {
                 val split = stringLine.split(": ")
-                val dataTags = split[1].split(", ")
+                val dataTags = split[1].split(";")
 
                 for (tag in dataTags) {
-                    data.add(tag)
+                    data.add(tag.trim())
+                }
+            }
+
+            if (ColorUtils().strip(line).startsWith("Item Data:") || ColorUtils().strip(line) == "Left click to edit" || ColorUtils().strip(line) == "Right click to remove") {
+                lore.remove(line)
+            }
+        }
+
+        val loreCopy2 = lore.toMutableList()
+
+        for (line in loreCopy2) {
+            val trimmedLine = ColorUtils().strip(line).trim()
+            if (trimmedLine.isEmpty()) {
+                val index = lore.indexOf(line)
+
+                if (index == lore.size - 1) {
+                    lore.removeAt(index)
+                    continue
+                }
+
+                val nextLine = lore[index + 1]
+                val nextLineTrimmed = ColorUtils().strip(nextLine).trim()
+
+                if (nextLineTrimmed.isEmpty()) {
+                    lore.removeAt(index)
+                }
+
+                try {
+                    val previousLine = lore[index - 1]
+                    val previousLineTrimmed = ColorUtils().strip(previousLine).trim()
+
+                    if (previousLineTrimmed.isEmpty()) {
+                        lore.removeAt(index)
+                    }
+                } catch (_: IndexOutOfBoundsException) {
+                    lore.removeAt(index)
+                    continue
                 }
             }
         }
 
-        val fusionRecipeItem = FusionRecipeItem(material, name, oldName!!, amount, lore, data, type)
+
+        val fusionRecipeItem = FusionRecipeItem(material, name, name, amount, lore, data, type)
 
         fusionRecipeItemEdit[player.uniqueId] = fusionRecipeItem
 

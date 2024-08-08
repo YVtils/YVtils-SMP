@@ -1,6 +1,7 @@
 package yv.tils.smp.mods.fusionCrafting.fusions.invisItemFrames
 
 import org.bukkit.configuration.file.YamlConfiguration
+import yv.tils.smp.mods.fusionCrafting.enchantments.DataTags
 
 class InvisItemFrame {
     fun configFile(ymlFile: YamlConfiguration): YamlConfiguration {
@@ -91,7 +92,7 @@ class InvisItemFrame {
         val amount = mutableMapOf("amount" to "4")
         val name = mutableMapOf("name" to "<gold>Invisible Item Frame")
         val lore = mutableMapOf("lore" to "<white>Place this Item Frame and it will be invisible! <newline><red>Empty Item Frames will be destroyed and dropped after one minute!")
-        val data = mutableMapOf("data" to "Invisible")
+        val data = mutableMapOf("data" to DataTags.INVISIBLE.name)
 
         items.add(mutableListOf(item, amount, name, lore, data))
 

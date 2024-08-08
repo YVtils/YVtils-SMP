@@ -1,6 +1,7 @@
 package yv.tils.smp.mods.fusionCrafting.fusions.playerHeads
 
 import org.bukkit.configuration.file.YamlConfiguration
+import yv.tils.smp.mods.fusionCrafting.enchantments.DataTags
 
 class PlayerHeads {
     fun configFile(ymlFile: YamlConfiguration): YamlConfiguration {
@@ -65,7 +66,7 @@ class PlayerHeads {
         val amount = mutableMapOf("amount" to "1")
         val name = mutableMapOf("name" to "<gold>Player Head")
         val lore = mutableMapOf("lore" to "<white>A fake player head made from an <yellow>armor stand<white>, <yellow>leather <white>and a <yellow>name tag")
-        val data = mutableMapOf("data" to "Player Head")
+        val data = mutableMapOf("data" to DataTags.PLAYER_HEAD.name)
 
         items.add(mutableListOf(item, amount, name, lore, data))
 

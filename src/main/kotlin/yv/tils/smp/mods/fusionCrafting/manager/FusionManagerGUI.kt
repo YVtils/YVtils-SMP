@@ -106,7 +106,6 @@ class FusionManagerGUI {
             val key = fusionItem.key
             val value = fusionItem.value
 
-            // TODO: Try again when saving the fusion recipe if it really works
             if (key.startsWith("input.")) {
                 ymlFile.set(key, value)
             } else if (key.startsWith("output.")) {
