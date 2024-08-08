@@ -1,5 +1,6 @@
 package yv.tils.smp.utils
 
+import yv.tils.smp.YVtils
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -20,7 +21,7 @@ class MojangAPI {
 
             return UUID.fromString(map["id"])
         } catch (e: Exception) {
-            println(e.message)
+            YVtils.instance.logger.warning(e.message)
         }
         return null
     }
@@ -31,8 +32,44 @@ class MojangAPI {
             val map = getWebsite(url)
 
             return map["name"]
-        } catch (e: java.lang.Exception) {
-            println(e.message)
+        } catch (e: Exception) {
+            YVtils.instance.logger.warning(e.message)
+        }
+        return null
+    }
+
+    fun getSkinTextures(uuid: UUID? = null, name: String = ""): String? {
+        if (uuid == null && name == "") return null
+
+        val uniqueId = uuid ?: name2uuid(name)
+
+        try {
+            val url = "https://sessionserver.mojang.com/session/minecraft/profile/" + uniqueId.toString().replace("-", "")
+            val map = getWebsite(url)
+
+            var value = map["value"]
+
+            value = value?.replace("]", "")
+
+            val decoded = Base64.getDecoder().decode(value)
+            val decodedString = String(decoded)
+
+            val splited = decodedString.split(",")
+
+            var textureURL = ""
+
+            for (s in splited) {
+                if (s.contains("textures")) {
+                    if (s.contains("SKIN")) {
+                        val s1 = s.split("url")[1]
+                        textureURL = s1.split("\"")[2]
+                    }
+                }
+            }
+
+            return textureURL
+        } catch (e: Exception) {
+            YVtils.instance.logger.warning(e.message)
         }
         return null
     }
@@ -70,7 +107,7 @@ class MojangAPI {
                 map[s.split(":")[0]] = s.split(":")[1]
             }
         } else {
-            println("HTTP request failed with response code: $responseCode")
+            YVtils.instance.logger.warning("HTTP request failed with response code: $responseCode")
         }
         return map
     }
