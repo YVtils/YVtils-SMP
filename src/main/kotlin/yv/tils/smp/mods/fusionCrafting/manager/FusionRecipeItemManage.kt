@@ -729,7 +729,6 @@ class FusionRecipeItemManage {
         return itemList
     }
 
-    // TODO: When using a previous unused slot, the item will be ignored
     fun saveItemList(player: Player, inv: Inventory) {
         val itemList = mutableListOf<ItemStack>()
         val itemSlots = mutableListOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34)
@@ -763,11 +762,45 @@ class FusionRecipeItemManage {
 
             for (v in value) {
                 if (v.containsKey("item")) {
-                    val item = itemList.removeAt(0)
-                    v["item"] = item.type.toString().lowercase()
+                    value.remove(v)
                     break
                 }
             }
         }
+
+        val keyPrefix = "input.${ColorUtils().strip(fusionRecipeItemEdit[player.uniqueId]?.name ?: "null")}"
+
+        for ((keySuffix, i) in (0 until itemList.size).withIndex()) {
+            val item = itemList[i]
+            val key = "$keyPrefix.$keySuffix"
+
+            val fusionInv = fusion.fusionInv
+
+            val data = try {
+                fusionInv[key] as MutableList<MutableMap<String, Any>>
+            } catch (_: NullPointerException) {
+                mutableListOf<MutableMap<String, Any>>()
+            }
+
+            data.add(0, mutableMapOf("item" to item.type.toString().lowercase()))
+
+            val containsAmount = data.any { it.containsKey("amount") }
+            if (!containsAmount) {
+                data.add(1, mutableMapOf("amount" to "1"))
+            }
+
+            val containsData = data.any { it.containsKey("data") }
+            if (!containsData) {
+                data.add(2, mutableMapOf("data" to ""))
+            }
+
+            fusionInv[key] = data
+        }
+    }
+
+    fun deleteRecipeItem(player: Player, item: ItemStack, type: String) {
+        // TODO: Implement logic
+
+
     }
 }
