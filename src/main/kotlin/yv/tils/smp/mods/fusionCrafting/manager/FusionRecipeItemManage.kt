@@ -779,7 +779,7 @@ class FusionRecipeItemManage {
             val data = try {
                 fusionInv[key] as MutableList<MutableMap<String, Any>>
             } catch (_: NullPointerException) {
-                mutableListOf<MutableMap<String, Any>>()
+                mutableListOf()
             }
 
             data.add(0, mutableMapOf("item" to item.type.toString().lowercase()))
@@ -795,6 +795,29 @@ class FusionRecipeItemManage {
             }
 
             fusionInv[key] = data
+        }
+
+        val fusionInv = fusion.fusionInv.toMap()
+
+        for (f in fusionInv) {
+            val keySplit0 = f.key.split(".")[0]
+            if (keySplit0 != "input") {
+                continue
+            }
+
+            val keySplit1 = f.key.split(".")[1]
+            val requiredKey = ColorUtils().strip(fusionRecipe.name)
+            if (keySplit1 != requiredKey) {
+                continue
+            }
+
+            val value = f.value as MutableList<MutableMap<String, Any>>
+
+            val containsItem = value.any { it.containsKey("item") }
+
+            if (!containsItem) {
+                fusion.fusionInv.remove(f.key)
+            }
         }
     }
 

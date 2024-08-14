@@ -19,6 +19,13 @@ import yv.tils.smp.utils.color.ColorUtils
 import java.io.File
 import java.util.UUID
 
+/* TODO: Create  custom fusion:
+    - Thumbnail is not empty when opening first time
+    - Can not reopen after saving
+    - File has no name
+    - Items not getting saved after adding to fusion recipe inv
+*/
+
 class FusionManagerGUI {
     companion object {
         val playerManager = mutableMapOf<UUID, Fusion>()
@@ -40,7 +47,12 @@ class FusionManagerGUI {
         val data = if (playerManager.containsKey(player.uniqueId)) {
             playerManager[player.uniqueId]!!
         } else {
-            collectData(fusion)
+            try {
+                collectData(fusion)
+            } catch (_: Exception) {
+                player.sendMessage(ColorUtils().convert("<red>Failed to load fusion data"))
+                return
+            }
         }
 
         inv = generateContent(inv, data)
@@ -99,6 +111,9 @@ class FusionManagerGUI {
         ymlFile.set("name", fusion.name)
         ymlFile.set("description", fusion.description)
         ymlFile.set("tags", fusion.tags.joinToString(";"))
+
+        ymlFile.set("input", null)
+        ymlFile.set("output", null)
 
         val fusionInv = fusion.fusionInv
 
