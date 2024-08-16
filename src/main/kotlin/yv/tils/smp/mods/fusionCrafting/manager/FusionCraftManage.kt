@@ -73,10 +73,6 @@ class FusionCraftManage {
     fun editThumbnailItem(player: Player, item: ItemStack) {
         val inv = Bukkit.createInventory(null, 9, ColorUtils().convert("<gold>Edit Thumbnail"))
 
-        if (item.type != Material.DIRT) {
-            inv.setItem(4, item)
-        }
-
         val accept = ItemStack(Material.LIME_STAINED_GLASS_PANE)
         val acceptMeta = accept.itemMeta
         acceptMeta.displayName(ColorUtils().convert("<green>Change Thumbnail"))
@@ -95,6 +91,12 @@ class FusionCraftManage {
             if (inv.getItem(i) == null) {
                 inv.setItem(i, outerFiller)
             }
+        }
+
+        if (item.type != Material.BARRIER) {
+            inv.setItem(4, item)
+        } else {
+            inv.setItem(4, ItemStack(Material.AIR))
         }
 
         player.openInventory(inv)

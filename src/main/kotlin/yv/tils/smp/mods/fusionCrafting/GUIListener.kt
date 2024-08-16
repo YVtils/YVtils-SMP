@@ -411,13 +411,13 @@ class GUIListener {
 
         val rawSlot = e.rawSlot
 
-        if (rawSlot > 9*6 - 1) {
-            e.isCancelled = false
-            return
-        }
-
         val inputSlots: List<Int> = listOf(10, 11, 12, 13, 19, 20, 21, 22, 28, 29, 30, 31)
         val outputSlots: List<Int> = listOf(15, 16, 24, 25, 33, 34)
+        val bottomInvSlots: MutableList<Int> = mutableListOf()
+
+        for (i in 0 until 9*4) {
+            bottomInvSlots.add(i)
+        }
 
         when (rawSlot) {
             in inputSlots -> {
@@ -429,8 +429,7 @@ class GUIListener {
                 if (clickType.isLeftClick) {
                     FusionRecipeItemManage().openInventory(player as Player, item, "input")
                 } else if (clickType.isRightClick) {
-                    // TODO: Implement delete logic
-                    println("Delete item from fusion")
+                    FusionRecipeItemManage().deleteRecipeItem(player as Player, item, "input")
                 }
             }
 
@@ -443,8 +442,20 @@ class GUIListener {
                 if (clickType.isLeftClick) {
                     FusionRecipeItemManage().openInventory(player as Player, item, "output")
                 } else if (clickType.isRightClick) {
-                    // TODO: Implement delete logic
-                    println("Delete item from fusion")
+                    FusionRecipeItemManage().deleteRecipeItem(player as Player, item, "output")
+                }
+            }
+
+            in bottomInvSlots -> {
+                val clickType = e.click
+                val item = e.currentItem ?: return
+
+                if (item.type == Material.AIR) return
+
+                if (clickType.isLeftClick) {
+                     // Add item to fusion input
+                } else if (clickType.isRightClick) {
+                    // Add item to fusion output
                 }
             }
 

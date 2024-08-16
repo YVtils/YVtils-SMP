@@ -16,14 +16,15 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.mods.fusionCrafting.FusionKeys
 import yv.tils.smp.mods.fusionCrafting.FusionLoader
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.logger.Debugger
 import java.io.File
 import java.util.UUID
 
 /* TODO: Create  custom fusion:
-    - Thumbnail is not empty when opening first time
-    - Can not reopen after saving
-    - File has no name
-    - Items not getting saved after adding to fusion recipe inv
+    - [ ] Thumbnail is not empty when opening first time
+    - [ ] Can not reopen after saving
+    - [x] File has no name
+    - [ ] Items not getting saved after adding to fusion recipe inv
 */
 
 class FusionManagerGUI {
@@ -49,8 +50,10 @@ class FusionManagerGUI {
         } else {
             try {
                 collectData(fusion)
-            } catch (_: Exception) {
+            } catch (e: NullPointerException) {
                 player.sendMessage(ColorUtils().convert("<red>Failed to load fusion data"))
+                YVtils.instance.logger.warning("Failed to load fusion data -> ${e.message}")
+                Debugger().log("Failed to load fusion data", "${e.cause} -> ${e.message}", "yv/tils/smp/mods/fusionCrafting/manager/FusionManagerGUI.kt")
                 return
             }
         }
@@ -63,7 +66,7 @@ class FusionManagerGUI {
 
     private fun collectData(fusionName: String): Fusion {
         var state = false
-        var thumbnail = ItemStack(Material.ITEM_FRAME)
+        var thumbnail = ItemStack(Material.BARRIER)
         var name = ""
         var description = ""
         val tags = mutableListOf<String>()
@@ -101,6 +104,10 @@ class FusionManagerGUI {
 
     // TODO: When the fusion is new and no input/output is set a error will be thrown when trying to edit again
     fun setData(fusion: Fusion) {
+        if (fusion.fileName == "") {
+            fusion.fileName = generateFileName(fusion)
+        }
+
         val file = File(YVtils.instance.dataFolder.path, "fusions/${fusion.fileName}.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
@@ -131,6 +138,21 @@ class FusionManagerGUI {
         ymlFile.save(file)
 
         FusionLoader().loadFusionThumbnail()
+    }
+
+    private fun generateFileName(fusion: Fusion): String {
+        val name = fusion.name
+        val fileName = name.replace(" ", "_").lowercase()
+
+        var returnName = fileName
+        var i = 1
+
+        while (File(YVtils.instance.dataFolder.path, "fusions/$returnName.yml").exists()) {
+            returnName = "${fileName}_${i}"
+            i++
+        }
+
+        return returnName
     }
 
     private fun createBackup(ymlFile: YamlConfiguration, file: File) {
