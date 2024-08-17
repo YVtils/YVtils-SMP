@@ -20,9 +20,9 @@ import yv.tils.smp.utils.logger.Debugger
 import java.io.File
 import java.util.UUID
 
-/* TODO: Create  custom fusion:
-    - [ ] Thumbnail is not empty when opening first time
-    - [ ] Can not reopen after saving
+/* TODO: Create custom fusion:
+    - [x] Thumbnail is not empty when opening first time
+    - [x] Can not reopen after saving
     - [x] File has no name
     - [ ] Items not getting saved after adding to fusion recipe inv
 */
@@ -50,7 +50,7 @@ class FusionManagerGUI {
         } else {
             try {
                 collectData(fusion)
-            } catch (e: NullPointerException) {
+            } catch (e: Exception) {
                 player.sendMessage(ColorUtils().convert("<red>Failed to load fusion data"))
                 YVtils.instance.logger.warning("Failed to load fusion data -> ${e.message}")
                 Debugger().log("Failed to load fusion data", "${e.cause} -> ${e.message}", "yv/tils/smp/mods/fusionCrafting/manager/FusionManagerGUI.kt")
@@ -102,7 +102,6 @@ class FusionManagerGUI {
         return Fusion(state, thumbnail, name, description, tags, fusionInv, fileName)
     }
 
-    // TODO: When the fusion is new and no input/output is set a error will be thrown when trying to edit again
     fun setData(fusion: Fusion) {
         if (fusion.fileName == "") {
             fusion.fileName = generateFileName(fusion)
