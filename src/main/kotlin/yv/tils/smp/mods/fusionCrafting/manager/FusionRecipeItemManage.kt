@@ -822,8 +822,46 @@ class FusionRecipeItemManage {
     }
 
     fun deleteRecipeItem(player: Player, item: ItemStack, type: String) {
-        // TODO: Implement logic
+        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
+        val meta = item.itemMeta
 
+        val itemName = if (meta.persistentDataContainer.has(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)) {
+             meta.persistentDataContainer.get(FusionKeys.FUSION_ITEMNAME.key, PersistentDataType.STRING)!!
+        } else {
+            return
+        }
 
+        val fusionInv = fusion.fusionInv
+        val fusionInvCopy = fusionInv.toMutableMap()
+
+        if (type == "input") {
+            val strippedItemName = ColorUtils().strip(itemName)
+
+            var index = 0
+            val key = "input.${strippedItemName}"
+
+            for (f in fusionInvCopy) {
+                if (f.key == "$key.$index") {
+                    fusionInv.remove(f.key)
+                    index++
+                }
+            }
+        } else if (type == "output") {
+            val key = "output"
+
+            for (f in fusionInvCopy) {
+                if (f.key.startsWith(key)) {
+                    val value = f.value as MutableList<MutableMap<String, Any>>
+
+                    for (v in value) {
+                        if (v.containsKey("name")) {
+                            if (v["name"] == itemName) {
+                                fusionInv.remove(f.key)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
