@@ -16,6 +16,7 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.mods.fusionCrafting.FusionKeys
 import yv.tils.smp.mods.fusionCrafting.FusionLoader
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.inventory.GUIFiller
 import yv.tils.smp.utils.logger.Debugger
 import java.io.File
 import java.util.UUID
@@ -172,6 +173,8 @@ class FusionManagerGUI {
     }
 
     private fun generateContent(inv: Inventory, fusion: Fusion): Inventory {
+        var inv = inv
+
         val fusionToggled = fusion.state
 
         val toggleSwitch: ItemStack
@@ -273,17 +276,7 @@ class FusionManagerGUI {
         delete.itemMeta = deleteMeta
         inv.setItem(26, delete)
 
-        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = outerFiller.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        outerFiller.itemMeta = fillerMeta
-
-        for (i in 0..<inv.size) {
-            if (inv.getItem(i) == null) {
-                inv.setItem(i, outerFiller)
-            }
-        }
+        inv = GUIFiller().fillInventory(inv)
 
         for (i in 0 until inv.size) {
             val item = inv.getItem(i) ?: continue

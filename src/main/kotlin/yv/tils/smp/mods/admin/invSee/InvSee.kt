@@ -14,6 +14,7 @@ import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
+import yv.tils.smp.utils.inventory.GUIFiller
 import java.util.*
 
 class InvSee {
@@ -36,7 +37,7 @@ class InvSee {
     }
 
     private fun getInv(target: Player): Inventory {
-        val inv = Bukkit.createInventory(
+        var inv = Bukkit.createInventory(
             null, 54,
             Placeholder().replacer(
                 Language().getMessage(
@@ -69,21 +70,12 @@ class InvSee {
             }
         }
 
-
         // Filler
-        val filler = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = filler.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        filler.itemMeta = fillerMeta
+        val fillerSlots = mutableListOf<Int>()
+        fillerSlots.addAll(listOf(0, 5, 6))
+        fillerSlots.addAll(8..17)
 
-        inv.setItem(0, filler)
-        inv.setItem(5, filler)
-        inv.setItem(6, filler)
-
-        for (i in 8..17) {
-            inv.setItem(i, filler)
-        }
+        inv = GUIFiller().fillInventory(inv, onlySlots = fillerSlots)
 
         return inv
     }

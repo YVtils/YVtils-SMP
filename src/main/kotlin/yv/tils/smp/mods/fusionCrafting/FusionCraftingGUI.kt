@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
 import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.inventory.GUIFiller
 
 class FusionCraftingGUI {
     fun fusionGUI(player: HumanEntity, fusion: MutableMap<String, Any>) {
@@ -25,6 +26,8 @@ class FusionCraftingGUI {
     }
 
     fun generateFusionGUI(inv: Inventory, fusion: MutableMap<String, Any>): Inventory {
+        var inv = inv
+
         val inputSlots: List<Int> = listOf(10, 11, 12, 13, 19, 20, 21, 22, 28, 29, 30, 31)
         val outputSlots: List<Int> = listOf(15, 16, 24, 25, 33, 34)
         val acceptSlots = listOf(47, 48, 49, 50, 51, 52)
@@ -51,25 +54,19 @@ class FusionCraftingGUI {
         generateInput(inputSlots, fusion, inv)
         generateOutput(fusion, inv)
 
-        val filler = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = filler.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        filler.itemMeta = fillerMeta
+        val blockedSlots = mutableListOf<Int>()
+        blockedSlots.addAll(inputSlots)
+        blockedSlots.addAll(outputSlots)
+        blockedSlots.addAll(acceptSlots)
+        blockedSlots.add(backSlot)
 
-        val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
-        innerFiller.itemMeta = fillerMeta
+        inv = GUIFiller().fillInventory(inv, blockedSlots)
 
-        for (i in 0..<inv.size) {
-            if (inputSlots.contains(i) || outputSlots.contains(i) || acceptSlots.contains(i) || i == backSlot) {
-                if (inv.getItem(i) == null) {
-                    inv.setItem(i, innerFiller)
-                    continue
-                }
+        for (slot in blockedSlots) {
+            if (inv.getItem(slot) == null) {
+                inv.setItem(slot, GUIFiller().secondaryFillerItem())
                 continue
             }
-
-            inv.setItem(i, filler)
         }
 
         for (i in 0 until inv.size) {

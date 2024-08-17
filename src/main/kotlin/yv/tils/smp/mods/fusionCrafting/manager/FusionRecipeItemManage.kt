@@ -19,6 +19,7 @@ import yv.tils.smp.mods.fusionCrafting.FusionGUIHeads
 import yv.tils.smp.mods.fusionCrafting.FusionKeys
 import yv.tils.smp.mods.fusionCrafting.enchantments.DataTags
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.inventory.GUIFiller
 import java.util.*
 
 class FusionRecipeItemManage {
@@ -291,6 +292,8 @@ class FusionRecipeItemManage {
     }
 
     private fun generalContent(inv: Inventory): Inventory {
+        var inv = inv
+
         val back = ItemStack(Material.TIPPED_ARROW)
         val backMeta = back.itemMeta as PotionMeta
         backMeta.color = Color.fromRGB(150, 85, 95)
@@ -300,17 +303,7 @@ class FusionRecipeItemManage {
 
         inv.setItem(18, back)
 
-        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = outerFiller.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        outerFiller.itemMeta = fillerMeta
-
-        for (i in 0..<inv.size) {
-            if (inv.getItem(i) == null) {
-                inv.setItem(i, outerFiller)
-            }
-        }
+        inv = GUIFiller().fillInventory(inv)
 
         for (i in 0 until inv.size) {
             val item = inv.getItem(i) ?: continue
@@ -324,7 +317,7 @@ class FusionRecipeItemManage {
     fun editDisplayItem(player: Player) {
         val displayItem = fusionRecipeItemEdit[player.uniqueId] ?: return
         val item = ItemStack(displayItem.material)
-        val inv = Bukkit.createInventory(null, 9, ColorUtils().convert("<gold>Edit Display Item"))
+        var inv = Bukkit.createInventory(null, 9, ColorUtils().convert("<gold>Edit Display Item"))
 
         inv.setItem(4, item)
 
@@ -336,17 +329,7 @@ class FusionRecipeItemManage {
         accept.itemMeta = acceptMeta
         inv.setItem(0, accept)
 
-        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = outerFiller.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        outerFiller.itemMeta = fillerMeta
-
-        for (i in 0..<inv.size) {
-            if (inv.getItem(i) == null) {
-                inv.setItem(i, outerFiller)
-            }
-        }
+        inv = GUIFiller().fillInventory(inv)
 
         player.openInventory(inv)
     }
@@ -354,7 +337,7 @@ class FusionRecipeItemManage {
     fun editAcceptedItems(player: Player) {
         val itemList = parseItemList(player)
 
-        val inv = Bukkit.createInventory(null, 9*5, ColorUtils().convert("<gold>Modify accepted items"))
+        var inv = Bukkit.createInventory(null, 9*5, ColorUtils().convert("<gold>Modify accepted items"))
 
         val itemSlots = mutableListOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34)
 
@@ -375,19 +358,7 @@ class FusionRecipeItemManage {
         back.itemMeta = backMeta
         inv.setItem(40, back)
 
-        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = outerFiller.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        outerFiller.itemMeta = fillerMeta
-
-        for (i in 0..<inv.size) {
-            if (inv.getItem(i) == null) {
-                if (i !in itemSlots) {
-                    inv.setItem(i, outerFiller)
-                }
-            }
-        }
+        inv = GUIFiller().fillInventory(inv, itemSlots)
 
         player.openInventory(inv)
     }
@@ -495,7 +466,7 @@ class FusionRecipeItemManage {
 
     fun editDataTags(player: Player) {
         val dataTags = fusionRecipeItemEdit[player.uniqueId]?.data ?: return
-        val inv = Bukkit.createInventory(null, 9*4, ColorUtils().convert("<gold>Edit Data Tags"))
+        var inv = Bukkit.createInventory(null, 9*4, ColorUtils().convert("<gold>Edit Data Tags"))
 
         val tagSlots = mutableListOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25) // Support for 14 tags
 
@@ -542,22 +513,11 @@ class FusionRecipeItemManage {
         back.itemMeta = backMeta
         inv.setItem(31, back)
 
-        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = outerFiller.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        outerFiller.itemMeta = fillerMeta
+        inv = GUIFiller().fillInventory(inv, tagSlots)
 
-        val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
-        innerFiller.itemMeta = fillerMeta
-
-        for (i in 0..<inv.size) {
-            if (inv.getItem(i) == null) {
-                if (i in tagSlots) {
-                    inv.setItem(i, innerFiller)
-                } else {
-                    inv.setItem(i, outerFiller)
-                }
+        for (slot in tagSlots) {
+            if (inv.getItem(slot) == null) {
+                inv.setItem(slot, GUIFiller().secondaryFillerItem())
             }
         }
 
@@ -577,7 +537,7 @@ class FusionRecipeItemManage {
             availableDataTags.add(tag.toString())
         }
 
-        val inv = Bukkit.createInventory(null, 9*4, ColorUtils().convert("<gold>Append Data Tag"))
+        var inv = Bukkit.createInventory(null, 9*4, ColorUtils().convert("<gold>Append Data Tag"))
 
         val tagSlots = mutableListOf(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25) // Support for 14 tags
 
@@ -604,22 +564,11 @@ class FusionRecipeItemManage {
         back.itemMeta = backMeta
         inv.setItem(31, back)
 
-        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = outerFiller.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        outerFiller.itemMeta = fillerMeta
+        inv = GUIFiller().fillInventory(inv, tagSlots)
 
-        val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
-        innerFiller.itemMeta = fillerMeta
-
-        for (i in 0..<inv.size) {
-            if (inv.getItem(i) == null) {
-                if (i in tagSlots) {
-                    inv.setItem(i, innerFiller)
-                } else {
-                    inv.setItem(i, outerFiller)
-                }
+        for (slot in tagSlots) {
+            if (inv.getItem(slot) == null) {
+                inv.setItem(slot, GUIFiller().secondaryFillerItem())
             }
         }
 

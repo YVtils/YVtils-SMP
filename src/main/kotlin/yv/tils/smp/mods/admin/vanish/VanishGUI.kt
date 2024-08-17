@@ -15,10 +15,11 @@ import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
+import yv.tils.smp.utils.inventory.GUIFiller
 
 class VanishGUI {
     fun gui(player: Player) {
-        val inv = Bukkit.createInventory(player, 36, ColorUtils().convert("<#6D8896>Vanish"))
+        var inv = Bukkit.createInventory(player, 36, ColorUtils().convert("<#6D8896>Vanish"))
 
         var target = player
 
@@ -90,17 +91,7 @@ class VanishGUI {
         guiToggles(inv, target)
 
         // Filler
-        val filler = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = filler.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        filler.itemMeta = fillerMeta
-
-        for (i in 0..<inv.size) {
-            if (inv.getItem(i) == null) {
-                inv.setItem(i, filler)
-            }
-        }
+        inv = GUIFiller().fillInventory(inv)
 
         if (Vanish.vanish.containsKey(target.uniqueId)) {
             Vanish.oldVanish[target.uniqueId] = Vanish.vanish[target.uniqueId]!!

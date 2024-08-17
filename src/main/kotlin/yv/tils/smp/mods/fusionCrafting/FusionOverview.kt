@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.mods.fusionCrafting.FusionLoader.Companion.fusionThumbnails
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.inventory.GUIFiller
 import java.util.*
 
 class FusionOverview {
@@ -51,7 +52,7 @@ class FusionOverview {
         val fusionSlots: List<Int> =
             listOf(11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 38, 39, 40, 41, 42)
 
-        val inv = Bukkit.createInventory(player, 54, ColorUtils().convert(invTitle))
+        var inv = Bukkit.createInventory(player, 54, ColorUtils().convert(invTitle))
 
         loop@ for (i in 24 * (page - 1) until fusionThumbnails.size) {
             val (key, value) = fusionThumbnails.entries.elementAt(i)
@@ -203,23 +204,15 @@ class FusionOverview {
             inv.setItem(8, pageCount)
         }
 
-        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = outerFiller.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        outerFiller.itemMeta = fillerMeta
+        val blockedSlots = mutableListOf<Int>()
+        blockedSlots.addAll(fusionSlots)
 
-        val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
-        innerFiller.itemMeta = fillerMeta
+        inv = GUIFiller().fillInventory(inv, blockedSlots)
 
-        for (i in 0..<inv.size) {
-            if (inv.getItem(i) == null) {
-                if (fusionSlots.contains(i)) {
-                    inv.setItem(i, innerFiller)
-                    continue
-                }
-
-                inv.setItem(i, outerFiller)
+        for (slot in blockedSlots) {
+            if (inv.getItem(slot) == null) {
+                inv.setItem(slot, GUIFiller().secondaryFillerItem())
+                continue
             }
         }
 
