@@ -7,10 +7,13 @@ import org.bukkit.inventory.ItemStack
 import yv.tils.smp.utils.color.ColorUtils
 
 class GUIFiller {
-    fun fillInventory(inv: Inventory, blockedSlots: MutableList<Int>): Inventory {
+    fun fillInventory(inv: Inventory, blockedSlots: MutableList<Int> = mutableListOf(), onlySlots: MutableList<Int> = mutableListOf()): Inventory {
         for (i in 0 until inv.size) {
+            if (onlySlots.isNotEmpty() && !onlySlots.contains(i)) continue
             if (blockedSlots.contains(i)) continue
-            inv.setItem(i, mainFillerItem())
+            if (inv.getItem(i) == null) {
+                inv.setItem(i, mainFillerItem())
+            }
         }
         return inv
     }
