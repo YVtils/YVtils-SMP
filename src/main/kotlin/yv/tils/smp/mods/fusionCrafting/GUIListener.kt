@@ -708,7 +708,6 @@ class GUIListener {
         if (meta.persistentDataContainer.has(FusionKeys.FUSION_PLAYER_HEAD.key, PersistentDataType.STRING)) {
             for (fusionItem in FusionCheck.fusionItems) {
                 if (fusionItem.type == Material.NAME_TAG) {
-//                    val newMeta = PlayerHeadLoad().deprcLoadPlayerHead(fusionItem, item)
                     val newMeta = PlayerHeadLoad().loadPlayerHead(fusionItem, item)
 
                     meta = newMeta
