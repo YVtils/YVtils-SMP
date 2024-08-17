@@ -476,7 +476,6 @@ class GUIListener {
         }
 
         val fusionItem = FusionRecipeItemManage.fusionRecipeItemEdit[player.uniqueId] ?: return
-        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
 
         val displayItemSlot: Int
         val usableItemsSlot: Int
@@ -516,7 +515,6 @@ class GUIListener {
                 FusionRecipeItemManage().editDisplayItem(player as Player)
             }
             usableItemsSlot -> {
-                // Input - Overview over all allowed items for this slot
                 FusionRecipeItemManage().editAcceptedItems(player as Player)
             }
             displayNameSlot -> {
