@@ -26,25 +26,43 @@ class FusionLoader {
         if (!file.exists()) file.mkdirs()
 
         val lightBlockFile = File(YVtils.instance.dataFolder.path, "fusions/lightBlock.yml")
-        val lightBlockYML: YamlConfiguration = YamlConfiguration.loadConfiguration(lightBlockFile)
-        LightBlock().configFile(lightBlockYML)
-        lightBlockYML.save(lightBlockFile)
+        if (!lightBlockFile.exists()) {
+            val lightBlockYML: YamlConfiguration = YamlConfiguration.loadConfiguration(lightBlockFile)
+            LightBlock().configFile(lightBlockYML)
+            lightBlockYML.save(lightBlockFile)
+
+            Debugger().log(
+                "Generated default fusion",
+                "Generated default fusion: lightBlock",
+                "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt"
+            )
+        }
 
         val invisItemFrameFile = File(YVtils.instance.dataFolder.path, "fusions/invisItemFrame.yml")
-        val invisItemFrameYML: YamlConfiguration = YamlConfiguration.loadConfiguration(invisItemFrameFile)
-        InvisItemFrame().configFile(invisItemFrameYML)
-        invisItemFrameYML.save(invisItemFrameFile)
+        if (!invisItemFrameFile.exists()) {
+            val invisItemFrameYML: YamlConfiguration = YamlConfiguration.loadConfiguration(invisItemFrameFile)
+            InvisItemFrame().configFile(invisItemFrameYML)
+            invisItemFrameYML.save(invisItemFrameFile)
+
+            Debugger().log(
+                "Generated default fusion",
+                "Generated default fusion: invisItemFrame",
+                "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt"
+            )
+        }
 
         val playerHeadsFile = File(YVtils.instance.dataFolder.path, "fusions/playerHeads.yml")
-        val playerHeadsYML: YamlConfiguration = YamlConfiguration.loadConfiguration(playerHeadsFile)
-        PlayerHeads().configFile(playerHeadsYML)
-        playerHeadsYML.save(playerHeadsFile)
+        if (!playerHeadsFile.exists()) {
+            val playerHeadsYML: YamlConfiguration = YamlConfiguration.loadConfiguration(playerHeadsFile)
+            PlayerHeads().configFile(playerHeadsYML)
+            playerHeadsYML.save(playerHeadsFile)
 
-        Debugger().log(
-            "Generated default fusion",
-            "Generated default fusion",
-            "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt"
-        )
+            Debugger().log(
+                "Generated default fusion",
+                "Generated default fusion: playerHeads",
+                "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt"
+            )
+        }
     }
 
     fun loadFusionThumbnail() {
@@ -120,19 +138,28 @@ class FusionLoader {
         val inputItems = ymlFile.getConfigurationSection("input")?.getKeys(false)
         val outputItems = ymlFile.getConfigurationSection("output")?.getKeys(false)
 
-        for (input in inputItems!!) {
-            val inputSection = ymlFile.getConfigurationSection("input.$input")
-            val inputSectionKeys = inputSection?.getKeys(false)
-            for (key in inputSectionKeys!!) {
-                val subinputSection = ymlFile.getMapList("input.$input.$key")
-                fusionMap["input.$input.$key"] = subinputSection
+        try {
+            for (input in inputItems!!) {
+                val inputSection = ymlFile.getConfigurationSection("input.$input")
+                val inputSectionKeys = inputSection?.getKeys(false)
+                for (key in inputSectionKeys!!) {
+                    val subinputSection = ymlFile.getMapList("input.$input.$key")
+                    fusionMap["input.$input.$key"] = subinputSection
+                }
             }
+
+            for (output in outputItems!!) {
+                val suboutputSection = ymlFile.getMapList("output.$output")
+                fusionMap["output.$output"] = suboutputSection
+            }
+        } catch (e: NullPointerException) {
+            Debugger().log(
+                "Failed to load fusion input/output",
+                "Name: $fusion | File: ${file.path} | Error: ${e.message}",
+                "yv/tils/smp/mods/fusionCrafting/FusionLoader.kt"
+            )
         }
 
-        for (output in outputItems!!) {
-            val suboutputSection = ymlFile.getMapList("output.$output")
-            fusionMap["output.$output"] = suboutputSection
-        }
 
         Debugger().log(
             "Loaded fusion",
