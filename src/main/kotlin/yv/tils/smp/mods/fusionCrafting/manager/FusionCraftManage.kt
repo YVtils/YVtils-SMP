@@ -16,6 +16,7 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.mods.fusionCrafting.FusionCraftingGUI
 import yv.tils.smp.mods.fusionCrafting.FusionGUIHeads
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.inventory.GUIFiller
 import java.util.*
 
 class FusionCraftManage {
@@ -30,17 +31,13 @@ class FusionCraftManage {
 
         val inputSlots: List<Int> = listOf(10, 11, 12, 13, 19, 20, 21, 22, 28, 29, 30, 31)
         val outputSlots: List<Int> = listOf(15, 16, 24, 25, 33, 34)
-
-        val innerFiller = ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = innerFiller.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        innerFiller.itemMeta = fillerMeta
+        val removeAcceptSlot = 52
+        val infoSlot = 53
 
         for (slot in inputSlots) {
             val item = inv.getItem(slot)
 
-            if (item == innerFiller) {
+            if (item == GUIFiller().secondaryFillerItem()) {
                 inv.setItem(slot, ItemStack(Material.AIR))
             }
         }
@@ -48,7 +45,7 @@ class FusionCraftManage {
         for (slot in outputSlots) {
             val item = inv.getItem(slot)
 
-            if (item == innerFiller) {
+            if (item == GUIFiller().secondaryFillerItem()) {
                 inv.setItem(slot, ItemStack(Material.AIR))
             }
         }
@@ -67,11 +64,45 @@ class FusionCraftManage {
             inv.setItem(slot, item)
         }
 
+        inv.setItem(removeAcceptSlot, GUIFiller().mainFillerItem())
+
+        val infoHead = ItemStack(Material.PLAYER_HEAD)
+        val infoHeadMeta = infoHead.itemMeta as SkullMeta
+        val gameProfile = GameProfile(UUID.randomUUID(), "PageHead")
+        gameProfile.properties.put("textures", Property("textures", FusionGUIHeads.INFO.texture))
+
+        try {
+            val profileField = infoHeadMeta.javaClass.getDeclaredField("profile")
+            profileField.isAccessible = true
+            profileField.set(infoHeadMeta, gameProfile)
+        } catch (e: NoSuchFieldException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        }
+
+        infoHeadMeta.displayName(ColorUtils().convert("<aqua>Info Point"))
+        infoHeadMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+
+        val infoLore = mutableListOf<Component>()
+        infoLore.add(ColorUtils().convert(" "))
+        infoLore.add(ColorUtils().convert("<yellow> Modify fusion items:"))
+        infoLore.add(ColorUtils().convert("<gray>  - Left click on item in bottom inventory to add to input"))
+        infoLore.add(ColorUtils().convert("<gray>  - Right click on item in bottom inventory to add to output"))
+        infoLore.add(ColorUtils().convert("<gray>  - Left click on item in top inventory to modify"))
+        infoLore.add(ColorUtils().convert("<gray>  - Right click on item in top inventory to remove"))
+        infoLore.add(ColorUtils().convert(" "))
+
+        infoHeadMeta.lore(infoLore)
+
+        infoHead.itemMeta = infoHeadMeta
+        inv.setItem(infoSlot, infoHead)
+
         player.openInventory(inv)
     }
 
     fun editThumbnailItem(player: Player, item: ItemStack) {
-        val inv = Bukkit.createInventory(null, 9, ColorUtils().convert("<gold>Edit Thumbnail"))
+        var inv = Bukkit.createInventory(null, 9, ColorUtils().convert("<gold>Edit Thumbnail"))
 
         val accept = ItemStack(Material.LIME_STAINED_GLASS_PANE)
         val acceptMeta = accept.itemMeta
@@ -81,17 +112,7 @@ class FusionCraftManage {
         accept.itemMeta = acceptMeta
         inv.setItem(0, accept)
 
-        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = outerFiller.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        outerFiller.itemMeta = fillerMeta
-
-        for (i in 0..<inv.size) {
-            if (inv.getItem(i) == null) {
-                inv.setItem(i, outerFiller)
-            }
-        }
+        inv = GUIFiller().fillInventory(inv)
 
         if (item.type != Material.BARRIER) {
             inv.setItem(4, item)
@@ -145,7 +166,7 @@ class FusionCraftManage {
         val newTagSlot = tailSlots[4]
         val backSlot = tailSlots[0]
 
-        val inv = Bukkit.createInventory(null, guiSize, ColorUtils().convert("<gold>Filter Tags"))
+        var inv = Bukkit.createInventory(null, guiSize, ColorUtils().convert("<gold>Filter Tags"))
 
         val tagCreate = ItemStack(Material.PLAYER_HEAD, 1)
         val tagCreateMeta = tagCreate.itemMeta as SkullMeta
@@ -191,17 +212,7 @@ class FusionCraftManage {
         backItem.itemMeta = backMeta
         inv.setItem(backSlot, backItem)
 
-        val outerFiller = ItemStack(Material.GRAY_STAINED_GLASS_PANE)
-        val fillerMeta = outerFiller.itemMeta
-        fillerMeta.displayName(ColorUtils().convert(" "))
-        fillerMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        outerFiller.itemMeta = fillerMeta
-
-        for (slot in tailSlots) {
-            if (inv.getItem(slot) == null) {
-                inv.setItem(slot, outerFiller)
-            }
-        }
+        inv = GUIFiller().fillInventory(inv, onlySlots = tailSlots)
 
         player.openInventory(inv)
     }
