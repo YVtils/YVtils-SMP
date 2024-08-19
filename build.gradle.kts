@@ -11,7 +11,7 @@ plugins {
 
     id("io.papermc.paperweight.userdev") version "1.7.2"
 
-    id("xyz.jpenilla.run-paper") version "2.3.0"
+    id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
 group = "yv.tils"
