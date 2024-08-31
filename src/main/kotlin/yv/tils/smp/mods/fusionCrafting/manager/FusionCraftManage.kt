@@ -15,6 +15,8 @@ import org.bukkit.inventory.meta.SkullMeta
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.fusionCrafting.FusionCraftingGUI
 import yv.tils.smp.mods.fusionCrafting.FusionGUIHeads
+import yv.tils.smp.mods.fusionCrafting.FusionKeys
+import yv.tils.smp.mods.fusionCrafting.enchantments.DataTags
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.inventory.GUIFiller
 import java.util.*
@@ -215,6 +217,110 @@ class FusionCraftManage {
         inv = GUIFiller().fillInventory(inv, onlySlots = tailSlots)
 
         player.openInventory(inv)
+    }
+
+
+    fun addInputItem(item: ItemStack, player: Player) {
+        println("Adding input item")
+
+        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
+
+        val itemMeta = item.itemMeta ?: return
+
+        val name = ColorUtils().strip(item.displayName()).replace("[", "").replace("]", "")
+        val display = item.type
+        val amount = item.amount
+        val data = mutableListOf<String>()
+
+        val persisData = itemMeta.persistentDataContainer
+
+        for (key in persisData.keys) {
+            if (key.key.startsWith("fusion_")) {
+                data.add(DataTags.getNameByKey(FusionKeys.valueOf(key.key.uppercase()))?.uppercase() ?: "")
+            }
+        }
+
+        var prefix = "input.$name.0"
+        prefix = generateInputPrefix(prefix, fusion.fusionInv)
+
+        val configFormat = mutableListOf<MutableMap<String, Any>>()
+
+        configFormat.add(mutableMapOf("item" to display.toString()))
+        configFormat.add(mutableMapOf("amount" to amount.toString()))
+        configFormat.add(mutableMapOf("data" to data.joinToString { it }))
+
+        fusion.fusionInv[prefix] = configFormat
+
+        reopenInv(player, fusion.fusionInv)
+    }
+
+    fun addOutputItem(item: ItemStack, player: Player) {
+        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
+
+        val itemMeta = item.itemMeta ?: return
+
+        val name = ColorUtils().strip(item.displayName()).replace("[", "").replace("]", "")
+        val display = item.type
+        val amount = item.amount
+        val lore = mutableListOf<String>()
+        val data = mutableListOf<String>()
+
+        val loreData = itemMeta.lore()
+
+        if (loreData != null) {
+            for (line in loreData) {
+                lore.add(ColorUtils().convert(line))
+            }
+        }
+
+        val persisData = itemMeta.persistentDataContainer
+
+        for (key in persisData.keys) {
+            if (key.key.startsWith("fusion_")) {
+                data.add(DataTags.getNameByKey(FusionKeys.valueOf(key.key.uppercase()))?.uppercase() ?: "")
+            }
+        }
+
+        var prefix = "output.0"
+        prefix = generateOutputPrefix(prefix, fusion.fusionInv)
+
+        val configFormat = mutableListOf<MutableMap<String, Any>>()
+
+        configFormat.add(mutableMapOf("item" to display.toString()))
+        configFormat.add(mutableMapOf("amount" to amount.toString()))
+        configFormat.add(mutableMapOf("name" to name))
+        configFormat.add(mutableMapOf("lore" to lore.joinToString { it }))
+        configFormat.add(mutableMapOf("data" to data.joinToString { it }))
+
+        fusion.fusionInv[prefix] = configFormat
+
+        reopenInv(player, fusion.fusionInv)
+    }
+
+    private fun reopenInv(player: Player, fusionInv: MutableMap<String, Any>) {
+        Bukkit.getScheduler().runTaskLater(YVtils.instance, Runnable {
+            FusionCraftManage().editFusionRecipe(player, fusionInv)
+        }, 1)
+    }
+
+    private fun generateInputPrefix(prefix: String, fusion: MutableMap<String, Any>, i: Int = 1): String {
+        if (fusion.containsKey(prefix)) {
+            val splitPrefix = prefix.split(".")
+            val prefix = splitPrefix[0] + "." + splitPrefix[1] + i + "." + (splitPrefix[2].toInt())
+            return generateInputPrefix(prefix, fusion, i + 1)
+        } else {
+            return prefix
+        }
+    }
+
+    private fun generateOutputPrefix(prefix: String, fusion: MutableMap<String, Any>, i: Int = 1): String {
+        if (fusion.containsKey(prefix)) {
+            val splitPrefix = prefix.split(".")
+            val prefix = splitPrefix[0] + "." + i
+            return generateOutputPrefix(prefix, fusion, i + 1)
+        } else {
+            return prefix
+        }
     }
 
     fun listenForEdit(e: AsyncChatEvent) {

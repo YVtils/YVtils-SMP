@@ -90,36 +90,47 @@ class FusionRecipeItemManage {
                         continue
                     }
 
+                    val vList: MutableMap<String, Any> = mutableMapOf()
+
                     for (v in f.value as MutableList<MutableMap<String, Any>>) {
                         if (v.containsKey("name")) {
-                            if (ColorUtils().strip(v["name"] as String) == ColorUtils().strip(fusionRecipe.oldName)) {
-                                v["name"] = fusionRecipe.name
-                            } else {
-                                break
-                            }
+                            vList["name"] = v["name"].toString()
                         }
 
                         if (v.containsKey("item")) {
-                            v["item"] = fusionRecipe.material.toString()
+                            vList["item"] = v["item"].toString()
                         }
 
                         if (v.containsKey("amount")) {
-                            v["amount"] = fusionRecipe.amount.toString()
+                            vList["amount"] = v["amount"].toString()
                         }
 
                         if (v.containsKey("lore")) {
-                            var loreJoined = ""
-
-                            for (line in fusionRecipe.lore) {
-                                loreJoined += "<newline>${ColorUtils().convert(line)}"
-                            }
-
-                            v["lore"] = loreJoined
+                            vList["lore"] = v["lore"] as String
                         }
 
                         if (v.containsKey("data")) {
-                            v["data"] = fusionRecipe.data.joinToString(separator = ";") { it }
+                            vList["data"] = v["data"] as String
                         }
+                    }
+
+                    if (vList["name"] == fusionRecipe.oldName) {
+                        val vMap = mutableListOf<MutableMap<String, Any>>()
+                        vMap.add(mutableMapOf("item" to fusionRecipe.material.toString()))
+                        vMap.add(mutableMapOf("amount" to fusionRecipe.amount.toString()))
+                        vMap.add(mutableMapOf("name" to fusionRecipe.name))
+
+                        val loreJoined = ""
+
+                        for (line in fusionRecipe.lore) {
+                            loreJoined.plus(ColorUtils().strip(line))
+                        }
+
+                        vMap.add(mutableMapOf("lore" to loreJoined))
+                        vMap.add(mutableMapOf("data" to fusionRecipe.data.joinToString(separator = ";") { it }))
+
+                        fusionInv.remove(key)
+                        fusionInv[key] = vMap
                     }
                 }
             }
@@ -607,33 +618,35 @@ class FusionRecipeItemManage {
 
         val loreCopy2 = lore.toMutableList()
 
-        for (line in loreCopy2) {
-            val trimmedLine = ColorUtils().strip(line).trim()
-            if (trimmedLine.isEmpty()) {
-                val index = lore.indexOf(line)
+        kotlin.runCatching {
+            for (line in loreCopy2) {
+                val trimmedLine = ColorUtils().strip(line).trim()
+                if (trimmedLine.isEmpty()) {
+                    val index = lore.indexOf(line)
 
-                if (index == lore.size - 1) {
-                    lore.removeAt(index)
-                    continue
-                }
+                    if (index == lore.size - 1) {
+                        lore.removeAt(index)
+                        continue
+                    }
 
-                val nextLine = lore[index + 1]
-                val nextLineTrimmed = ColorUtils().strip(nextLine).trim()
+                    val nextLine = lore[index + 1]
+                    val nextLineTrimmed = ColorUtils().strip(nextLine).trim()
 
-                if (nextLineTrimmed.isEmpty()) {
-                    lore.removeAt(index)
-                }
-
-                try {
-                    val previousLine = lore[index - 1]
-                    val previousLineTrimmed = ColorUtils().strip(previousLine).trim()
-
-                    if (previousLineTrimmed.isEmpty()) {
+                    if (nextLineTrimmed.isEmpty()) {
                         lore.removeAt(index)
                     }
-                } catch (_: IndexOutOfBoundsException) {
-                    lore.removeAt(index)
-                    continue
+
+                    try {
+                        val previousLine = lore[index - 1]
+                        val previousLineTrimmed = ColorUtils().strip(previousLine).trim()
+
+                        if (previousLineTrimmed.isEmpty()) {
+                            lore.removeAt(index)
+                        }
+                    } catch (_: IndexOutOfBoundsException) {
+                        lore.removeAt(index)
+                        continue
+                    }
                 }
             }
         }
@@ -806,11 +819,13 @@ class FusionRecipeItemManage {
                         if (v.containsKey("name")) {
                             if (v["name"] == itemName) {
                                 fusionInv.remove(f.key)
+                                break
                             }
                         }
                     }
                 }
             }
         }
+        FusionCraftManage().editFusionRecipe(player, fusion.fusionInv)
     }
 }

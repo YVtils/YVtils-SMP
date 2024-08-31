@@ -404,8 +404,6 @@ class GUIListener {
         }
     }
 
-    // TODO: Add a way to add new items | Idea: Block all inv movements,
-    //  if clicked on an bottom inv slot add it to fusion (Copy so it does not get removed from player inventory)
     private fun editFusionRecipe(e: InventoryClickEvent, player: HumanEntity) {
         e.isCancelled = true
 
@@ -415,7 +413,7 @@ class GUIListener {
         val outputSlots: List<Int> = listOf(15, 16, 24, 25, 33, 34)
         val bottomInvSlots: MutableList<Int> = mutableListOf()
 
-        for (i in 0 until 9*4) {
+        for (i in 54 until 89) {
             bottomInvSlots.add(i)
         }
 
@@ -453,9 +451,9 @@ class GUIListener {
                 if (item.type == Material.AIR) return
 
                 if (clickType.isLeftClick) {
-                     // Add item to fusion input
+                    FusionCraftManage().addInputItem(item, player as Player)
                 } else if (clickType.isRightClick) {
-                    // Add item to fusion output
+                    FusionCraftManage().addOutputItem(item, player as Player)
                 }
             }
 
