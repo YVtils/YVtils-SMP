@@ -1,6 +1,7 @@
 package yv.tils.smp.mods.other.forging
 
 import org.bukkit.Bukkit
+import org.bukkit.craftbukkit.inventory.CraftInventoryAnvil
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.PrepareAnvilEvent
 import yv.tils.smp.YVtils
@@ -8,8 +9,9 @@ import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
-import java.util.UUID
+import java.util.*
 
+// TODO: Try Papers new AnvilView -> https://jd.papermc.io/paper/1.21.1/org/bukkit/inventory/view/AnvilView.html
 class AntiTooExpensive {
     companion object {
         var active = Config.config["disableTooExpensive"] as Boolean
@@ -20,9 +22,9 @@ class AntiTooExpensive {
         if (!active) return
         if (e.inventory.type != InventoryType.ANVIL) return
 
-        e.inventory.maximumRepairCost = Int.MAX_VALUE
+        val inv = e.inventory as CraftInventoryAnvil
 
-        val inv = e.inventory
+        inv.maximumRepairCost = Int.MAX_VALUE
 
         val player = e.viewers[0]
 
