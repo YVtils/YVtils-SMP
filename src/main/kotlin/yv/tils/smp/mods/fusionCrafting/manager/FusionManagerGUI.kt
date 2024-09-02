@@ -25,7 +25,9 @@ import java.util.UUID
     - [x] Thumbnail is not empty when opening first time
     - [x] Can not reopen after saving
     - [x] File has no name
-    - [ ] Items not getting saved after adding to fusion recipe inv
+    - [x] Items not getting saved after adding to fusion recipe inv
+    - [ ] Lore not saving on output item (maybe even general, not only on new fusions)
+    - [ ] Can' enable/disable fusions
 */
 
 class FusionManagerGUI {

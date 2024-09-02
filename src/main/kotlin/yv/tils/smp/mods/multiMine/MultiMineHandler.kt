@@ -17,7 +17,6 @@ import java.util.UUID
 
 // TODO: Add fast Leave decay
 // TODO: Try making the break process better for the performance
-// TODO: Test what happens with worldguard or other protection plugins
 
 class MultiMineHandler {
     companion object {

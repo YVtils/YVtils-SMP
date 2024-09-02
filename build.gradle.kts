@@ -64,7 +64,6 @@ tasks {
 }
 
 tasks.withType<KotlinCompile> {
-//    kotlinOptions.jvmTarget = "21"
     compilerOptions.jvmTarget.set(JvmTarget.JVM_21)
 }
 
