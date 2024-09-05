@@ -262,7 +262,8 @@ class GUIListener {
         val backSlot = 18
         val deleteSlot = 26
 
-        val thumbnailItem = FusionManagerGUI.playerManager[player.uniqueId]?.thumbnail
+        val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
+        val thumbnailItem = fusion.thumbnail
 
         when (slot) {
             toggleSlot -> {
@@ -273,7 +274,7 @@ class GUIListener {
                 meta.displayName(ColorUtils().convert(if (!currentState) "<red>DISABLE FUSION" else "<green>ENABLE FUSION"))
                 item.itemMeta = meta
 
-                // TODO: Add logic to save new activation state of fusion
+                fusion.state = !currentState
 
                 e.inventory.setItem(toggleSlot, item)
             }

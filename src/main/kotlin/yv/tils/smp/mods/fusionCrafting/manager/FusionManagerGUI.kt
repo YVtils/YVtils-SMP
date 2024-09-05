@@ -21,15 +21,6 @@ import yv.tils.smp.utils.logger.Debugger
 import java.io.File
 import java.util.UUID
 
-/* TODO: Create custom fusion:
-    - [x] Thumbnail is not empty when opening first time
-    - [x] Can not reopen after saving
-    - [x] File has no name
-    - [x] Items not getting saved after adding to fusion recipe inv
-    - [ ] Lore not saving on output item (maybe even general, not only on new fusions)
-    - [ ] Can't enable/disable fusions
-*/
-
 class FusionManagerGUI {
     companion object {
         val playerManager = mutableMapOf<UUID, Fusion>()
