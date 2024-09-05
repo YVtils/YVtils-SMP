@@ -273,6 +273,8 @@ class GUIListener {
                 meta.displayName(ColorUtils().convert(if (!currentState) "<red>DISABLE FUSION" else "<green>ENABLE FUSION"))
                 item.itemMeta = meta
 
+                // TODO: Add logic to save new activation state of fusion
+
                 e.inventory.setItem(toggleSlot, item)
             }
 

@@ -120,10 +120,15 @@ class FusionRecipeItemManage {
                         vMap.add(mutableMapOf("amount" to fusionRecipe.amount.toString()))
                         vMap.add(mutableMapOf("name" to fusionRecipe.name))
 
+                        // TODO: Test if this causes lore to get lost
                         val loreJoined = ""
 
                         for (line in fusionRecipe.lore) {
+                            println("DEBUG | BEFORE | LoreJoined: $loreJoined")
+                            println("DEBUG | LINE | COLORED | Line: $line")
+                            println("DEBUG | LINE | UNCOLORED | Line: ${ColorUtils().strip(line)}")
                             loreJoined.plus(ColorUtils().strip(line))
+                            println("DEBUG | AFTER | LoreJoined: $loreJoined")
                         }
 
                         vMap.add(mutableMapOf("lore" to loreJoined))

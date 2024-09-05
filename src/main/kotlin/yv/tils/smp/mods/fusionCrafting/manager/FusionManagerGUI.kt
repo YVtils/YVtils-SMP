@@ -27,7 +27,7 @@ import java.util.UUID
     - [x] File has no name
     - [x] Items not getting saved after adding to fusion recipe inv
     - [ ] Lore not saving on output item (maybe even general, not only on new fusions)
-    - [ ] Can' enable/disable fusions
+    - [ ] Can't enable/disable fusions
 */
 
 class FusionManagerGUI {
