@@ -10,7 +10,6 @@ import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Vars
 
-//TODO: Test multiple seeds
 class SeedCMD {
     val command = commandTree("seed") {
         withPermission("yvtils.smp.command.seed")
@@ -32,7 +31,7 @@ class SeedCMD {
                     if (seedMap.keys.size == 1) {
                         sender.sendMessage(
                             ColorUtils().convert(
-                                Vars().prefix + " Seed: <gray>[<click:copy_to_clipboard:${seedMap.keys.first()}><hover:show_text:'${
+                                Vars().prefix + " Seed: <gray>[<green><click:copy_to_clipboard:${seedMap.keys.first()}><hover:show_text:'${
                                     Language().getRawMessage(
                                         sender.uniqueId,
                                         LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
@@ -45,7 +44,7 @@ class SeedCMD {
 
                         for (seed in seedMap.keys) {
                             seedList.add(
-                                "${seedMap[seed]}: <gray>[<lime><click:copy_to_clipboard:$seed><hover:show_text:'${
+                                "<white>${seedMap[seed]}: <gray>[<green><click:copy_to_clipboard:$seed><hover:show_text:'${
                                     Language().getRawMessage(
                                         sender.uniqueId,
                                         LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
