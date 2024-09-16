@@ -379,10 +379,6 @@ class en_yml {
             "<gray>You have no status set!"
         )
         ymlFile.addDefault(
-            "MODULE_STATUS_CUSTOM_STATUS_TOO_LONG",
-            "<red>This custom status is too long!"
-        )
-        ymlFile.addDefault(
             "MODULE_STATUS_NOT_ALLOWED_TO_SET_CUSTOM_STATUS",
             "<gray>You are missing permissions to set a custom status!"
         )
@@ -648,6 +644,80 @@ class en_yml {
         ymlFile.addDefault(
             "MODULE_WAYPOINT_NAVIGATE_FINISHED",
             "<white>Navigating to <yellow><waypoint> <white>finished!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_PLAYER_HEAD_DISPLAY_NAME",
+            "<gold><player>s head"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_LOAD_PLAYER_HEAD_FAILED",
+            "<red>An error occurred while loading the player head!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_INFO_POINT",
+            "<yellow> Edit Fusion Items: " +
+                    "<newline><gray>    - Left click on an item in the lower inventory to add the item to the input " +
+                    "<newline><gray>    - Right click on an item in the lower inventory to add the item to the output " +
+                    "<newline><gray>    - Left click on an item in the upper inventory to edit the item " +
+                    "<newline><gray>    - Right click on an item in the upper inventory to remove the item "
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_CHANGE_THUMBNAIL",
+            "<green>Change Thumbnail"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_EDIT_NAME",
+            "<gold>Edit Fusion Name " +
+                    "<newline><gray>Current Name: <white><name>" +
+                    "<newline><red>'c' to cancel"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_EDIT_DESCRIPTION",
+            "<gold>Edit Fusion Description " +
+                    "<newline><gray>Current Description: <white><description>" +
+                    "<newline><red>'c' to cancel" +
+                    "<newline><gray><click:open_url:https://yvtils.net/yvtils/colorcodes>Color Code Guide</click>"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_UPDATED_NAME",
+            "<green>The name has been changed to <white><name> <green>!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_UPDATED_DESCRIPTION",
+            "<green>The description has been changed to <white><description> <green>!"
+        )
+
+        ymlFile.addDefault(
+            "GUI_LEFT_CLICK_EDIT",
+            "<green>Left Click to edit"
+        )
+
+        ymlFile.addDefault(
+            "GUI_RIGHT_CLICK_REMOVE",
+            "<red>Right Click to remove"
+        )
+
+        ymlFile.addDefault(
+            "GUI_PAGE_BACK",
+            "<red>Back"
+        )
+
+        ymlFile.addDefault(
+            "PROCESS_CANCELLED",
+            "<red>Cancelled!"
+        )
+
+        ymlFile.addDefault(
+            "INPUT_TOO_LONG",
+            "<red>The entered text is too long!"
         )
 
         ymlFile.options().copyDefaults(true)

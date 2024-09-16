@@ -9,6 +9,9 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.mods.fusionCrafting.FusionKeys
 import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
+import yv.tils.smp.utils.internalAPI.Placeholder
 import java.net.URL
 
 class PlayerHeadLoad {
@@ -20,7 +23,7 @@ class PlayerHeadLoad {
 
         if (playerHead != null) {
             val meta = playerHead.itemMeta as SkullMeta
-            meta.displayName(ColorUtils().convert("<gold>${playerName}'s Head"))
+            meta.displayName(Placeholder().replacer(Language().getMessage(LangStrings.MODULE_FUSION_PLAYER_HEAD_DISPLAY_NAME), mapOf("player" to playerName)))
             meta.lore(outPut.itemMeta.lore())
             meta.persistentDataContainer.remove(FusionKeys.FUSION_PLAYER_HEAD.key)
             outPut.itemMeta = meta
@@ -28,7 +31,7 @@ class PlayerHeadLoad {
         } else {
             YVtils.instance.logger.warning("Failed to load player head for $playerName")
             val meta = outPut.itemMeta as SkullMeta
-            meta.displayName(ColorUtils().convert("<red>Failed to load player head"))
+            meta.displayName(Language().getMessage(LangStrings.MODULE_FUSION_LOAD_PLAYER_HEAD_FAILED))
             meta.lore(outPut.itemMeta.lore())
             meta.persistentDataContainer.remove(FusionKeys.FUSION_PLAYER_HEAD.key)
             outPut.itemMeta = meta

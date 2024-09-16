@@ -403,10 +403,6 @@ class de_yml {
             "MODULE_STATUS_PLAYER_HAS_NO_STATUS",
             "<gray>Du hast keinen Status!"
         )
-        ymlFile.addDefault(
-            "MODULE_STATUS_CUSTOM_STATUS_TOO_LONG",
-            "<red>Dieser custom Status ist zu lang!"
-        )
 
         ymlFile.addDefault(
             "MODULE_STATUS_NOT_ALLOWED_TO_SET_CUSTOM_STATUS",
@@ -423,11 +419,6 @@ class de_yml {
         ymlFile.addDefault(
             "MODULE_STATUS_SELECTED_STATUS_JOIN_ANNOUNCEMENT",
             "<gold>Willkommen zurück!<newline><gray>Aktueller Status: <white><status>"
-        )
-
-        ymlFile.addDefault(
-            "MODULE_CCR_ACCEPT_RECIPE",
-            "<green>Crafting Rezept akzeptieren"
         )
 
         ymlFile.addDefault(
@@ -678,6 +669,80 @@ class de_yml {
         ymlFile.addDefault(
             "MODULE_WAYPOINT_NAVIGATE_FINISHED",
             "<white>Die Navigation zum Wegpunkt <yellow><waypoint> <white>wurde beendet!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_PLAYER_HEAD_DISPLAY_NAME",
+            "<gold><player>s Kopf"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_LOAD_PLAYER_HEAD_FAILED",
+            "<red>Beim laden des Spieler Kopfes ist ein Fehler aufgetreten!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_INFO_POINT",
+            "<yellow> Fusion Items bearbeiten: " +
+                    "<newline><gray>    - Links Klick auf ein Item im unteren Inventar, um das Item zum Input hinzuzufügen " +
+                    "<newline><gray>    - Rechts Klick auf ein Item im unteren Inventar, um das Item zum Output hinzuzufügen " +
+                    "<newline><gray>    - Links Klick auf ein Item im oberen Inventar, um das Item zu bearbeiten " +
+                    "<newline><gray>    - Rechts Klick auf ein Item im oberen Inventar, um das Item zu entfernen "
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_CHANGE_THUMBNAIL",
+            "<green>Thumbnail ändern"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_EDIT_NAME",
+            "<gold>Fusion Namen bearbeiten " +
+                    "<newline><gray>Aktueller Name: <white><name>" +
+                    "<newline><red>'c' zum abbrechen"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_EDIT_DESCRIPTION",
+            "<gold>Fusion Beschreibung bearbeiten " +
+                    "<newline><gray>Aktuelle Beschreibung: <white><description>" +
+                    "<newline><red>'c' zum abbrechen" +
+                    "<newline><gray><click:open_url:https://yvtils.net/yvtils/colorcodes>Color Code Guide</click>"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_UPDATED_NAME",
+            "<green>Der Name wurde zu <white><name> <green>geändert!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_UPDATED_DESCRIPTION",
+            "<green>Die Beschreibung wurde zu <white><description> <green>geändert!"
+        )
+
+        ymlFile.addDefault(
+            "GUI_LEFT_CLICK_EDIT",
+            "<green>Links Klick zum bearbeiten"
+        )
+
+        ymlFile.addDefault(
+            "GUI_RIGHT_CLICK_REMOVE",
+            "<red>Rechts Klick zum entfernen"
+        )
+
+        ymlFile.addDefault(
+            "GUI_PAGE_BACK",
+            "<red>Zurück"
+        )
+
+        ymlFile.addDefault(
+            "PROCESS_CANCELLED",
+            "<red>Abgebrochen!"
+        )
+
+        ymlFile.addDefault(
+            "INPUT_TOO_LONG",
+            "<red>Der eingegebene Text ist zu lang!"
         )
 
         ymlFile.options().copyDefaults(true)

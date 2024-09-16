@@ -1,7 +1,5 @@
 package yv.tils.smp.mods.fusionCrafting.manager
 
-import com.mojang.authlib.GameProfile
-import com.mojang.authlib.properties.Property
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Color
@@ -13,13 +11,13 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.inventory.meta.PotionMeta
-import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
-import yv.tils.smp.mods.fusionCrafting.FusionGUIHeads
 import yv.tils.smp.mods.fusionCrafting.FusionKeys
 import yv.tils.smp.mods.fusionCrafting.enchantments.DataTags
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.inventory.CustomHeads
 import yv.tils.smp.utils.inventory.GUIFiller
+import yv.tils.smp.utils.inventory.HeadUtils
 import java.util.*
 
 class FusionRecipeItemManage {
@@ -496,24 +494,7 @@ class FusionRecipeItemManage {
             inv.setItem(tagSlots[i], tag)
         }
 
-        val createHead = ItemStack(Material.PLAYER_HEAD, 1)
-        val createHeadMeta = createHead.itemMeta as SkullMeta
-        val gameProfile = GameProfile(UUID.randomUUID(), "PageHead")
-        gameProfile.properties.put("textures", Property("textures", FusionGUIHeads.ADD_FUSION.texture))
-
-        try {
-            val profileField = createHeadMeta.javaClass.getDeclaredField("profile")
-            profileField.isAccessible = true
-            profileField.set(createHeadMeta, gameProfile)
-        } catch (e: NoSuchFieldException) {
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
-        }
-
-        createHeadMeta.displayName(ColorUtils().convert("<green>Create Fusion"))
-        createHeadMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        createHead.itemMeta = createHeadMeta
+        val createHead = HeadUtils().createCustomHead(CustomHeads.PLUS_CHARACTER, "<green>Create Fusion")
         inv.setItem(4, createHead)
 
         val back = ItemStack(Material.TIPPED_ARROW)

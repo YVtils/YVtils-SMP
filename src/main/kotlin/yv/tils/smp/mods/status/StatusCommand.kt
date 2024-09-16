@@ -52,7 +52,7 @@ class StatusCommand {
         val maxLength = StatusConfig.config["maxLength"] as Int
 
         if (ColorUtils().strip(status).length > maxLength) {
-            player.sendMessage(Language().getMessage(LangStrings.MODULE_STATUS_CUSTOM_STATUS_TOO_LONG))
+            player.sendMessage(Language().getMessage(LangStrings.INPUT_TOO_LONG))
             return
         }
 

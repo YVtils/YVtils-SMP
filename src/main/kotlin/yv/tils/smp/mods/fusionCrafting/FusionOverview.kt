@@ -1,5 +1,6 @@
 package yv.tils.smp.mods.fusionCrafting
 
+import com.destroystokyo.paper.profile.PlayerProfile
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
@@ -9,6 +10,7 @@ import dev.jorel.commandapi.kotlindsl.stringArgument
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.Server
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -16,7 +18,9 @@ import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.mods.fusionCrafting.FusionLoader.Companion.fusionThumbnails
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.inventory.CustomHeads
 import yv.tils.smp.utils.inventory.GUIFiller
+import yv.tils.smp.utils.inventory.HeadUtils
 import java.util.*
 
 class FusionOverview {
@@ -68,71 +72,18 @@ class FusionOverview {
                     break
                 }
                 if (slot == fusionSlots.last() || page != 1) {
-                    val nextPage = ItemStack(Material.PLAYER_HEAD, 1)
-                    val nextPageMeta = nextPage.itemMeta as SkullMeta
-                    val nextPageGameProfile = GameProfile(UUID.randomUUID(), "PageHead")
-
-                    nextPageGameProfile.properties.put("textures", Property("textures", FusionGUIHeads.PAGE_NEXT.texture))
-
-                    try {
-                        val profileField = nextPageMeta.javaClass.getDeclaredField("profile")
-                        profileField.isAccessible = true
-                        profileField.set(nextPageMeta, nextPageGameProfile)
-                    } catch (e: NoSuchFieldException) {
-                        e.printStackTrace()
-                    } catch (e: IllegalAccessException) {
-                        e.printStackTrace()
-                    }
-
-                    nextPageMeta.displayName(ColorUtils().convert("<green>Next page"))
-                    nextPageMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-                    nextPage.itemMeta = nextPageMeta
+                    val nextPage = HeadUtils().createCustomHead(CustomHeads.NEXT_PAGE, "<green>Next page")
                     inv.setItem(53, nextPage)
 
-                    val lastPage = ItemStack(Material.PLAYER_HEAD, 1)
-                    val lastPageMeta = lastPage.itemMeta as SkullMeta
-                    val lastPageGameProfile = GameProfile(UUID.randomUUID(), "PageHead")
-
-                    lastPageGameProfile.properties.put("textures", Property("textures", FusionGUIHeads.PAGE_BACK.texture))
-
-                    try {
-                        val profileField = lastPageMeta.javaClass.getDeclaredField("profile")
-                        profileField.isAccessible = true
-                        profileField.set(lastPageMeta, lastPageGameProfile)
-                    } catch (e: NoSuchFieldException) {
-                        e.printStackTrace()
-                    } catch (e: IllegalAccessException) {
-                        e.printStackTrace()
-                    }
-
-                    lastPageMeta.displayName(ColorUtils().convert("<red>Page back"))
-                    lastPageMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-                    lastPage.itemMeta = lastPageMeta
+                    val lastPage = HeadUtils().createCustomHead(CustomHeads.PREVIOUS_PAGE, "<red>Page back")
                     inv.setItem(45, lastPage)
 
-                    val pageCount = ItemStack(Material.PLAYER_HEAD, 1)
-                    val pageCountMeta = pageCount.itemMeta as SkullMeta
-                    val pageCountGameProfile = GameProfile(UUID.randomUUID(), "PageHead")
-
-                    if (page > 9) {
-                        pageCountGameProfile.properties.put("textures", Property("textures", FusionGUIHeads.valueOf("PAGE_PLUS").texture))
+                    val pageCount = if (page > 9) {
+                        HeadUtils().createCustomHead(CustomHeads.NUMBER_NINE_PLUS, "<yellow>Page: $page")
                     } else {
-                        pageCountGameProfile.properties.put("textures", Property("textures", FusionGUIHeads.valueOf("PAGE_${page}").texture))
+                        HeadUtils().createCustomHead(CustomHeads.valueOf("NUMBER_$page"), "<yellow>Page: $page")
                     }
 
-                    try {
-                        val profileField = pageCountMeta.javaClass.getDeclaredField("profile")
-                        profileField.isAccessible = true
-                        profileField.set(pageCountMeta, pageCountGameProfile)
-                    } catch (e: NoSuchFieldException) {
-                        e.printStackTrace()
-                    } catch (e: IllegalAccessException) {
-                        e.printStackTrace()
-                    }
-
-                    pageCountMeta.displayName(ColorUtils().convert("<yellow>Page: $page"))
-                    pageCountMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-                    pageCount.itemMeta = pageCountMeta
                     inv.setItem(4, pageCount)
 
                     if (slot == fusionSlots.last()) {
@@ -181,24 +132,7 @@ class FusionOverview {
         inv.setItem(49, filter)
 
         if (invTitle == "<red>Fusion Management") {
-            val pageCount = ItemStack(Material.PLAYER_HEAD, 1)
-            val pageCountMeta = pageCount.itemMeta as SkullMeta
-            val gameProfile = GameProfile(UUID.randomUUID(), "PageHead")
-            gameProfile.properties.put("textures", Property("textures", FusionGUIHeads.ADD_FUSION.texture))
-
-            try {
-                val profileField = pageCountMeta.javaClass.getDeclaredField("profile")
-                profileField.isAccessible = true
-                profileField.set(pageCountMeta, gameProfile)
-            } catch (e: NoSuchFieldException) {
-                e.printStackTrace()
-            } catch (e: IllegalAccessException) {
-                e.printStackTrace()
-            }
-
-            pageCountMeta.displayName(ColorUtils().convert("<green>Create Fusion"))
-            pageCountMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-            pageCount.itemMeta = pageCountMeta
+            val pageCount = HeadUtils().createCustomHead(CustomHeads.PLUS_CHARACTER, "<green>Create Fusion")
             inv.setItem(8, pageCount)
         }
 

@@ -1,7 +1,5 @@
 package yv.tils.smp.mods.fusionCrafting.manager
 
-import com.mojang.authlib.GameProfile
-import com.mojang.authlib.properties.Property
 import io.papermc.paper.event.player.AsyncChatEvent
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -11,14 +9,17 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
-import org.bukkit.inventory.meta.SkullMeta
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.fusionCrafting.FusionCraftingGUI
-import yv.tils.smp.mods.fusionCrafting.FusionGUIHeads
 import yv.tils.smp.mods.fusionCrafting.FusionKeys
 import yv.tils.smp.mods.fusionCrafting.enchantments.DataTags
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
+import yv.tils.smp.utils.internalAPI.Placeholder
+import yv.tils.smp.utils.inventory.CustomHeads
 import yv.tils.smp.utils.inventory.GUIFiller
+import yv.tils.smp.utils.inventory.HeadUtils
 import java.util.*
 
 class FusionCraftManage {
@@ -58,8 +59,8 @@ class FusionCraftManage {
             val lore = meta.lore() ?: mutableListOf()
 
             lore.add(ColorUtils().convert(" "))
-            lore.add(ColorUtils().convert("<green>Left click to edit"))
-            lore.add(ColorUtils().convert("<red>Right click to remove"))
+            lore.add(Language().getMessage(player.uniqueId, LangStrings.GUI_LEFT_CLICK_EDIT))
+            lore.add(Language().getMessage(player.uniqueId, LangStrings.GUI_RIGHT_CLICK_REMOVE))
 
             meta.lore(lore)
             item.itemMeta = meta
@@ -68,32 +69,22 @@ class FusionCraftManage {
 
         inv.setItem(removeAcceptSlot, GUIFiller().mainFillerItem())
 
-        val infoHead = ItemStack(Material.PLAYER_HEAD)
-        val infoHeadMeta = infoHead.itemMeta as SkullMeta
-        val gameProfile = GameProfile(UUID.randomUUID(), "PageHead")
-        gameProfile.properties.put("textures", Property("textures", FusionGUIHeads.INFO.texture))
+        val infoHead = HeadUtils().createCustomHead(CustomHeads.I_CHARACTER, "<aqua>Info Point")
+        val infoHeadMeta = infoHead.itemMeta
 
-        try {
-            val profileField = infoHeadMeta.javaClass.getDeclaredField("profile")
-            profileField.isAccessible = true
-            profileField.set(infoHeadMeta, gameProfile)
-        } catch (e: NoSuchFieldException) {
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
-        }
-
-        infoHeadMeta.displayName(ColorUtils().convert("<aqua>Info Point"))
-        infoHeadMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-
+        // TODO: Fix lore (newline tag gets ignored)
         val infoLore = mutableListOf<Component>()
+//        infoLore.add(ColorUtils().convert(" "))
+//        infoLore.add(ColorUtils().convert("<yellow> Modify fusion items:"))
+//        infoLore.add(ColorUtils().convert("<gray>  - Left click on item in bottom inventory to add to input"))
+//        infoLore.add(ColorUtils().convert("<gray>  - Right click on item in bottom inventory to add to output"))
+//        infoLore.add(ColorUtils().convert("<gray>  - Left click on item in top inventory to modify"))
+//        infoLore.add(ColorUtils().convert("<gray>  - Right click on item in top inventory to remove"))
+//        infoLore.add(ColorUtils().convert(" "))
         infoLore.add(ColorUtils().convert(" "))
-        infoLore.add(ColorUtils().convert("<yellow> Modify fusion items:"))
-        infoLore.add(ColorUtils().convert("<gray>  - Left click on item in bottom inventory to add to input"))
-        infoLore.add(ColorUtils().convert("<gray>  - Right click on item in bottom inventory to add to output"))
-        infoLore.add(ColorUtils().convert("<gray>  - Left click on item in top inventory to modify"))
-        infoLore.add(ColorUtils().convert("<gray>  - Right click on item in top inventory to remove"))
+        infoLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_INFO_POINT))
         infoLore.add(ColorUtils().convert(" "))
+
 
         infoHeadMeta.lore(infoLore)
 
@@ -108,7 +99,7 @@ class FusionCraftManage {
 
         val accept = ItemStack(Material.LIME_STAINED_GLASS_PANE)
         val acceptMeta = accept.itemMeta
-        acceptMeta.displayName(ColorUtils().convert("<green>Change Thumbnail"))
+        acceptMeta.displayName(Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_CHANGE_THUMBNAIL))
         acceptMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
 
         accept.itemMeta = acceptMeta
@@ -127,10 +118,11 @@ class FusionCraftManage {
 
     fun editName(player: Player, name: String) {
         player.closeInventory()
-        player.sendMessage(ColorUtils().convert(
-            "<gold>Editing Fusion Name<newline>" +
-                "<gray>Current Name: <aqua>$name<newline>" +
-                "<red>'c' to cancel"
+        player.sendMessage(Placeholder().replacer(
+            Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_EDIT_NAME),
+            mapOf(
+                "name" to name
+            )
         ))
 
         playerListen[player.uniqueId] = "fusionName"
@@ -138,11 +130,11 @@ class FusionCraftManage {
 
     fun editDescription(player: Player, description: String) {
         player.closeInventory()
-        player.sendMessage(ColorUtils().convert(
-            "<gold>Editing Fusion Description<newline>" +
-                "<gray>Current Description: <white>$description<newline>" +
-                "<red>'c' to cancel<newline>" +
-                "<gray><click:open_url:https://yvtils.net/yvtils/colorcodes>Color Code Guide</click>"
+        player.sendMessage(Placeholder().replacer(
+            Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_EDIT_DESCRIPTION),
+            mapOf(
+                "description" to description
+            )
         ))
 
         playerListen[player.uniqueId] = "fusionDescription"
@@ -170,24 +162,7 @@ class FusionCraftManage {
 
         var inv = Bukkit.createInventory(null, guiSize, ColorUtils().convert("<gold>Filter Tags"))
 
-        val tagCreate = ItemStack(Material.PLAYER_HEAD, 1)
-        val tagCreateMeta = tagCreate.itemMeta as SkullMeta
-        val gameProfile = GameProfile(UUID.randomUUID(), "PageHead")
-        gameProfile.properties.put("textures", Property("textures", FusionGUIHeads.ADD_FUSION.texture))
-
-        try {
-            val profileField = tagCreateMeta.javaClass.getDeclaredField("profile")
-            profileField.isAccessible = true
-            profileField.set(tagCreateMeta, gameProfile)
-        } catch (e: NoSuchFieldException) {
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
-        }
-
-        tagCreateMeta.displayName(ColorUtils().convert("<green>Add Tag"))
-        tagCreateMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        tagCreate.itemMeta = tagCreateMeta
+        val tagCreate = HeadUtils().createCustomHead(CustomHeads.PLUS_CHARACTER, "<green>Add Tag")
         inv.setItem(newTagSlot, tagCreate)
 
         for (tag in tags) {
@@ -197,8 +172,8 @@ class FusionCraftManage {
             meta.displayName(ColorUtils().convert("<gold>$tag"))
 
             lore.add(ColorUtils().convert(" "))
-            lore.add(ColorUtils().convert("<green>Left click to edit"))
-            lore.add(ColorUtils().convert("<red>Right click to remove"))
+            lore.add(Language().getMessage(player.uniqueId, LangStrings.GUI_LEFT_CLICK_EDIT))
+            lore.add(Language().getMessage(player.uniqueId, LangStrings.GUI_RIGHT_CLICK_REMOVE))
 
             meta.lore(lore)
             item.itemMeta = meta
@@ -209,7 +184,7 @@ class FusionCraftManage {
         val backItem = ItemStack(Material.TIPPED_ARROW)
         val backMeta = backItem.itemMeta as PotionMeta
         backMeta.color = Color.fromRGB(150, 85, 95)
-        backMeta.displayName(ColorUtils().convert("<red>Back"))
+        backMeta.displayName(Language().getMessage(player.uniqueId, LangStrings.GUI_PAGE_BACK))
         backMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         backItem.itemMeta = backMeta
         inv.setItem(backSlot, backItem)
@@ -221,8 +196,6 @@ class FusionCraftManage {
 
 
     fun addInputItem(item: ItemStack, player: Player) {
-        println("Adding input item")
-
         val fusion = FusionManagerGUI.playerManager[player.uniqueId] ?: return
 
         val itemMeta = item.itemMeta ?: return
@@ -338,26 +311,26 @@ class FusionCraftManage {
 
         when {
             stringMsg.lowercase() == "c" || stringMsg.lowercase() == "cancel" -> {
-                player.sendMessage(ColorUtils().convert("<red>Cancelled!"))
+                player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.PROCESS_CANCELLED))
                 reopenInventory(player, "manage", fusion.fileName)
             }
 
             playerListen[player.uniqueId] == "fusionName" -> {
                 if (strippedMsg.length > 32) {
-                    player.sendMessage(ColorUtils().convert("<red>That name is too long!"))
+                    player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.INPUT_TOO_LONG))
                 } else {
                     fusion.name = stringMsg
-                    player.sendMessage(ColorUtils().convert("<green>Updated name to: <aqua>$stringMsg"))
+                    player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_UPDATED_NAME))
                     reopenInventory(player, "manage", fusion.fileName)
                 }
             }
 
             playerListen[player.uniqueId] == "fusionDescription" -> {
                 if (strippedMsg.length > 256) {
-                    player.sendMessage(ColorUtils().convert("<red>That description is too long!"))
+                    player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.INPUT_TOO_LONG))
                 } else {
                     fusion.description = stringMsg
-                    player.sendMessage(ColorUtils().convert("<green>Updated description to: <white>$stringMsg"))
+                    player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_UPDATED_DESCRIPTION))
                     reopenInventory(player, "manage", fusion.fileName)
                 }
             }
