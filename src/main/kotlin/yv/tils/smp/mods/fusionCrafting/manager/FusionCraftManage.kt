@@ -72,19 +72,11 @@ class FusionCraftManage {
         val infoHead = HeadUtils().createCustomHead(CustomHeads.I_CHARACTER, "<aqua>Info Point")
         val infoHeadMeta = infoHead.itemMeta
 
-        // TODO: Fix lore (newline tag gets ignored)
         val infoLore = mutableListOf<Component>()
-//        infoLore.add(ColorUtils().convert(" "))
-//        infoLore.add(ColorUtils().convert("<yellow> Modify fusion items:"))
-//        infoLore.add(ColorUtils().convert("<gray>  - Left click on item in bottom inventory to add to input"))
-//        infoLore.add(ColorUtils().convert("<gray>  - Right click on item in bottom inventory to add to output"))
-//        infoLore.add(ColorUtils().convert("<gray>  - Left click on item in top inventory to modify"))
-//        infoLore.add(ColorUtils().convert("<gray>  - Right click on item in top inventory to remove"))
-//        infoLore.add(ColorUtils().convert(" "))
-        infoLore.add(ColorUtils().convert(" "))
-        infoLore.add(Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_INFO_POINT))
-        infoLore.add(ColorUtils().convert(" "))
 
+        infoLore.add(ColorUtils().convert(" "))
+        infoLore.addAll(ColorUtils().handleLore(Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_INFO_POINT)))
+        infoLore.add(ColorUtils().convert(" "))
 
         infoHeadMeta.lore(infoLore)
 

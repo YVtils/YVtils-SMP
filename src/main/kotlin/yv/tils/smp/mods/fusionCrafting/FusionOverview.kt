@@ -1,8 +1,5 @@
 package yv.tils.smp.mods.fusionCrafting
 
-import com.destroystokyo.paper.profile.PlayerProfile
-import com.mojang.authlib.GameProfile
-import com.mojang.authlib.properties.Property
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.playerExecutor
@@ -10,18 +7,15 @@ import dev.jorel.commandapi.kotlindsl.stringArgument
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
-import org.bukkit.Server
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.mods.fusionCrafting.FusionLoader.Companion.fusionThumbnails
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.inventory.CustomHeads
 import yv.tils.smp.utils.inventory.GUIFiller
 import yv.tils.smp.utils.inventory.HeadUtils
-import java.util.*
 
 class FusionOverview {
     val command = commandTree("fusion") {
@@ -93,6 +87,7 @@ class FusionOverview {
             }
         }
 
+        // TODO: Continue translation strings from here
         val filter = ItemStack(Material.HOPPER)
         val filterMeta = filter.itemMeta
         filterMeta.displayName(ColorUtils().convert("<yellow>Filter"))

@@ -182,5 +182,6 @@ enum class LangStrings {
 
     PROCESS_CANCELLED,
     INPUT_TOO_LONG,
-
+    ENABLED,
+    DISABLED,
 }

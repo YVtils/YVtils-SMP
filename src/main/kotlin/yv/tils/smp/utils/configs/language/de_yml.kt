@@ -745,6 +745,16 @@ class de_yml {
             "<red>Der eingegebene Text ist zu lang!"
         )
 
+        ymlFile.addDefault(
+            "ENABLED",
+            "AKTIVIERT"
+        )
+
+        ymlFile.addDefault(
+            "DISABLED",
+            "DEAKTIVIERT"
+        )
+
         ymlFile.options().copyDefaults(true)
         ymlFile.save(file)
     }

@@ -720,6 +720,16 @@ class en_yml {
             "<red>The entered text is too long!"
         )
 
+        ymlFile.addDefault(
+            "ENABLED",
+            "ENABLED"
+        )
+
+        ymlFile.addDefault(
+            "DISABLED",
+            "DISABLED"
+        )
+
         ymlFile.options().copyDefaults(true)
         ymlFile.save(file)
     }
