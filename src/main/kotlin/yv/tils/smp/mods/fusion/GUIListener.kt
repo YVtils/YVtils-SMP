@@ -343,6 +343,7 @@ class GUIListener {
         }
     }
 
+    // TODO: Continue translation strings from here
     private fun editFilterTags(e: InventoryClickEvent, player: HumanEntity) {
         e.isCancelled = true
 

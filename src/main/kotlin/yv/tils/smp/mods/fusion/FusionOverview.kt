@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import yv.tils.smp.mods.fusionCrafting.FusionLoader.Companion.fusionThumbnails
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.inventory.CustomHeads
 import yv.tils.smp.utils.inventory.GUIFiller
 import yv.tils.smp.utils.inventory.HeadUtils
@@ -87,21 +89,20 @@ class FusionOverview {
             }
         }
 
-        // TODO: Continue translation strings from here
         val filter = ItemStack(Material.HOPPER)
         val filterMeta = filter.itemMeta
-        filterMeta.displayName(ColorUtils().convert("<yellow>Filter"))
+        filterMeta.displayName(Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_FILTER))
         filterMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
 
         val filterLore = mutableListOf<Component>()
-        filterLore.add(ColorUtils().convert("<gray>Click to filter by tag"))
+        filterLore.addAll(ColorUtils().handleLore(Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_FILTER_LORE)))
         filterLore.add(ColorUtils().convert(" "))
 
         var tags = FusionLoader.tagMap.keys.toMutableList()
         tags = tags.sorted().toMutableList()
 
         if (tag != "") {
-            filterLore.add(ColorUtils().convert("<gray>None"))
+            filterLore.addAll(ColorUtils().handleLore("<gold>" + Language().getMessage(player.uniqueId, LangStrings.NONE)))
             for (tagEntry in tags) {
                 if (tagEntry == tag) {
                     filterLore.add(ColorUtils().convert("<gold>${tagEntry}"))
@@ -112,7 +113,7 @@ class FusionOverview {
 
             filterMeta.persistentDataContainer.set(FusionKeys.FUSION_CURRENT_FILTER.key, PersistentDataType.STRING, tag)
         } else {
-            filterLore.add(ColorUtils().convert("<gold>None"))
+            filterLore.addAll(ColorUtils().handleLore("<gold>" + Language().getMessage(player.uniqueId, LangStrings.NONE)))
             for (tagEntry in tags) {
                 filterLore.add(ColorUtils().convert("<gray>${tagEntry}"))
             }

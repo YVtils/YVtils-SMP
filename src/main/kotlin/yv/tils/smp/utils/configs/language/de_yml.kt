@@ -721,6 +721,16 @@ class de_yml {
         )
 
         ymlFile.addDefault(
+            "MODULE_FUSION_FILTER",
+            "<yellow>Filter"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_FILTER_LORE",
+            "<gray>Klicken um den Filter zu ändern"
+        )
+
+        ymlFile.addDefault(
             "GUI_LEFT_CLICK_EDIT",
             "<green>Links Klick zum bearbeiten"
         )
@@ -753,6 +763,11 @@ class de_yml {
         ymlFile.addDefault(
             "DISABLED",
             "DEAKTIVIERT"
+        )
+
+        ymlFile.addDefault(
+            "NONE",
+            "Keine"
         )
 
         ymlFile.options().copyDefaults(true)

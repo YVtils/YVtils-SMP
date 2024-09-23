@@ -696,6 +696,16 @@ class en_yml {
         )
 
         ymlFile.addDefault(
+            "MODULE_FUSION_FILTER",
+            "<yellow>Filter"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_FILTER_LORE",
+            "<gray>Click to filter by tag"
+        )
+
+        ymlFile.addDefault(
             "GUI_LEFT_CLICK_EDIT",
             "<green>Left Click to edit"
         )
@@ -728,6 +738,11 @@ class en_yml {
         ymlFile.addDefault(
             "DISABLED",
             "DISABLED"
+        )
+
+        ymlFile.addDefault(
+            "NONE",
+            "None"
         )
 
         ymlFile.options().copyDefaults(true)
