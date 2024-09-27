@@ -52,7 +52,7 @@ class StatusCommand {
         val maxLength = StatusConfig.config["maxLength"] as Int
 
         if (ColorUtils().strip(status).length > maxLength) {
-            player.sendMessage(Language().getMessage(LangStrings.INPUT_TOO_LONG))
+            player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.INPUT_TOO_LONG))
             return
         }
 
@@ -77,7 +77,7 @@ class StatusCommand {
 
     private fun setDefaultStatus(player: Player, status: String, suggestions: Collection<String>) {
         if (!suggestions.contains(status)) {
-            player.sendMessage(Language().getMessage(LangStrings.MODULE_STATUS_NO_DEFAULT_STATUS))
+            player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.MODULE_STATUS_NO_DEFAULT_STATUS))
             return
         }
 
@@ -103,10 +103,10 @@ class StatusCommand {
     private fun clearStatus(player: Player, target: Player? = null) {
         if (target == null) {
             setStatusDisplay(player, "")
-            player.sendMessage(Language().getMessage(LangStrings.MODULE_STATUS_CLEAR_CLEARED))
+            player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.MODULE_STATUS_CLEAR_CLEARED))
         } else {
             if (!player.hasPermission("yvtils.smp.command.status.clear.others")) {
-                player.sendMessage(Language().getMessage(LangStrings.MODULE_STATUS_CLEAR_OTHER_UNALLOWED))
+                player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.MODULE_STATUS_CLEAR_OTHER_UNALLOWED))
                 return
             }
 
@@ -114,12 +114,12 @@ class StatusCommand {
 
             player.sendMessage(
                 Placeholder().replacer(
-                    Language().getMessage(LangStrings.MODULE_STATUS_CLEAR_OTHER_CLEARED),
+                    Language().getMessage(player.uniqueId, LangStrings.MODULE_STATUS_CLEAR_OTHER_CLEARED),
                     listOf("player"),
                     listOf(target.name)
                 )
             )
-            target.sendMessage(Language().getMessage(LangStrings.MODULE_STATUS_CLEAR_CLEARED))
+            target.sendMessage(Language().getMessage(target.uniqueId, LangStrings.MODULE_STATUS_CLEAR_CLEARED))
         }
     }
 
@@ -133,7 +133,7 @@ class StatusCommand {
         }
 
         if (checkBlacklist(status)) {
-            player.sendMessage(Language().getMessage(LangStrings.MODULE_STATUS_BLACKLISTED_STATUS))
+            player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.MODULE_STATUS_BLACKLISTED_STATUS))
             player.displayName(ColorUtils().convert(player.name))
             player.playerListName(ColorUtils().convert(player.name))
             StatusTeamManager().removePlayer(player)

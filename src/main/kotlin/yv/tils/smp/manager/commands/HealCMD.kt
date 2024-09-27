@@ -36,7 +36,7 @@ class HealCMD {
         player.health = player.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.value
         player.foodLevel = 20
 
-        player.sendMessage(Language().getMessage(LangStrings.HEAL_PLAYER_HEALED))
+        player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.HEAL_PLAYER_HEALED))
 
         if (sender != player) {
             if (sender is Player) {
