@@ -102,7 +102,7 @@ class FusionOverview {
         tags = tags.sorted().toMutableList()
 
         if (tag != "") {
-            filterLore.addAll(ColorUtils().handleLore("<gold>" + Language().getMessage(player.uniqueId, LangStrings.NONE)))
+            filterLore.addAll(ColorUtils().handleLore("<gray>" + Language().getRawMessage(player.uniqueId, LangStrings.NONE)))
             for (tagEntry in tags) {
                 if (tagEntry == tag) {
                     filterLore.add(ColorUtils().convert("<gold>${tagEntry}"))
@@ -113,7 +113,7 @@ class FusionOverview {
 
             filterMeta.persistentDataContainer.set(FusionKeys.FUSION_CURRENT_FILTER.key, PersistentDataType.STRING, tag)
         } else {
-            filterLore.addAll(ColorUtils().handleLore("<gold>" + Language().getMessage(player.uniqueId, LangStrings.NONE)))
+            filterLore.addAll(ColorUtils().handleLore("<gold>" + Language().getRawMessage(player.uniqueId, LangStrings.NONE)))
             for (tagEntry in tags) {
                 filterLore.add(ColorUtils().convert("<gray>${tagEntry}"))
             }

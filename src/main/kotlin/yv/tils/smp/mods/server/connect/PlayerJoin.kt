@@ -79,6 +79,8 @@ class PlayerJoin {
 
         Language.playerLang[player.uniqueId] = player.locale()
 
+        println("Player ${player.name} joined the server with locale ${player.locale()}")
+
         funcStarter(state++, e)
     }
 

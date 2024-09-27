@@ -25,7 +25,7 @@ class StatusJoinQuit {
 
                 player.sendMessage(
                     Placeholder().replacer(
-                        Language().getMessage(LangStrings.MODULE_STATUS_SELECTED_STATUS_JOIN_ANNOUNCEMENT),
+                        Language().getMessage(player.uniqueId, LangStrings.MODULE_STATUS_SELECTED_STATUS_JOIN_ANNOUNCEMENT),
                         listOf("status"),
                         listOf(ColorUtils().convert(displayCompo))
                     )

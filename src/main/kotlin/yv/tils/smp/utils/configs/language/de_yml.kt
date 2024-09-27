@@ -780,7 +780,7 @@ class de_yml {
 
         ymlFile.addDefault(
             "NONE",
-            "Keine"
+            "Keiner"
         )
 
         ymlFile.options().copyDefaults(true)
