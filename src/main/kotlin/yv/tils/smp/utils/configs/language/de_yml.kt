@@ -731,6 +731,19 @@ class de_yml {
         )
 
         ymlFile.addDefault(
+            "MODULE_FUSION_EDIT_TAG",
+            "<gold>Fusion Tag bearbeiten " +
+                    "<newline><gray>Aktueller Tag: <white><tag>" +
+                    "<newline><red>'c' zum Abbrechen"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_CREATE_TAG",
+            "<gold>Neuen Fusion Tag erstellen " +
+                    "<newline><red>'c' zum Abbrechen"
+        )
+
+        ymlFile.addDefault(
             "GUI_LEFT_CLICK_EDIT",
             "<green>Links Klick zum bearbeiten"
         )

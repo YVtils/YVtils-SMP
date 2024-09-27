@@ -15,6 +15,9 @@ import yv.tils.smp.mods.fusionCrafting.manager.FusionCraftManage
 import yv.tils.smp.mods.fusionCrafting.manager.FusionManagerGUI
 import yv.tils.smp.mods.fusionCrafting.manager.FusionRecipeItemManage
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
+import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.logger.Debugger
 
 class GUIListener {
@@ -343,7 +346,6 @@ class GUIListener {
         }
     }
 
-    // TODO: Continue translation strings from here
     private fun editFilterTags(e: InventoryClickEvent, player: HumanEntity) {
         e.isCancelled = true
 
@@ -381,10 +383,10 @@ class GUIListener {
                 if (clickType.isLeftClick) {
                     player.closeInventory()
                     FusionCraftManage.playerListen[player.uniqueId] = "fusionTagModify - $itemName"
-                    player.sendMessage(ColorUtils().convert(
-                        "<gold>Editing Fusion Tag<newline>" +
-                                "<gray>Current Tag: <white>${ColorUtils().convert(e.currentItem?.itemMeta?.displayName()!!)}<newline>" +
-                                "<red>'c' to cancel"
+                    player.sendMessage(Placeholder().replacer(
+                        Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_EDIT_TAG),
+                        listOf("tag"),
+                        listOf(ColorUtils().convert(e.currentItem?.itemMeta?.displayName()!!))
                     ))
                 } else if (clickType.isRightClick) {
                     val stripped = ColorUtils().strip(itemName)
@@ -396,10 +398,7 @@ class GUIListener {
             newTagSlot -> {
                 player.closeInventory()
                 FusionCraftManage.playerListen[player.uniqueId] = "fusionTagNew"
-                player.sendMessage(ColorUtils().convert(
-                    "<gold>Creating New Fusion Tag<newline>" +
-                            "<red>'c' to cancel"
-                ))
+                player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_CREATE_TAG))
             }
 
             backSlot -> {

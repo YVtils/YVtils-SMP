@@ -706,6 +706,19 @@ class en_yml {
         )
 
         ymlFile.addDefault(
+            "MODULE_FUSION_EDIT_TAG",
+            "<gold>Edit Fusion Tag " +
+                    "<newline><gray>Current Tag: <white><tag>" +
+                    "<newline><red>'c' to cancel"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_FUSION_CREATE_TAG",
+            "<gold>Creating new Fusion Tag " +
+                    "<newline><red>'c' to cancel"
+        )
+
+        ymlFile.addDefault(
             "GUI_LEFT_CLICK_EDIT",
             "<green>Left Click to edit"
         )
