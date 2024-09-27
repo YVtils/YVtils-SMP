@@ -33,47 +33,41 @@ class ColorUtils {
         val lore = mutableListOf<Component>()
         val mm = MiniMessage.miniMessage()
 
-        var latestColorString = ""
+        // Variable to store the last color or formatting tag detected
+        var lastFormat: String? = null
 
-        if (text.contains("<newline>")) {
-            val lines = text.split("<newline>")
+        // List of known color and style tags from MiniMessage
+        val knownTags = listOf(
+            "<red>", "<green>", "<blue>", "<yellow>", "<gold>", "<white>", "<black>", "<gray>",
+            "<aqua>", "<dark_red>", "<dark_green>", "<dark_blue>", "<dark_aqua>", "<dark_purple>",
+            "<dark_gray>", "<light_purple>", "<bold>", "<italic>", "<underlined>",
+            "<strikethrough>", "<obfuscated>"
+        )
+
+        val processLines: (String) -> Unit = { text ->
+            val lines = text.split(Regex("<newline>|<br>|\\n"))
             for (line in lines) {
-                lore.add(mm.deserialize(latestColorString + line))
+                if (line.trim().isEmpty()) continue
 
-                latestColorString = mm.serialize(mm.deserialize(line).children().last())
-            }
-        } else if (text.contains("<br>")) {
-            val lines = text.split("<br>")
-            for (line in lines) {
-                lore.add(mm.deserialize(latestColorString + line))
-
-                latestColorString = mm.serialize(mm.deserialize(line).children().last())
-            }
-        } else if (text.contains("\n")) {
-            val lines = text.split("\n")
-            for (line in lines) {
-                println("line: $line")
-
-                if (line.trim().isEmpty()) {
-                    continue
+                val formattedLine = if (lastFormat != null && !knownTags.any { line.contains(it) }) {
+                    "$lastFormat$line"
+                } else {
+                    line
                 }
 
-                lore.add(mm.deserialize(latestColorString + line))
+                val component = mm.deserialize(formattedLine)
+                lore.add(component)
 
-                if (mm.deserialize(line).children().isEmpty()) {
-                    continue
+                knownTags.firstOrNull { tag -> formattedLine.contains(tag) }?.let {
+                    lastFormat = it
                 }
-
-                latestColorString = mm.serialize(mm.deserialize(line).children().last())
             }
-        } else {
-            lore.add(mm.deserialize(text))
         }
 
-        println("lore: $lore")
-
+        processLines(text)
         return lore
     }
+
 
     fun handleLore(text: Component): List<Component> {
         return handleLore(convert(text))
