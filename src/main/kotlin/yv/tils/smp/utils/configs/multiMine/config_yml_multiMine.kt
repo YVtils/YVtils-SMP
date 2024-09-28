@@ -29,6 +29,7 @@ class config_yml_multiMine {
             Material.JUNGLE_LOG.name,
             Material.ACACIA_LOG.name,
             Material.DARK_OAK_LOG.name,
+            Material.CHERRY_LOG.name,
             Material.CRIMSON_STEM.name,
             Material.WARPED_STEM.name,
             Material.STRIPPED_OAK_LOG.name,
@@ -37,6 +38,7 @@ class config_yml_multiMine {
             Material.STRIPPED_JUNGLE_LOG.name,
             Material.STRIPPED_ACACIA_LOG.name,
             Material.STRIPPED_DARK_OAK_LOG.name,
+            Material.STRIPPED_CHERRY_LOG.name,
             Material.STRIPPED_CRIMSON_STEM.name,
             Material.STRIPPED_WARPED_STEM.name,
 
