@@ -66,12 +66,14 @@ class BlockManage {
                 return
             }
 
-            modifyBlockList("+", material, sender)
-            sender.sendMessage(Placeholder().replacer(
-                Language().getMessage(LangStrings.MODULE_MULTIMINE_ADD_BLOCK),
-                listOf("block"),
-                listOf(material.name)
-            ))
+            val b = modifyBlockList("+", material, sender)
+            if (b) {
+                sender.sendMessage(Placeholder().replacer(
+                    Language().getMessage(LangStrings.MODULE_MULTIMINE_ADD_BLOCK),
+                    listOf("block"),
+                    listOf(material.name)
+                ))
+            }
         } else {
             if (material == null) {
                 if (sender.inventory.itemInMainHand.type == Material.AIR) {
@@ -82,12 +84,14 @@ class BlockManage {
                 }
             }
 
-            modifyBlockList("+", material, sender)
-            sender.sendMessage(Placeholder().replacer(
-                Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_ADD_BLOCK),
-                listOf("block"),
-                listOf(material.name)
-            ))
+            val b = modifyBlockList("+", material, sender)
+            if (b) {
+                sender.sendMessage(Placeholder().replacer(
+                    Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_ADD_BLOCK),
+                    listOf("block"),
+                    listOf(material.name)
+                ))
+            }
         }
     }
 
@@ -100,12 +104,14 @@ class BlockManage {
                 return
             }
 
-            modifyBlockList("-", material, sender)
-            sender.sendMessage(Placeholder().replacer(
-                Language().getMessage(LangStrings.MODULE_MULTIMINE_REMOVE_BLOCK),
-                listOf("block"),
-                listOf(material.name)
-            ))
+            val b = modifyBlockList("-", material, sender)
+            if (b) {
+                sender.sendMessage(Placeholder().replacer(
+                    Language().getMessage(LangStrings.MODULE_MULTIMINE_REMOVE_BLOCK),
+                    listOf("block"),
+                    listOf(material.name)
+                ))
+            }
         } else {
             if (material == null) {
                 if (sender.inventory.itemInMainHand.type == Material.AIR) {
@@ -116,14 +122,17 @@ class BlockManage {
                 }
             }
 
-            modifyBlockList("-", material, sender)
-            sender.sendMessage(
-                Placeholder().replacer(
-                    Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_REMOVE_BLOCK),
-                    listOf("block"),
-                    listOf(material.name)
+            val b = modifyBlockList("-", material, sender)
+
+            if (b) {
+                sender.sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_REMOVE_BLOCK),
+                        listOf("block"),
+                        listOf(material.name)
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -186,7 +195,11 @@ class BlockManage {
         val blocks = mutableListOf<Material>()
 
         for (block in loadContainerContent(sender.inventory.itemInMainHand)) {
-            modifyBlockList("+", block, sender)
+            val b = modifyBlockList("+", block, sender)
+            if (!b) {
+                continue
+            }
+
             blocks.add(block)
         }
 
@@ -213,7 +226,11 @@ class BlockManage {
         val blocks = mutableListOf<Material>()
 
         for (block in loadContainerContent(sender.inventory.itemInMainHand)) {
-            modifyBlockList("-", block, sender)
+            val b = modifyBlockList("-", block, sender)
+            if (!b) {
+                continue
+            }
+
             blocks.add(block)
         }
 
@@ -226,22 +243,28 @@ class BlockManage {
         )
     }
 
-    private fun modifyBlockList(identifier: String, block: Material, sender: CommandSender) {
+    private fun modifyBlockList(identifier: String, block: Material, sender: CommandSender): Boolean {
         if (identifier == "+") {
             if (blocks.contains(block)) {
-                sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_BLOCK_ALREADY_IN_LIST))
-                return
+                sender.sendMessage(Placeholder().replacer(
+                    Language().getMessage(LangStrings.MODULE_MULTIMINE_BLOCK_ALREADY_IN_LIST),
+                    listOf("block"),
+                    listOf(block.name)
+                ))
+                return false
             }
 
             blocks.add(block)
         } else if (identifier == "-") {
             if (!blocks.contains(block)) {
                 sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_BLOCK_NOT_IN_LIST))
-                return
+                return false
             }
 
             blocks.remove(block)
         }
         MultiMineConfig().updateBlockList(blocks)
+
+        return true
     }
 }
