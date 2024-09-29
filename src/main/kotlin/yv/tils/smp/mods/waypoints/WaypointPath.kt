@@ -206,6 +206,7 @@ class WaypointPath {
         return endCrystal
     }
 
+    // TODO: Fix error appearing when player is too far away and chunks are not loaded
     private fun spawnParticle(player: Player, currentLoc: Location, targetLoc: Location) {
         if (currentLoc.world != targetLoc.world) return
 
@@ -245,6 +246,7 @@ class WaypointPath {
             player.spawnParticle(Particle.END_ROD, currentParticleLoc, 1, 0.0, 0.0, 0.0, 0.0)
         }
     }
+
 
     private fun spawnSideParticles(player: Player, currentParticleLoc: Location, initialY: Double, movingUp: Boolean) {
         val stepY = 0.1
