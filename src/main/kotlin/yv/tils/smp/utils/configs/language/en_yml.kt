@@ -16,7 +16,7 @@ class en_yml {
         )
         ymlFile.addDefault(
             "#1",
-            "Please always use given variables! You can recognize them by looking for with percentages surrounded words"
+            "Please always use given variables! You can recognize them by looking for words in '<' and '>' (i.e. <prefix>)"
         )
         ymlFile.addDefault(
             "START_MESSAGE",

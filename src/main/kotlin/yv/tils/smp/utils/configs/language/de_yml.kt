@@ -16,7 +16,7 @@ class de_yml {
         )
         ymlFile.addDefault(
             "#1",
-            "Bitte benutze immer alle bereits angegebenen Variablen, da ansonsten das Sprachen-System nicht korrekt funktioniert! - Variablen sind daran zu erkennen, dass sie mit Prozent Zeichen umhüllt sind (z.B. <prefix>)."
+            "Bitte benutze immer alle bereits angegebenen Variablen, da ansonsten das Sprachen-System nicht korrekt funktioniert! - Variablen sind daran zu erkennen, dass sie mit kleiner/größer als Zeichen umhüllt sind (z.B. <prefix>)."
         )
         ymlFile.addDefault(
             "START_MESSAGE",
