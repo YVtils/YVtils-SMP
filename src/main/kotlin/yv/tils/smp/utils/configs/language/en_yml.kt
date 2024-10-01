@@ -9,7 +9,7 @@ class en_yml {
     private var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
     fun strings() {
-        ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
+        ymlFile.addDefault("documentation", "https://docs.yvtils.net/smp/language/language.yml")
         ymlFile.addDefault(
             "Language",
             "EN"
@@ -682,7 +682,7 @@ class en_yml {
             "<gold>Edit Fusion Description " +
                     "<newline><gray>Current Description: <white><description>" +
                     "<newline><red>'c' to cancel" +
-                    "<newline><gray><click:open_url:https://yvtils.net/yvtils/colorcodes>Color Code Guide</click>"
+                    "<newline><gray><click:open_url:https://docs.yvtils.net/colorcode/>Color Code Guide</click>"
         )
 
         ymlFile.addDefault(

@@ -9,7 +9,7 @@ class config_yml_waypoints {
     private var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
     fun strings() {
-        ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
+        ymlFile.addDefault("documentation", "https://docs.yvtils.net/smp/waypoints/config.yml")
 
         ymlFile.addDefault("waypointVisibility", "public")
 

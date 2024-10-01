@@ -10,7 +10,7 @@ class config_yml_multiMine {
     private var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
     fun strings() {
-        ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
+        ymlFile.addDefault("documentation", "https://docs.yvtils.net/smp/multiMine/config.yml")
 
         ymlFile.addDefault("animationTime", 3)
         ymlFile.addDefault("cooldownTime", 3)

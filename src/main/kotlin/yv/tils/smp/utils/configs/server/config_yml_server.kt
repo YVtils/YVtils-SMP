@@ -9,7 +9,7 @@ class config_yml_server {
     private var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
     fun strings() {
-        ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
+        ymlFile.addDefault("documentation", "https://docs.yvtils.net/smp/server/config.yml")
 
         ymlFile.addDefault("motd.top", topTemplateMOTD())
         ymlFile.addDefault("motd.bottom", bottomTemplateMOTD())

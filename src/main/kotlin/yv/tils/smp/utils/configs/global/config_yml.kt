@@ -9,7 +9,7 @@ class config_yml {
     private val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
     fun strings() {
-        ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
+        ymlFile.addDefault("documentation", "https://docs.yvtils.net/smp/config.yml")
         ymlFile.addDefault("language", "en")
         ymlFile.addDefault("prefix", "<dark_gray>[<blue>YVtils-SMP<dark_gray>]<white>")
         ymlFile.addDefault("serverName", "SMP Server")

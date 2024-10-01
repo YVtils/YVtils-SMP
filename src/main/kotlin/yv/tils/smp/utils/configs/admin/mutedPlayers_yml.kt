@@ -21,7 +21,7 @@ class mutedPlayers_yml {
     */
 
     fun strings() {
-        ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
+        ymlFile.addDefault("documentation", "https://docs.yvtils.net/smp/admin/mutedPlayers.yml")
 
         ymlFile.options().copyDefaults(true)
         ymlFile.save(file)

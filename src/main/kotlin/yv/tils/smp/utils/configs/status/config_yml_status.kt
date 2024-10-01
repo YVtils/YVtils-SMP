@@ -9,7 +9,7 @@ class config_yml_status {
     private var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
     fun strings() {
-        ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
+        ymlFile.addDefault("documentation", "https://docs.yvtils.net/smp/status/config.yml")
 
         ymlFile.addDefault("display", "<dark_gray>[<white><status><dark_gray>] |<white> <playerName>")
         ymlFile.addDefault("maxLength", 20)

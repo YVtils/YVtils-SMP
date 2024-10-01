@@ -9,7 +9,7 @@ class save_yml_status {
     private var ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
     fun strings() {
-        ymlFile.addDefault("documentation", "https://yvtils.net/yvtils-smp/docs")
+        ymlFile.addDefault("documentation", "https://docs.yvtils.net/smp/status/save.yml")
 
         ymlFile.options().copyDefaults(true)
         ymlFile.save(file)
