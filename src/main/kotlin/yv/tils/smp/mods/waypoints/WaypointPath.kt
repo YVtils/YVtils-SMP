@@ -95,7 +95,7 @@ class WaypointPath {
                     return
                 }
             }
-        }.runTaskTimer(YVtils.instance, 0, 20)
+        }.runTaskTimerAsynchronously(YVtils.instance, 0, 20)
 
         navigatingPlayers[player] = NaviData(player, location, endCrystal, task)
     }
@@ -206,7 +206,6 @@ class WaypointPath {
         return endCrystal
     }
 
-    // TODO: Fix error appearing when player is too far away and chunks are not loaded
     private fun spawnParticle(player: Player, currentLoc: Location, targetLoc: Location) {
         if (currentLoc.world != targetLoc.world) return
 
@@ -222,6 +221,10 @@ class WaypointPath {
 
         for (i in 0 until particles) {
             currentParticleLoc.add(step)
+
+            if (!currentParticleLoc.isChunkLoaded) {
+                break
+            }
 
             if (!currentParticleLoc.block.isPassable) {
                 val initialY = currentParticleLoc.y
