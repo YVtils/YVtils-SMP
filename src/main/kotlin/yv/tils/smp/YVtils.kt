@@ -4,9 +4,7 @@ import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import org.bukkit.NamespacedKey
 import org.bukkit.plugin.java.JavaPlugin
-import yv.tils.smp.manager.startup.Commands
 import yv.tils.smp.manager.startup.Configs
-import yv.tils.smp.manager.startup.Modules
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder

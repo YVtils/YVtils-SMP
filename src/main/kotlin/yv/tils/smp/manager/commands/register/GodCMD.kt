@@ -7,13 +7,8 @@ import org.bukkit.entity.Player
 import yv.tils.smp.manager.commands.handle.GodHandler
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import java.util.*
 
 class GodCMD {
-    companion object {
-        var god: MutableMap<UUID, Boolean> = HashMap()
-    }
-
     val command = commandTree("god") {
         withPermission("yvtils.smp.command.god")
         withUsage("god")
