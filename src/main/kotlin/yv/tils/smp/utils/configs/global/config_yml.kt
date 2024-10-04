@@ -35,7 +35,7 @@ class config_yml {
 
         ymlFile.addDefault("allowChatColors", true)
 
-        ymlFile.addDefault("msg.design", "<yellow>[<red><sender> <yellow>-> <red><receiver><yellow>]<white> <message>")
+        ymlFile.addDefault("msg.design", "<green>[<aqua><sender> <green>-> <aqua><receiver><green>]<white> <message>")
 
         ymlFile.addDefault("maintenance", false)
         ymlFile.addDefault("debug", false)

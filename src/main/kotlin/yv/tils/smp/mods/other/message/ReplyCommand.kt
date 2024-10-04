@@ -2,6 +2,7 @@ package yv.tils.smp.mods.other.message
 
 import dev.jorel.commandapi.executors.CommandArguments
 import dev.jorel.commandapi.kotlindsl.commandTree
+import dev.jorel.commandapi.kotlindsl.greedyStringArgument
 import dev.jorel.commandapi.kotlindsl.playerExecutor
 import dev.jorel.commandapi.kotlindsl.stringArgument
 import org.bukkit.Bukkit
@@ -9,6 +10,8 @@ import org.bukkit.entity.Player
 import yv.tils.smp.mods.other.message.MSGCommand.Companion.chatSession
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
+import yv.tils.smp.utils.internalAPI.Placeholder
+import yv.tils.smp.utils.internalAPI.Vars
 
 class ReplyCommand {
     val command = commandTree("reply") {
@@ -16,7 +19,7 @@ class ReplyCommand {
         withUsage("reply <message>")
         withAliases("r")
 
-        stringArgument("message") {
+        greedyStringArgument("message") {
             playerExecutor { sender, args ->
                 reply(sender, args)
             }
@@ -25,7 +28,13 @@ class ReplyCommand {
 
     private fun reply(sender: Player, args: CommandArguments) {
         val target = chatSession[sender.uniqueId] ?: run {
-            sender.sendMessage(Language().getMessage(LangStrings.MSG_HAVENT_MESSAGED_A_PLAYER))
+            sender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(LangStrings.MSG_HAVENT_MESSAGED_A_PLAYER),
+                    listOf("prefix"),
+                    listOf(Vars().prefix)
+                )
+            )
             return
         }
 

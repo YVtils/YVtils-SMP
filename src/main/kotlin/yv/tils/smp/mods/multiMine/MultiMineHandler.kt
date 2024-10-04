@@ -39,6 +39,7 @@ class MultiMineHandler {
         val item = player.inventory.itemInMainHand
         val block = e.block
 
+        if (!e.player.hasPermission("yvtils.smp.multiMine")) return
         if (!checkBlock(e.block.type, blocks)) return
         if (!checkTool(block, item)) return
         if (checkCooldown(e.player.uniqueId)) return

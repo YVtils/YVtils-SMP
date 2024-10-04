@@ -312,7 +312,14 @@ class FusionCraftManage {
                     player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.INPUT_TOO_LONG))
                 } else {
                     fusion.name = stringMsg
-                    player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_UPDATED_NAME))
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_UPDATED_NAME),
+                            mapOf(
+                                "name" to stringMsg
+                            )
+                        )
+                    )
                     reopenInventory(player, "manage", fusion.fileName)
                 }
             }
@@ -322,7 +329,14 @@ class FusionCraftManage {
                     player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.INPUT_TOO_LONG))
                 } else {
                     fusion.description = stringMsg
-                    player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_UPDATED_DESCRIPTION))
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MODULE_FUSION_UPDATED_DESCRIPTION),
+                            mapOf(
+                                "description" to stringMsg
+                            )
+                        )
+                    )
                     reopenInventory(player, "manage", fusion.fileName)
                 }
             }

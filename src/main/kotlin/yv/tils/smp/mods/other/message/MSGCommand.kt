@@ -38,6 +38,7 @@ class MSGCommand {
     fun sendMessage(sender: CommandSender, target: Player, message: String) {
         val senderName = if (sender is Player) {
             chatSession[sender.uniqueId] = target.uniqueId
+            chatSession[target.uniqueId] = sender.uniqueId
             sender.name
         } else {
             "Console"

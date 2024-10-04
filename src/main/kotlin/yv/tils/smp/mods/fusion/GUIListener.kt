@@ -137,6 +137,8 @@ class GUIListener {
                 } else if (clickType.isRightClick) {
                     if (index == 0) {
                         FusionOverview().openOverview(player as Player, "<gold>Fusion Crafting", 1)
+                    } else if (index == -1) {
+                        FusionOverview().openOverview(player as Player, "<gold>Fusion Crafting", 1, tags[tags.size - 1])
                     } else {
                         FusionOverview().openOverview(player as Player, "<gold>Fusion Crafting", 1, tags[index - 1])
                     }

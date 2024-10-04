@@ -21,6 +21,8 @@ class PlayerQuitServer : Listener {
         for (key in chatSession.keys) {
             if (chatSession[key] == player.uniqueId || key == player.uniqueId) {
                 chatSession.remove(key)
+                msgSessionRemove(e)
+                break
             }
         }
     }

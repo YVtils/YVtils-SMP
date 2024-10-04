@@ -154,7 +154,7 @@ class de_yml {
 
         ymlFile.addDefault(
             "MSG_NOTE",
-            "<yellow>[<red>Notiz<yellow>]<white> <message>"
+            "<green>[<aqua>Notiz<green>]<white> <message>"
         )
         ymlFile.addDefault(
             "MSG_PLAYER_WENT_OFFLINE",

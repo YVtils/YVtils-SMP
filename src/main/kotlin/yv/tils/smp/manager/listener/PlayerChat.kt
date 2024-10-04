@@ -15,8 +15,6 @@ import yv.tils.smp.utils.configs.global.Config
 class PlayerChat : Listener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     fun onEvent(e: AsyncChatEvent) {
-        GlobalMuteCMD().playerChatEvent(e)
-        Mute().playerChat(e)
         SyncChats().minecraftToDiscord(e)
         colorizeChatMessage(e)
     }
@@ -24,6 +22,8 @@ class PlayerChat : Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     fun onEventHIGHEST(e: AsyncChatEvent) {
         FusionCraftManage().listenForEdit(e)
+        Mute().playerChat(e)
+        GlobalMuteCMD().playerChatEvent(e)
     }
 
     private fun colorizeChatMessage(e: AsyncChatEvent) {

@@ -25,6 +25,7 @@ class GlobalMuteCMD {
     val command = commandTree("globalmute") {
         withPermission("yvtils.smp.command.globalmute")
         withUsage("globalmute [state]")
+        withAliases("gmute")
 
         stringArgument("state", true) {
             replaceSuggestions(ArgumentSuggestions.strings("true", "false", "toggle"))
