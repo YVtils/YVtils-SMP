@@ -1,14 +1,16 @@
 # CHAPTER TWO IS OUT NOW!
 
 - Trailer: [Chapter Two Trailer](https://youtu.be/gQi54Pd_SWE)
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/gQi54Pd_SWE?si=0Ev8s-_UhVt7uP5d" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+[![CHAPTER TWO RELEASE TRAILER](https://img.youtube.com/vi/gQi54Pd_SWE/0.jpg)](https://youtu.be/gQi54Pd_SWE)
 
 # Modules
 
 ## Discord Module
 
 - Tutorial: [Discord Module Setup Guide](https://youtu.be/YQiYSjEcdMk)
-  <iframe width="500" height="300" src="https://www.youtube.com/embed/YQiYSjEcdMk" title="Discord Module Setup Guide | YVtils SMP &amp; YVtils DC | A Step-by-Step Guide" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+[![DISCORD MODULE SETUP GUIDE VIDEO](https://img.youtube.com/vi/YQiYSjEcdMk/0.jpg)](https://youtu.be/YQiYSjEcdMk)
 
 - Chat Sync
 
