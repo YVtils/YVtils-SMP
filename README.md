@@ -79,7 +79,7 @@ Let players sit down everywhere.
 
       ![Custom Player Head](./readme-assets/Fusion_CUSTOMHEAD.png)
 
-- Manange existing or create new fusions
+- Manage existing or create new fusions
 
   ![FusionCreate](./readme-assets/Fusion_Create.png)
 
@@ -93,7 +93,7 @@ Let players sit down everywhere.
 `/mm removeMultiple`
 
 - MultiMine Blocks
-- Add/Remove multiple blocks at once with a contaimer in your hand
+- Add/Remove multiple blocks at once with a container in your hand
 
 ![MultiMine](./readme-assets/MultiMine.gif)
 ![MultiMine](./readme-assets/MultiMine2.gif)
