@@ -12,3 +12,6 @@ prefix: YVtils-SMP
 libraries:
   - "dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.5.1"
   - "dev.jorel:commandapi-bukkit-kotlin:9.5.1"
+permissions:
+  yvtils.smp.multiMine:
+    description: Allows the player to mine multiple blocks at once
