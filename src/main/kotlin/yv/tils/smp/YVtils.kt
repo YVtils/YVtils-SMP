@@ -31,12 +31,12 @@ class YVtils : JavaPlugin() {
         configs.register()
         configs.load()
 
-        val modules = Modules()
-        modules.registerModules()
-
-        val cmd = Commands()
-        cmd.unregisterCommands()
-        cmd.registerCommands()
+//        val modules = Modules()
+//        modules.registerModules()
+//
+//        val cmd = Commands()
+//        cmd.unregisterCommands()
+//        cmd.registerCommands()
 
         Debugger().log("Starting up", "Configs loaded", "yv.tils.smp.manager.startup.Summarizer")
     }
