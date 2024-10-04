@@ -288,14 +288,26 @@ class WaypointPath {
     }
 
     private fun removeCrystal(endCrystal: EnderCrystal) {
-        endCrystal.remove()
-        crystalList.remove(endCrystal)
+        object : BukkitRunnable() {
+            override fun run() {
+                for (crystal in crystalList) {
+                    endCrystal.remove()
+                    crystalList.remove(endCrystal)
+                    break
+                }
+            }
+        }.runTask(YVtils.instance)
     }
 
     fun stopNavigations() {
-        for (crystal in crystalList) {
-            crystal.remove()
-            crystalList.remove(crystal)
-        }
+        object : BukkitRunnable() {
+            override fun run() {
+                for (crystal in crystalList) {
+                    crystal.remove()
+                    crystalList.remove(crystal)
+                    break
+                }
+            }
+        }.runTask(YVtils.instance)
     }
 }
