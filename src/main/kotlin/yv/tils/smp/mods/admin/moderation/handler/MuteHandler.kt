@@ -1,6 +1,5 @@
 package yv.tils.smp.mods.admin.moderation.handler
 
-import dev.jorel.commandapi.kotlindsl.*
 import io.papermc.paper.event.player.AsyncChatEvent
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
@@ -8,7 +7,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import yv.tils.smp.YVtils
-import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.configs.admin.mutedPlayers_yml
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language

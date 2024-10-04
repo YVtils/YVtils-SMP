@@ -1,18 +1,13 @@
 package yv.tils.smp.mods.admin.moderation.cmd
 
-import dev.jorel.commandapi.kotlindsl.*
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
+import dev.jorel.commandapi.kotlindsl.anyExecutor
+import dev.jorel.commandapi.kotlindsl.commandTree
+import dev.jorel.commandapi.kotlindsl.greedyStringArgument
+import dev.jorel.commandapi.kotlindsl.playerArgument
 import org.bukkit.entity.Player
-import org.bukkit.event.player.PlayerKickEvent
-import yv.tils.smp.YVtils
-import yv.tils.smp.mods.admin.moderation.handler.BanHandler
 import yv.tils.smp.mods.admin.moderation.handler.KickHandler
-import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.Placeholder
-import yv.tils.smp.utils.internalAPI.Vars
 
 class Kick {
     val command = commandTree("kick") {

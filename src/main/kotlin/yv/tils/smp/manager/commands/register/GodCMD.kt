@@ -3,13 +3,10 @@ package yv.tils.smp.manager.commands.register
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.playerArgument
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.event.entity.EntityDamageEvent
 import yv.tils.smp.manager.commands.handle.GodHandler
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.Placeholder
 import java.util.*
 
 class GodCMD {

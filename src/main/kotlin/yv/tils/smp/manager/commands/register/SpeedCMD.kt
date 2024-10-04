@@ -2,12 +2,10 @@ package yv.tils.smp.manager.commands.register
 
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.*
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import yv.tils.smp.manager.commands.handle.SpeedHandler
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.Placeholder
 
 class SpeedCMD {
     val speedHandler = SpeedHandler()

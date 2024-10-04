@@ -1,7 +1,5 @@
 package yv.tils.smp.manager.commands.handle
 
-import dev.jorel.commandapi.arguments.ArgumentSuggestions
-import dev.jorel.commandapi.kotlindsl.*
 import org.bukkit.GameMode
 import org.bukkit.Sound
 import org.bukkit.command.CommandSender
@@ -13,8 +11,8 @@ import yv.tils.smp.utils.internalAPI.Placeholder
 
 class GamemodeHandler {
     fun gamemodeSwitch(player: Player, gamemode: String, sender: CommandSender = player) {
-        var list_en: List<String> = listOf()
-        var list_de: List<String> = listOf()
+        val list_en: List<String>
+        val list_de: List<String>
 
         when (gamemode) {
             "survival", "0" -> {

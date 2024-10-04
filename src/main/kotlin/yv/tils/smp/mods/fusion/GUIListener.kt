@@ -285,7 +285,7 @@ class GUIListener {
             }
 
             displayItemSlot -> {
-                FusionCraftManage().editThumbnailItem(player as Player, thumbnailItem ?: ItemStack(Material.DIRT))
+                FusionCraftManage().editThumbnailItem(player as Player, thumbnailItem)
             }
 
             nameSlot -> {

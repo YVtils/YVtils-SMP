@@ -1,6 +1,5 @@
 package yv.tils.smp.mods.admin.moderation.handler
 
-import dev.jorel.commandapi.kotlindsl.*
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player

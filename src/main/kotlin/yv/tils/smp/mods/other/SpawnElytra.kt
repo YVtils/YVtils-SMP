@@ -116,7 +116,7 @@ class SpawnElytra {
     fun onToggleGlide(e: EntityToggleGlideEvent) {
         if (e.entityType != EntityType.PLAYER) return
 
-        var player = e.entity as Player
+        val player = e.entity as Player
 
         if (player.inventory.chestplate?.type == Material.ELYTRA) return
 

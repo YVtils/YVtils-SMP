@@ -3,13 +3,10 @@ package yv.tils.smp.manager.commands.register
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.playerArgument
-import org.bukkit.attribute.Attribute
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import yv.tils.smp.manager.commands.handle.HealHandler
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.Placeholder
 
 class HealCMD {
     val command = commandTree("heal") {

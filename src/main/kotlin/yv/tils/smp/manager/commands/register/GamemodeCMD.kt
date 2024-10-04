@@ -1,16 +1,14 @@
 package yv.tils.smp.manager.commands.register
 
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
-import dev.jorel.commandapi.kotlindsl.*
-import org.bukkit.GameMode
-import org.bukkit.Sound
-import org.bukkit.command.CommandSender
+import dev.jorel.commandapi.kotlindsl.anyExecutor
+import dev.jorel.commandapi.kotlindsl.commandTree
+import dev.jorel.commandapi.kotlindsl.playerArgument
+import dev.jorel.commandapi.kotlindsl.stringArgument
 import org.bukkit.entity.Player
 import yv.tils.smp.manager.commands.handle.GamemodeHandler
-import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.Placeholder
 
 class GamemodeCMD {
     val command = commandTree("gm") {

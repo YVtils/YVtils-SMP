@@ -6,7 +6,7 @@ enum class DataTags(val key: FusionKeys, val desc: String) {
     INVISIBLE(FusionKeys.FUSION_INVISIBLE, ""),
     PLAYER_HEAD(FusionKeys.FUSION_PLAYER_HEAD, ""),
 
-    ;companion object {
+    companion object {
         fun getNameByKey(key: FusionKeys): String? {
             return entries.find { it.key == key }?.name
         }
