@@ -1,12 +1,6 @@
-Testing:
-    /seed Command - Multiple Seeds
-    Discord Module Chat Sync - Color Codes getting filtered? ("<green>Hey" should look in Discord "Hey")
-    Status Module - When deleting out of config and then restart, status still shown in console
-
 Coding:
     Fusion
         - Add more fusions
-        - Add Ingame possibility to add/edit fusions
     MMM
         - Fast leaf decay
 

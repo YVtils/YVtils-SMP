@@ -1,4 +1,4 @@
-package yv.tils.smp.mods.admin.moderation
+package yv.tils.smp.mods.admin.moderation.handler
 
 import dev.jorel.commandapi.kotlindsl.*
 import io.papermc.paper.event.player.AsyncChatEvent
@@ -17,25 +17,9 @@ import yv.tils.smp.utils.internalAPI.Vars
 import java.io.File
 import java.util.*
 
-class Mute {
-    val command = commandTree("mute") {
-        withPermission("yvtils.smp.command.moderation.mute")
-        withUsage("mute <player> [reason]")
-
-        offlinePlayerArgument("player") {
-            greedyStringArgument("reason", true) {
-                anyExecutor { sender, args ->
-                    val targetArg = args[0] as OfflinePlayer
-                    val target = Bukkit.getOfflinePlayer(MojangAPI().uuid2name(targetArg.uniqueId)!!)
-                    val reason = args[1] ?: Language().getRawMessage(LangStrings.MOD_NO_REASON)
-                    mutePlayer(target, sender, reason as String)
-                }
-            }
-        }
-    }
-
-    private fun mutePlayer(target: OfflinePlayer, sender: CommandSender, reason: String) {
-        if (Mute().checkMute(target)) {
+class MuteHandler {
+    fun mutePlayer(target: OfflinePlayer, sender: CommandSender, reason: String) {
+        if (MuteHandler().checkMute(target)) {
             if (sender is Player) {
                 sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_ALREADY_MUTED))
             } else {

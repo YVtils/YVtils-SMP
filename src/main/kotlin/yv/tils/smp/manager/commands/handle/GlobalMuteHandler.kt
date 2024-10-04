@@ -1,4 +1,4 @@
-package yv.tils.smp.manager.commands
+package yv.tils.smp.manager.commands.handle
 
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.executors.CommandArguments
@@ -15,31 +15,14 @@ import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 
-class GlobalMuteCMD {
+class GlobalMuteHandler {
     companion object {
         var globalMute: Boolean = false
     }
 
     var oldState: Boolean = false
 
-    val command = commandTree("globalmute") {
-        withPermission("yvtils.smp.command.globalmute")
-        withUsage("globalmute [state]")
-        withAliases("gmute")
-
-        stringArgument("state", true) {
-            replaceSuggestions(ArgumentSuggestions.strings("true", "false", "toggle"))
-            anyExecutor { sender, args ->
-                globalMute(sender, args)
-            }
-        }
-
-        anyExecutor { sender, _ ->
-            globalMute(sender)
-        }
-    }
-
-    private fun globalMute(sender: CommandSender, args: CommandArguments? = null) {
+    fun globalMute(sender: CommandSender, args: CommandArguments? = null) {
         val state = if (args?.get(0) == null) {
             "toggle"
         } else {

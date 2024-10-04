@@ -1,4 +1,4 @@
-package yv.tils.smp.manager.commands
+package yv.tils.smp.manager.commands.handle
 
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
@@ -10,29 +10,8 @@ import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
 
-class HealCMD {
-    val command = commandTree("heal") {
-        withPermission("yvtils.smp.command.heal")
-        withUsage("heal [player]")
-
-        playerArgument("player", true) {
-            anyExecutor { sender, args ->
-                if (sender !is Player && args[0] == null) {
-                    sender.sendMessage(Language().getMessage(LangStrings.PLAYER_ARGUMENT_MISSING))
-                    return@anyExecutor
-                }
-
-                if (args[0] is Player) {
-                    val target = args[0] as Player
-                    playerHeal(target, sender)
-                } else {
-                    playerHeal(sender as Player)
-                }
-            }
-        }
-    }
-
-    private fun playerHeal(player: Player, sender: CommandSender = player) {
+class HealHandler {
+    fun playerHeal(player: Player, sender: CommandSender = player) {
         player.health = player.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.value
         player.foodLevel = 20
 

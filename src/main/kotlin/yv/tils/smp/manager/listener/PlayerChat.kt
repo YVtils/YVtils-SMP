@@ -5,8 +5,8 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import yv.tils.smp.YVtils
-import yv.tils.smp.manager.commands.GlobalMuteCMD
-import yv.tils.smp.mods.admin.moderation.Mute
+import yv.tils.smp.manager.commands.handle.GlobalMuteHandler
+import yv.tils.smp.mods.admin.moderation.handler.MuteHandler
 import yv.tils.smp.mods.discord.sync.chatSync.SyncChats
 import yv.tils.smp.mods.fusionCrafting.manager.FusionCraftManage
 import yv.tils.smp.utils.color.ColorUtils
@@ -22,8 +22,8 @@ class PlayerChat : Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     fun onEventHIGHEST(e: AsyncChatEvent) {
         FusionCraftManage().listenForEdit(e)
-        Mute().playerChat(e)
-        GlobalMuteCMD().playerChatEvent(e)
+        MuteHandler().playerChat(e)
+        GlobalMuteHandler().playerChatEvent(e)
     }
 
     private fun colorizeChatMessage(e: AsyncChatEvent) {

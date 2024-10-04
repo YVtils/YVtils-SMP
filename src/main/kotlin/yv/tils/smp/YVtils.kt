@@ -4,7 +4,9 @@ import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import org.bukkit.NamespacedKey
 import org.bukkit.plugin.java.JavaPlugin
+import yv.tils.smp.manager.startup.Commands
 import yv.tils.smp.manager.startup.Configs
+import yv.tils.smp.manager.startup.Modules
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
@@ -18,16 +20,23 @@ class YVtils : JavaPlugin() {
         lateinit var key: NamespacedKey
     }
 
-    val pluginVersion = "1.0.0-ALPHA"
+    val pluginVersion = "1.0.0"
 
     override fun onLoad() {
         instance = this
-        CommandAPI.onLoad(CommandAPIBukkitConfig(instance).silentLogs(true))
+        CommandAPI.onLoad(CommandAPIBukkitConfig(instance).silentLogs(true).verboseOutput(false))
         key = NamespacedKey(this, "yvtils")
 
         val configs = Configs()
         configs.register()
         configs.load()
+
+        val modules = Modules()
+        modules.registerModules()
+
+        val cmd = Commands()
+        cmd.unregisterCommands()
+        cmd.registerCommands()
 
         Debugger().log("Starting up", "Configs loaded", "yv.tils.smp.manager.startup.Summarizer")
     }

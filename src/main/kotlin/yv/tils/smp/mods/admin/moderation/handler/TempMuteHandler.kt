@@ -1,4 +1,4 @@
-package yv.tils.smp.mods.admin.moderation
+package yv.tils.smp.mods.admin.moderation.handler
 
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.*
@@ -14,39 +14,15 @@ import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import java.util.*
 
-class TempMute {
-    val command = commandTree("tempmute") {
-        withPermission("yvtils.smp.command.moderation.tempmute")
-        withUsage("tempmute <player> <duration> [reason]")
-
-        offlinePlayerArgument("player") {
-            integerArgument("duration") {
-                textArgument("unit") {
-                    replaceSuggestions(ArgumentSuggestions.strings("s", "m", "h", "d", "w"))
-
-                    greedyStringArgument("reason", true) {
-                        anyExecutor { sender, args ->
-                            val targetArg = args[0] as OfflinePlayer
-                            val target = Bukkit.getOfflinePlayer(MojangAPI().uuid2name(targetArg.uniqueId)!!)
-                            val duration = args[1] as Int
-                            val unit = args[2] as String
-                            val reason = args[3] ?: Language().getRawMessage(LangStrings.MOD_NO_REASON)
-                            tempmutePlayer(target, sender, duration, unit, reason as String)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun tempmutePlayer(
+class TempMuteHandler {
+    fun tempmutePlayer(
         target: OfflinePlayer,
         sender: CommandSender,
         duration: Int,
         unit: String,
         reason: String,
     ) {
-        if (Mute().checkMute(target)) {
+        if (MuteHandler().checkMute(target)) {
             if (sender is Player) {
                 sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_ALREADY_MUTED))
             } else {
@@ -73,7 +49,7 @@ class TempMute {
             }
         }
 
-        Mute().updateMute(target, reason, expireAfter.timeInMillis.toString())
+        MuteHandler().updateMute(target, reason, expireAfter.timeInMillis.toString())
 
         if (target.isOnline) {
             target.player?.sendMessage(

@@ -1,4 +1,4 @@
-package yv.tils.smp.manager.commands
+package yv.tils.smp.manager.commands.register
 
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree

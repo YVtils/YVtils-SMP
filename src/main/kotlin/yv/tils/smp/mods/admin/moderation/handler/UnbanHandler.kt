@@ -1,4 +1,4 @@
-package yv.tils.smp.mods.admin.moderation
+package yv.tils.smp.mods.admin.moderation.handler
 
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.anyExecutor
@@ -16,29 +16,8 @@ import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import java.util.*
 
-class Unban {
-    val command = commandTree("unban") {
-        withPermission("yvtils.smp.command.moderation.unban")
-        withUsage("unban <player>")
-        withAliases("pardon")
-
-        textArgument("player") {
-            val bannedPlayers: MutableSet<OfflinePlayer> = YVtils.instance.server.bannedPlayers
-            val bannedPlayersNames: MutableList<String> = mutableListOf()
-            for (player in bannedPlayers) {
-                bannedPlayersNames.add(MojangAPI().uuid2name(player.uniqueId)!!)
-            }
-
-            replaceSuggestions(ArgumentSuggestions.strings(bannedPlayersNames))
-
-            anyExecutor { sender, args ->
-                val target = Bukkit.getOfflinePlayer(MojangAPI().name2uuid(args[0] as String)!!)
-                unbanPlayer(target, sender)
-            }
-        }
-    }
-
-    private fun unbanPlayer(target: OfflinePlayer, sender: CommandSender) {
+class UnbanHandler {
+    fun unbanPlayer(target: OfflinePlayer, sender: CommandSender) {
         if (!target.isBanned) {
             if (sender is Player) {
                 sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.MOD_PLAYER_NOT_BANNED))

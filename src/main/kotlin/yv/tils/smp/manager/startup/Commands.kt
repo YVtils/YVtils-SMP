@@ -1,10 +1,10 @@
 package yv.tils.smp.manager.startup
 
 import dev.jorel.commandapi.CommandAPI
-import yv.tils.smp.manager.commands.*
+import yv.tils.smp.manager.commands.register.*
 import yv.tils.smp.mods.admin.invSee.EcSee
 import yv.tils.smp.mods.admin.invSee.InvSee
-import yv.tils.smp.mods.admin.moderation.*
+import yv.tils.smp.mods.admin.moderation.cmd.*
 import yv.tils.smp.mods.admin.vanish.Vanish
 import yv.tils.smp.mods.fusionCrafting.FusionOverview
 import yv.tils.smp.mods.multiMine.BlockManage
@@ -35,6 +35,7 @@ class Commands {
         HealCMD()
         GlobalMuteCMD()
         SeedCMD()
+        GodCMD()
 
         modulesCommands()
     }

@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
 import yv.tils.smp.YVtils
-import yv.tils.smp.manager.commands.FlyCMD
+import yv.tils.smp.manager.commands.handle.FlyHandler
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
@@ -44,7 +44,7 @@ class SpawnElytra {
 
             Bukkit.getScheduler().runTaskTimer(main, Runnable {
                 Bukkit.getWorld("world")?.players?.forEach { player ->
-                    if (FlyCMD.fly.containsKey(player.uniqueId) && FlyCMD.fly[player.uniqueId] == true) return@forEach
+                    if (FlyHandler.fly.containsKey(player.uniqueId) && FlyHandler.fly[player.uniqueId] == true) return@forEach
                     if (player.gameMode != GameMode.SURVIVAL) return@forEach
                     player.allowFlight = isInSpawnRadius(player)
                     if (flying.contains(player) && !player.location.block.getRelative(BlockFace.DOWN).type.isAir) {
@@ -61,7 +61,7 @@ class SpawnElytra {
 
     fun onWorldChange(e: PlayerChangedWorldEvent) {
         val player = e.player
-        if (FlyCMD.fly.containsKey(player.uniqueId) && FlyCMD.fly[player.uniqueId] == true) return
+        if (FlyHandler.fly.containsKey(player.uniqueId) && FlyHandler.fly[player.uniqueId] == true) return
         if (player.gameMode != GameMode.SURVIVAL) return
         player.allowFlight = false
         player.isFlying = false
@@ -72,7 +72,7 @@ class SpawnElytra {
 
     fun onDoubleJump(e: PlayerToggleFlightEvent) {
         val player = e.player
-        if (FlyCMD.fly.containsKey(player.uniqueId) && FlyCMD.fly[player.uniqueId] == true) return
+        if (FlyHandler.fly.containsKey(player.uniqueId) && FlyHandler.fly[player.uniqueId] == true) return
         if (player.gameMode != GameMode.SURVIVAL) return
         if (!isInSpawnRadius(player)) {
             if (player.world.name != "world") {

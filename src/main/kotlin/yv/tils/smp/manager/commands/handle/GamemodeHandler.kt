@@ -1,4 +1,4 @@
-package yv.tils.smp.manager.commands
+package yv.tils.smp.manager.commands.handle
 
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.*
@@ -11,45 +11,8 @@ import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
 
-class GamemodeCMD {
-    val command = commandTree("gm") {
-        withPermission("yvtils.smp.command.gamemode")
-        withUsage("gm <gamemode> [player]")
-        withAliases("gamemode")
-
-        stringArgument("gamemode", false) {
-            replaceSuggestions(
-                ArgumentSuggestions.strings(
-                    "survival",
-                    "creative",
-                    "adventure",
-                    "spectator",
-                    "0",
-                    "1",
-                    "2",
-                    "3"
-                )
-            )
-            playerArgument("player", true) {
-                anyExecutor { sender, args ->
-
-                    if (sender !is Player && args[1] == null) {
-                        sender.sendMessage(Language().getMessage(LangStrings.PLAYER_ARGUMENT_MISSING))
-                        return@anyExecutor
-                    }
-
-                    if (args[1] is Player) {
-                        val target = args[1] as Player
-                        gamemodeSwitch(target, args[0].toString(), sender)
-                    } else {
-                        gamemodeSwitch(sender as Player, args[0].toString())
-                    }
-                }
-            }
-        }
-    }
-
-    private fun gamemodeSwitch(player: Player, gamemode: String, sender: CommandSender = player) {
+class GamemodeHandler {
+    fun gamemodeSwitch(player: Player, gamemode: String, sender: CommandSender = player) {
         var list_en: List<String> = listOf()
         var list_de: List<String> = listOf()
 

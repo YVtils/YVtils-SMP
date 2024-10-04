@@ -1,4 +1,4 @@
-package yv.tils.smp.mods.admin.moderation
+package yv.tils.smp.mods.admin.moderation.handler
 
 import dev.jorel.commandapi.kotlindsl.*
 import org.bukkit.Bukkit
@@ -12,25 +12,8 @@ import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 
-class Ban {
-    val command = commandTree("ban") {
-        withPermission("yvtils.smp.command.moderation.ban")
-        withUsage("ban <player> [reason]")
-
-        offlinePlayerArgument("player") {
-            greedyStringArgument("reason", true) {
-                anyExecutor { sender, args ->
-                    val targetArg = args[0] as OfflinePlayer
-                    val target = Bukkit.getOfflinePlayer(MojangAPI().uuid2name(targetArg.uniqueId)!!)
-                    val reason = args[1] ?: Language().getRawMessage(LangStrings.MOD_NO_REASON)
-
-                    banPlayer(target, sender, reason as String)
-                }
-            }
-        }
-    }
-
-    private fun banPlayer(target: OfflinePlayer, sender: CommandSender, reason: String) {
+class BanHandler {
+    fun banPlayer(target: OfflinePlayer, sender: CommandSender, reason: String) {
         if (target.isBanned) {
             if (sender is Player) {
                 sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_ALREADY_BANNED))

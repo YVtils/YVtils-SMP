@@ -1,4 +1,4 @@
-package yv.tils.smp.mods.admin.moderation
+package yv.tils.smp.mods.admin.moderation.handler
 
 import dev.jorel.commandapi.kotlindsl.*
 import org.bukkit.Bukkit
@@ -12,23 +12,8 @@ import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 
-class Kick {
-    val command = commandTree("kick") {
-        withPermission("yvtils.smp.command.moderation.kick")
-        withUsage("kick <player> [reason]")
-
-        playerArgument("player") {
-            greedyStringArgument("reason", true) {
-                anyExecutor { sender, args ->
-                    val target = args[0] as Player
-                    val reason = args[1] ?: Language().getRawMessage(LangStrings.MOD_NO_REASON)
-                    kickPlayer(target, sender, reason as String)
-                }
-            }
-        }
-    }
-
-    private fun kickPlayer(target: Player, sender: CommandSender, reason: String) {
+class KickHandler {
+    fun kickPlayer(target: Player, sender: CommandSender, reason: String) {
         if (!target.isOnline) {
             if (sender is Player) {
                 sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_NOT_ONLINE))

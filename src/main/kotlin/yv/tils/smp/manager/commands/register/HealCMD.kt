@@ -1,0 +1,37 @@
+package yv.tils.smp.manager.commands.register
+
+import dev.jorel.commandapi.kotlindsl.anyExecutor
+import dev.jorel.commandapi.kotlindsl.commandTree
+import dev.jorel.commandapi.kotlindsl.playerArgument
+import org.bukkit.attribute.Attribute
+import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
+import yv.tils.smp.manager.commands.handle.HealHandler
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
+import yv.tils.smp.utils.internalAPI.Placeholder
+
+class HealCMD {
+    val command = commandTree("heal") {
+        withPermission("yvtils.smp.command.heal")
+        withUsage("heal [player]")
+
+        playerArgument("player", true) {
+            anyExecutor { sender, args ->
+                if (sender !is Player && args[0] == null) {
+                    sender.sendMessage(Language().getMessage(LangStrings.PLAYER_ARGUMENT_MISSING))
+                    return@anyExecutor
+                }
+
+                val healHandler = HealHandler()
+
+                if (args[0] is Player) {
+                    val target = args[0] as Player
+                    healHandler.playerHeal(target, sender)
+                } else {
+                    healHandler.playerHeal(sender as Player)
+                }
+            }
+        }
+    }
+}

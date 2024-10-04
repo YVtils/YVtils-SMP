@@ -1,4 +1,4 @@
-package yv.tils.smp.mods.admin.moderation
+package yv.tils.smp.mods.admin.moderation.handler
 
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.anyExecutor
@@ -18,29 +18,9 @@ import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import java.io.File
 
-class Unmute {
-    val command = commandTree("unmute") {
-        withPermission("yvtils.smp.command.moderation.unmute")
-        withUsage("unmute <player>")
-
-        textArgument("player") {
-            val mutedPlayersUUID = mutedPlayers_yml.mutedPlayer.keys
-            val mutedPlayers: MutableList<String> = mutableListOf()
-            for (uuid in mutedPlayersUUID) {
-                MojangAPI().uuid2name(uuid)?.let { mutedPlayers.add(it) }
-            }
-
-            replaceSuggestions(ArgumentSuggestions.strings(mutedPlayers))
-
-            anyExecutor { sender, args ->
-                val target = Bukkit.getOfflinePlayer(MojangAPI().name2uuid(args[0] as String)!!)
-                unmutePlayer(target, sender)
-            }
-        }
-    }
-
-    private fun unmutePlayer(target: OfflinePlayer, sender: CommandSender) {
-        if (!Mute().checkMute(target)) {
+class UnmuteHandler {
+    fun unmutePlayer(target: OfflinePlayer, sender: CommandSender) {
+        if (!MuteHandler().checkMute(target)) {
             if (sender is Player) {
                 sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.MOD_PLAYER_NOT_MUTED))
             } else {

@@ -1,8 +1,5 @@
-package yv.tils.smp.manager.commands
+package yv.tils.smp.manager.commands.handle
 
-import dev.jorel.commandapi.kotlindsl.anyExecutor
-import dev.jorel.commandapi.kotlindsl.commandTree
-import dev.jorel.commandapi.kotlindsl.playerArgument
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.block.BlockFace
@@ -18,32 +15,10 @@ import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
 import java.util.*
 
-class FlyCMD {
+class FlyHandler {
     companion object {
         var fly: MutableMap<UUID, Boolean> = HashMap()
         var airAfter: MutableMap<UUID, Boolean> = HashMap()
-    }
-
-    val command = commandTree("fly") {
-        withPermission("yvtils.smp.command.fly")
-        withUsage("fly [player]")
-
-        playerArgument("player", true) {
-            anyExecutor { sender, args ->
-
-                if (sender !is Player && args[0] == null) {
-                    sender.sendMessage(Language().getMessage(LangStrings.PLAYER_ARGUMENT_MISSING))
-                    return@anyExecutor
-                }
-
-                if (args[0] is Player) {
-                    val target = args[0] as Player
-                    flySwitch(target, sender)
-                } else {
-                    flySwitch(sender as Player)
-                }
-            }
-        }
     }
 
     fun flySwitch(player: Player, sender: CommandSender = player) {
