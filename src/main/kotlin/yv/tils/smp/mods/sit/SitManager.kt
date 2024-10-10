@@ -4,6 +4,7 @@ import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
+import org.bukkit.inventory.EquipmentSlot
 import java.util.UUID
 
 class SitManager {
@@ -35,6 +36,13 @@ class SitManager {
 
         sit.isInvulnerable = true
         sit.isInvisible = true
+
+        val equipSlot = EquipmentSlot.entries.toTypedArray()
+
+        for (slot in equipSlot) {
+            sit.addEquipmentLock(slot, ArmorStand.LockType.ADDING_OR_CHANGING)
+        }
+
         sit.setGravity(false)
 
         return sit

@@ -5,12 +5,14 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
 import yv.tils.smp.mods.other.message.MSGCommand.Companion.chatSession
 import yv.tils.smp.mods.server.connect.PlayerQuit
+import yv.tils.smp.mods.sit.DismountListener
 import yv.tils.smp.mods.status.StatusJoinQuit
 
 class PlayerQuitServer : Listener {
     @EventHandler
     fun onEvent(e: PlayerQuitEvent) {
         PlayerQuit().eventReceiver(e)
+        DismountListener().onQuit(e)
         StatusJoinQuit().savePlayer(e)
         msgSessionRemove(e)
     }
