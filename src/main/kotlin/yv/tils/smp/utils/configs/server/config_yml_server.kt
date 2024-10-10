@@ -39,12 +39,12 @@ class config_yml_server {
 
     private fun playerCountHover(): List<String> {
         return listOf(
-            "<gradient:blue:light_purple>+----------------------------+",
-            "<gradient:blue:light_purple>|         <serverName>         |",
-            "<gradient:blue:light_purple>|     Version: <version>     |",
-            "<gradient:blue:light_purple>| Players: <players> / <maxPlayers> |",
-            "<gradient:blue:light_purple>|   Website: https://yvtils.net   |",
-            "<gradient:blue:light_purple>+----------------------------+"
+            "<gray>+----------------------------+",
+            "<white><serverName>",
+            "<white>Version: <version>",
+            "<white>Players: <players> / <maxPlayers>",
+            "<white>Website: https://yvtils.net",
+            "<gray>+----------------------------+"
         )
     }
 }
