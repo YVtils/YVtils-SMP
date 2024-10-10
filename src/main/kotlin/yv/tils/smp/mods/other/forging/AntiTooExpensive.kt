@@ -1,21 +1,14 @@
 package yv.tils.smp.mods.other.forging
 
-import org.bukkit.Bukkit
 import org.bukkit.craftbukkit.inventory.CraftInventoryAnvil
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.PrepareAnvilEvent
-import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.global.Config
-import yv.tils.smp.utils.configs.language.LangStrings
-import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.Placeholder
-import java.util.*
 
 // TODO: Try Papers new AnvilView -> https://jd.papermc.io/paper/1.21.1/org/bukkit/inventory/view/AnvilView.html
 class AntiTooExpensive {
     companion object {
         var active = Config.config["disableTooExpensive"] as Boolean
-        var messageCooldown: MutableMap<UUID, Int> = mutableMapOf()
     }
 
     fun playerForgeEvent(e: PrepareAnvilEvent) {
@@ -25,22 +18,5 @@ class AntiTooExpensive {
         val inv = e.inventory as CraftInventoryAnvil
 
         inv.maximumRepairCost = Int.MAX_VALUE
-
-        val player = e.viewers[0]
-
-        if (e.result != null && inv.repairCost >= 40 && (messageCooldown[player.uniqueId] == null || messageCooldown[player.uniqueId] == 0)) {
-            player.sendMessage(
-                Placeholder().replacer(
-                    Language().getMessage(player.uniqueId, LangStrings.FORGING_TOO_EXPENSIVE),
-                    listOf("level"),
-                    listOf(inv.repairCost.toString())
-                )
-            )
-            messageCooldown[player.uniqueId] = 10
-
-            Bukkit.getScheduler().runTaskLater(YVtils.instance, Runnable {
-                messageCooldown[player.uniqueId] = 0
-            }, 20 * 10)
-        }
     }
 }

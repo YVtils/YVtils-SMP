@@ -577,11 +577,6 @@ class de_yml {
         )
 
         ymlFile.addDefault(
-            "FORGING_TOO_EXPENSIVE",
-            "<white>Das kombinieren dieser Items wird <yellow><level> Level <white>kosten"
-        )
-
-        ymlFile.addDefault(
             "MODULE_MULTIMINE_ADD_BLOCK",
             "<white>Der Block <yellow><block> <white>wurde zur MultiMine Liste hinzugefügt!"
         )
