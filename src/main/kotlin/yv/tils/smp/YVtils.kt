@@ -18,7 +18,7 @@ class YVtils : JavaPlugin() {
         lateinit var key: NamespacedKey
     }
 
-    val pluginVersion = "1.0.0"
+    val pluginVersion = "1.0.1"
 
     override fun onLoad() {
         instance = this
@@ -28,13 +28,6 @@ class YVtils : JavaPlugin() {
         val configs = Configs()
         configs.register()
         configs.load()
-
-//        val modules = Modules()
-//        modules.registerModules()
-//
-//        val cmd = Commands()
-//        cmd.unregisterCommands()
-//        cmd.registerCommands()
 
         Debugger().log("Starting up", "Configs loaded", "yv.tils.smp.manager.startup.Summarizer")
     }
