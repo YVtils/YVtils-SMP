@@ -17,6 +17,7 @@ import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
+import java.util.UUID
 
 /**
  * Inspired by this Tutorial from Coole Pizza: https://www.youtube.com/watch?v=S9f_mFiYT50
@@ -35,8 +36,8 @@ class SpawnElytra {
     }
 
     private val main: YVtils = YVtils.instance
-    private var flying: MutableList<Player> = ArrayList()
-    private var boosted: MutableList<Player> = ArrayList()
+    private var flying: MutableList<UUID> = ArrayList()
+    private var boosted: MutableList<UUID> = ArrayList()
 
     init {
         if (active) {
@@ -47,12 +48,12 @@ class SpawnElytra {
                     if (FlyHandler.fly.containsKey(player.uniqueId) && FlyHandler.fly[player.uniqueId] == true) return@forEach
                     if (player.gameMode != GameMode.SURVIVAL) return@forEach
                     player.allowFlight = isInSpawnRadius(player)
-                    if (flying.contains(player) && !player.location.block.getRelative(BlockFace.DOWN).type.isAir) {
+                    if (flying.contains(player.uniqueId) && !player.location.block.getRelative(BlockFace.DOWN).type.isAir) {
                         player.allowFlight = false
                         player.isFlying = false
                         player.isGliding = false
-                        boosted.remove(player)
-                        Bukkit.getScheduler().runTaskLater(main, Runnable { flying.remove(player) }, 5)
+                        boosted.remove(player.uniqueId)
+                        Bukkit.getScheduler().runTaskLater(main, Runnable { flying.remove(player.uniqueId) }, 5)
                     }
                 }
             }, 0, 3)
@@ -66,8 +67,8 @@ class SpawnElytra {
         player.allowFlight = false
         player.isFlying = false
         player.isGliding = false
-        boosted.remove(player)
-        flying.remove(player)
+        boosted.remove(player.uniqueId)
+        flying.remove(player.uniqueId)
     }
 
     fun onDoubleJump(e: PlayerToggleFlightEvent) {
@@ -82,7 +83,7 @@ class SpawnElytra {
         }
         e.isCancelled = true
         player.isGliding = true
-        flying.add(player)
+        flying.add(player.uniqueId)
 
         player.sendActionBar(
             Placeholder().replacer(
@@ -100,15 +101,15 @@ class SpawnElytra {
     fun onLandDamage(e: EntityDamageEvent) {
         if (e.entityType == EntityType.PLAYER
             && (e.cause == EntityDamageEvent.DamageCause.FALL || e.cause == EntityDamageEvent.DamageCause.FLY_INTO_WALL)
-            && flying.contains(e.entity)
+            && flying.contains(e.entity.uniqueId)
         ) e.isCancelled = true
     }
 
     fun onHandSwap(e: PlayerSwapHandItemsEvent) {
-        if (flying.contains(e.player)) {
-            if (boosted.contains(e.player)) return
+        if (flying.contains(e.player.uniqueId)) {
+            if (boosted.contains(e.player.uniqueId)) return
             e.isCancelled = true
-            boosted.add(e.player)
+            boosted.add(e.player.uniqueId)
             e.player.velocity = e.player.location.direction.multiply(multiplyValue.toDouble())
         }
     }
@@ -120,7 +121,7 @@ class SpawnElytra {
 
         if (player.inventory.chestplate?.type == Material.ELYTRA) return
 
-        if (e.entityType == EntityType.PLAYER && flying.contains(e.entity) || !e.isGliding) e.isCancelled = true
+        if (e.entityType == EntityType.PLAYER && flying.contains(e.entity.uniqueId) || !e.isGliding) e.isCancelled = true
     }
 
     fun isInSpawnRadius(player: Player): Boolean {
