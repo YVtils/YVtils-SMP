@@ -38,7 +38,6 @@ class SelfAdd : ListenerAdapter() {
         channel.deleteMessageById(messageID).queue()
 
         if (!name.matches(Regex("[a-zA-Z0-9_]+"))) {
-            channel.deleteMessageById(messageID).queue()
             channel.sendMessageEmbeds(AccountCanNotExist().embed(e.message.contentRaw).build()).complete().delete()
                 .queueAfter(5, TimeUnit.SECONDS)
             return
@@ -47,7 +46,6 @@ class SelfAdd : ListenerAdapter() {
         val player = Bukkit.getOfflinePlayer(name)
 
         if (player.isWhitelisted) {
-            channel.deleteMessageById(messageID).queue()
             channel.sendMessageEmbeds(AccountAlreadyListed().embed(e.message.contentRaw).build()).complete().delete()
                 .queueAfter(5, TimeUnit.SECONDS)
             return

@@ -32,6 +32,11 @@ class PlayerQuit {
     }
 
     private fun vanishQuit(e: PlayerQuitEvent, player: Player) {
+        if (!(Config.config["modules.admin"] as Boolean)) {
+            funcStarter(state++, e)
+            return
+        }
+
         if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!) {
             e.quitMessage(null)
             Language.playerLang.remove(player.uniqueId)
@@ -42,6 +47,11 @@ class PlayerQuit {
     }
 
     private fun sendQuitMessage(e: PlayerQuitEvent, player: Player) {
+        if (!(Config.config["modules.server"] as Boolean)) {
+            funcStarter(state++, e)
+            return
+        }
+
         e.quitMessage(generateQuitMessage(player))
         funcStarter(state++, e)
     }
@@ -65,6 +75,11 @@ class PlayerQuit {
     }
 
     private fun stopNavigation(e: PlayerQuitEvent, player: Player) {
+        if (!(Config.config["modules.waypoints"] as Boolean)) {
+            funcStarter(state++, e)
+            return
+        }
+
         val navigations = WaypointPath.navigatingPlayers
         if (navigations.containsKey(player)) {
             navigations[player]?.task?.cancel()

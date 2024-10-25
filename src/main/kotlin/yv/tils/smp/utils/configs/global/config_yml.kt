@@ -21,6 +21,7 @@ class config_yml {
         ymlFile.addDefault("modules.server", true)
         ymlFile.addDefault("modules.waypoints", true)
         ymlFile.addDefault("modules.multiMine", true)
+        ymlFile.addDefault("modules.message", true)
 
         ymlFile.addDefault("playerUpdateMessage", true)
 

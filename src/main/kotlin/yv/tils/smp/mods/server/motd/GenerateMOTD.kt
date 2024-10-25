@@ -15,23 +15,25 @@ import java.util.*
 
 class GenerateMOTD {
     fun onServerPing(e: PaperServerListPingEvent) {
-        if (MaintenanceCMD.maintenance) {
-            e.version = "Server under maintenance"
-            e.protocolVersion = 0
-            e.maxPlayers = 0
-            e.setHidePlayers(true)
-            e.motd(handlePlaceholders(ServerConfig.config["motd.maintenance"] as String))
-            return
+        if (Config.config["modules.server"] as Boolean) {
+            if (MaintenanceCMD.maintenance) {
+                e.version = "Server under maintenance"
+                e.protocolVersion = 0
+                e.maxPlayers = 0
+                e.setHidePlayers(true)
+                e.motd(handlePlaceholders(ServerConfig.config["motd.maintenance"] as String))
+                return
+            }
+
+            e.maxPlayers = ServerConfig.config["maxPlayers"] as Int
+            e.numPlayers = calcOnlinePlayers()
+
+            e.setHidePlayers(false)
+            e.listedPlayers.clear()
+            e.listedPlayers.addAll(getHoverText())
+
+            e.motd(getMOTD())
         }
-
-        e.maxPlayers = ServerConfig.config["maxPlayers"] as Int
-        e.numPlayers = calcOnlinePlayers()
-
-        e.setHidePlayers(false)
-        e.listedPlayers.clear()
-        e.listedPlayers.addAll(getHoverText())
-
-        e.motd(getMOTD())
     }
 
     private fun getHoverText(): Collection<PaperServerListPingEvent.ListedPlayerInfo> {

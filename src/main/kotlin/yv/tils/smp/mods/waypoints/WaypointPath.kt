@@ -12,6 +12,7 @@ import org.bukkit.scheduler.BukkitTask
 import org.bukkit.util.Vector
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
@@ -300,14 +301,33 @@ class WaypointPath {
     }
 
     fun stopNavigations() {
-        object : BukkitRunnable() {
-            override fun run() {
-                for (crystal in crystalList) {
-                    crystal.remove()
-                    crystalList.remove(crystal)
-                    break
+        if (!(Config.config["modules.waypoints"] as Boolean)) return
+        if (!YVtils.instance.isEnabled) {
+            runNavigationStopTasks()
+        } else {
+            object : BukkitRunnable() {
+                override fun run() {
+                    runNavigationStopTasks()
                 }
-            }
-        }.runTask(YVtils.instance)
+            }.runTask(YVtils.instance)
+        }
     }
+
+    private fun runNavigationStopTasks() {
+        val copyNavigatingPlayers = navigatingPlayers.keys.toList()
+
+        for (player in copyNavigatingPlayers) {
+            navigatingPlayers[player]?.task?.cancel()
+            navigatingPlayers[player]?.endCrystal?.remove()
+            navigatingPlayers.remove(player)
+        }
+
+        val copyCrystalList = crystalList.toList()
+
+        for (crystal in copyCrystalList) {
+            crystal.remove()
+            crystalList.remove(crystal)
+        }
+    }
+
 }

@@ -8,24 +8,31 @@ import yv.tils.smp.mods.admin.moderation.cmd.*
 import yv.tils.smp.mods.admin.vanish.Vanish
 import yv.tils.smp.mods.fusionCrafting.FusionOverview
 import yv.tils.smp.mods.multiMine.BlockManage
-import yv.tils.smp.mods.other.message.MSGCommand
-import yv.tils.smp.mods.other.message.ReplyCommand
+import yv.tils.smp.mods.message.MSGCommand
+import yv.tils.smp.mods.message.ReplyCommand
 import yv.tils.smp.mods.server.maintenance.MaintenanceCMD
 import yv.tils.smp.mods.sit.SitCommand
 import yv.tils.smp.mods.status.StatusCommand
 import yv.tils.smp.mods.waypoints.WaypointCommand
+import yv.tils.smp.utils.configs.global.Config
 
 class Commands {
     fun unregisterCommands() {
         CommandAPI.unregister("gamemode")
         CommandAPI.unregister("seed")
-        CommandAPI.unregister("ban")
-        CommandAPI.unregister("pardon")
-        CommandAPI.unregister("kick")
-        CommandAPI.unregister("w")
-        CommandAPI.unregister("whisper")
-        CommandAPI.unregister("msg")
-        CommandAPI.unregister("tell")
+
+        if (Config.config["modules.admin"] as Boolean) {
+            CommandAPI.unregister("ban")
+            CommandAPI.unregister("pardon")
+            CommandAPI.unregister("kick")
+        }
+
+        if (Config.config["modules.message"] as Boolean) {
+            CommandAPI.unregister("w")
+            CommandAPI.unregister("whisper")
+            CommandAPI.unregister("msg")
+            CommandAPI.unregister("tell")
+        }
     }
 
     fun registerCommands() {
@@ -41,32 +48,47 @@ class Commands {
     }
 
     private fun modulesCommands() {
-        FusionOverview()
+        if (Config.config["modules.fusion"] as Boolean) {
+            FusionOverview()
+        }
 
-        StatusCommand()
+        if (Config.config["modules.status"] as Boolean) {
+            StatusCommand()
+        }
 
-        SitCommand()
+        if (Config.config["modules.sit"] as Boolean) {
+            SitCommand()
+        }
 
-        MaintenanceCMD()
+        if (Config.config["modules.message"] as Boolean) {
+            MSGCommand()
+            ReplyCommand()
+        }
 
-        MSGCommand()
-        ReplyCommand()
+        if (Config.config["modules.admin"] as Boolean) {
+            MaintenanceCMD()
 
-        Vanish()
+            Vanish()
 
-        InvSee()
-        EcSee()
+            InvSee()
+            EcSee()
 
-        Kick()
-        Ban()
-        TempBan()
-        Unban()
-        Mute()
-        TempMute()
-        Unmute()
+            Kick()
+            Ban()
+            TempBan()
+            Unban()
+            Mute()
+            TempMute()
+            Unmute()
+        }
 
-        BlockManage()
+        if (Config.config["modules.multiMine"] as Boolean) {
+            BlockManage()
+        }
 
-        WaypointCommand()
+
+        if (Config.config["modules.waypoints"] as Boolean) {
+            WaypointCommand()
+        }
     }
 }
