@@ -1,4 +1,4 @@
-package yv.tils.smp.mods.other.message
+package yv.tils.smp.mods.message
 
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree

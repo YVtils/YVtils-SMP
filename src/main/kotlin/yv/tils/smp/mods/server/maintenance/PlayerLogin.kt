@@ -2,6 +2,7 @@ package yv.tils.smp.mods.server.maintenance
 
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerLoginEvent
+import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 
@@ -10,7 +11,9 @@ class PlayerLogin {
     private var state = 1
 
     fun eventReceiver(e: PlayerLoginEvent) {
-        funcStarter(state, e)
+        if (Config.config["modules.server"] as Boolean) {
+            funcStarter(state, e)
+        }
     }
 
     private fun funcStarter(state: Int, e: PlayerLoginEvent) {

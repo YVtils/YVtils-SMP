@@ -39,6 +39,11 @@ class PlayerJoin {
     }
 
     private fun vanishJoin(e: PlayerJoinEvent, player: Player) {
+        if (!(Config.config["modules.admin"] as Boolean)) {
+            funcStarter(state++, e)
+            return
+        }
+
         if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!) {
             e.joinMessage(null)
             state = 3
@@ -48,6 +53,11 @@ class PlayerJoin {
     }
 
     private fun sendJoinMessage(e: PlayerJoinEvent, player: Player) {
+        if (!(Config.config["modules.server"] as Boolean)) {
+            funcStarter(state++, e)
+            return
+        }
+
         e.joinMessage(generateJoinMessage(player))
         funcStarter(state++, e)
     }
@@ -83,6 +93,11 @@ class PlayerJoin {
     }
 
     private fun hideWaypointMarkers(e: PlayerJoinEvent, player: Player) {
+        if (!(Config.config["modules.waypoints"] as Boolean)) {
+            funcStarter(state++, e)
+            return
+        }
+
         WaypointPath.crystalList.forEach {
             player.hideEntity(YVtils.instance, it)
         }
@@ -91,6 +106,11 @@ class PlayerJoin {
     }
 
     private fun checkFusionDupe(e: PlayerJoinEvent, player: Player) {
+        if (!(Config.config["modules.fusion"] as Boolean)) {
+            funcStarter(state++, e)
+            return
+        }
+
         val inv = player.inventory
 
         for (i in inv.contents) {

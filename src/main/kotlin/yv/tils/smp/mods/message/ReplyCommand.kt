@@ -1,13 +1,12 @@
-package yv.tils.smp.mods.other.message
+package yv.tils.smp.mods.message
 
 import dev.jorel.commandapi.executors.CommandArguments
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.greedyStringArgument
 import dev.jorel.commandapi.kotlindsl.playerExecutor
-import dev.jorel.commandapi.kotlindsl.stringArgument
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import yv.tils.smp.mods.other.message.MSGCommand.Companion.chatSession
+import yv.tils.smp.mods.message.MSGCommand.Companion.chatSession
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
