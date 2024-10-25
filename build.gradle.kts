@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "yv.tils"
-version = "1.0.0"
+version = "1.0.2"
 
 val jdaVersion = "5.1.2"
 
@@ -69,4 +69,12 @@ tasks.withType<KotlinCompile> {
 
 application {
     mainClass.set("YVtils")
+}
+
+tasks.shadowJar {
+    archiveBaseName.set("YVtils-SMP")
+    archiveVersion.set(version.toString())
+    archiveClassifier.set("")
+
+    archiveFileName.set("YVtils-SMP_v${version}.jar")
 }
