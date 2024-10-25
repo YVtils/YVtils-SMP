@@ -64,6 +64,22 @@ class YVtils : JavaPlugin() {
     }
 
     override fun onDisable() {
+        server.consoleSender.sendMessage(
+            Placeholder().replacer(
+                Language().getMessage(LangStrings.STOP_MESSAGE),
+                listOf("prefix"),
+                listOf(Vars().prefix)
+            )
+        )
+
         yv.tils.smp.manager.shutdown.Summarizer().shutdown()
+
+        server.consoleSender.sendMessage(
+            Placeholder().replacer(
+                Language().getMessage(LangStrings.STOP_COMPLETED_MESSAGE),
+                listOf("prefix"),
+                listOf(Vars().prefix)
+            )
+        )
     }
 }
