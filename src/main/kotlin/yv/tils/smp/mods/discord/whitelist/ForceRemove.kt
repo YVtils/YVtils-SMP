@@ -1,7 +1,6 @@
 package yv.tils.smp.mods.discord.whitelist
 
 import net.dv8tion.jda.api.entities.User
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceVideoEvent
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -40,7 +39,7 @@ class ForceRemove : ListenerAdapter() {
 
             val user: User
             try {
-                user = BotManager.jda.getUserById(args[0])!!
+                user = BotManager.jda.retrieveUserById(args[0]).complete()
             } catch (_: NumberFormatException) {
                 reply(e.member?.user?.globalName, args[1], args[0], list.size, args as MutableList<String>, e)
                 return
