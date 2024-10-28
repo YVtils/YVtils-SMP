@@ -9,13 +9,13 @@ plugins {
 
     id("com.github.johnrengelman.shadow") version "8.1.1"
 
-    id("io.papermc.paperweight.userdev") version "1.7.3"
+    id("io.papermc.paperweight.userdev") version "1.7.4"
 
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
 group = "yv.tils"
-version = "1.0.2"
+version = "1.0.3"
 
 val jdaVersion = "5.1.2"
 
@@ -28,10 +28,10 @@ repositories {
 paperweight.reobfArtifactConfiguration.set(io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION)
 
 dependencies {
-    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.3-R0.1-SNAPSHOT")
 
-    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.5.3")
-    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.5.3")
+    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.6.1")
+    implementation("dev.jorel", "commandapi-bukkit-kotlin", "9.6.1")
 
     implementation("net.dv8tion:JDA:$jdaVersion")
 }
