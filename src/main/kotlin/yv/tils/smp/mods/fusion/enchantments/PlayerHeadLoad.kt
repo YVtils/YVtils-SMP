@@ -12,7 +12,7 @@ import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
-import java.net.URL
+import java.net.URI
 
 class PlayerHeadLoad {
     fun loadPlayerHead(nameTag: ItemStack, outPut: ItemStack): SkullMeta {
@@ -56,7 +56,7 @@ class PlayerHeadLoad {
             if (skinURL != null) {
                 val profile = Bukkit.createProfile(playerUUID, name)
                 val textures = profile.textures
-                textures.skin = URL(skinURL)
+                textures.skin = URI(skinURL).toURL()
                 profile.setTextures(textures)
                 skullMeta.playerProfile = profile
                 playerHead.itemMeta = skullMeta
