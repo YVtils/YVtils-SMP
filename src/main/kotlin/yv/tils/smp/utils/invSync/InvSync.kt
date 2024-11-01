@@ -100,8 +100,7 @@ class InvSync {
 
     private fun playerInvEdit(inv: Inventory, player: HumanEntity) {
         val offHand = inv.getItem(7)
-        val armour: Array<ItemStack?>
-        armour = arrayOf(
+        val armour: Array<ItemStack?> = arrayOf(
             inv.getItem(4),
             inv.getItem(3),
             inv.getItem(2),
@@ -109,13 +108,6 @@ class InvSync {
         )
         val invContent = inv.contents.copyOfRange(18, 44 + 1)
         val invHotbar = inv.contents.copyOfRange(45, 53 + 1)
-
-        inv.setItem(53, ItemStack(Material.GREEN_BED))
-        inv.setItem(45, ItemStack(Material.RED_BED))
-
-        inv.setItem(18, ItemStack(Material.GREEN_BED))
-        inv.setItem(44, ItemStack(Material.RED_BED))
-
 
         val invMain = invHotbar + invContent
 
