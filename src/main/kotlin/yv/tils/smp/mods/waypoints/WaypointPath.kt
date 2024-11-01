@@ -166,7 +166,7 @@ class WaypointPath {
 
     private fun spawnEndCrystal(player: Player, location: Location): EnderCrystal {
         val world = location.world
-        val spawnLocation = location.clone().set(location.x, 400.0, location.z)
+        val spawnLocation = location.clone().set(location.x, location.y, location.z)
 
         while (spawnLocation.block.isPassable) {
             while (spawnLocation.block.isPassable) {
