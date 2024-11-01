@@ -80,8 +80,6 @@ class MultiMineHandler {
                     val newLoc = Location(loc.world, loc.x + x, loc.y + y, loc.z + z)
                     val newBlock = newLoc.block
 
-                    println("MM: Loc: $newLoc, Block: ${newBlock.type}")
-
                     if (checkBlock(newBlock.type, blocks) && checkTool(newBlock, item)) {
                         Bukkit.getScheduler().runTaskLater(YVtils.instance, Runnable {
                             newBlock.breakNaturally(item, true, true)
@@ -102,7 +100,6 @@ class MultiMineHandler {
             player.playSound(player.location, Sound.ENTITY_ITEM_BREAK, 1f, 1f)
             return true
         } else {
-            println("MM: ${damageable.damage + damage} / ${item.type.maxDurability}")
             item.damage(damage, player)
             return false
         }
