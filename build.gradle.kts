@@ -17,7 +17,7 @@ plugins {
 group = "yv.tils"
 version = "1.0.3"
 
-val jdaVersion = "5.1.2"
+val jdaVersion = "5.2.0"
 
 repositories {
     mavenCentral()
