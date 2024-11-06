@@ -9,7 +9,7 @@ import yv.tils.smp.utils.internalAPI.Placeholder
 
 class HealHandler {
     fun playerHeal(player: Player, sender: CommandSender = player) {
-        player.health = player.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.value
+        player.health = player.getAttribute(Attribute.MAX_HEALTH)!!.value
         player.foodLevel = 20
 
         player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.HEAL_PLAYER_HEALED))
@@ -33,6 +33,5 @@ class HealHandler {
                 )
             }
         }
-
     }
 }

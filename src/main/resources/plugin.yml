@@ -1,5 +1,5 @@
 name: YVtils-SMP
-version: 1.0.3
+version: 1.0.4
 main: yv.tils.smp.YVtils
 author: WolfiiYV
 api-version: "1.21"
@@ -15,3 +15,5 @@ libraries:
 permissions:
   yvtils.smp.multiMine:
     description: Allows the player to mine multiple blocks at once
+  yvtils.smp.chatSync:
+    description: Allows the player to sync their messages with the Discord server
