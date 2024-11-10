@@ -14,6 +14,8 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URI
 
+// TODO: Add occasional update check
+// TODO: Add update check retries on fail
 class PluginVersion {
     companion object {
         var version = "x.x.x"
