@@ -10,6 +10,7 @@ import yv.tils.smp.mods.fusionCrafting.FusionOverview
 import yv.tils.smp.mods.multiMine.BlockManage
 import yv.tils.smp.mods.message.MSGCommand
 import yv.tils.smp.mods.message.ReplyCommand
+import yv.tils.smp.mods.multiMine.MultiMineCommand
 import yv.tils.smp.mods.server.maintenance.MaintenanceCMD
 import yv.tils.smp.mods.sit.SitCommand
 import yv.tils.smp.mods.status.StatusCommand
@@ -83,7 +84,7 @@ class Commands {
         }
 
         if (Config.config["modules.multiMine"] as Boolean) {
-            BlockManage()
+            MultiMineCommand()
         }
 
 

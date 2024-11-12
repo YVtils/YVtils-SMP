@@ -12,6 +12,7 @@ class config_yml_multiMine {
     fun strings() {
         ymlFile.addDefault("documentation", "https://docs.yvtils.net/smp/multiMine/config.yml")
 
+        ymlFile.addDefault("defaultState", true)
         ymlFile.addDefault("animationTime", 3)
         ymlFile.addDefault("cooldownTime", 3)
         ymlFile.addDefault("breakLimit", 250)

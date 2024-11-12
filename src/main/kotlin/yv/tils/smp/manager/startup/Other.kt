@@ -19,5 +19,7 @@ class Other {
         pm.addPermission(Permission.loadPermission("yvtils.smp.multiMine", mapOf()))
         pm.addPermission(Permission.loadPermission("yvtils.smp.chatSync", mapOf()))
         pm.addPermission(Permission.loadPermission("yvtils.smp.command.moderation.announcement", mapOf()))
+        pm.addPermission(Permission.loadPermission("yvtils.smp.command.multiMine.toggle", mapOf()))
+        pm.addPermission(Permission.loadPermission("yvtils.smp.command.multiMine.manage", mapOf()))
     }
 }

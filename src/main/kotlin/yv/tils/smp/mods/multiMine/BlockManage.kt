@@ -1,10 +1,7 @@
 package yv.tils.smp.mods.multiMine
 
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
-import dev.jorel.commandapi.kotlindsl.anyExecutor
-import dev.jorel.commandapi.kotlindsl.commandTree
-import dev.jorel.commandapi.kotlindsl.itemStackArgument
-import dev.jorel.commandapi.kotlindsl.stringArgument
+import dev.jorel.commandapi.kotlindsl.*
 import org.bukkit.Material
 import org.bukkit.block.ShulkerBox
 import org.bukkit.command.CommandSender
@@ -19,45 +16,7 @@ import yv.tils.smp.utils.configs.multiMine.MultiMineConfig
 import yv.tils.smp.utils.internalAPI.Placeholder
 
 class BlockManage {
-    val command = commandTree("multiMine") {
-        withPermission("yvtils.smp.command.multiMine")
-        withUsage("multiMine <add/remove/addMultiple/removeMultiple> [block]")
-        withAliases("mm")
-
-        stringArgument("action") {
-            replaceSuggestions(
-                ArgumentSuggestions.strings(
-                    "add",
-                    "remove",
-                    "addMultiple",
-                    "removeMultiple"
-                )
-            )
-            itemStackArgument("block", true) {
-                anyExecutor { sender, args ->
-                    when (args[0]) {
-                        "add" -> {
-                            addBlock(sender, args[1])
-                        }
-
-                        "remove" -> {
-                            removeBlock(sender, args[1])
-                        }
-
-                        "addMultiple" -> {
-                            addMultiple(sender)
-                        }
-
-                        "removeMultiple" -> {
-                            removeMultiple(sender)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun addBlock(sender: CommandSender, block: Any?) {
+    fun addBlock(sender: CommandSender, block: Any?) {
         val block = block as ItemStack?
         var material = block?.type
         if (sender !is Player) {
@@ -95,7 +54,7 @@ class BlockManage {
         }
     }
 
-    private fun removeBlock(sender: CommandSender, block: Any?) {
+    fun removeBlock(sender: CommandSender, block: Any?) {
         val block = block as ItemStack?
         var material = block?.type
         if (sender !is Player) {
@@ -181,7 +140,7 @@ class BlockManage {
         return content
     }
 
-    private fun addMultiple(sender: CommandSender) {
+    fun addMultiple(sender: CommandSender) {
         if (sender !is Player) {
             sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_MULTIPLE_CONSOLE))
             return
@@ -212,7 +171,7 @@ class BlockManage {
         )
     }
 
-    private fun removeMultiple(sender: CommandSender) {
+    fun removeMultiple(sender: CommandSender) {
         if (sender !is Player) {
             sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_MULTIPLE_CONSOLE))
             return

@@ -37,15 +37,17 @@ class MultiMineHandler {
 
         val loc = e.block.location
         val player = e.player
+        val uuid = player.uniqueId
         val item = player.inventory.itemInMainHand
         val block = e.block
 
-        if (!e.player.hasPermission("yvtils.smp.multiMine")) return
+        if (!player.hasPermission("yvtils.smp.multiMine")) return
+        if (!MultiMineConfig().getPlayerSetting(uuid.toString())) return
         if (!checkBlock(e.block.type, blocks)) return
         if (!checkTool(block, item)) return
         if (checkCooldown(e.player.uniqueId)) return
-        if (e.player.isSneaking) return
-        if (e.player.gameMode != GameMode.SURVIVAL) return
+        if (player.isSneaking) return
+        if (player.gameMode != GameMode.SURVIVAL) return
 
         brokenMap[player.uniqueId] = 0
 
@@ -146,6 +148,17 @@ class MultiMineHandler {
         if (tool.type.maxDurability.toInt() == 0) return false
 
         return block.getDrops(tool).isNotEmpty()
+    }
+
+    fun toggle(sender: Player) {
+        val uuid = sender.uniqueId.toString()
+        val value = MultiMineConfig().getPlayerSetting(uuid)
+
+        MultiMineConfig().changePlayerSetting(uuid, !value)
+
+        sender.sendMessage(
+            "§aMultiMine is now ${if (!value) "§aenabled" else "§cdisabled"}"
+        )
     }
 
     init {

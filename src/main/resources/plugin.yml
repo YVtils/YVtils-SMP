@@ -19,3 +19,7 @@ permissions:
     description: Allows the player to sync their messages with the Discord server
   yvtils.smp.command.moderation.announcement:
     description: Allows the player to receive moderation announcements, such as when a player is banned
+  yvtils.smp.command.multiMine.toggle:
+    description: Allows the player to toggle the multiMine feature
+  yvtils.smp.command.multiMine.manage:
+    description: Allows the player to manage the multiMine feature
