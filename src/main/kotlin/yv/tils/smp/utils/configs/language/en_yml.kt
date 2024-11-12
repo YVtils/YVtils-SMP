@@ -178,19 +178,19 @@ class en_yml {
         )
         ymlFile.addDefault(
             "MAINTENANCE_PLAYER_NOT_ALLOWED_TO_JOIN_KICK_MESSAGE",
-            "You are not allowed to join the server while maintenance works!"
+            "<prefix> You are not allowed to join the server while maintenance works!"
         )
         ymlFile.addDefault(
             "MAINTENANCE_COMMAND_DEACTIVATE",
-            "<gray>The maintenance mode is now <green>deactivated<gray>!"
+            "<prefix> <gray>The maintenance mode is now <green>deactivated<gray>!"
         )
         ymlFile.addDefault(
             "MAINTENANCE_COMMAND_ACTIVATE",
-            "<gray>The maintenance mode is now <green>activated<gray>!"
+            "<prefix> <gray>The maintenance mode is now <green>activated<gray>!"
         )
         ymlFile.addDefault(
             "MAINTENANCE_ALREADY_STATE",
-            "<gray>The maintenance mode is already in this state!"
+            "<prefix> <gray>The maintenance mode is already in this state!"
         )
 
         ymlFile.addDefault(

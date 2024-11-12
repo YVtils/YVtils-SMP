@@ -2,12 +2,14 @@ package yv.tils.smp.manager.startup
 
 import org.bukkit.permissions.Permission
 import yv.tils.smp.YVtils
+import yv.tils.smp.mods.server.maintenance.MaintenanceHandler
 import yv.tils.smp.utils.updater.PluginVersion
 
 class Other {
     fun register() {
         pluginVersion()
         permissions()
+        MaintenanceHandler().loadState()
     }
 
     private fun pluginVersion() {
