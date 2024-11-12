@@ -14,8 +14,6 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URI
 
-// TODO: Add occasional update check
-// TODO: Add update check retries on fail
 class PluginVersion {
     companion object {
         var version = "x.x.x"
@@ -43,7 +41,7 @@ class PluginVersion {
         }
     }
 
-    fun updateChecker(serverPluginVersion: String) {
+    private fun updateChecker(serverPluginVersion: String) {
         plVersion = serverPluginVersion
         webRequest()
 
@@ -108,5 +106,11 @@ class PluginVersion {
         } catch (e: Exception) {
             YVtils.instance.logger.warning("Update Check Error: ${e.message}")
         }
+    }
+
+    fun asyncUpdateChecker() {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(YVtils.instance, Runnable {
+            updateChecker(YVtils.instance.pluginVersion)
+        }, 0, 3600 * 20)
     }
 }
