@@ -7,7 +7,6 @@ import yv.tils.smp.mods.admin.invSee.InvSee
 import yv.tils.smp.mods.admin.moderation.cmd.*
 import yv.tils.smp.mods.admin.vanish.Vanish
 import yv.tils.smp.mods.fusionCrafting.FusionOverview
-import yv.tils.smp.mods.multiMine.BlockManage
 import yv.tils.smp.mods.message.MSGCommand
 import yv.tils.smp.mods.message.ReplyCommand
 import yv.tils.smp.mods.multiMine.MultiMineCommand

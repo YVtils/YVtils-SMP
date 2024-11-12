@@ -5,8 +5,6 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
 import yv.tils.smp.YVtils
-import yv.tils.smp.mods.admin.vanish.Vanish
-import yv.tils.smp.mods.server.maintenance.MaintenanceCMD
 import yv.tils.smp.mods.server.maintenance.MaintenanceHandler
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.server.ServerConfig
