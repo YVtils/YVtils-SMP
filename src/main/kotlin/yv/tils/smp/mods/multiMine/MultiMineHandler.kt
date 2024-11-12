@@ -159,7 +159,7 @@ class MultiMineHandler {
         MultiMineConfig().changePlayerSetting(uuid, !value)
 
         sender.sendMessage(
-            if (value) {
+            if (!value) {
                 Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_TOGGLE_ACTIVATE)
             } else {
                 Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_TOGGLE_DEACTIVATE)
