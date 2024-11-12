@@ -2,6 +2,8 @@ package yv.tils.smp.utils.internalAPI
 
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
+import org.bukkit.Bukkit
+import yv.tils.smp.mods.admin.vanish.Vanish
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.logger.Debugger
 
@@ -77,5 +79,17 @@ class Placeholder {
         Debugger().log("OutPut", outPut, "yv.tils.smp.utils.internalAPI.StringReplacer.listReplacer()")
 
         return outPut
+    }
+
+    fun calcOnlinePlayers(): Int {
+        var onlinePlayers = Bukkit.getOnlinePlayers().size
+
+        for (player in Vanish.vanish) {
+            if (player.value) {
+                onlinePlayers--
+            }
+        }
+
+        return onlinePlayers
     }
 }

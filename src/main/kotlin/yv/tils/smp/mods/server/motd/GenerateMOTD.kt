@@ -27,7 +27,7 @@ class GenerateMOTD {
             }
 
             e.maxPlayers = ServerConfig.config["maxPlayers"] as Int
-            e.numPlayers = calcOnlinePlayers()
+            e.numPlayers = Placeholder().calcOnlinePlayers()
 
             e.setHidePlayers(false)
             e.listedPlayers.clear()
@@ -89,7 +89,7 @@ class GenerateMOTD {
         val varMap = mapOf(
             "serverName" to Config.config["serverName"].toString(),
             "version" to serverVersion,
-            "players" to calcOnlinePlayers().toString(),
+            "players" to Placeholder().calcOnlinePlayers().toString(),
             "maxPlayers" to Bukkit.getMaxPlayers().toString(),
             "date" to date,
             "onlinePlayers" to onlinePlayers
@@ -99,17 +99,5 @@ class GenerateMOTD {
             line,
             varMap
         )
-    }
-
-    private fun calcOnlinePlayers(): Int {
-        var onlinePlayers = Bukkit.getOnlinePlayers().size
-
-        for (player in Vanish.vanish) {
-            if (player.value) {
-                onlinePlayers--
-            }
-        }
-
-        return onlinePlayers
     }
 }

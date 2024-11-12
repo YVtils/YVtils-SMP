@@ -2,7 +2,9 @@ package yv.tils.smp.mods.discord.sync.stats
 
 import org.bukkit.Bukkit
 import yv.tils.smp.YVtils
+import yv.tils.smp.mods.server.motd.GenerateMOTD
 import yv.tils.smp.utils.configs.discord.DiscordConfig
+import yv.tils.smp.utils.internalAPI.Placeholder
 import java.text.SimpleDateFormat
 
 class CollectStats {
@@ -76,7 +78,7 @@ class CollectStats {
         }
 
         if (newLastPlayerCount.isEmpty()) {
-            lastPlayerCount = Bukkit.getOnlinePlayers().size.toString()
+            lastPlayerCount = Placeholder().calcOnlinePlayers().toString()
         }
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
