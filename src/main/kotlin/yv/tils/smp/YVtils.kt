@@ -18,7 +18,7 @@ class YVtils : JavaPlugin() {
         lateinit var key: NamespacedKey
     }
 
-    val pluginVersion = "1.0.4"
+    val pluginVersion = "1.0.5"
 
     override fun onLoad() {
         instance = this
