@@ -93,6 +93,8 @@ class Language {
 
         return when (lang) {
             Locale.GERMANY -> ColorUtils().convert(config_de[message.name].toString())
+            Locale.UK -> ColorUtils().convert(config_en[message.name].toString())
+            Locale.US -> ColorUtils().convert(config_en[message.name].toString())
             Locale.ENGLISH -> ColorUtils().convert(config_en[message.name].toString())
             else -> ColorUtils().convert(config_global[message.name].toString())
         }
