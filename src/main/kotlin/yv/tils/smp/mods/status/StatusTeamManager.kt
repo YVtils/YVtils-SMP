@@ -22,5 +22,10 @@ class StatusTeamManager {
     fun removePlayer(player: Player) {
         val team = player.scoreboard.getEntryTeam(player.name)
         team?.removeEntry(player.name)
+        team?.size?.let {
+            if (it == 0) {
+                team.unregister()
+            }
+        }
     }
 }
