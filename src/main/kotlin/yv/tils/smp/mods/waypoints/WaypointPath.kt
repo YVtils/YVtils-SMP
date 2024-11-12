@@ -24,6 +24,13 @@ class WaypointPath {
         val navigatingPlayers: MutableMap<Player, NaviData> = mutableMapOf()
     }
 
+    /**
+     * Data class for storing navigation data
+     * @property player The player that is navigating
+     * @property location The location of the waypoint
+     * @property endCrystal The end crystal that is used for navigation
+     * @property task The task that is used for generating particles
+      */
     data class NaviData(
         val player: Player,
         val location: Location,
@@ -79,7 +86,7 @@ class WaypointPath {
                 generateActionbar(player, player.location, location)
 
                 if ((location.world == player.location.world) && location.distance(player.location) < 10) {
-                    removeCrystal(endCrystal)
+                    handleCrystalRemoval(endCrystal)
 
                     player.sendMessage(
                         Placeholder().replacer(
@@ -182,7 +189,7 @@ class WaypointPath {
         endCrystal.isShowingBottom = false
         endCrystal.isInvulnerable = true
         endCrystal.beamTarget = beamTarget
-        endCrystal.isInvisible = true
+        endCrystal.isInvisible = false
         endCrystal.isGlowing = true
         endCrystal.isSilent = true
 
@@ -191,7 +198,6 @@ class WaypointPath {
         }
 
         player.showEntity(YVtils.instance, endCrystal)
-
 
         var team = player.scoreboard.getTeam("waypoint")
 
@@ -288,17 +294,12 @@ class WaypointPath {
         }
     }
 
-    private fun removeCrystal(endCrystal: EnderCrystal) {
-        object : BukkitRunnable() {
-            override fun run() {
-                for (crystal in crystalList) {
-                    endCrystal.remove()
-                    crystalList.remove(endCrystal)
-                    break
-                }
-            }
-        }.runTask(YVtils.instance)
+    private fun handleCrystalRemoval(endCrystal: EnderCrystal) {
+        Bukkit.getScheduler().runTask(YVtils.instance, Runnable {
+            removeCrystal(endCrystal)
+        })
     }
+
 
     fun stopNavigations() {
         if (!(Config.config["modules.waypoints"] as Boolean)) return
@@ -325,9 +326,15 @@ class WaypointPath {
         val copyCrystalList = crystalList.toList()
 
         for (crystal in copyCrystalList) {
-            crystal.remove()
-            crystalList.remove(crystal)
+            removeCrystal(crystal)
         }
     }
 
+    private fun removeCrystal(endCrystal: EnderCrystal) {
+        endCrystal.remove()
+        crystalList.remove(endCrystal)
+
+        val team = Bukkit.getScoreboardManager().mainScoreboard.getTeam("waypoint")
+        team?.removeEntry(endCrystal.uniqueId.toString())
+    }
 }
