@@ -14,6 +14,7 @@ class Other {
 
     private fun pluginVersion() {
         PluginVersion().asyncUpdateChecker()
+        PluginVersion().updateChecker(YVtils.instance.pluginVersion)
     }
 
     private fun permissions() {

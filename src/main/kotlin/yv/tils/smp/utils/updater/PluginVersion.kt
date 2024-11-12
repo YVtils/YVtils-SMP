@@ -41,7 +41,7 @@ class PluginVersion {
         }
     }
 
-    private fun updateChecker(serverPluginVersion: String) {
+    fun updateChecker(serverPluginVersion: String) {
         plVersion = serverPluginVersion
         webRequest()
 
@@ -110,7 +110,7 @@ class PluginVersion {
 
     fun asyncUpdateChecker() {
         Bukkit.getScheduler().runTaskTimerAsynchronously(YVtils.instance, Runnable {
-            updateChecker(YVtils.instance.pluginVersion)
+            webRequest()
         }, 0, 3600 * 20)
     }
 }
