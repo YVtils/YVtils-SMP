@@ -602,6 +602,16 @@ class en_yml {
         )
 
         ymlFile.addDefault(
+            "MODULE_MULTIMINE_TOGGLE_ACTIVATE",
+            "<white>MultiMine is now <yellow>activated<white>!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_TOGGLE_DEACTIVATE",
+            "<white>MultiMine is now <yellow>deactivated<white>!"
+        )
+
+        ymlFile.addDefault(
             "MODULE_WAYPOINT_ALREADY_EXISTS",
             "<white>The waypoint <yellow><waypoint> <white>already exists!"
         )

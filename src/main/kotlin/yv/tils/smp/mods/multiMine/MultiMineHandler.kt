@@ -12,6 +12,8 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.global.Config
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.configs.multiMine.MultiMineConfig
 import java.util.UUID
 
@@ -157,7 +159,11 @@ class MultiMineHandler {
         MultiMineConfig().changePlayerSetting(uuid, !value)
 
         sender.sendMessage(
-            "§aMultiMine is now ${if (!value) "§aenabled" else "§cdisabled"}"
+            if (value) {
+                Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_TOGGLE_ACTIVATE)
+            } else {
+                Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_TOGGLE_DEACTIVATE)
+            }
         )
     }
 
