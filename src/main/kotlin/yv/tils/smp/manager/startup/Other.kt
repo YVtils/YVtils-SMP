@@ -18,5 +18,6 @@ class Other {
         val pm = YVtils.instance.server.pluginManager
         pm.addPermission(Permission.loadPermission("yvtils.smp.multiMine", mapOf()))
         pm.addPermission(Permission.loadPermission("yvtils.smp.chatSync", mapOf()))
+        pm.addPermission(Permission.loadPermission("yvtils.smp.command.moderation.announcement", mapOf()))
     }
 }
