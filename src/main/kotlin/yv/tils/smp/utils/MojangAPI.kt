@@ -8,6 +8,12 @@ import java.net.URI
 import java.util.*
 
 class MojangAPI {
+    /**
+     * Get the UUID of a player by their name
+     * @param playerName The name of the player
+     * @return The UUID of the player
+     * @throws Exception
+     */
     fun name2uuid(playerName: String): UUID? {
         try {
             val url = "https://api.mojang.com/users/profiles/minecraft/$playerName"
@@ -26,6 +32,12 @@ class MojangAPI {
         return null
     }
 
+    /**
+     * Get the name of a player by their UUID
+     * @param uuid The UUID of the player
+     * @return The name of the player
+     * @throws Exception
+     */
     fun uuid2name(uuid: UUID): String? {
         try {
             val url = "https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString().replace("-", "")
@@ -38,6 +50,13 @@ class MojangAPI {
         return null
     }
 
+    /**
+     * Get the skin texture of a player by their UUID or name
+     * @param uuid The UUID of the player
+     * @param name The name of the player
+     * @return The skin texture of the player
+     * @throws Exception
+     */
     fun getSkinTextures(uuid: UUID? = null, name: String = ""): String? {
         if (uuid == null && name == "") return null
 
