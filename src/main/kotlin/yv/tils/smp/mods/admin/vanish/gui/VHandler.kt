@@ -11,12 +11,7 @@ class VHandler {
     fun onInventoryClick(e: InventoryClickEvent) {
         val player = e.whoClicked
 
-        if (e.inventory.location != null) {
-            return
-        }
-
-
-        if (player.openInventory.title() == ColorUtils().convert("<#6D8896>Vanish") && e.inventory.size == 36 && e.inventory.location == null) {
+        if (!(player.openInventory.title() == ColorUtils().convert("<#6D8896>Vanish") && e.inventory.size == 36 && e.inventory.location == null)) {
             return
         }
 
@@ -67,7 +62,9 @@ class VHandler {
                 }
             }
             layerToggleSlot -> {
-                vData.layer = 4
+                if (vData.layer == 4) {
+                    vData.layer = 1
+                } else vData.layer = 4
 
                 val guiElement = VBuilder().layerSetting(vData, player as Player)
 
@@ -118,12 +115,10 @@ class VHandler {
 
             val vData = Vanish.vanish[target.uniqueId]!!
 
-            if (vData.oldVanish != vData.vanish) {
-                if (vData.vanish) {
-                    Vanish().enableVanish(target)
-                } else {
-                    Vanish().disableVanish(target)
-                }
+            if (vData.vanish) {
+                Vanish().enableVanish(target)
+            } else {
+                Vanish().disableVanish(target)
             }
         }
     }
