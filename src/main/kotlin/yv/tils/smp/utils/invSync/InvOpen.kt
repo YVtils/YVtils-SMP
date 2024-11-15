@@ -35,6 +35,10 @@ class InvOpen {
                     }
                 }
 
+                if (e.inventory.size % 9 != 0) {
+                    return
+                }
+
                 e.isCancelled = true
 
                 player.closeInventory()
