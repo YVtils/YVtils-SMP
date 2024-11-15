@@ -23,11 +23,11 @@ class GodHandler {
 
         if (god[uuid] == null || god[uuid] == false) {
             god[uuid] = true
-            FlyHandler().flySwitch(player, silent = true)
+            FlyHandler().flySwitch(player, state = true, silent = true)
             player.sendMessage(Language().getMessage(uuid, LangStrings.GODMODE_COMMAND_ENABLE))
         } else {
             god[uuid] = false
-            FlyHandler().flySwitch(player, silent = true)
+            FlyHandler().flySwitch(player, state = false, silent = true)
             player.sendMessage(Language().getMessage(uuid, LangStrings.GODMODE_COMMAND_DISABLE))
         }
 

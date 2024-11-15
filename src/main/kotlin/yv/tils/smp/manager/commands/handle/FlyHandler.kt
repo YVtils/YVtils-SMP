@@ -27,10 +27,10 @@ class FlyHandler {
      * @param sender CommandSender to send messages
      * @param silent Boolean to toggle silent mode
      */
-    fun flySwitch(player: Player, sender: CommandSender = player, silent: Boolean = false) {
+    fun flySwitch(player: Player, sender: CommandSender = player, state: Boolean? = null, silent: Boolean = false) {
         val uuid = player.uniqueId
 
-        if (fly[uuid] == null || fly[uuid] == false) {
+        if ((fly[uuid] == null || fly[uuid] == false) || (state == null || state)) {
             fly[uuid] = true
             player.allowFlight = true
             player.isFlying = true
