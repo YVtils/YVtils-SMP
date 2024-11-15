@@ -86,6 +86,8 @@ class MuteHandler {
                     )
                 )
             )
+
+            // TODO: Add message to console when player tries to chat while muted -> "<player> tried to chat while muted. Message: <message>; Reason: <reason>; Duration: <duration>"
         }
     }
 
