@@ -1,10 +1,10 @@
 package yv.tils.smp.mods.admin.vanish
 
-import dev.jorel.commandapi.kotlindsl.*
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import yv.tils.smp.YVtils
+import yv.tils.smp.mods.admin.vanish.gui.VBuilder
 import yv.tils.smp.mods.server.connect.PlayerJoin
 import yv.tils.smp.mods.server.connect.PlayerQuit
 import yv.tils.smp.utils.configs.language.LangStrings
@@ -12,164 +12,133 @@ import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import java.util.*
-import kotlin.collections.MutableMap
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.iterator
-import kotlin.collections.listOf
-import kotlin.collections.set
 
 class Vanish {
     companion object {
         var exec_target: MutableMap<UUID, UUID> = HashMap()
-        var vanish: MutableMap<UUID, Boolean> = HashMap() //Default: false
-        var oldVanish: MutableMap<UUID, Boolean> = HashMap() //Default: false
-        var layer: MutableMap<UUID, Int> = HashMap() //Default: 1
-        var itemPickup: MutableMap<UUID, Boolean> = HashMap() //Default: false
-        var invInteraction: MutableMap<UUID, Boolean> = HashMap() //Default: true
-        var mobTarget: MutableMap<UUID, Boolean> = HashMap() //Default: true
+        var vanish: MutableMap<UUID, VanishedPlayer> = HashMap()
     }
 
-    val command = commandTree("vanish") {
-        withPermission("yvtils.smp.command.vanish")
-        withUsage("vanish [quick | player] [player]")
-        withAliases("v")
+    /**
+     * Data class for vanished player
+     * @param player Player to vanish
+     * @param vanish Boolean of vanish state
+     * @param layer Int of vanish layer
+     * @param itemPickup Boolean of item pickup state | true = pickup enabled
+     * @param invInteraction Boolean of inventory interaction state | true = silent inventory interaction
+     * @param mobTarget Boolean of mob target state | true = mobs can not target player
+     */
+    data class VanishedPlayer(
+        var player: Player,
+        var oldVanish: Boolean,
+        var vanish: Boolean,
+        var layer: Int,
+        var itemPickup: Boolean,
+        var invInteraction: Boolean,
+        var mobTarget: Boolean
+    )
 
-        literalArgument("quick", true) {
-            playerArgument("player", true) {
-                anyExecutor { sender, args ->
-                    try {
-                        val target = args[0] as Player
-                        quickVanish(target, sender)
-                    } catch (_: Exception) {
-                        quickVanish(sender as Player, sender)
-                    }
-                }
-            }
-        }
-
-        playerArgument("player", true) {
-            playerExecutor { player, args ->
-                try {
-                    val target = args[0] as Player
-                    vanish(target, player)
-                } catch (_: Exception) {
-                    vanish(player, player)
-                }
-            }
-        }
-    }
-
-    private fun quickVanish(player: Player, sender: CommandSender) {
-        if (!player.isOnline) {
-
-            if (sender is Player) {
-                sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_NOT_ONLINE))
-            } else {
-                sender.sendMessage(Language().getMessage(LangStrings.PLAYER_NOT_ONLINE))
-            }
+    fun vanish(player: Player, sender: CommandSender) {
+        if (sender !is Player) {
+            quickVanish(player, sender)
             return
         }
-
-        if (!vanish.containsKey(player.uniqueId)) vanish[player.uniqueId] = false
-        if (!layer.containsKey(player.uniqueId)) layer[player.uniqueId] = 1
-        if (!itemPickup.containsKey(player.uniqueId)) itemPickup[player.uniqueId] = false
-        if (!invInteraction.containsKey(player.uniqueId)) invInteraction[player.uniqueId] = true
-        if (!mobTarget.containsKey(player.uniqueId)) mobTarget[player.uniqueId] = true
-
-        if (vanish[player.uniqueId]!!) {
-            VanishGUI().vanishRegister(player, false)
-            disableVanish(player)
-        } else {
-            VanishGUI().vanishRegister(player, true)
-            enableVanish(player)
-        }
-
-        if (sender != player) {
-            if (sender is Player) {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(sender.uniqueId, LangStrings.VANISH_TOGGLE_OTHER),
-                        listOf("prefix", "player"),
-                        listOf(Vars().prefix, player.name)
-                    )
-                )
-            } else {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(LangStrings.VANISH_TOGGLE_OTHER),
-                        listOf("prefix", "player"),
-                        listOf(Vars().prefix, player.name)
-                    )
-                )
-            }
-        }
-
-        return
-    }
-
-    private fun vanish(player: Player, sender: Player) {
-        if (!player.isOnline) {
-            sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_NOT_ONLINE))
-            return
-        }
-
-        if (!vanish.containsKey(player.uniqueId)) vanish[player.uniqueId] = false
-        if (!layer.containsKey(player.uniqueId)) layer[player.uniqueId] = 1
-        if (!itemPickup.containsKey(player.uniqueId)) itemPickup[player.uniqueId] = false
-        if (!invInteraction.containsKey(player.uniqueId)) invInteraction[player.uniqueId] = true
-        if (!mobTarget.containsKey(player.uniqueId)) mobTarget[player.uniqueId] = true
 
         exec_target[sender.uniqueId] = player.uniqueId
 
-        VanishGUI().gui(sender)
-
-        return
+        VBuilder().openGUI(sender, player)
     }
 
-    fun enableVanish(player: Player) {
-        val quitMessage = PlayerQuit().generateQuitMessage(player)
+    fun quickVanish(player: Player, sender: CommandSender) {
+        val state = currentState(player)
+        if (state) {
+            disableVanish(player)
+        } else {
+            enableVanish(player)
+        }
 
-        playerHide(player)
+        if (player == sender) {
+            if (state) {
+                sender.sendMessage("§aVanish disabled")
+            } else {
+                sender.sendMessage("§aVanish enabled")
+            }
+        } else {
+            if (state) {
+                sender.sendMessage("§aVanish disabled for ${player.name}")
+                player.sendMessage("§aVanish disabled")
+            } else {
+                sender.sendMessage("§aVanish enabled for ${player.name}")
+                player.sendMessage("§aVanish enabled")
+            }
+        }
+    }
 
-        player.canPickupItems = itemPickup[player.uniqueId]!!
+    /**
+     * Refresh vanish for player
+     * @param player Player to refresh vanish
+     * @return Boolean of vanish state
+     */
+    fun refreshVanish(player: Player): Boolean {
+        val state = currentState(player)
+        if (state) {
+            loopHidePlayers(player)
+        }
+
+        return state
+    }
+
+    /**
+     * Enable vanish for player
+     * @param player Player to enable vanish
+     * @param silent Boolean if fake leave message should not be sent
+     * @return Boolean if vanish was enabled
+     */
+    fun enableVanish(player: Player, silent: Boolean = false): Boolean {
+        loopHidePlayers(player)
+
+        val vData = vanish[player.uniqueId]!!
+
+        if (!silent) {
+            val quitMessage = PlayerQuit().generateQuitMessage(player)
+            Bukkit.broadcast(quitMessage)
+        }
+
+        player.canPickupItems = vData.itemPickup
 
         player.isSleepingIgnored = true
         player.isSilent = true
 
-        if (oldVanish.containsKey(player.uniqueId) && vanish.containsKey(player.uniqueId) && oldVanish[player.uniqueId] == vanish[player.uniqueId]) {
-            player.sendMessage(
-                Placeholder().replacer(
-                    Language().getMessage(
-                        player.uniqueId,
-                        LangStrings.VANISH_REFRESH
-                    ),
-                    listOf("prefix"),
-                    listOf(Vars().prefix)
-                )
-            )
-
-            for ((key, value) in exec_target) {
-                if (value === key) return
-                if (value == player.uniqueId) {
-                    val target = Bukkit.getPlayer(key)
-                    target?.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(
-                                target.uniqueId,
-                                LangStrings.VANISH_REFRESH_OTHER
-                            ),
-                            listOf("prefix", "player"),
-                            listOf(Vars().prefix, player.name)
-                        )
+        if (vData.vanish == vData.oldVanish) {
+                player.sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(
+                            player.uniqueId,
+                            LangStrings.VANISH_REFRESH
+                        ),
+                        listOf("prefix"),
+                        listOf(Vars().prefix)
                     )
+                )
+
+                for ((key, value) in exec_target) {
+                    if (value === key) return true
+                    if (value == player.uniqueId) {
+                        val target = Bukkit.getPlayer(key)
+                        target?.sendMessage(
+                            Placeholder().replacer(
+                                Language().getMessage(
+                                    target.uniqueId,
+                                    LangStrings.VANISH_REFRESH_OTHER
+                                ),
+                                listOf("prefix", "player"),
+                                listOf(Vars().prefix, player.name)
+                            )
+                        )
+                    }
                 }
-            }
-
-            return
+            return true
         }
-
-        Bukkit.broadcast(quitMessage)
 
         player.sendMessage(
             Placeholder().replacer(
@@ -181,94 +150,80 @@ class Vanish {
                 listOf(Vars().prefix)
             )
         )
+
+        return false
     }
 
-    fun disableVanish(player: Player) {
-        val joinMessage = PlayerJoin().generateJoinMessage(player)
+    /**
+     * Disable vanish for player
+     * @param player Player to disable vanish
+     * @param silent Boolean if fake join message should not be sent
+     * @return Boolean if vanish was disabled
+     */
+    fun disableVanish(player: Player, silent: Boolean = false): Boolean {
+        showPlayer(player)
 
-        for (p in player.server.onlinePlayers) {
-            p.showPlayer(YVtils.instance, player)
-            player.showPlayer(YVtils.instance, p)
-
-            if (vanish.containsKey(p.uniqueId) && vanish[p.uniqueId]!!) player.hidePlayer(YVtils.instance, p)
+        if (!silent) {
+            val joinMessage = PlayerJoin().generateJoinMessage(player)
+            Bukkit.broadcast(joinMessage)
         }
 
-        player.isSleepingIgnored = false
-        player.canPickupItems = true
-        player.isSilent = false
+        return false
+    }
 
-        if (oldVanish.containsKey(player.uniqueId) && vanish.containsKey(player.uniqueId) && oldVanish[player.uniqueId] == vanish[player.uniqueId]) {
-            player.sendMessage(
-                Placeholder().replacer(
-                    Language().getMessage(
-                        player.uniqueId,
-                        LangStrings.VANISH_REFRESH
-                    ),
-                    listOf("prefix"),
-                    listOf(Vars().prefix)
-                )
-            )
+    private fun loopHidePlayers(player: Player) {
+        for (p in player.server.onlinePlayers) {
+            hidePlayer(player, p)
+        }
+    }
 
-            for ((key, value) in exec_target) {
-                if (value === key) return
-                if (value == player.uniqueId) {
-                    val target = Bukkit.getPlayer(key)
-                    target?.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(
-                                target.uniqueId,
-                                LangStrings.VANISH_REFRESH_OTHER
-                            ),
-                            listOf("prefix", "player"),
-                            listOf(Vars().prefix, player.name)
-                        )
-                    )
-                }
-            }
+    fun hidePlayer(exec: Player, target: Player) {
+        target.hidePlayer(YVtils.instance, exec)
+        exec.hidePlayer(YVtils.instance, target)
 
+        if (!vanish.containsKey(target.uniqueId) || !vanish[target.uniqueId]!!.vanish) {
+            exec.showPlayer(YVtils.instance, target)
             return
         }
 
-        Bukkit.broadcast(joinMessage)
-        player.sendMessage(
-            Placeholder().replacer(
-                Language().getMessage(
-                    player.uniqueId,
-                    LangStrings.VANISH_DEACTIVATE
-                ),
-                listOf("prefix"),
-                listOf(Vars().prefix)
-            )
-        )
+        val layer = vanish[exec.uniqueId]!!.layer
+        val targetLayer = vanish[target.uniqueId]!!.layer
+        if (layer == 4 || targetLayer == 4) return
+
+        if (targetLayer > layer) {
+            exec.hidePlayer(YVtils.instance, target)
+            target.showPlayer(YVtils.instance, exec)
+        } else if (targetLayer < layer) {
+            exec.showPlayer(YVtils.instance, target)
+            target.hidePlayer(YVtils.instance, exec)
+        } else {
+            exec.showPlayer(YVtils.instance, target)
+            target.showPlayer(YVtils.instance, exec)
+        }
     }
 
-    fun playerHide(player: Player) {
+    private fun showPlayer(player: Player) {
         for (p in player.server.onlinePlayers) {
-            p.hidePlayer(YVtils.instance, player)
-            player.hidePlayer(YVtils.instance, p)
+            p.showPlayer(YVtils.instance, player)
+        }
+    }
 
-            if (!(vanish.containsKey(p.uniqueId) && vanish[p.uniqueId]!!)) player.showPlayer(YVtils.instance, p)
+    private fun currentState(player: Player): Boolean {
+        if (!vanish.containsKey(player.uniqueId)) {
+            generateDummyData(player)
         }
 
-        if (layer[player.uniqueId] != 4) {
-            for (entry in layer.entries) {
+        return vanish[player.uniqueId]!!.vanish
+    }
 
-                val target = Bukkit.getPlayer(entry.key) ?: continue
-
-                if (entry.value == 4) continue
-                if (!(vanish.containsKey(target.uniqueId) && vanish[target.uniqueId]!!)) continue
-
-                if (layer[player.uniqueId]!! > entry.value) {
-                    target.hidePlayer(YVtils.instance, player)
-                    player.showPlayer(YVtils.instance, target)
-                } else if (layer[player.uniqueId]!! < entry.value) {
-                    target.showPlayer(YVtils.instance, player)
-                    player.hidePlayer(YVtils.instance, target)
-                } else if (layer[player.uniqueId]!! == entry.value) {
-                    target.showPlayer(YVtils.instance, player)
-                    player.showPlayer(YVtils.instance, target)
-                }
-            }
-        }
+    private fun generateDummyData(player: Player) {
+        vanish[player.uniqueId] = VanishedPlayer(player,
+            oldVanish = false,
+            vanish = false,
+            layer = 1,
+            itemPickup = false,
+            invInteraction = true,
+            mobTarget = true
+        )
     }
 }

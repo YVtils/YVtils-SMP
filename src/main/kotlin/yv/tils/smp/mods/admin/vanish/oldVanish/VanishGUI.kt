@@ -1,4 +1,4 @@
-package yv.tils.smp.mods.admin.vanish
+package yv.tils.smp.mods.admin.vanish.oldVanish
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -17,6 +17,7 @@ import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.inventory.GUIFiller
 
+@Deprecated("Old Vanish System", ReplaceWith("VBuilder", "yv.tils.smp.mods.admin.vanish.gui.VBuilder"), DeprecationLevel.ERROR)
 class VanishGUI {
     fun gui(player: Player) {
         var inv = Bukkit.createInventory(player, 36, ColorUtils().convert("<#6D8896>Vanish"))
@@ -385,9 +386,9 @@ class VanishGUI {
 
         if (player.openInventory.title() == ColorUtils().convert("<#6D8896>Vanish") && e.inventory.size == 36 && e.inventory.location == null) {
             if (Vanish.vanish[target.uniqueId]!!) {
-                Vanish().enableVanish(target)
+                yv.tils.smp.mods.admin.vanish.Vanish().enableVanish(target)
             } else {
-                Vanish().disableVanish(target)
+                yv.tils.smp.mods.admin.vanish.Vanish().disableVanish(target)
             }
         }
     }

@@ -44,7 +44,7 @@ class PlayerJoin {
             return
         }
 
-        if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!) {
+        if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]?.vanish!!) {
             e.joinMessage(null)
             state = 3
         } else {

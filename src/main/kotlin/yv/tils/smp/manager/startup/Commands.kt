@@ -5,7 +5,7 @@ import yv.tils.smp.manager.commands.register.*
 import yv.tils.smp.mods.admin.invSee.EcSee
 import yv.tils.smp.mods.admin.invSee.InvSee
 import yv.tils.smp.mods.admin.moderation.cmd.*
-import yv.tils.smp.mods.admin.vanish.Vanish
+import yv.tils.smp.mods.admin.vanish.VanishCMD
 import yv.tils.smp.mods.fusionCrafting.FusionOverview
 import yv.tils.smp.mods.message.MSGCommand
 import yv.tils.smp.mods.message.ReplyCommand
@@ -68,7 +68,7 @@ class Commands {
         if (Config.config["modules.admin"] as Boolean) {
             MaintenanceCMD()
 
-            Vanish()
+            VanishCMD()
 
             InvSee()
             EcSee()

@@ -31,7 +31,7 @@ class SitManager {
     }
 
     private fun sitDown(x: Double, y: Double, z: Double, location: Location): ArmorStand {
-        val world = location.getWorld()
+        val world = location.world
         val sit: ArmorStand = world.spawnEntity(location.subtract(x, y, z), EntityType.ARMOR_STAND) as ArmorStand
 
         sit.isInvulnerable = true
