@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "yv.tils"
-version = "1.0.5"
+version = "1.1.0"
 
 val jdaVersion = "5.2.1"
 
