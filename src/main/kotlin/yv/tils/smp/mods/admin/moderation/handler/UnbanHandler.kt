@@ -1,5 +1,6 @@
 package yv.tils.smp.mods.admin.moderation.handler
 
+import io.papermc.paper.ban.BanListType
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
@@ -14,18 +15,15 @@ import java.util.*
 class UnbanHandler {
     fun unbanPlayer(target: OfflinePlayer, sender: CommandSender) {
         if (!target.isBanned) {
-            if (sender is Player) {
-                sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.MOD_PLAYER_NOT_BANNED))
-            } else {
-                sender.sendMessage(Language().getMessage(LangStrings.MOD_PLAYER_NOT_BANNED))
-            }
+            sender.sendMessage(Language().getMessage(sender, LangStrings.MOD_PLAYER_NOT_BANNED))
             return
         }
 
         val date = Date()
         date.time = 0L
 
-        target.banPlayer(null, date, sender.name)
+        val playerProfile = target.playerProfile
+        Bukkit.getBanList(BanListType.PROFILE).addBan(playerProfile, null, date, sender.name)
 
         for (player in Bukkit.getOnlinePlayers()) {
             if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {

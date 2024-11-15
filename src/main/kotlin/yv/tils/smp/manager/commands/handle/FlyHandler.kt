@@ -21,28 +21,26 @@ class FlyHandler {
         var airAfter: MutableMap<UUID, Boolean> = HashMap()
     }
 
-    fun flySwitch(player: Player, sender: CommandSender = player) {
+    /**
+     * Toggle fly for player
+     * @param player Player to toggle fly
+     * @param sender CommandSender to send messages
+     * @param silent Boolean to toggle silent mode
+     */
+    fun flySwitch(player: Player, sender: CommandSender = player, silent: Boolean = false) {
         val uuid = player.uniqueId
 
         if (fly[uuid] == null || fly[uuid] == false) {
             fly[uuid] = true
             player.allowFlight = true
             player.isFlying = true
-            player.sendMessage(Language().getMessage(uuid, LangStrings.FLY_COMMAND_ENABLE))
+            if (!silent) {
+                player.sendMessage(Language().getMessage(uuid, LangStrings.FLY_COMMAND_ENABLE))
 
-            if (player != sender) {
-                if (sender is Player) {
+                if (player != sender) {
                     sender.sendMessage(
                         Placeholder().replacer(
-                            Language().getMessage(sender.uniqueId, LangStrings.FLY_COMMAND_ENABLE_OTHER),
-                            listOf("player"),
-                            listOf(player.name)
-                        )
-                    )
-                } else {
-                    sender.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(LangStrings.FLY_COMMAND_ENABLE_OTHER),
+                            Language().getMessage(sender, LangStrings.FLY_COMMAND_ENABLE_OTHER),
                             listOf("player"),
                             listOf(player.name)
                         )
@@ -60,21 +58,13 @@ class FlyHandler {
                 player.isFlying = false
             }
 
-            player.sendMessage(Language().getMessage(uuid, LangStrings.FLY_COMMAND_DISABLE))
+            if (!silent) {
+                player.sendMessage(Language().getMessage(uuid, LangStrings.FLY_COMMAND_DISABLE))
 
-            if (player != sender) {
-                if (sender is Player) {
+                if (player != sender) {
                     sender.sendMessage(
                         Placeholder().replacer(
-                            Language().getMessage(sender.uniqueId, LangStrings.FLY_COMMAND_DISABLE_OTHER),
-                            listOf("player"),
-                            listOf(player.name)
-                        )
-                    )
-                } else {
-                    sender.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(LangStrings.FLY_COMMAND_DISABLE_OTHER),
+                            Language().getMessage(sender, LangStrings.FLY_COMMAND_DISABLE_OTHER),
                             listOf("player"),
                             listOf(player.name)
                         )
@@ -84,6 +74,10 @@ class FlyHandler {
         }
     }
 
+    /**
+     * Cancel fall damage for flying players
+     * @param e EntityDamageEvent
+     */
     fun onLandingDamage(e: EntityDamageEvent) {
         if (e.entity is Player) {
             val player = e.entity as Player
@@ -102,6 +96,10 @@ class FlyHandler {
         }
     }
 
+    /**
+     * Reanable fly for player on world change
+     * @param e PlayerChangedWorldEvent
+     */
     fun onWorldChange(e: PlayerChangedWorldEvent) {
         val player = e.player
         val uuid = player.uniqueId
@@ -112,6 +110,10 @@ class FlyHandler {
         }
     }
 
+    /**
+     * Reanable fly for player on rejoin
+     * @param e PlayerJoinEvent
+     */
     fun onRejoin(e: PlayerJoinEvent) {
         val player = e.player
         val uuid = player.uniqueId
@@ -122,6 +124,10 @@ class FlyHandler {
         }
     }
 
+    /**
+     * Reanable fly for player on gamemode switch
+     * @param e PlayerGameModeChangeEvent
+     */
     fun onGamemodeSwitch(e: PlayerGameModeChangeEvent) {
         val player = e.player
         val uuid = player.uniqueId

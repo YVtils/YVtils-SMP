@@ -27,76 +27,40 @@ class SeedCMD {
                     }
                 }
 
-                if (sender is Player) {
-                    if (seedMap.keys.size == 1) {
-                        sender.sendMessage(
-                            ColorUtils().convert(
-                                Vars().prefix + " Seed: <gray>[<green><click:copy_to_clipboard:${seedMap.keys.first()}><hover:show_text:'${
-                                    Language().getRawMessage(
-                                        sender.uniqueId,
-                                        LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
-                                    )
-                                }'>${seedMap.keys.first()}</click><gray>]"
-                            )
-                        )
-                    } else {
-                        val seedList: MutableList<String> = mutableListOf()
-
-                        for (seed in seedMap.keys) {
-                            seedList.add(
-                                "<white>${seedMap[seed]}: <gray>[<green><click:copy_to_clipboard:$seed><hover:show_text:'${
-                                    Language().getRawMessage(
-                                        sender.uniqueId,
-                                        LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
-                                    )
-                                }'>$seed</click><gray>]"
-                            )
-                        }
-
-                        sender.sendMessage(
-                            ColorUtils().convert(
-                                Vars().prefix + " Seeds:<newline>"
-                            ).append(
-                                ColorUtils().convert(
-                                    seedList.joinToString("<newline>")
+                if (seedMap.keys.size == 1) {
+                    sender.sendMessage(
+                        ColorUtils().convert(
+                            Vars().prefix + " Seed: <gray>[<green><click:copy_to_clipboard:${seedMap.keys.first()}><hover:show_text:'${
+                                Language().getRawMessage(
+                                    sender,
+                                    LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
                                 )
-                            )
+                            }'>${seedMap.keys.first()}</click><gray>]"
                         )
-                    }
+                    )
                 } else {
-                    if (seedMap.keys.size == 1) {
-                        sender.sendMessage(
-                            ColorUtils().convert(
-                                Vars().prefix + " Seed: <gray>[<click:copy_to_clipboard:${seedMap.keys.first()}><hover:show_text:'${
-                                    Language().getRawMessage(
-                                        LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
-                                    )
-                                }'>${seedMap.keys.first()}</click><gray>]"
-                            )
-                        )
-                    } else {
-                        val seedList: MutableList<String> = mutableListOf()
+                    val seedList: MutableList<String> = mutableListOf()
 
-                        for (seed in seedMap.keys) {
-                            seedList.add(
-                                "${seedMap[seed]}: <gray>[<lime><click:copy_to_clipboard:$seed><hover:show_text:'${
-                                    Language().getRawMessage(
-                                        LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
-                                    )
-                                }'>$seed</click><gray>]"
-                            )
-                        }
-
-                        sender.sendMessage(
-                            ColorUtils().convert(
-                                Vars().prefix + " Seeds:<newline>"
-                            ).append(
-                                ColorUtils().convert(
-                                    seedList.joinToString("<newline>")
+                    for (seed in seedMap.keys) {
+                        seedList.add(
+                            "<white>${seedMap[seed]}: <gray>[<green><click:copy_to_clipboard:$seed><hover:show_text:'${
+                                Language().getRawMessage(
+                                    sender,
+                                    LangStrings.COMMAND_REPLACE_COPY_COMMAND_TO_CLIPBOARD
                                 )
-                            )
+                            }'>$seed</click><gray>]"
                         )
                     }
+
+                    sender.sendMessage(
+                        ColorUtils().convert(
+                            Vars().prefix + " Seeds:<newline>"
+                        ).append(
+                            ColorUtils().convert(
+                                seedList.joinToString("<newline>")
+                            )
+                        )
+                    )
                 }
             }
         }

@@ -1,5 +1,7 @@
 package yv.tils.smp.mods.admin.moderation.handler
 
+import io.papermc.paper.ban.BanListType
+import org.bukkit.BanList
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
@@ -9,19 +11,24 @@ import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
+import java.util.*
 
 class BanHandler {
+    /**
+     * Ban player
+     * @param target Player to ban
+     * @param sender CommandSender to send messages
+     * @param reason String of ban reason
+     */
     fun banPlayer(target: OfflinePlayer, sender: CommandSender, reason: String) {
         if (target.isBanned) {
-            if (sender is Player) {
-                sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_ALREADY_BANNED))
-            } else {
-                sender.sendMessage(Language().getMessage(LangStrings.PLAYER_ALREADY_BANNED))
-            }
+            sender.sendMessage(Language().getMessage(sender, LangStrings.PLAYER_ALREADY_BANNED))
             return
         }
 
-        target.banPlayer(reason, sender.name)
+        val playerProfile = target.playerProfile
+
+        Bukkit.getBanList(BanListType.PROFILE).addBan(playerProfile, reason, null as Date?, sender.name)
 
         for (player in Bukkit.getOnlinePlayers()) {
             if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {

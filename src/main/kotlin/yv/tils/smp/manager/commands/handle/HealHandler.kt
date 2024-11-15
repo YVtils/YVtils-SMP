@@ -8,6 +8,11 @@ import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
 
 class HealHandler {
+    /**
+     * Heal player
+     * @param player Player to heal
+     * @param sender CommandSender to send messages
+     */
     fun playerHeal(player: Player, sender: CommandSender = player) {
         player.health = player.getAttribute(Attribute.MAX_HEALTH)!!.value
         player.foodLevel = 20
@@ -15,23 +20,13 @@ class HealHandler {
         player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.HEAL_PLAYER_HEALED))
 
         if (sender != player) {
-            if (sender is Player) {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(sender.uniqueId, LangStrings.HEAL_OTHER_PLAYER_HEALED),
-                        listOf("player"),
-                        listOf(player.name)
-                    )
+            sender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(sender, LangStrings.HEAL_OTHER_PLAYER_HEALED),
+                    listOf("player"),
+                    listOf(player.name)
                 )
-            } else {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(LangStrings.HEAL_OTHER_PLAYER_HEALED),
-                        listOf("player"),
-                        listOf(player.name)
-                    )
-                )
-            }
+            )
         }
     }
 }

@@ -23,3 +23,7 @@ permissions:
     description: Allows the player to toggle the multiMine feature
   yvtils.smp.command.multiMine.manage:
     description: Allows the player to manage the multiMine feature
+  yvtils.smp.bypass.globalmute:
+          description: Allows the player to bypass the global mute
+  yvtils.smp.bypass.maintenance:
+          description: Allows the player to bypass the maintenance mode

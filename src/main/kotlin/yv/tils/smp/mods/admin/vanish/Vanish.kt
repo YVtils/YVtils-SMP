@@ -38,6 +38,11 @@ class Vanish {
         var mobTarget: Boolean
     )
 
+    /**
+     * Toggle vanish for player
+     * @param player Player to toggle vanish
+     * @param sender CommandSender to send messages
+     */
     fun vanish(player: Player, sender: CommandSender) {
         if (sender !is Player) {
             quickVanish(player, sender)
@@ -49,6 +54,11 @@ class Vanish {
         VBuilder().openGUI(sender, player)
     }
 
+    /**
+     * Quick toggle vanish for player
+     * @param player Player to toggle vanish
+     * @param sender CommandSender to send messages
+     */
     fun quickVanish(player: Player, sender: CommandSender) {
         val state = currentState(player)
         if (state) {
@@ -171,12 +181,21 @@ class Vanish {
         return false
     }
 
+    /**
+     * Loop through all online players and hide vanished player
+     * @param player Player to hide
+     */
     private fun loopHidePlayers(player: Player) {
         for (p in player.server.onlinePlayers) {
             hidePlayer(player, p)
         }
     }
 
+    /**
+     * Hide player for target player
+     * @param exec Player to hide
+     * @param target Player to hide from
+     */
     fun hidePlayer(exec: Player, target: Player) {
         target.hidePlayer(YVtils.instance, exec)
         exec.hidePlayer(YVtils.instance, target)
@@ -202,12 +221,21 @@ class Vanish {
         }
     }
 
+    /**
+     * Show player for target player
+     * @param player Player to show
+     */
     private fun showPlayer(player: Player) {
         for (p in player.server.onlinePlayers) {
             p.showPlayer(YVtils.instance, player)
         }
     }
 
+    /**
+     * Get current vanish state for player
+     * @param player Player to get vanish state
+     * @return Boolean of vanish state
+     */
     private fun currentState(player: Player): Boolean {
         if (!vanish.containsKey(player.uniqueId)) {
             generateDummyData(player)
@@ -216,6 +244,10 @@ class Vanish {
         return vanish[player.uniqueId]!!.vanish
     }
 
+    /**
+     * Generate dummy data for player
+     * @param player Player to generate dummy data
+     */
     private fun generateDummyData(player: Player) {
         vanish[player.uniqueId] = VanishedPlayer(player,
             oldVanish = false,

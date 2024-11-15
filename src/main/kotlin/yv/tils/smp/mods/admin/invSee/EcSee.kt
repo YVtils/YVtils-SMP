@@ -30,6 +30,10 @@ class EcSee {
         }
     }
 
+    /**
+     * Get enderchest inventory of player
+     * @param target Player to get enderchest
+     */
     private fun getInv(target: Player): Inventory {
         val inv = Bukkit.createInventory(
             null, 27,

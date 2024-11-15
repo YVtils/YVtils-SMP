@@ -7,6 +7,10 @@ import org.bukkit.event.player.PlayerGameModeChangeEvent
 import org.bukkit.event.player.PlayerJoinEvent
 
 class VanishEvents {
+    /**
+     * Reanable vanish for player on rejoin
+     * @param e PlayerJoinEvent
+     */
     fun onRejoin(e: PlayerJoinEvent) {
         val player = e.player
         if (!Vanish.vanish.containsKey(player.uniqueId)) return
@@ -15,6 +19,10 @@ class VanishEvents {
         }
     }
 
+    /**
+     * Hide vanished players for other players on join
+     * @param e PlayerJoinEvent
+     */
     fun onOtherJoin(e: PlayerJoinEvent) {
         val target = e.player
 
@@ -25,6 +33,10 @@ class VanishEvents {
         }
     }
 
+    /**
+     * Hide vanished players for player on join
+     * @param e PlayerJoinEvent
+     */
     fun onGamemodeSwitch(e: PlayerGameModeChangeEvent) {
         val player = e.player
         if (!Vanish.vanish.containsKey(player.uniqueId)) return
@@ -33,6 +45,10 @@ class VanishEvents {
         }
     }
 
+    /**
+     * Hide vanished players for player on world change
+     * @param e PlayerChangedWorldEvent
+     */
     fun onWorldChange(e: PlayerChangedWorldEvent) {
         val player = e.player
         if (!Vanish.vanish.containsKey(player.uniqueId)) return
@@ -41,6 +57,10 @@ class VanishEvents {
         }
     }
 
+    /**
+     * Cancel mob target for vanished players
+     * @param e EntityTargetEvent
+     */
     fun playerTarget(e: EntityTargetEvent) {
         if (e.target == null) return
         if (e.target !is Player) return

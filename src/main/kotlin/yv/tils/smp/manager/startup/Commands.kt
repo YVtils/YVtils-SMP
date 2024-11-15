@@ -17,6 +17,9 @@ import yv.tils.smp.mods.waypoints.WaypointCommand
 import yv.tils.smp.utils.configs.global.Config
 
 class Commands {
+    /**
+     * Unregister vanilla commands
+     */
     fun unregisterCommands() {
         CommandAPI.unregister("gamemode")
         CommandAPI.unregister("seed")
@@ -35,6 +38,9 @@ class Commands {
         }
     }
 
+    /**
+     * Register custom commands
+     */
     fun registerCommands() {
         GamemodeCMD()
         FlyCMD()
@@ -47,6 +53,9 @@ class Commands {
         modulesCommands()
     }
 
+    /**
+     * Register modules commands
+     */
     private fun modulesCommands() {
         if (Config.config["modules.fusion"] as Boolean) {
             FusionOverview()

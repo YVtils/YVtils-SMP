@@ -4,6 +4,9 @@ import yv.tils.smp.YVtils
 import yv.tils.smp.manager.listener.*
 
 class Listeners {
+    /**
+     * Register all listeners
+     */
     fun register() {
         val plugin = YVtils.instance
 

@@ -85,7 +85,7 @@ class Placeholder {
         var onlinePlayers = Bukkit.getOnlinePlayers().size
 
         for (player in Vanish.vanish) {
-            if (player.value) {
+            if (player.value.vanish) {
                 onlinePlayers--
             }
         }

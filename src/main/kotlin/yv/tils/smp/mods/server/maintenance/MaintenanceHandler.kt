@@ -72,79 +72,42 @@ class MaintenanceHandler {
     }
 
     private fun senderAnnouncement(sender: CommandSender) {
-        if (sender !is Player) {
-            if (oldState == maintenance) {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(
-                            LangStrings.MAINTENANCE_ALREADY_STATE
-                        ),
-                        listOf("prefix"),
-                        listOf(Vars().prefix)
-                    )
+        if (oldState == maintenance) {
+            sender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(
+                        sender,
+                        LangStrings.MAINTENANCE_ALREADY_STATE
+                    ),
+                    listOf("prefix"),
+                    listOf(Vars().prefix)
                 )
-                return
-            }
+            )
+            return
+        }
 
-            if (maintenance) {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(
-                            LangStrings.MAINTENANCE_COMMAND_ACTIVATE
-                        ),
-                        listOf("prefix"),
-                        listOf(Vars().prefix)
-                    )
+        if (maintenance) {
+            sender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(
+                        sender,
+                        LangStrings.MAINTENANCE_COMMAND_ACTIVATE
+                    ),
+                    listOf("prefix"),
+                    listOf(Vars().prefix)
                 )
-            } else {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(
-                            LangStrings.MAINTENANCE_COMMAND_DEACTIVATE
-                        ),
-                        listOf("prefix"),
-                        listOf(Vars().prefix)
-                    )
-                )
-            }
+            )
         } else {
-            if (oldState == maintenance) {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(
-                            sender.uniqueId,
-                            LangStrings.MAINTENANCE_ALREADY_STATE
-                        ),
-                        listOf("prefix"),
-                        listOf(Vars().prefix)
-                    )
+            sender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(
+                        sender,
+                        LangStrings.MAINTENANCE_COMMAND_DEACTIVATE
+                    ),
+                    listOf("prefix"),
+                    listOf(Vars().prefix)
                 )
-                return
-            }
-
-            if (maintenance) {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(
-                            sender.uniqueId,
-                            LangStrings.MAINTENANCE_COMMAND_ACTIVATE
-                        ),
-                        listOf("prefix"),
-                        listOf(Vars().prefix)
-                    )
-                )
-            } else {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(
-                            sender.uniqueId,
-                            LangStrings.MAINTENANCE_COMMAND_DEACTIVATE
-                        ),
-                        listOf("prefix"),
-                        listOf(Vars().prefix)
-                    )
-                )
-            }
+            )
         }
     }
 

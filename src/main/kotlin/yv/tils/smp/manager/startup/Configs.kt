@@ -21,6 +21,9 @@ import yv.tils.smp.utils.configs.waypoints.config_yml_waypoints
 import yv.tils.smp.utils.configs.waypoints.save_yml_waypoints
 
 class Configs {
+    /**
+     * Register all configs
+     */
     fun register() {
         de_yml().strings()
         en_yml().strings()
@@ -40,6 +43,9 @@ class Configs {
         mutedPlayers_yml().strings()
     }
 
+    /**
+     * Load all configs
+     */
     fun load() {
         Language().getLanguageFiles()
         Config().loadConfig()

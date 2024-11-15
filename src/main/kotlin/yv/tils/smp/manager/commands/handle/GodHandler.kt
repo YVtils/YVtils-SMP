@@ -13,60 +13,49 @@ class GodHandler {
         var god: MutableMap<UUID, Boolean> = HashMap()
     }
 
+    /**
+     * Toggle godmode for player
+     * @param player Player to toggle godmode
+     * @param sender CommandSender to send messages
+     */
     fun godSwitch(player: Player, sender: CommandSender = player) {
         val uuid = player.uniqueId
 
         if (god[uuid] == null || god[uuid] == false) {
             god[uuid] = true
-            FlyHandler().flySwitch(player)
+            FlyHandler().flySwitch(player, silent = true)
             player.sendMessage(Language().getMessage(uuid, LangStrings.GODMODE_COMMAND_ENABLE))
         } else {
             god[uuid] = false
-            FlyHandler().flySwitch(player)
+            FlyHandler().flySwitch(player, silent = true)
             player.sendMessage(Language().getMessage(uuid, LangStrings.GODMODE_COMMAND_DISABLE))
         }
 
         if (player != sender) {
-            if (sender is Player) {
-                if (god[uuid] == null || god[uuid] == false) {
-                    sender.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(sender.uniqueId, LangStrings.GODMODE_COMMAND_DISABLE_OTHER),
-                            listOf("player"),
-                            listOf(player.name)
-                        )
+            if (god[uuid] == null || god[uuid] == false) {
+                sender.sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(sender, LangStrings.GODMODE_COMMAND_DISABLE_OTHER),
+                        listOf("player"),
+                        listOf(player.name)
                     )
-                } else {
-                    sender.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(sender.uniqueId, LangStrings.GODMODE_COMMAND_ENABLE_OTHER),
-                            listOf("player"),
-                            listOf(player.name)
-                        )
-                    )
-                }
+                )
             } else {
-                if (god[uuid] == null || god[uuid] == false) {
-                    sender.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(LangStrings.GODMODE_COMMAND_ENABLE_OTHER),
-                            listOf("player"),
-                            listOf(player.name)
-                        )
+                sender.sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(sender, LangStrings.GODMODE_COMMAND_ENABLE_OTHER),
+                        listOf("player"),
+                        listOf(player.name)
                     )
-                } else {
-                    sender.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(LangStrings.GODMODE_COMMAND_DISABLE_OTHER),
-                            listOf("player"),
-                            listOf(player.name)
-                        )
-                    )
-                }
+                )
             }
         }
     }
 
+    /**
+     * Cancel damage event if player is in godmode
+     * @param e EntityDamageEvent to cancel
+     */
     fun onDamage(e: EntityDamageEvent) {
         if (e.entity is Player) {
             val player = e.entity as Player

@@ -6,6 +6,9 @@ import yv.tils.smp.mods.server.maintenance.MaintenanceHandler
 import yv.tils.smp.utils.updater.PluginVersion
 
 class Other {
+    /**
+     * Register all other startup tasks
+     */
     fun register() {
         pluginVersion()
         permissions()
@@ -24,5 +27,7 @@ class Other {
         pm.addPermission(Permission.loadPermission("yvtils.smp.command.moderation.announcement", mapOf()))
         pm.addPermission(Permission.loadPermission("yvtils.smp.command.multiMine.toggle", mapOf()))
         pm.addPermission(Permission.loadPermission("yvtils.smp.command.multiMine.manage", mapOf()))
+        pm.addPermission(Permission.loadPermission("yvtils.smp.bypass.globalmute", mapOf()))
+        pm.addPermission(Permission.loadPermission("yvtils.smp.bypass.maintenance", mapOf()))
     }
 }

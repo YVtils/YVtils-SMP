@@ -33,6 +33,10 @@ class InvSee {
         }
     }
 
+    /**
+     * Get inventory of player
+     * @param target Player to get inventory
+     */
     private fun getInv(target: Player): Inventory {
         var inv = Bukkit.createInventory(
             null, 54,
@@ -75,18 +79,5 @@ class InvSee {
         inv = GUIFiller().fillInventory(inv, onlySlots = fillerSlots)
 
         return inv
-    }
-
-    fun onFillerInteract(e: InventoryClickEvent) {
-        val player = e.whoClicked
-
-        val invsee_invRaw = Language().getRawMessage(LangStrings.MODULE_INVSEE_INVENTORY)
-        val invsee_inv = ColorUtils().convert(invsee_invRaw).toString()
-
-        if (player.openInventory.title().toString()
-                .startsWith(invsee_inv.split("<")[0]) && e.inventory.location == null
-        ) {
-            if (e.slot == 0 || e.slot in 5..6 || e.slot in 8..17) e.isCancelled = true
-        }
     }
 }

@@ -12,13 +12,15 @@ import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 
 class KickHandler {
+    /**
+     * Kick player
+     * @param target Player to kick
+     * @param sender CommandSender to send messages
+     * @param reason String of kick reason
+     */
     fun kickPlayer(target: Player, sender: CommandSender, reason: String) {
         if (!target.isOnline) {
-            if (sender is Player) {
-                sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_NOT_ONLINE))
-            } else {
-                sender.sendMessage(Language().getMessage(LangStrings.PLAYER_NOT_ONLINE))
-            }
+            sender.sendMessage(Language().getMessage(sender, LangStrings.PLAYER_NOT_ONLINE))
             return
         }
 
