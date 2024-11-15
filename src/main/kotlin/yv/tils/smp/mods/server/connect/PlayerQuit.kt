@@ -37,7 +37,7 @@ class PlayerQuit {
             return
         }
 
-        if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!) {
+        if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]?.vanish!!) {
             e.quitMessage(null)
             Language.playerLang.remove(player.uniqueId)
             state = -1

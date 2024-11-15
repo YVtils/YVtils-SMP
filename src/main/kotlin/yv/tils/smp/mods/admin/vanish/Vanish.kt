@@ -51,6 +51,10 @@ class Vanish {
 
         exec_target[sender.uniqueId] = player.uniqueId
 
+        val currentState = currentState(player)
+
+        vanish[player.uniqueId]!!.oldVanish = currentState
+
         VBuilder().openGUI(sender, player)
     }
 
@@ -109,45 +113,45 @@ class Vanish {
 
         val vData = vanish[player.uniqueId]!!
 
-        if (!silent) {
-            val quitMessage = PlayerQuit().generateQuitMessage(player)
-            Bukkit.broadcast(quitMessage)
-        }
-
         player.canPickupItems = vData.itemPickup
 
         player.isSleepingIgnored = true
         player.isSilent = true
 
         if (vData.vanish == vData.oldVanish) {
-                player.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(
-                            player.uniqueId,
-                            LangStrings.VANISH_REFRESH
-                        ),
-                        listOf("prefix"),
-                        listOf(Vars().prefix)
-                    )
+            player.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(
+                        player.uniqueId,
+                        LangStrings.VANISH_REFRESH
+                    ),
+                    listOf("prefix"),
+                    listOf(Vars().prefix)
                 )
+            )
 
-                for ((key, value) in exec_target) {
-                    if (value === key) return true
-                    if (value == player.uniqueId) {
-                        val target = Bukkit.getPlayer(key)
-                        target?.sendMessage(
-                            Placeholder().replacer(
-                                Language().getMessage(
-                                    target.uniqueId,
-                                    LangStrings.VANISH_REFRESH_OTHER
-                                ),
-                                listOf("prefix", "player"),
-                                listOf(Vars().prefix, player.name)
-                            )
+            for ((key, value) in exec_target) {
+                if (value === key) return true
+                if (value == player.uniqueId) {
+                    val target = Bukkit.getPlayer(key)
+                    target?.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(
+                                target.uniqueId,
+                                LangStrings.VANISH_REFRESH_OTHER
+                            ),
+                            listOf("prefix", "player"),
+                            listOf(Vars().prefix, player.name)
                         )
-                    }
+                    )
                 }
+            }
             return true
+        }
+
+        if (!silent) {
+            val quitMessage = PlayerQuit().generateQuitMessage(player)
+            Bukkit.broadcast(quitMessage)
         }
 
         player.sendMessage(

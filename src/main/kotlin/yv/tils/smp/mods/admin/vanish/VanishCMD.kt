@@ -12,7 +12,6 @@ class VanishCMD {
         withAliases("v")
 
         literalArgument("quick", true) {
-            withAliases("q")
             playerArgument("player", true) {
                 anyExecutor { sender, args ->
                     try {
