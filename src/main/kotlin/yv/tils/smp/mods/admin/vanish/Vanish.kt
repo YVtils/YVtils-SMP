@@ -65,26 +65,15 @@ class Vanish {
      */
     fun quickVanish(player: Player, sender: CommandSender) {
         val state = currentState(player)
+
+        vanish[player.uniqueId]!!.oldVanish = state
+
         if (state) {
+            vanish[player.uniqueId]!!.vanish = false
             disableVanish(player)
         } else {
+            vanish[player.uniqueId]!!.vanish = true
             enableVanish(player)
-        }
-
-        if (player == sender) {
-            if (state) {
-                sender.sendMessage("§aVanish disabled")
-            } else {
-                sender.sendMessage("§aVanish enabled")
-            }
-        } else {
-            if (state) {
-                sender.sendMessage("§aVanish disabled for ${player.name}")
-                player.sendMessage("§aVanish disabled")
-            } else {
-                sender.sendMessage("§aVanish enabled for ${player.name}")
-                player.sendMessage("§aVanish enabled")
-            }
         }
     }
 
@@ -177,10 +166,59 @@ class Vanish {
     fun disableVanish(player: Player, silent: Boolean = false): Boolean {
         showPlayer(player)
 
+        val vData = vanish[player.uniqueId]!!
+
+        player.canPickupItems = true
+
+        player.isSleepingIgnored = false
+        player.isSilent = false
+
+        if (vData.vanish == vData.oldVanish) {
+            player.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(
+                        player.uniqueId,
+                        LangStrings.VANISH_REFRESH
+                    ),
+                    listOf("prefix"),
+                    listOf(Vars().prefix)
+                )
+            )
+
+            for ((key, value) in exec_target) {
+                if (value === key) return true
+                if (value == player.uniqueId) {
+                    val target = Bukkit.getPlayer(key)
+                    target?.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(
+                                target.uniqueId,
+                                LangStrings.VANISH_REFRESH_OTHER
+                            ),
+                            listOf("prefix", "player"),
+                            listOf(Vars().prefix, player.name)
+                        )
+                    )
+                }
+            }
+            return true
+        }
+
         if (!silent) {
             val joinMessage = PlayerJoin().generateJoinMessage(player)
             Bukkit.broadcast(joinMessage)
         }
+
+        player.sendMessage(
+            Placeholder().replacer(
+                Language().getMessage(
+                    player.uniqueId,
+                    LangStrings.VANISH_DEACTIVATE
+                ),
+                listOf("prefix"),
+                listOf(Vars().prefix)
+            )
+        )
 
         return false
     }
