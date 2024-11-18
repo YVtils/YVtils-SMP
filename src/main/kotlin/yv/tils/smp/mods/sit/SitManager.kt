@@ -15,9 +15,10 @@ class SitManager {
     fun sit(player: Player) {
         val uuid = player.uniqueId
 
-        if (isSitting(uuid)) {
+        if (isSitting(uuid) || isInAir(player)) {
             return
         }
+
         sittingPlayers.add(uuid)
 
         sitDown(0.0, 1.975, 0.0, player.location).addPassenger(player)
@@ -61,5 +62,13 @@ class SitManager {
 
     fun isSitting(uuid: UUID): Boolean {
         return sittingPlayers.contains(uuid)
+    }
+
+    private fun isInAir(player: Player): Boolean {
+        val location = player.location
+        val block = location.block
+        val blockBelow = block.getRelative(0, -1, 0)
+
+        return block.isEmpty && blockBelow.isEmpty
     }
 }
