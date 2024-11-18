@@ -121,7 +121,7 @@ class SpawnElytra {
 
         if (player.inventory.chestplate?.type == Material.ELYTRA) return
 
-        if (e.entityType == EntityType.PLAYER && flying.contains(e.entity.uniqueId) || !e.isGliding) e.isCancelled = true
+        if (flying.contains(e.entity.uniqueId) && !e.isGliding) e.isCancelled = true
     }
 
     fun isInSpawnRadius(player: Player): Boolean {
