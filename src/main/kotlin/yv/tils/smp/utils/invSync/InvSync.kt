@@ -1,6 +1,5 @@
 package yv.tils.smp.utils.invSync
 
-import okhttp3.internal.threadName
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -43,11 +42,13 @@ class InvSync {
         if (player.openInventory.title().toString().startsWith(invseeInv.split("<")[0])) {
             val target = Bukkit.getPlayer(InvSeeListener.invSee[player.uniqueId]?.player ?: return) ?: return
             playerInvEdit(inv, target, player, "invsee")
+            return
         }
 
         if (player.openInventory.title().toString().startsWith(invseeEc.split("<")[0])) {
             val target = Bukkit.getPlayer(EcSee.ecSee[player.uniqueId] ?: return) ?: return
             target.enderChest.contents = inv.contents.map { it?.clone() }.toTypedArray()
+            return
         }
 
         if (player.openInventory.title() != ColorUtils().convert("Container Clone")) {
@@ -86,6 +87,7 @@ class InvSync {
                         playerInvEdit(inv, player, Bukkit.getPlayer(entry.key) ?: return, "player")
                     }
                 }
+                return
             }
             InventoryType.ENDER_CHEST -> {
                 for (entry in EcSee.ecSee.entries) {
@@ -94,6 +96,7 @@ class InvSync {
                         containerSpy.openInventory.topInventory.contents = inv.contents.map { it?.clone() }.toTypedArray()
                     }
                 }
+                return
             }
             else -> {}
         }
@@ -126,8 +129,6 @@ class InvSync {
             mutableMapOf(),
             inv.type
         )
-
-        println("cause: $cause")
 
         when (cause) {
             "invsee" -> {
@@ -165,8 +166,6 @@ class InvSync {
                 }
 
                 playerInv.inventoryType = inv.type
-
-                println("playerInv: $playerInv")
             }
             else -> {
                 return
@@ -220,7 +219,7 @@ class InvSync {
             }
 
             for (i in 0..8) {
-                craftingInv.hotbarSlots[i+36] = playerInv.hotbarSlots[i]
+                craftingInv.hotbarSlots[i+45] = playerInv.hotbarSlots[i]
             }
 
             println("craftingInv: $craftingInv")
@@ -273,6 +272,4 @@ class InvSync {
 
         return invMap
     }
-
 }
-
