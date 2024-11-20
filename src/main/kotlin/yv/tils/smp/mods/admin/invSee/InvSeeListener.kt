@@ -84,7 +84,11 @@ class InvSeeListener {
         if (player.openInventory.title().toString()
                 .startsWith(invsee_inv.split("<")[0]) && e.inventory.location == null
         ) {
-            if (e.slot == 0 || e.slot in 5..6 || e.slot in 8..17) e.isCancelled = true
+            val rawSlot = e.rawSlot
+            val slots = mutableListOf<Int>()
+            slots.addAll(listOf(0, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17))
+
+            if (slots.contains(rawSlot)) e.isCancelled = true
         }
     }
 
