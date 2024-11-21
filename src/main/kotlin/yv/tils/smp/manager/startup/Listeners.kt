@@ -32,6 +32,7 @@ class Listeners {
         plugin.server.pluginManager.registerEvents(InvOpen(), plugin)
         plugin.server.pluginManager.registerEvents(InvClose(), plugin)
         plugin.server.pluginManager.registerEvents(InvClick(), plugin)
+        plugin.server.pluginManager.registerEvents(InvDrag(), plugin)
         plugin.server.pluginManager.registerEvents(PrepareAnvil(), plugin)
 
         // Block-related events

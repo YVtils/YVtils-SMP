@@ -23,9 +23,20 @@ class InvSync {
     fun onInvChange(e: InventoryClickEvent) {
         val player = e.whoClicked
 
+        println("<-----------------------------------------------")
+
+        println("Inv: ${e.inventory.type} | Slot: ${e.slot} | Clicked: ${e.clickedInventory?.type} | Clicked Slot: ${e.clickedInventory?.getItem(e.slot)}")
+        for (i in 0 until (e.clickedInventory?.size ?: 0)) {
+            println("Slot $i: ${e.clickedInventory?.getItem(i)}")
+        }
+
+        println("----------------------------------------------->")
+
+        val inv = e.clickedInventory ?: return
+
         Bukkit.getScheduler().runTaskLater(YVtils.instance, Runnable {
             copyChange(player, e.inventory.location, e.inventory)
-            originalChange(player, e.inventory.location, e.inventory)
+            originalChange(player, e.inventory.location, inv)
         }, 1L)
     }
 
@@ -80,7 +91,7 @@ class InvSync {
         }
 
         when (inv.type) {
-            InventoryType.CRAFTING -> {
+            InventoryType.PLAYER -> {
                 for (entry in InvSeeListener.invSee.entries) {
                     val target = entry.value.player
                     if (target == player.uniqueId) {
@@ -149,20 +160,20 @@ class InvSync {
                 playerInv.inventoryType = inv.type
             }
             "player" -> {
-                val inv2 = target.inventory
-
-                playerInv.armorSlots[39] = inv2.getItem(39)
-                playerInv.armorSlots[38] = inv2.getItem(38)
-                playerInv.armorSlots[37] = inv2.getItem(37)
-                playerInv.armorSlots[36] = inv2.getItem(36)
-                playerInv.offhandSlot[40] = inv2.getItem(40)
+                playerInv.armorSlots[39] = inv.getItem(39)
+                playerInv.armorSlots[38] = inv.getItem(38)
+                playerInv.armorSlots[37] = inv.getItem(37)
+                playerInv.armorSlots[36] = inv.getItem(36)
+                playerInv.offhandSlot[40] = inv.getItem(40)
 
                 for (i in 9..35) {
-                    playerInv.invSlots[i] = inv2.getItem(i)
+                    println("for loop | 1 | i: $i | item: ${inv.getItem(i)}")
+
+                    playerInv.invSlots[i] = inv.getItem(i)
                 }
 
                 for (i in 0..8) {
-                    playerInv.hotbarSlots[i] = inv2.getItem(i)
+                    playerInv.hotbarSlots[i] = inv.getItem(i)
                 }
 
                 playerInv.inventoryType = inv.type
@@ -172,16 +183,10 @@ class InvSync {
             }
         }
 
-        println("playerInv: $playerInv")
-
         val invMap = combineMaps(translatePlayerInv(playerInv))
 
-        println("invMap: $invMap")
-
         for ((invType, invSlots) in invMap) {
-            println("SyncLoop: $invType, $invSlots")
-
-            if (invType == InventoryType.CRAFTING) {
+            if (invType == InventoryType.PLAYER) {
                 for ((slot, item) in invSlots) {
                     target.inventory.setItem(slot, item)
                 }
@@ -198,7 +203,7 @@ class InvSync {
 
         invMap[playerInv.inventoryType] = playerInv
 
-        if (playerInv.inventoryType == InventoryType.CRAFTING) {
+        if (playerInv.inventoryType == InventoryType.PLAYER) {
             val craftingInv = PlayerInventory(
                 mutableMapOf(),
                 mutableMapOf(),
@@ -222,8 +227,6 @@ class InvSync {
                 craftingInv.hotbarSlots[i+45] = playerInv.hotbarSlots[i]
             }
 
-            println("craftingInv: $craftingInv")
-
             invMap[InventoryType.CHEST] = craftingInv
         } else if (playerInv.inventoryType == InventoryType.CHEST) {
             val chestInv = PlayerInventory(
@@ -231,7 +234,7 @@ class InvSync {
                 mutableMapOf(),
                 mutableMapOf(),
                 mutableMapOf(),
-                InventoryType.CRAFTING
+                InventoryType.PLAYER
             )
             chestInv.armorSlots[39] = playerInv.armorSlots[1]
             chestInv.armorSlots[38] = playerInv.armorSlots[2]
@@ -248,9 +251,7 @@ class InvSync {
                 chestInv.hotbarSlots[i-45] = playerInv.hotbarSlots[i]
             }
 
-            println("chestInv: $chestInv")
-
-            invMap[InventoryType.CRAFTING] = chestInv
+            invMap[InventoryType.PLAYER] = chestInv
         }
 
         return invMap
