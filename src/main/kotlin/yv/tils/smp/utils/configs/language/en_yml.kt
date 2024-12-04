@@ -38,15 +38,33 @@ class en_yml {
             "PLUGIN_UP_TO_DATE",
             "<prefix> <white>The Plugin has no Updates available!"
         )
+
         ymlFile.addDefault(
-            "PLUGIN_UPDATE_AVAILABLE",
-            "<prefix> <yellow>The Plugin Version <newversion> is now available. The Server is using <oldversion>. Download the newest version here <link>"
+            "PLUGIN_UPDATE_AVAILABLE_PATCH",
+            "<prefix> <yellow>A Patch is available! <newline><yellow>Current Version: <gray><oldVersion><newline><yellow>Newest Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
+        )
+        ymlFile.addDefault(
+            "PLUGIN_UPDATE_AVAILABLE_MINOR",
+            "<prefix> <#FF8349>A Minor Feature Update is available! <newline><#FF8349>Current Version: <gray><oldVersion><newline><#FF8349>Newest Version: <gray><newVersion><newline><#FF8349>Download: <gray><link>"
+        )
+        ymlFile.addDefault(
+            "PLUGIN_UPDATE_AVAILABLE_MAJOR",
+            "<prefix> <red>A Major Update is available! It is recommended to install the update as soon as possible! <newline><red>Current Version: <gray><oldVersion><newline><red>Newest Version: <gray><newVersion><newline><red>Download: <gray><link>"
         )
 
         ymlFile.addDefault(
-            "PLAYER_PLUGIN_UPDATE_AVAILABLE",
-            "<prefix> <white>Update available:<newline><yellow>Running Version: <gray><oldVersion><newline><yellow>Newest Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
+            "PLAYER_PLUGIN_UPDATE_AVAILABLE_PATCH",
+            "<prefix> <yellow>A Patch is available! <newline><yellow>Current Version: <gray><oldVersion><newline><yellow>Newest Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
         )
+        ymlFile.addDefault(
+            "PLAYER_PLUGIN_UPDATE_AVAILABLE_MINOR",
+            "<prefix> <#FF8349>A Minor Feature Update is available! <newline><#FF8349>Current Version: <gray><oldVersion><newline><#FF8349>Newest Version: <gray><newVersion><newline><#FF8349>Download: <gray><link>"
+        )
+        ymlFile.addDefault(
+            "PLAYER_PLUGIN_UPDATE_AVAILABLE_MAJOR",
+            "<prefix> <red>A Major Update is available! It is recommended to install the update as soon as possible! <newline><red>Current Version: <gray><oldVersion><newline><red>Newest Version: <gray><newVersion><newline><red>Download: <gray><link>"
+        )
+
 
         ymlFile.addDefault(
             "UNKNOWN_TIME_FORMAT",

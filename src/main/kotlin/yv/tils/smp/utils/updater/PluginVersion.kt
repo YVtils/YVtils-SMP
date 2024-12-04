@@ -25,19 +25,52 @@ class PluginVersion {
             return
         }
 
-        if ((player.hasPermission("yvtils.smp.update") || player.isOp) && plVersion != version) {
-            player.sendMessage(
-                Placeholder().replacer(
-                    Language().getMessage(player.uniqueId, LangStrings.PLAYER_PLUGIN_UPDATE_AVAILABLE),
-                    listOf("newVersion", "oldVersion", "prefix", "link"),
-                    listOf(
-                        version,
-                        plVersion,
-                        Vars().prefix,
-                        "<click:open_url:https://yvtils.net/yvtils/modrinth/smp>https://yvtils.net/yvtils/modrinth/smp</click>"
+        if ((player.hasPermission("yvtils.smp.update") || player.isOp)) {
+            when (compareVersions()) {
+                VersionState.OUTDATED_PATCH -> {
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.PLAYER_PLUGIN_UPDATE_AVAILABLE_PATCH),
+                            listOf("newVersion", "oldVersion", "prefix", "link"),
+                            listOf(
+                                version,
+                                plVersion,
+                                Vars().prefix,
+                                "<click:open_url:https://yvtils.net/yvtils/modrinth/smp>https://yvtils.net/yvtils/modrinth/smp</click>"
+                            )
+                        )
                     )
-                )
-            )
+                }
+                VersionState.OUTDATED_MINOR -> {
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.PLAYER_PLUGIN_UPDATE_AVAILABLE_MINOR),
+                            listOf("newVersion", "oldVersion", "prefix", "link"),
+                            listOf(
+                                version,
+                                plVersion,
+                                Vars().prefix,
+                                "<click:open_url:https://yvtils.net/yvtils/modrinth/smp>https://yvtils.net/yvtils/modrinth/smp</click>"
+                            )
+                        )
+                    )
+                }
+                VersionState.OUTDATED_MAJOR -> {
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.PLAYER_PLUGIN_UPDATE_AVAILABLE_MAJOR),
+                            listOf("newVersion", "oldVersion", "prefix", "link"),
+                            listOf(
+                                version,
+                                plVersion,
+                                Vars().prefix,
+                                "<click:open_url:https://yvtils.net/yvtils/modrinth/smp>https://yvtils.net/yvtils/modrinth/smp</click>"
+                            )
+                        )
+                    )
+                }
+                else -> {}
+            }
         }
     }
 
@@ -45,27 +78,109 @@ class PluginVersion {
         plVersion = serverPluginVersion
         webRequest()
 
-        if (plVersion != version) {
-            YVtils.instance.server.consoleSender.sendMessage(
-                Placeholder().replacer(
-                    Language().getMessage(LangStrings.PLUGIN_UPDATE_AVAILABLE),
-                    listOf("newversion", "oldversion", "prefix", "link"),
-                    listOf(
-                        version,
-                        plVersion,
-                        Vars().prefix,
-                        "<click:open_url:https://yvtils.net/yvtils/modrinth/smp>https://yvtils.net/yvtils/modrinth/smp</click>"
+        when (compareVersions()) {
+            VersionState.UP_TO_DATE -> {
+                Bukkit.getConsoleSender().sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.PLUGIN_UP_TO_DATE),
+                        listOf("prefix"),
+                        listOf(Vars().prefix)
                     )
                 )
-            )
-        } else {
-            YVtils.instance.server.consoleSender.sendMessage(
-                Placeholder().replacer(
-                    Language().getMessage(LangStrings.PLUGIN_UP_TO_DATE),
-                    listOf("prefix"),
-                    listOf(Vars().prefix)
+            }
+            VersionState.OUTDATED_PATCH -> {
+                Bukkit.getConsoleSender().sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.PLUGIN_UPDATE_AVAILABLE_PATCH),
+                        listOf("newVersion", "oldVersion", "prefix", "link"),
+                        listOf(
+                            version,
+                            plVersion,
+                            Vars().prefix,
+                            "<click:open_url:https://yvtils.net/yvtils/modrinth/smp>https://yvtils.net/yvtils/modrinth/smp</click>"
+                        )
+                    )
                 )
-            )
+            }
+            VersionState.OUTDATED_MINOR -> {
+                Bukkit.getConsoleSender().sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.PLUGIN_UPDATE_AVAILABLE_MINOR),
+                        listOf("newVersion", "oldVersion", "prefix", "link"),
+                        listOf(
+                            version,
+                            plVersion,
+                            Vars().prefix,
+                            "<click:open_url:https://yvtils.net/yvtils/modrinth/smp>https://yvtils.net/yvtils/modrinth/smp</click>"
+                        )
+                    )
+                )
+            }
+            VersionState.OUTDATED_MAJOR -> {
+                Bukkit.getConsoleSender().sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(LangStrings.PLUGIN_UPDATE_AVAILABLE_MAJOR),
+                        listOf("newVersion", "oldVersion", "prefix", "link"),
+                        listOf(
+                            version,
+                            plVersion,
+                            Vars().prefix,
+                            "<click:open_url:https://yvtils.net/yvtils/modrinth/smp>https://yvtils.net/yvtils/modrinth/smp</click>"
+                        )
+                    )
+                )
+            }
+            VersionState.UNKNOWN -> {
+                Bukkit.getConsoleSender().sendMessage(
+                    Language().directFormat(
+                        "There occurred an error while searching for an update! Please contact the support!",
+                        "Auf der Suche nach einem Plugin Update ist ein Fehler aufgetreten! Bitte kontaktiere den Support!"
+                    )
+                )
+            }
+        }
+    }
+
+    /**
+     * Compare the versions of the plugin
+     * @return VersionState
+     * @see VersionState.OUTDATED_PATCH
+     * @see VersionState.OUTDATED_MINOR
+     * @see VersionState.OUTDATED_MAJOR
+     * @see VersionState.UP_TO_DATE
+     * @see VersionState.UNKNOWN
+     */
+    private fun compareVersions(): VersionState {
+        val newVersion = version.split(".")
+        val oldVersion = plVersion.split(".")
+
+        if (newVersion.size != 3 || oldVersion.size != 3) {
+            return VersionState.UNKNOWN
+        } else if (newVersion[0] == "x" || newVersion[1] == "x" || newVersion[2] == "x") {
+            return VersionState.UNKNOWN
+        }
+
+        var majorHigher = false
+        var minorHigher = false
+        var patchHigher = false
+
+        if (newVersion[0].toInt() > oldVersion[0].toInt()) {
+            majorHigher = true
+        }
+
+        if (newVersion[1].toInt() > oldVersion[1].toInt() && !majorHigher) {
+            minorHigher = true
+        }
+
+        if (newVersion[2].toInt() > oldVersion[2].toInt() && !majorHigher && !minorHigher) {
+            patchHigher = true
+        }
+
+        return when {
+            majorHigher -> VersionState.OUTDATED_MAJOR
+            minorHigher -> VersionState.OUTDATED_MINOR
+            patchHigher -> VersionState.OUTDATED_PATCH
+            else -> VersionState.UP_TO_DATE
         }
     }
 
@@ -113,4 +228,12 @@ class PluginVersion {
             webRequest()
         }, 0, 3600 * 20)
     }
+}
+
+enum class VersionState {
+    UP_TO_DATE,
+    OUTDATED_PATCH,
+    OUTDATED_MINOR,
+    OUTDATED_MAJOR,
+    UNKNOWN
 }
