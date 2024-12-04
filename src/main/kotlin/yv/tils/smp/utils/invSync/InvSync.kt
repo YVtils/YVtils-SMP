@@ -9,6 +9,7 @@ import org.bukkit.block.ShulkerBox
 import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
@@ -18,6 +19,9 @@ import yv.tils.smp.mods.admin.invSee.InvSeeListener
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
+
+// TODO: Player pickup item ignored on player invsee
+// TODO: Items sometimes duplicated on player invsee
 
 class InvSync {
     fun onInvChange(e: InventoryClickEvent) {
@@ -33,6 +37,17 @@ class InvSync {
         println("----------------------------------------------->")
 
         val inv = e.clickedInventory ?: return
+
+        Bukkit.getScheduler().runTask(YVtils.instance, Runnable {
+            copyChange(player, e.inventory.location, e.inventory)
+            originalChange(player, e.inventory.location, inv)
+        })
+    }
+
+    fun onInvDrag(e: InventoryDragEvent) {
+        val player = e.whoClicked
+
+        val inv = e.inventory
 
         Bukkit.getScheduler().runTaskLater(YVtils.instance, Runnable {
             copyChange(player, e.inventory.location, e.inventory)
@@ -173,6 +188,8 @@ class InvSync {
                 }
 
                 for (i in 0..8) {
+                    println("for loop | 2 | i: $i | item: ${inv.getItem(i)}")
+
                     playerInv.hotbarSlots[i] = inv.getItem(i)
                 }
 
