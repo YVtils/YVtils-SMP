@@ -100,6 +100,15 @@ class WaypointCommand {
                 if (checkWaypoint(player, name)) {
                     navigateWaypoints(player, name)
                 } else {
+                    if (WaypointPath.navigatingPlayers.containsKey(player)) {
+                        val x = WaypointPath.navigatingPlayers[player]?.location?.x
+                        val y = WaypointPath.navigatingPlayers[player]?.location?.y
+                        val z = WaypointPath.navigatingPlayers[player]?.location?.z
+                        val world = WaypointPath.navigatingPlayers[player]?.location?.world?.name
+                        WaypointPath().generatePath(player, x!!, y!!, z!!, world!!, name)
+                        return
+                    }
+
                     player.sendMessage(
                         Placeholder().replacer(
                             Language().getMessage(player.uniqueId, LangStrings.MODULE_WAYPOINT_NOT_FOUND),

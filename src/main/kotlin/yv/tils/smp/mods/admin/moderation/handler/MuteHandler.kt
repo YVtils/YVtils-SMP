@@ -16,13 +16,15 @@ import java.io.File
 import java.util.*
 
 class MuteHandler {
+    /**
+     * Mute player
+     * @param target Player to mute
+     * @param sender CommandSender to send messages
+     * @param reason String of mute reason
+     */
     fun mutePlayer(target: OfflinePlayer, sender: CommandSender, reason: String) {
         if (MuteHandler().checkMute(target)) {
-            if (sender is Player) {
-                sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_ALREADY_MUTED))
-            } else {
-                sender.sendMessage(Language().getMessage(LangStrings.PLAYER_ALREADY_MUTED))
-            }
+            sender.sendMessage(Language().getMessage(sender, LangStrings.PLAYER_ALREADY_MUTED))
             return
         }
 
@@ -59,6 +61,10 @@ class MuteHandler {
         )
     }
 
+    /**
+     * Catch messages from muted players
+     * @param e AsyncChatEvent
+     */
     fun playerChat(e: AsyncChatEvent) {
         val player = e.player
 
@@ -86,14 +92,24 @@ class MuteHandler {
                     )
                 )
             )
+
+            // TODO: Add message to console when player tries to chat while muted -> "<player> tried to chat while muted. Message: <message>; Reason: <reason>; Duration: <duration>"
         }
     }
 
+    /**
+     * Check if player is muted
+     * @param target Player to check
+     * @return Boolean if player is muted
+     */
     fun checkMute(target: OfflinePlayer): Boolean {
         refreshMutedPlayers()
         return mutedPlayers_yml.mutedPlayer.containsKey(target.uniqueId)
     }
 
+    /**
+     * Refresh muted players list
+     */
     private fun refreshMutedPlayers() {
         val file = File(YVtils.instance.dataFolder.path, "admin/" + "mutedPlayers.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
@@ -121,6 +137,12 @@ class MuteHandler {
         }
     }
 
+    /**
+     * Update mute status for player
+     * @param target Player to update
+     * @param reason String of mute reason
+     * @param duration String of mute duration
+     */
     fun updateMute(target: OfflinePlayer, reason: String = "null", duration: String = "null") {
         val file = File(YVtils.instance.dataFolder.path, "admin/" + "mutedPlayers.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)

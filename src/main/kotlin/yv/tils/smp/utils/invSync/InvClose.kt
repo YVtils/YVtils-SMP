@@ -15,7 +15,7 @@ class InvClose {
             InvOpen.containerPos.remove(player.uniqueId)
         }
 
-        if (!(Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!) || !player.hasPermission("yvtils.smp.silentContainerOpen")) return
+        if (!(Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]?.vanish!!) || !player.hasPermission("yvtils.smp.silentContainerOpen")) return
         for (p in player.world.players) {
             val distance = p.location.distance(player.location)
 

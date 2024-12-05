@@ -8,6 +8,7 @@ import org.bukkit.Bukkit
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.discord.embedManager.whitelist.*
 import yv.tils.smp.mods.discord.embedManager.whitelist.discord.ForceAdd
+import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.configs.discord.DiscordConfig
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
@@ -17,7 +18,8 @@ import java.net.URI
 
 class ForceAdd {
     fun onMessageReceived(mc: String, dc: Member?, exec: Member, guild: Guild): EmbedBuilder {
-        val player = Bukkit.getOfflinePlayer(mc)
+        val playerUUID = MojangAPI().name2uuid(mc) ?: return AccountCheckError().embed(mc)
+        val player = Bukkit.getOfflinePlayer(playerUUID)
         val userID = dc?.user?.id ?: "~$mc"
         val userName = dc?.user?.name ?: "~$mc"
 

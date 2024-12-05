@@ -36,12 +36,12 @@ class BotManager {
         lateinit var builder: JDABuilder
     }
 
-    val token = DiscordConfig.config["botToken"] as String
-    val mainGuild = DiscordConfig().readChannelID("mainGuild")
-    val status = DiscordConfig.config["botSettings.onlineStatus"] as String
-    val activity = DiscordConfig.config["botSettings.activity"] as String
-    val activityMessage = DiscordConfig.config["botSettings.activityMessage"] as String
-    val logChannel = DiscordConfig().readChannelID("logChannel")
+    private val token = DiscordConfig.config["botToken"] as String
+    private val mainGuild = DiscordConfig().readChannelID("mainGuild")
+    private val status = DiscordConfig.config["botSettings.onlineStatus"] as String
+    private val activity = DiscordConfig.config["botSettings.activity"] as String
+    private val activityMessage = DiscordConfig.config["botSettings.activityMessage"] as String
+    private val logChannel = DiscordConfig().readChannelID("logChannel")
 
     fun startBot() {
         if (active) {

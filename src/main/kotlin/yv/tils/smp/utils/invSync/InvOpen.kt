@@ -20,7 +20,7 @@ class InvOpen {
     fun onInvOpen(e: InventoryOpenEvent) {
         val player = e.player
 
-        if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]!!) {
+        if (Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]?.vanish!!) {
             if (invOpen.containsKey(player.uniqueId) && invOpen[player.uniqueId]!!) return
 
             if (e.inventory.location != null) {
@@ -33,6 +33,10 @@ class InvOpen {
                     if (distance <= 16) {
                         p.stopAllSounds()
                     }
+                }
+
+                if (e.inventory.size % 9 != 0) {
+                    return
                 }
 
                 e.isCancelled = true

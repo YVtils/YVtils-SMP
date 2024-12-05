@@ -16,11 +16,7 @@ import java.io.File
 class UnmuteHandler {
     fun unmutePlayer(target: OfflinePlayer, sender: CommandSender) {
         if (!MuteHandler().checkMute(target)) {
-            if (sender is Player) {
-                sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.MOD_PLAYER_NOT_MUTED))
-            } else {
-                sender.sendMessage(Language().getMessage(LangStrings.MOD_PLAYER_NOT_MUTED))
-            }
+            sender.sendMessage(Language().getMessage(sender, LangStrings.MOD_PLAYER_NOT_MUTED))
             return
         }
 

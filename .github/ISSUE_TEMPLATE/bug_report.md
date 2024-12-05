@@ -28,7 +28,7 @@ If applicable, add screenshots to help explain your problem.
  - Plugin Version: [e.g. V1.0.0]
  - Minecraft Version: [e.g. 1.21.1]
 
-**Logs (please append a error / the logs if possible)**
+**Logs (please append an error / the logs if possible)**
 ```text
 EXAMPLE ERROR
 ```

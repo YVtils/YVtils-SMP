@@ -5,8 +5,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
 import yv.tils.smp.YVtils
-import yv.tils.smp.mods.admin.vanish.Vanish
-import yv.tils.smp.mods.server.maintenance.MaintenanceCMD
+import yv.tils.smp.mods.server.maintenance.MaintenanceHandler
 import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.server.ServerConfig
 import yv.tils.smp.utils.internalAPI.Placeholder
@@ -16,7 +15,7 @@ import java.util.*
 class GenerateMOTD {
     fun onServerPing(e: PaperServerListPingEvent) {
         if (Config.config["modules.server"] as Boolean) {
-            if (MaintenanceCMD.maintenance) {
+            if (MaintenanceHandler.maintenance) {
                 e.version = "Server under maintenance"
                 e.protocolVersion = 0
                 e.maxPlayers = 0
@@ -26,7 +25,7 @@ class GenerateMOTD {
             }
 
             e.maxPlayers = ServerConfig.config["maxPlayers"] as Int
-            e.numPlayers = calcOnlinePlayers()
+            e.numPlayers = Placeholder().calcOnlinePlayers()
 
             e.setHidePlayers(false)
             e.listedPlayers.clear()
@@ -88,7 +87,7 @@ class GenerateMOTD {
         val varMap = mapOf(
             "serverName" to Config.config["serverName"].toString(),
             "version" to serverVersion,
-            "players" to calcOnlinePlayers().toString(),
+            "players" to Placeholder().calcOnlinePlayers().toString(),
             "maxPlayers" to Bukkit.getMaxPlayers().toString(),
             "date" to date,
             "onlinePlayers" to onlinePlayers
@@ -98,17 +97,5 @@ class GenerateMOTD {
             line,
             varMap
         )
-    }
-
-    private fun calcOnlinePlayers(): Int {
-        var onlinePlayers = Bukkit.getOnlinePlayers().size
-
-        for (player in Vanish.vanish) {
-            if (player.value) {
-                onlinePlayers--
-            }
-        }
-
-        return onlinePlayers
     }
 }

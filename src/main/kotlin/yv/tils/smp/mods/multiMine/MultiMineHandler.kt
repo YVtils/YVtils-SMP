@@ -12,11 +12,14 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.global.Config
+import yv.tils.smp.utils.configs.language.LangStrings
+import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.configs.multiMine.MultiMineConfig
 import java.util.UUID
 
 // TODO: Add fast Leave decay
 // TODO: Try making the break process better for the performance
+// TODO: Add command to toggle multiMine and save in save.yml
 
 class MultiMineHandler {
     companion object {
@@ -36,15 +39,17 @@ class MultiMineHandler {
 
         val loc = e.block.location
         val player = e.player
+        val uuid = player.uniqueId
         val item = player.inventory.itemInMainHand
         val block = e.block
 
-        if (!e.player.hasPermission("yvtils.smp.multiMine")) return
+        if (!player.hasPermission("yvtils.smp.multiMine")) return
+        if (!MultiMineConfig().getPlayerSetting(uuid.toString())) return
         if (!checkBlock(e.block.type, blocks)) return
         if (!checkTool(block, item)) return
         if (checkCooldown(e.player.uniqueId)) return
-        if (e.player.isSneaking) return
-        if (e.player.gameMode != GameMode.SURVIVAL) return
+        if (player.isSneaking) return
+        if (player.gameMode != GameMode.SURVIVAL) return
 
         brokenMap[player.uniqueId] = 0
 
@@ -145,6 +150,21 @@ class MultiMineHandler {
         if (tool.type.maxDurability.toInt() == 0) return false
 
         return block.getDrops(tool).isNotEmpty()
+    }
+
+    fun toggle(sender: Player) {
+        val uuid = sender.uniqueId.toString()
+        val value = MultiMineConfig().getPlayerSetting(uuid)
+
+        MultiMineConfig().changePlayerSetting(uuid, !value)
+
+        sender.sendMessage(
+            if (!value) {
+                Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_TOGGLE_ACTIVATE)
+            } else {
+                Language().getMessage(sender.uniqueId, LangStrings.MODULE_MULTIMINE_TOGGLE_DEACTIVATE)
+            }
+        )
     }
 
     init {

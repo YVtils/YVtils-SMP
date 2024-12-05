@@ -79,6 +79,11 @@ class WaypointConfig {
         ymlFile.set("$uuid.$name.world", world)
 
         ymlFile.save(file)
+
+        if (visibility.lowercase() == "public" && config["announcePublicWaypoints"] == true) {
+            // Broadcast waypoint
+
+        }
     }
 
     fun removeWaypoint(uuid: String, name: String) {

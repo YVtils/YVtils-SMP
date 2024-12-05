@@ -1,5 +1,5 @@
 name: YVtils-SMP
-version: 1.0.4
+version: 1.1.0
 main: yv.tils.smp.YVtils
 author: WolfiiYV
 api-version: "1.21"
@@ -17,3 +17,13 @@ permissions:
     description: Allows the player to mine multiple blocks at once
   yvtils.smp.chatSync:
     description: Allows the player to sync their messages with the Discord server
+  yvtils.smp.command.moderation.announcement:
+    description: Allows the player to receive moderation announcements, such as when a player is banned
+  yvtils.smp.command.multiMine.toggle:
+    description: Allows the player to toggle the multiMine feature
+  yvtils.smp.command.multiMine.manage:
+    description: Allows the player to manage the multiMine feature
+  yvtils.smp.bypass.globalmute:
+          description: Allows the player to bypass the global mute
+  yvtils.smp.bypass.maintenance:
+          description: Allows the player to bypass the maintenance mode

@@ -38,15 +38,33 @@ class en_yml {
             "PLUGIN_UP_TO_DATE",
             "<prefix> <white>The Plugin has no Updates available!"
         )
+
         ymlFile.addDefault(
-            "PLUGIN_UPDATE_AVAILABLE",
-            "<prefix> <yellow>The Plugin Version <newversion> is now available. The Server is using <oldversion>. Download the newest version here <link>"
+            "PLUGIN_UPDATE_AVAILABLE_PATCH",
+            "<prefix> <yellow>A Patch is available! <newline><yellow>Current Version: <gray><oldVersion><newline><yellow>Newest Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
+        )
+        ymlFile.addDefault(
+            "PLUGIN_UPDATE_AVAILABLE_MINOR",
+            "<prefix> <#FF8349>A Minor Feature Update is available! <newline><#FF8349>Current Version: <gray><oldVersion><newline><#FF8349>Newest Version: <gray><newVersion><newline><#FF8349>Download: <gray><link>"
+        )
+        ymlFile.addDefault(
+            "PLUGIN_UPDATE_AVAILABLE_MAJOR",
+            "<prefix> <red>A Major Update is available! It is recommended to install the update as soon as possible! <newline><red>Current Version: <gray><oldVersion><newline><red>Newest Version: <gray><newVersion><newline><red>Download: <gray><link>"
         )
 
         ymlFile.addDefault(
-            "PLAYER_PLUGIN_UPDATE_AVAILABLE",
-            "<prefix> <white>Update available:<newline><yellow>Running Version: <gray><oldVersion><newline><yellow>Newest Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
+            "PLAYER_PLUGIN_UPDATE_AVAILABLE_PATCH",
+            "<prefix> <yellow>A Patch is available! <newline><yellow>Current Version: <gray><oldVersion><newline><yellow>Newest Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
         )
+        ymlFile.addDefault(
+            "PLAYER_PLUGIN_UPDATE_AVAILABLE_MINOR",
+            "<prefix> <#FF8349>A Minor Feature Update is available! <newline><#FF8349>Current Version: <gray><oldVersion><newline><#FF8349>Newest Version: <gray><newVersion><newline><#FF8349>Download: <gray><link>"
+        )
+        ymlFile.addDefault(
+            "PLAYER_PLUGIN_UPDATE_AVAILABLE_MAJOR",
+            "<prefix> <red>A Major Update is available! It is recommended to install the update as soon as possible! <newline><red>Current Version: <gray><oldVersion><newline><red>Newest Version: <gray><newVersion><newline><red>Download: <gray><link>"
+        )
+
 
         ymlFile.addDefault(
             "UNKNOWN_TIME_FORMAT",
@@ -178,19 +196,19 @@ class en_yml {
         )
         ymlFile.addDefault(
             "MAINTENANCE_PLAYER_NOT_ALLOWED_TO_JOIN_KICK_MESSAGE",
-            "You are not allowed to join the server while maintenance works!"
+            "<prefix> You are not allowed to join the server while maintenance works!"
         )
         ymlFile.addDefault(
             "MAINTENANCE_COMMAND_DEACTIVATE",
-            "<gray>The maintenance mode is now <green>deactivated<gray>!"
+            "<prefix> <gray>The maintenance mode is now <green>deactivated<gray>!"
         )
         ymlFile.addDefault(
             "MAINTENANCE_COMMAND_ACTIVATE",
-            "<gray>The maintenance mode is now <green>activated<gray>!"
+            "<prefix> <gray>The maintenance mode is now <green>activated<gray>!"
         )
         ymlFile.addDefault(
             "MAINTENANCE_ALREADY_STATE",
-            "<gray>The maintenance mode is already in this state!"
+            "<prefix> <gray>The maintenance mode is already in this state!"
         )
 
         ymlFile.addDefault(
@@ -599,6 +617,16 @@ class en_yml {
         ymlFile.addDefault(
             "MODULE_MULTIMINE_BLOCK_NOT_IN_LIST",
             "<white>The block <yellow><block> <white>is not in the list!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_TOGGLE_ACTIVATE",
+            "<white>MultiMine is now <yellow>activated<white>!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_TOGGLE_DEACTIVATE",
+            "<white>MultiMine is now <yellow>deactivated<white>!"
         )
 
         ymlFile.addDefault(

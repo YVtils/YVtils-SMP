@@ -40,13 +40,29 @@ class de_yml {
             "<prefix> <white>Das Plugin hat keine Updates zur Verfügung!"
         )
         ymlFile.addDefault(
-            "PLUGIN_UPDATE_AVAILABLE",
-            "<prefix> <yellow>Die Plugin Version <newversion> ist nun verfügbar. Der Server nutzt noch <oldversion>! Lade die neue Version über <link> herunter."
+            "PLUGIN_UPDATE_AVAILABLE_PATCH",
+            "<prefix> <yellow>Es ist ein Patch verfügbar! <newline><yellow>Verwendete Version: <gray><oldVersion><newline><yellow>Neueste Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
+        )
+        ymlFile.addDefault(
+            "PLUGIN_UPDATE_AVAILABLE_MINOR",
+            "<prefix> <#FF8349>Es ist ein kleines Feature Update verfügbar! <newline><yellow>Verwendete Version: <gray><oldVersion><newline><yellow>Neueste Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
+        )
+        ymlFile.addDefault(
+            "PLUGIN_UPDATE_AVAILABLE_MAJOR",
+            "<prefix> <red>Es ist ein Major Update verfügbar! Es wird empfohlen, das Update so bald wie möglich zu installieren! <newline><yellow>Verwendete Version: <gray><oldVersion><newline><yellow>Neueste Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
         )
 
         ymlFile.addDefault(
-            "PLAYER_PLUGIN_UPDATE_AVAILABLE",
-            "<prefix> <white>Update verfügbar:<newline><yellow>Verwendete Version: <gray><oldVersion><newline><yellow>Neueste Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
+            "PLAYER_PLUGIN_UPDATE_AVAILABLE_PATCH",
+            "<prefix> <yellow>Ein Patch ist verfügbar! <newline><yellow>Verwendete Version: <gray><oldVersion><newline><yellow>Neueste Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
+        )
+        ymlFile.addDefault(
+            "PLAYER_PLUGIN_UPDATE_AVAILABLE_MINOR",
+            "<prefix> <#FF8349>Ein kleines Feature Update ist verfügbar! <newline><yellow>Verwendete Version: <gray><oldVersion><newline><yellow>Neueste Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
+        )
+        ymlFile.addDefault(
+            "PLAYER_PLUGIN_UPDATE_AVAILABLE_MAJOR",
+            "<prefix> <red>Ein Major Update ist verfügbar! Es wird empfohlen, das Update so bald wie möglich zu installieren! <newline><yellow>Verwendete Version: <gray><oldVersion><newline><yellow>Neueste Version: <gray><newVersion><newline><yellow>Download: <gray><link>"
         )
 
         ymlFile.addDefault(
@@ -624,6 +640,16 @@ class de_yml {
         ymlFile.addDefault(
             "MODULE_MULTIMINE_BLOCK_NOT_IN_LIST",
             "<white>Der Block <yellow><block> <white>ist nicht in der Liste!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_TOGGLE_ACTIVATE",
+            "<white>MultiMine wurde <yellow>aktiviert<white>!"
+        )
+
+        ymlFile.addDefault(
+            "MODULE_MULTIMINE_TOGGLE_DEACTIVATE",
+            "<white>MultiMine wurde <yellow>deaktiviert<white>!"
         )
 
         ymlFile.addDefault(

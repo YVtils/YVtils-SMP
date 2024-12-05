@@ -1,77 +1,72 @@
 package yv.tils.smp.mods.admin.vanish
 
-import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityTargetEvent
 import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerGameModeChangeEvent
 import org.bukkit.event.player.PlayerJoinEvent
-import yv.tils.smp.YVtils
 
 class VanishEvents {
+    /**
+     * Reanable vanish for player on rejoin
+     * @param e PlayerJoinEvent
+     */
     fun onRejoin(e: PlayerJoinEvent) {
         val player = e.player
         if (!Vanish.vanish.containsKey(player.uniqueId)) return
-        Vanish.oldVanish[player.uniqueId] = Vanish.vanish[player.uniqueId]!!
-        if (Vanish.vanish[player.uniqueId]!!) {
-            Vanish().enableVanish(player)
-
-            Vanish().playerHide(player)
-        } else {
-            Vanish().disableVanish(player)
+        if (Vanish.vanish[player.uniqueId]?.vanish!!) {
+            Vanish().enableVanish(player, silent = true)
         }
     }
 
+    /**
+     * Hide vanished players for other players on join
+     * @param e PlayerJoinEvent
+     */
     fun onOtherJoin(e: PlayerJoinEvent) {
         val target = e.player
 
-        for ((key, value) in Vanish.vanish) {
-            if (value) {
-                val player = Bukkit.getPlayer(key) ?: return
-
-                target.hidePlayer(YVtils.instance, player)
-                player.hidePlayer(YVtils.instance, target)
-
-                if (!Vanish.vanish.containsKey(target.uniqueId)) player.showPlayer(YVtils.instance, target)
-
-                if (Vanish.layer[player.uniqueId] != 4) {
-                    for ((key1, value1) in Vanish.layer) {
-                        if (value1 <= Vanish.layer[player.uniqueId]!!) {
-                            for (viewer in Bukkit.getOnlinePlayers()) {
-                                if (viewer.uniqueId == key1 && value1 != 4 && Vanish.vanish.containsKey(viewer.uniqueId) && Vanish.vanish[viewer.uniqueId]!!) {
-                                    player.showPlayer(YVtils.instance, viewer)
-                                    viewer.showPlayer(YVtils.instance, player)
-                                }
-                            }
-                        }
-                    }
-                }
+        for ((_, value) in Vanish.vanish) {
+            if (value.vanish) {
+                Vanish().hidePlayer(value.player, target)
             }
         }
     }
 
+    /**
+     * Hide vanished players for player on join
+     * @param e PlayerJoinEvent
+     */
     fun onGamemodeSwitch(e: PlayerGameModeChangeEvent) {
         val player = e.player
         if (!Vanish.vanish.containsKey(player.uniqueId)) return
-        if (Vanish.vanish[player.uniqueId]!!) {
-            Vanish().enableVanish(player)
-        } else {
-            Vanish().disableVanish(player)
+        if (Vanish.vanish[player.uniqueId]?.vanish!!) {
+            Vanish().refreshVanish(player)
         }
     }
 
+    /**
+     * Hide vanished players for player on world change
+     * @param e PlayerChangedWorldEvent
+     */
     fun onWorldChange(e: PlayerChangedWorldEvent) {
         val player = e.player
         if (!Vanish.vanish.containsKey(player.uniqueId)) return
-        if (Vanish.vanish[player.uniqueId]!!) {
-            Vanish().enableVanish(player)
-        } else {
-            Vanish().disableVanish(player)
+        if (Vanish.vanish[player.uniqueId]?.vanish!!) {
+            Vanish().refreshVanish(player)
         }
     }
 
+    /**
+     * Cancel mob target for vanished players
+     * @param e EntityTargetEvent
+     */
     fun playerTarget(e: EntityTargetEvent) {
         if (e.target == null) return
-        if (Vanish.mobTarget.containsKey(e.target!!.uniqueId) && Vanish.mobTarget[e.target!!.uniqueId]!!) {
+        if (e.target !is Player) return
+        val target = e.target as Player
+        if (!Vanish.vanish.containsKey(target.uniqueId)) return
+        if (Vanish.vanish[target.uniqueId]?.vanish!! && Vanish.vanish[target.uniqueId]?.mobTarget!!) {
             e.isCancelled = true
         }
     }

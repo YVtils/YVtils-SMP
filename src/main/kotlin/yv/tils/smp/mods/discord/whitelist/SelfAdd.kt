@@ -13,6 +13,7 @@ import yv.tils.smp.mods.discord.embedManager.whitelist.AccountChange
 import yv.tils.smp.mods.discord.embedManager.whitelist.AccountCheckError
 import yv.tils.smp.mods.discord.embedManager.whitelist.AccountNotFound
 import yv.tils.smp.mods.discord.embedManager.whitelist.RoleHierarchyError
+import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.configs.discord.DiscordConfig
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
@@ -43,7 +44,14 @@ class SelfAdd : ListenerAdapter() {
             return
         }
 
-        val player = Bukkit.getOfflinePlayer(name)
+        val playerUUID = MojangAPI().name2uuid(name)
+
+        if (playerUUID == null) {
+            channel.sendMessageEmbeds(AccountCheckError().embed(name).build()).complete().delete().queueAfter(5, TimeUnit.SECONDS)
+            return
+        }
+
+        val player = Bukkit.getOfflinePlayer(playerUUID)
 
         if (player.isWhitelisted) {
             channel.sendMessageEmbeds(AccountAlreadyListed().embed(e.message.contentRaw).build()).complete().delete()

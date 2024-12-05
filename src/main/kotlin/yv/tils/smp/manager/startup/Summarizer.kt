@@ -5,6 +5,9 @@ import yv.tils.smp.mods.other.SpawnElytra
 import yv.tils.smp.utils.logger.Debugger
 
 class Summarizer {
+    /**
+     * Start up the plugin
+     */
     fun startup() {
         Debugger().log("Starting up", "Listeners loading", "yv.tils.smp.manager.startup.Summarizer")
 

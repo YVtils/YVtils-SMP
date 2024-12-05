@@ -7,11 +7,20 @@ import org.bukkit.entity.Player
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
+import yv.tils.smp.utils.internalAPI.Parser
 import yv.tils.smp.utils.internalAPI.Placeholder
 import yv.tils.smp.utils.internalAPI.Vars
 import java.util.*
 
 class TempMuteHandler {
+    /**
+     * Tempmute player
+     * @param target Player to tempmute
+     * @param sender CommandSender to send messages
+     * @param duration Int of mute duration
+     * @param unit String of time unit
+     * @param reason String of mute reason
+     */
     fun tempmutePlayer(
         target: OfflinePlayer,
         sender: CommandSender,
@@ -20,31 +29,16 @@ class TempMuteHandler {
         reason: String,
     ) {
         if (MuteHandler().checkMute(target)) {
-            if (sender is Player) {
-                sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.PLAYER_ALREADY_MUTED))
-            } else {
-                sender.sendMessage(Language().getMessage(LangStrings.PLAYER_ALREADY_MUTED))
-            }
+            sender.sendMessage(Language().getMessage(sender, LangStrings.PLAYER_ALREADY_MUTED))
             return
         }
 
-        val expireAfter: Calendar = Calendar.getInstance()
-        when (unit) {
-            "s" -> expireAfter.add(Calendar.SECOND, duration)
-            "m" -> expireAfter.add(Calendar.MINUTE, duration)
-            "h" -> expireAfter.add(Calendar.HOUR, duration)
-            "d" -> expireAfter.add(Calendar.DAY_OF_MONTH, duration)
-            "w" -> expireAfter.add(Calendar.WEEK_OF_YEAR, duration)
-            else -> {
-                if (sender is Player) {
-                    sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.UNKNOWN_TIME_FORMAT))
-                } else {
-                    sender.sendMessage(Language().getMessage(LangStrings.UNKNOWN_TIME_FORMAT))
-                }
-
-                return
-            }
+        val parsedTime = Parser().parseTime(unit, duration)
+        if (parsedTime.error != null) {
+            sender.sendMessage(Language().getMessage(sender, parsedTime.error!!))
+            return
         }
+        val expireAfter = parsedTime.answer as Calendar
 
         MuteHandler().updateMute(target, reason, expireAfter.timeInMillis.toString())
 

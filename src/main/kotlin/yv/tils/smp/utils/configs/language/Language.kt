@@ -2,7 +2,9 @@ package yv.tils.smp.utils.configs.language
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
+import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.entity.Player
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.global.Config
@@ -88,11 +90,22 @@ class Language {
         }
     }
 
+    fun getMessage(sender: CommandSender, message: LangStrings): Component {
+        if (sender !is Player) {
+            return getMessage(sender, message)
+        } else {
+            val uuid = sender.uniqueId
+            return getMessage(uuid, message)
+        }
+    }
+
     fun getMessage(uuid: UUID, message: LangStrings): Component {
         val lang = playerLang[uuid]
 
         return when (lang) {
             Locale.GERMANY -> ColorUtils().convert(config_de[message.name].toString())
+            Locale.UK -> ColorUtils().convert(config_en[message.name].toString())
+            Locale.US -> ColorUtils().convert(config_en[message.name].toString())
             Locale.ENGLISH -> ColorUtils().convert(config_en[message.name].toString())
             else -> ColorUtils().convert(config_global[message.name].toString())
         }
@@ -108,6 +121,15 @@ class Language {
             return ColorUtils().convert(message.name)
         } else {
             return ColorUtils().convert(config_global[message.name].toString())
+        }
+    }
+
+    fun getRawMessage(sender: CommandSender, message: LangStrings): String {
+        if (sender !is Player) {
+            return getRawMessage(message)
+        } else {
+            val uuid = sender.uniqueId
+            return getRawMessage(uuid, message)
         }
     }
 

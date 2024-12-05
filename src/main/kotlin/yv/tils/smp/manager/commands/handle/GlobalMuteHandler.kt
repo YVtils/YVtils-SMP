@@ -18,6 +18,11 @@ class GlobalMuteHandler {
 
     var oldState: Boolean = false
 
+    /**
+     * Toggle global mute
+     * @param sender CommandSender to send messages
+     * @param args CommandArguments to get state
+     */
     fun globalMute(sender: CommandSender, args: CommandArguments? = null) {
         val state = if (args?.get(0) == null) {
             "toggle"
@@ -52,77 +57,59 @@ class GlobalMuteHandler {
         senderAnnouncement(sender, state)
     }
 
+    /**
+     * Send global announcement
+     * @param event String of event
+     */
     private fun globalAnnouncement(event: String) {
-
         if (oldState == globalMute) {
             return
         }
 
         for (player in Bukkit.getOnlinePlayers()) {
-            when (event) {
-                "true" -> {
-                    player.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(
-                                player.uniqueId,
-                                LangStrings.GLOBALMUTE_ENABLE_ANNOUNCEMENT
-                            ),
-                            listOf("prefix"),
-                            listOf(Vars().prefix)
-                        )
+            if (globalMute) {
+                player.sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(
+                            player.uniqueId,
+                            LangStrings.GLOBALMUTE_ENABLE_ANNOUNCEMENT
+                        ),
+                        listOf("prefix"),
+                        listOf(Vars().prefix)
                     )
-                }
-
-                "false" -> {
-                    player.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(
-                                player.uniqueId,
-                                LangStrings.GLOBALMUTE_DISABLE_ANNOUNCEMENT
-                            ),
-                            listOf("prefix"),
-                            listOf(Vars().prefix)
-                        )
+                )
+            } else {
+                player.sendMessage(
+                    Placeholder().replacer(
+                        Language().getMessage(
+                            player.uniqueId,
+                            LangStrings.GLOBALMUTE_DISABLE_ANNOUNCEMENT
+                        ),
+                        listOf("prefix"),
+                        listOf(Vars().prefix)
                     )
-                }
-
-                "toggle" -> {
-                    if (globalMute) {
-                        player.sendMessage(
-                            Placeholder().replacer(
-                                Language().getMessage(
-                                    player.uniqueId,
-                                    LangStrings.GLOBALMUTE_ENABLE_ANNOUNCEMENT
-                                ),
-                                listOf("prefix"),
-                                listOf(Vars().prefix)
-                            )
-                        )
-                    } else {
-                        player.sendMessage(
-                            Placeholder().replacer(
-                                Language().getMessage(
-                                    player.uniqueId,
-                                    LangStrings.GLOBALMUTE_DISABLE_ANNOUNCEMENT
-                                ),
-                                listOf("prefix"),
-                                listOf(Vars().prefix)
-                            )
-                        )
-                    }
-                }
+                )
             }
         }
 
-        YVtils.instance.server.consoleSender.sendMessage(Language().getMessage(LangStrings.GLOBALMUTE_DISABLE_ANNOUNCEMENT))
+        if (globalMute) {
+            YVtils.instance.server.consoleSender.sendMessage(Language().getMessage(LangStrings.GLOBALMUTE_ENABLE_ANNOUNCEMENT))
+        } else {
+            YVtils.instance.server.consoleSender.sendMessage(Language().getMessage(LangStrings.GLOBALMUTE_DISABLE_ANNOUNCEMENT))
+        }
     }
 
+    /**
+     * Send sender announcement
+     * @param sender CommandSender to send messages
+     * @param event String of event
+     */
     private fun senderAnnouncement(sender: CommandSender, event: String) {
-
         if (oldState == globalMute) {
             sender.sendMessage(
                 Placeholder().replacer(
                     Language().getMessage(
+                        sender,
                         LangStrings.GLOBALMUTE_ALREADY_STATE
                     ),
                     listOf("prefix"),
@@ -132,57 +119,35 @@ class GlobalMuteHandler {
             return
         }
 
-        when (event) {
-            "true" -> {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(
-                            LangStrings.GLOBALMUTE_ENABLE_FEEDBACK
-                        ),
-                        listOf("prefix"),
-                        listOf(Vars().prefix)
-                    )
+        if (globalMute) {
+            sender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(
+                        sender,
+                        LangStrings.GLOBALMUTE_ENABLE_FEEDBACK
+                    ),
+                    listOf("prefix"),
+                    listOf(Vars().prefix)
                 )
-            }
-
-            "false" -> {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(
-                            LangStrings.GLOBALMUTE_DISABLE_FEEDBACK
-                        ),
-                        listOf("prefix"),
-                        listOf(Vars().prefix)
-                    )
+            )
+        } else {
+            sender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(
+                        sender,
+                        LangStrings.GLOBALMUTE_DISABLE_FEEDBACK
+                    ),
+                    listOf("prefix"),
+                    listOf(Vars().prefix)
                 )
-            }
-
-            "toggle" -> {
-                if (globalMute) {
-                    sender.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(
-                                LangStrings.GLOBALMUTE_ENABLE_FEEDBACK
-                            ),
-                            listOf("prefix"),
-                            listOf(Vars().prefix)
-                        )
-                    )
-                } else {
-                    sender.sendMessage(
-                        Placeholder().replacer(
-                            Language().getMessage(
-                                LangStrings.GLOBALMUTE_DISABLE_FEEDBACK
-                            ),
-                            listOf("prefix"),
-                            listOf(Vars().prefix)
-                        )
-                    )
-                }
-            }
+            )
         }
     }
 
+    /**
+     * Handle player chat event for global mute
+     * @param e AsyncChatEvent
+     */
     fun playerChatEvent(e: AsyncChatEvent) {
         if (globalMute) {
             if (e.player.hasPermission("yvtils.smp.bypass.globalmute")) {

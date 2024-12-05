@@ -1,8 +1,0 @@
-Coding:
-    Fusion
-        - Add more fusions
-    MMM
-        - Fast leaf decay
-
-Other:
-    Find cause of paper error appearing sometimes -> Could be from CommandAPI: https://github.com/JorelAli/CommandAPI/issues/503

@@ -10,6 +10,12 @@ import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
 
 class GamemodeHandler {
+    /**
+     * Switch gamemode for player
+     * @param player Player to switch gamemode
+     * @param gamemode String of gamemode to switch
+     * @param sender CommandSender to send messages
+     */
     fun gamemodeSwitch(player: Player, gamemode: String, sender: CommandSender = player) {
         val list_en: List<String>
         val list_de: List<String>
@@ -82,23 +88,13 @@ class GamemodeHandler {
         }
 
         if (player != sender) {
-            if (sender is Player) {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(sender.uniqueId, LangStrings.GAMEMODE_SWITCH_OTHER),
-                        listOf("gamemode", "player"),
-                        listOf(list2[0], player.name)
-                    )
+            sender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(sender, LangStrings.GAMEMODE_SWITCH_OTHER),
+                    listOf("gamemode", "player"),
+                    listOf(list2[0], player.name)
                 )
-            } else {
-                sender.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(LangStrings.GAMEMODE_SWITCH_OTHER),
-                        listOf("gamemode", "player"),
-                        listOf(list2[0], player.name)
-                    )
-                )
-            }
+            )
         }
     }
 }
