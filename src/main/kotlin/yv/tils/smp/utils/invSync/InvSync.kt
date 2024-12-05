@@ -27,15 +27,6 @@ class InvSync {
     fun onInvChange(e: InventoryClickEvent) {
         val player = e.whoClicked
 
-        println("<-----------------------------------------------")
-
-        println("Inv: ${e.inventory.type} | Slot: ${e.slot} | Clicked: ${e.clickedInventory?.type} | Clicked Slot: ${e.clickedInventory?.getItem(e.slot)}")
-        for (i in 0 until (e.clickedInventory?.size ?: 0)) {
-            println("Slot $i: ${e.clickedInventory?.getItem(i)}")
-        }
-
-        println("----------------------------------------------->")
-
         val inv = e.clickedInventory ?: return
 
         Bukkit.getScheduler().runTask(YVtils.instance, Runnable {
@@ -182,14 +173,10 @@ class InvSync {
                 playerInv.offhandSlot[40] = inv.getItem(40)
 
                 for (i in 9..35) {
-                    println("for loop | 1 | i: $i | item: ${inv.getItem(i)}")
-
                     playerInv.invSlots[i] = inv.getItem(i)
                 }
 
                 for (i in 0..8) {
-                    println("for loop | 2 | i: $i | item: ${inv.getItem(i)}")
-
                     playerInv.hotbarSlots[i] = inv.getItem(i)
                 }
 

@@ -28,7 +28,7 @@ repositories {
 paperweight.reobfArtifactConfiguration.set(io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION)
 
 dependencies {
-    paperweight.paperDevBundle("1.21.3-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
 
     implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", commandAPIVersion)
     implementation("dev.jorel", "commandapi-bukkit-kotlin", commandAPIVersion)
@@ -68,7 +68,7 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.21.1")
+        minecraftVersion("1.21.4")
     }
 }
 
