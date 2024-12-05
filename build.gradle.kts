@@ -7,7 +7,7 @@ plugins {
 
     id("com.github.johnrengelman.shadow") version "8.1.1"
 
-    id("io.papermc.paperweight.userdev") version "1.7.5"
+    id("io.papermc.paperweight.userdev") version "1.7.6"
 
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
