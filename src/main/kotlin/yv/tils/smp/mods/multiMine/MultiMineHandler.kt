@@ -19,7 +19,6 @@ import java.util.UUID
 
 // TODO: Add fast Leave decay
 // TODO: Try making the break process better for the performance
-// TODO: Add command to toggle multiMine and save in save.yml
 
 class MultiMineHandler {
     companion object {
