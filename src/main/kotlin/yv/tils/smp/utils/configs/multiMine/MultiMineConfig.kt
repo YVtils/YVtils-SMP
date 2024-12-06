@@ -3,6 +3,8 @@ package yv.tils.smp.utils.configs.multiMine
 import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
 import yv.tils.smp.YVtils
+import yv.tils.smp.utils.color.ColorUtils
+import yv.tils.smp.utils.internalAPI.Vars
 import java.io.File
 
 class MultiMineConfig {
@@ -36,7 +38,11 @@ class MultiMineConfig {
 
         val blocks = ymlFile.getList("blocks") as List<String>
         blocks.forEach {
-            blockList.add(Material.getMaterial(it)!!)
+            try {
+                blockList.add(Material.getMaterial(it)!!)
+            } catch (e: NullPointerException) {
+                YVtils.instance.server.consoleSender.sendMessage(ColorUtils().convert("${Vars().prefix} MultiMine: Trying to load a block that does not exist: $it"))
+            }
         }
     }
 

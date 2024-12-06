@@ -5,8 +5,8 @@ import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.entity.Player
 import yv.tils.smp.YVtils
+import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.admin.mutedPlayers_yml
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
@@ -82,7 +82,7 @@ class MuteHandler {
 
             player.sendMessage(
                 Placeholder().replacer(
-                    Language().getMessage(player.uniqueId, LangStrings.MUTED_TRY_TO_WRITE),
+                    Language().getMessage(player.uniqueId, LangStrings.PLAYER_YOU_ARE_MUTED),
                     listOf("prefix", "reason", "duration"),
                     listOf(
                         Vars().prefix,
@@ -93,7 +93,19 @@ class MuteHandler {
                 )
             )
 
-            // TODO: Add message to console when player tries to chat while muted -> "<player> tried to chat while muted. Message: <message>; Reason: <reason>; Duration: <duration>"
+            YVtils.instance.server.consoleSender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(LangStrings.PLAYER_TRIED_TO_WRITE_WHILE_MUTED),
+                    listOf("prefix", "player", "message", "reason", "duration"),
+                    listOf(
+                        Vars().prefix,
+                        player.name,
+                        ColorUtils().convert(e.originalMessage()),
+                        mutedPlayers_yml.mutedPlayer[player.uniqueId]?.get(0) ?: Language().getRawMessage(player.uniqueId, LangStrings.MOD_NO_REASON),
+                        duration
+                    )
+                )
+            )
         }
     }
 

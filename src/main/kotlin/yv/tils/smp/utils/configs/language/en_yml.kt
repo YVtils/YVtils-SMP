@@ -393,6 +393,10 @@ class en_yml {
             "<gray>You successfully cleared the status!"
         )
         ymlFile.addDefault(
+            "MODULE_STATUS_CLEAR_CONSOLE",
+            "<gray>You need to specify a player to clear the status!"
+        )
+        ymlFile.addDefault(
             "MODULE_STATUS_PLAYER_HAS_NO_STATUS",
             "<gray>You have no status set!"
         )
@@ -515,8 +519,13 @@ class en_yml {
         )
 
         ymlFile.addDefault(
-            "MUTED_TRY_TO_WRITE",
+            "PLAYER_YOU_ARE_MUTED",
             "<prefix> <gray>You are muted! Reason: <dark_gray><reason><gray>, Duration: <dark_gray><duration>"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_TRIED_TO_WRITE_WHILE_MUTED",
+            "<prefix> <gray><player> tried to chat while muted. Message: <message>; Reason: <reason>; Duration: <duration>"
         )
 
         ymlFile.addDefault(

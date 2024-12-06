@@ -5,7 +5,6 @@ import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.PrepareAnvilEvent
 import yv.tils.smp.utils.configs.global.Config
 
-// TODO: Try Papers new AnvilView -> https://jd.papermc.io/paper/1.21.1/org/bukkit/inventory/view/AnvilView.html
 class AntiTooExpensive {
     companion object {
         var active = Config.config["disableTooExpensive"] as Boolean

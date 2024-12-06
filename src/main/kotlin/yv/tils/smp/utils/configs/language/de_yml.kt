@@ -416,6 +416,10 @@ class de_yml {
             "<gray>Du hast erfolgreich deinen Status <gray>gelöscht!"
         )
         ymlFile.addDefault(
+            "MODULE_STATUS_CLEAR_CONSOLE",
+            "<gray>Du musst einen Spieler angeben, um den Status zu löschen!"
+        )
+        ymlFile.addDefault(
             "MODULE_STATUS_PLAYER_HAS_NO_STATUS",
             "<gray>Du hast keinen Status!"
         )
@@ -538,8 +542,13 @@ class de_yml {
         )
 
         ymlFile.addDefault(
-            "MUTED_TRY_TO_WRITE",
+            "PLAYER_YOU_ARE_MUTED",
             "<prefix> <gray>Du bist gemuted! Grund: <dark_gray><reason><gray>, Dauer: <dark_gray><duration>"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_TRIED_TO_WRITE_WHILE_MUTED",
+            "<prefix> <gray><player> hat versucht zu schreiben, während er gemuted war. Nachricht: <message>; Grund: <reason>; Dauer: <duration>"
         )
 
         ymlFile.addDefault(

@@ -12,7 +12,7 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
-val yvtilsVersion = "1.1.0"
+val yvtilsVersion = "1.1.1"
 val jdaVersion = "5.2.1"
 val commandAPIVersion = "9.7.0"
 
@@ -83,6 +83,6 @@ tasks.shadowJar {
     archiveFileName.set("YVtils-SMP_v${version}.jar")
 
     manifest {
-        attributes["Main-Class"] = "yv.tils.smp.YVtils" // Set the correct main class path here
+        attributes["Main-Class"] = "yv.tils.smp.YVtils"
     }
 }
