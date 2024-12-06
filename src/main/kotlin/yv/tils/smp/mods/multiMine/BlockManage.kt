@@ -95,32 +95,60 @@ class BlockManage {
 
     private fun checkForContainer(item: Material): Boolean {
         val containerList = mutableListOf<Material>()
-        containerList.add(Material.SHULKER_BOX)
-        containerList.add(Material.BLACK_SHULKER_BOX)
-        containerList.add(Material.BLUE_SHULKER_BOX)
-        containerList.add(Material.BROWN_SHULKER_BOX)
-        containerList.add(Material.CYAN_SHULKER_BOX)
-        containerList.add(Material.GRAY_SHULKER_BOX)
-        containerList.add(Material.GREEN_SHULKER_BOX)
-        containerList.add(Material.LIGHT_BLUE_SHULKER_BOX)
-        containerList.add(Material.LIGHT_GRAY_SHULKER_BOX)
-        containerList.add(Material.LIME_SHULKER_BOX)
-        containerList.add(Material.MAGENTA_SHULKER_BOX)
-        containerList.add(Material.ORANGE_SHULKER_BOX)
-        containerList.add(Material.PINK_SHULKER_BOX)
-        containerList.add(Material.PURPLE_SHULKER_BOX)
-        containerList.add(Material.RED_SHULKER_BOX)
-        containerList.add(Material.WHITE_SHULKER_BOX)
-        containerList.add(Material.YELLOW_SHULKER_BOX)
-        containerList.add(Material.BUNDLE)
+        containerList.addAll(shulkerList())
+        containerList.addAll(bundleList())
 
         return containerList.contains(item)
+    }
+
+    private fun shulkerList(): MutableList<Material> {
+        val shulkerList = mutableListOf<Material>()
+        shulkerList.add(Material.SHULKER_BOX)
+        shulkerList.add(Material.BLACK_SHULKER_BOX)
+        shulkerList.add(Material.BLUE_SHULKER_BOX)
+        shulkerList.add(Material.BROWN_SHULKER_BOX)
+        shulkerList.add(Material.CYAN_SHULKER_BOX)
+        shulkerList.add(Material.GRAY_SHULKER_BOX)
+        shulkerList.add(Material.GREEN_SHULKER_BOX)
+        shulkerList.add(Material.LIGHT_BLUE_SHULKER_BOX)
+        shulkerList.add(Material.LIGHT_GRAY_SHULKER_BOX)
+        shulkerList.add(Material.LIME_SHULKER_BOX)
+        shulkerList.add(Material.MAGENTA_SHULKER_BOX)
+        shulkerList.add(Material.ORANGE_SHULKER_BOX)
+        shulkerList.add(Material.PINK_SHULKER_BOX)
+        shulkerList.add(Material.PURPLE_SHULKER_BOX)
+        shulkerList.add(Material.RED_SHULKER_BOX)
+        shulkerList.add(Material.WHITE_SHULKER_BOX)
+        shulkerList.add(Material.YELLOW_SHULKER_BOX)
+        return shulkerList
+    }
+
+    private fun bundleList(): MutableList<Material> {
+        val bundleList = mutableListOf<Material>()
+        bundleList.add(Material.BUNDLE)
+        bundleList.add(Material.BLACK_BUNDLE)
+        bundleList.add(Material.BLUE_BUNDLE)
+        bundleList.add(Material.BROWN_BUNDLE)
+        bundleList.add(Material.CYAN_BUNDLE)
+        bundleList.add(Material.GRAY_BUNDLE)
+        bundleList.add(Material.GREEN_BUNDLE)
+        bundleList.add(Material.LIGHT_BLUE_BUNDLE)
+        bundleList.add(Material.LIGHT_GRAY_BUNDLE)
+        bundleList.add(Material.LIME_BUNDLE)
+        bundleList.add(Material.MAGENTA_BUNDLE)
+        bundleList.add(Material.ORANGE_BUNDLE)
+        bundleList.add(Material.PINK_BUNDLE)
+        bundleList.add(Material.PURPLE_BUNDLE)
+        bundleList.add(Material.RED_BUNDLE)
+        bundleList.add(Material.WHITE_BUNDLE)
+        bundleList.add(Material.YELLOW_BUNDLE)
+        return bundleList
     }
 
     private fun loadContainerContent(container: ItemStack): List<Material> {
         val content = mutableListOf<Material>()
 
-        if (container.type == Material.BUNDLE) {
+        if (bundleList().contains(container.type)) {
             val bundle = container.itemMeta as BundleMeta
             for (item in bundle.items) {
                 content.add(item.type)
@@ -214,7 +242,11 @@ class BlockManage {
             blocks.add(block)
         } else if (identifier == "-") {
             if (!blocks.contains(block)) {
-                sender.sendMessage(Language().getMessage(LangStrings.MODULE_MULTIMINE_BLOCK_NOT_IN_LIST))
+                sender.sendMessage(Placeholder().replacer(
+                    Language().getMessage(LangStrings.MODULE_MULTIMINE_BLOCK_NOT_IN_LIST),
+                    listOf("block"),
+                    listOf(block.name)
+                ))
                 return false
             }
 
