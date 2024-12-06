@@ -41,8 +41,9 @@ class MultiMineConfig {
             try {
                 blockList.add(Material.getMaterial(it)!!)
             } catch (e: NullPointerException) {
-                YVtils.instance.server.sendMessage(ColorUtils().convert("${Vars().prefix} MultiMine: Trying to load a block that does not exist: $it"))
-            }        }
+                YVtils.instance.server.consoleSender.sendMessage(ColorUtils().convert("${Vars().prefix} MultiMine: Trying to load a block that does not exist: $it"))
+            }
+        }
     }
 
     fun updateBlockList(blocks: MutableList<Material>) {
