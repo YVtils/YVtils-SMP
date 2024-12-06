@@ -92,7 +92,7 @@ class Language {
 
     fun getMessage(sender: CommandSender, message: LangStrings): Component {
         if (sender !is Player) {
-            return getMessage(sender, message)
+            return getMessage(message)
         } else {
             val uuid = sender.uniqueId
             return getMessage(uuid, message)
