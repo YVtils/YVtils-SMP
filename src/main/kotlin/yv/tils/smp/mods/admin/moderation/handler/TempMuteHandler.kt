@@ -34,7 +34,7 @@ class TempMuteHandler {
         }
 
         val parsedTime = Parser().parseTime(unit, duration)
-        if (parsedTime.error != null) {
+        if (parsedTime.error != null || parsedTime.answer == null) {
             sender.sendMessage(Language().getMessage(sender, parsedTime.error!!))
             return
         }

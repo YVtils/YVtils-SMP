@@ -5,7 +5,7 @@ import java.util.*
 
 class Parser {
     data class ReturnData(
-        var answer: Any,
+        var answer: Calendar?,
         var error: LangStrings?
     )
 
@@ -25,10 +25,10 @@ class Parser {
             "d" -> expireAfter.add(Calendar.DAY_OF_MONTH, duration)
             "w" -> expireAfter.add(Calendar.WEEK_OF_YEAR, duration)
             else -> {
-                return ReturnData(0, LangStrings.UNKNOWN_TIME_FORMAT)
+                return ReturnData(null, LangStrings.UNKNOWN_TIME_FORMAT)
             }
         }
 
-        return ReturnData(expireAfter.time, null)
+        return ReturnData(expireAfter, null)
     }
 }
