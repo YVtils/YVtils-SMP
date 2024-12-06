@@ -515,8 +515,13 @@ class en_yml {
         )
 
         ymlFile.addDefault(
-            "MUTED_TRY_TO_WRITE",
+            "PLAYER_YOU_ARE_MUTED",
             "<prefix> <gray>You are muted! Reason: <dark_gray><reason><gray>, Duration: <dark_gray><duration>"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_TRIED_TO_WRITE_WHILE_MUTED",
+            "<prefix> <gray><player> tried to chat while muted. Message: <message>; Reason: <reason>; Duration: <duration>"
         )
 
         ymlFile.addDefault(

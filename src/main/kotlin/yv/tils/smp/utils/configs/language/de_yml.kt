@@ -538,8 +538,13 @@ class de_yml {
         )
 
         ymlFile.addDefault(
-            "MUTED_TRY_TO_WRITE",
+            "PLAYER_YOU_ARE_MUTED",
             "<prefix> <gray>Du bist gemuted! Grund: <dark_gray><reason><gray>, Dauer: <dark_gray><duration>"
+        )
+
+        ymlFile.addDefault(
+            "PLAYER_TRIED_TO_WRITE_WHILE_MUTED",
+            "<prefix> <gray><player> hat versucht zu schreiben, während er gemuted war. Nachricht: <message>; Grund: <reason>; Dauer: <duration>"
         )
 
         ymlFile.addDefault(
