@@ -1,5 +1,6 @@
 package yv.tils.smp.mods.status
 
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
@@ -28,21 +29,26 @@ class StatusHandler {
         setStatusDisplayHandler(player, status)
     }
 
-    fun clearStatus(player: Player, target: Player? = null) {
+    fun clearStatus(sender: CommandSender, target: Player? = null) {
         if (target == null) {
-            setStatusDisplay(player, "")
-            player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.MODULE_STATUS_CLEAR_CLEARED))
+            if (sender !is Player) {
+                sender.sendMessage(Language().getMessage(sender, LangStrings.MODULE_STATUS_CLEAR_CONSOLE))
+                return
+            }
+
+            setStatusDisplay(sender, "")
+            sender.sendMessage(Language().getMessage(sender.uniqueId, LangStrings.MODULE_STATUS_CLEAR_CLEARED))
         } else {
-            if (!player.hasPermission("yvtils.smp.command.status.clear.others")) {
-                player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.MODULE_STATUS_CLEAR_OTHER_UNALLOWED))
+            if (!sender.hasPermission("yvtils.smp.command.status.clear.others")) {
+                sender.sendMessage(Language().getMessage(sender, LangStrings.MODULE_STATUS_CLEAR_OTHER_UNALLOWED))
                 return
             }
 
             setStatusDisplay(target, "")
 
-            player.sendMessage(
+            sender.sendMessage(
                 Placeholder().replacer(
-                    Language().getMessage(player.uniqueId, LangStrings.MODULE_STATUS_CLEAR_OTHER_CLEARED),
+                    Language().getMessage(sender, LangStrings.MODULE_STATUS_CLEAR_OTHER_CLEARED),
                     listOf("player"),
                     listOf(target.name)
                 )

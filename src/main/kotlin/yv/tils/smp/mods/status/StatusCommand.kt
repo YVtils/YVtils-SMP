@@ -33,11 +33,11 @@ class StatusCommand {
         literalArgument("clear", false) {
             playerArgument("player", true) {
                 withPermission("yvtils.smp.command.status.clear.others")
-                anyExecutor { sender, args -> // TODO: Add console support
+                anyExecutor { sender, args ->
                     if (args[0] is Player) {
-                        handler().clearStatus(sender as Player, args[0] as Player)
+                        handler().clearStatus(sender, args[0] as Player)
                     } else {
-                        handler().clearStatus(sender as Player)
+                        handler().clearStatus(sender)
                     }
                 }
             }

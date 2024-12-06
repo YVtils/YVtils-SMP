@@ -416,6 +416,10 @@ class de_yml {
             "<gray>Du hast erfolgreich deinen Status <gray>gelöscht!"
         )
         ymlFile.addDefault(
+            "MODULE_STATUS_CLEAR_CONSOLE",
+            "<gray>Du musst einen Spieler angeben, um den Status zu löschen!"
+        )
+        ymlFile.addDefault(
             "MODULE_STATUS_PLAYER_HAS_NO_STATUS",
             "<gray>Du hast keinen Status!"
         )
