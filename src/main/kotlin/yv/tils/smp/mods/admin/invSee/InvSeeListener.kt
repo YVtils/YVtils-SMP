@@ -15,7 +15,6 @@ import java.util.*
 class InvSeeListener {
     companion object {
         var invSee: MutableMap<UUID, InvSeePlayer> = HashMap()
-
     }
 
     data class InvSeePlayer(

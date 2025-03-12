@@ -22,7 +22,7 @@ class MuteHandler {
      * @param sender CommandSender to send messages
      * @param reason String of mute reason
      */
-    fun mutePlayer(target: OfflinePlayer, sender: CommandSender, reason: String) {
+    fun mutePlayer(target: OfflinePlayer, sender: CommandSender, reason: String, silent: Boolean = false) {
         if (MuteHandler().checkMute(target)) {
             sender.sendMessage(Language().getMessage(sender, LangStrings.PLAYER_ALREADY_MUTED))
             return
@@ -40,25 +40,27 @@ class MuteHandler {
             )
         }
 
-        for (player in Bukkit.getOnlinePlayers()) {
-            if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
-                player.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_MUTE),
-                        listOf("prefix", "player", "moderator", "reason"),
-                        listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
+        if (!silent) {
+            for (player in Bukkit.getOnlinePlayers()) {
+                if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_MUTE),
+                            listOf("prefix", "player", "moderator", "reason"),
+                            listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
+                        )
                     )
-                )
+                }
             }
-        }
 
-        YVtils.instance.server.consoleSender.sendMessage(
-            Placeholder().replacer(
-                Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_MUTE),
-                listOf("prefix", "player", "moderator", "reason"),
-                listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
+            YVtils.instance.server.consoleSender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_MUTE),
+                    listOf("prefix", "player", "moderator", "reason"),
+                    listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
+                )
             )
-        )
+        }
     }
 
     /**

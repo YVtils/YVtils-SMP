@@ -27,6 +27,7 @@ class TempMuteHandler {
         duration: Int,
         unit: String,
         reason: String,
+        silent: Boolean = false
     ) {
         if (MuteHandler().checkMute(target)) {
             sender.sendMessage(Language().getMessage(sender, LangStrings.PLAYER_ALREADY_MUTED))
@@ -52,24 +53,26 @@ class TempMuteHandler {
             )
         }
 
-        for (player in Bukkit.getOnlinePlayers()) {
-            if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
-                player.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_TEMPMUTE),
-                        listOf("prefix", "player", "moderator", "reason", "duration"),
-                        listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())
+        if (!silent) {
+            for (player in Bukkit.getOnlinePlayers()) {
+                if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_TEMPMUTE),
+                            listOf("prefix", "player", "moderator", "reason", "duration"),
+                            listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())
+                        )
                     )
-                )
+                }
             }
-        }
 
-        YVtils.instance.server.consoleSender.sendMessage(
-            Placeholder().replacer(
-                Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_TEMPMUTE),
-                listOf("prefix", "player", "moderator", "reason", "duration"),
-                listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())
+            YVtils.instance.server.consoleSender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_TEMPMUTE),
+                    listOf("prefix", "player", "moderator", "reason", "duration"),
+                    listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())
+                )
             )
-        )
+        }
     }
 }

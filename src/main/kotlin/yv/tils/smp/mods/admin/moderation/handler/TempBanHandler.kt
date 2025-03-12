@@ -23,7 +23,7 @@ class TempBanHandler {
      * @param unit String of time unit
      * @param reason String of ban reason
      */
-    fun banPlayer(target: OfflinePlayer, sender: CommandSender, duration: Int, unit: String, reason: String) {
+    fun banPlayer(target: OfflinePlayer, sender: CommandSender, duration: Int, unit: String, reason: String, silent: Boolean = false) {
         if (target.isBanned) {
             sender.sendMessage(Language().getMessage(sender, LangStrings.PLAYER_ALREADY_BANNED))
             return
@@ -40,24 +40,31 @@ class TempBanHandler {
 
         Bukkit.getBanList(BanListType.PROFILE).addBan(playerProfile, reason, expireAfter.time, sender.name)
 
-        for (player in Bukkit.getOnlinePlayers()) {
-            if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
-                player.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_TEMPBAN),
-                        listOf("prefix", "player", "moderator", "reason", "duration"),
-                        listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())
-                    )
-                )
-            }
+        if (target.isOnline) {
+            val player: Player? = target.player
+            KickHandler().kickPlayer(player!!, sender, reason, silent = true)
         }
 
-        YVtils.instance.server.consoleSender.sendMessage(
-            Placeholder().replacer(
-                Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_TEMPBAN),
-                listOf("prefix", "player", "moderator", "reason", "duration"),
-                listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())
+        if (!silent) {
+            for (player in Bukkit.getOnlinePlayers()) {
+                if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_TEMPBAN),
+                            listOf("prefix", "player", "moderator", "reason", "duration"),
+                            listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())
+                        )
+                    )
+                }
+            }
+
+            YVtils.instance.server.consoleSender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_TEMPBAN),
+                    listOf("prefix", "player", "moderator", "reason", "duration"),
+                    listOf(Vars().prefix, target.name ?: "null", sender.name, reason, expireAfter.time.toString())
+                )
             )
-        )
+        }
     }
 }

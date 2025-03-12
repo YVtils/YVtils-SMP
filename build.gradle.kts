@@ -7,12 +7,12 @@ plugins {
 
     id("com.github.johnrengelman.shadow") version "8.1.1"
 
-    id("io.papermc.paperweight.userdev") version "1.7.6"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.14"
 
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
-val yvtilsVersion = "1.1.1"
+val yvtilsVersion = "1.1.2"
 val jdaVersion = "5.2.1"
 val commandAPIVersion = "9.7.0"
 

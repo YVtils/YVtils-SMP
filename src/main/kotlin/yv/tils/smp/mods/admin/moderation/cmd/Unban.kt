@@ -3,12 +3,10 @@ package yv.tils.smp.mods.admin.moderation.cmd
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
-import dev.jorel.commandapi.kotlindsl.textArgument
-import org.bukkit.Bukkit
+import dev.jorel.commandapi.kotlindsl.offlinePlayerArgument
 import org.bukkit.OfflinePlayer
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.admin.moderation.handler.UnbanHandler
-import yv.tils.smp.utils.MojangAPI
 
 class Unban {
     val command = commandTree("unban") {
@@ -16,20 +14,27 @@ class Unban {
         withUsage("unban <player>")
         withAliases("pardon")
 
-        textArgument("player") {
-            val bannedPlayers: MutableSet<OfflinePlayer> = YVtils.instance.server.bannedPlayers
-            val bannedPlayersNames: MutableList<String> = mutableListOf()
-            for (player in bannedPlayers) {
-                bannedPlayersNames.add(MojangAPI().uuid2name(player.uniqueId)!!)
-            }
+        offlinePlayerArgument("player") {
+            replaceSuggestions(ArgumentSuggestions.strings { _ ->
+                val bannedPlayers: MutableSet<OfflinePlayer> = YVtils.instance.server.bannedPlayers
+                val bannedPlayersNames: MutableList<String> = mutableListOf()
 
-            replaceSuggestions(ArgumentSuggestions.strings(bannedPlayersNames))
+                for (player in bannedPlayers) {
+                    if (player.name == null) {
+                        continue
+                    }
+
+                    bannedPlayersNames.add(player.name!!)
+                }
+
+                val suggestions = bannedPlayersNames.toTypedArray()
+                suggestions
+            })
 
             anyExecutor { sender, args ->
-                val target = Bukkit.getOfflinePlayer(MojangAPI().name2uuid(args[0] as String)!!)
+                val target = args[0] as OfflinePlayer
 
                 val unbanHandler = UnbanHandler()
-
                 unbanHandler.unbanPlayer(target, sender)
             }
         }

@@ -20,7 +20,7 @@ class BanHandler {
      * @param sender CommandSender to send messages
      * @param reason String of ban reason
      */
-    fun banPlayer(target: OfflinePlayer, sender: CommandSender, reason: String) {
+    fun banPlayer(target: OfflinePlayer, sender: CommandSender, reason: String, silent: Boolean = false) {
         if (target.isBanned) {
             sender.sendMessage(Language().getMessage(sender, LangStrings.PLAYER_ALREADY_BANNED))
             return
@@ -30,24 +30,31 @@ class BanHandler {
 
         Bukkit.getBanList(BanListType.PROFILE).addBan(playerProfile, reason, null as Date?, sender.name)
 
-        for (player in Bukkit.getOnlinePlayers()) {
-            if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
-                player.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_BAN),
-                        listOf("prefix", "player", "moderator", "reason"),
-                        listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
-                    )
-                )
-            }
+        if (target.isOnline) {
+            val player: Player? = target.player
+            KickHandler().kickPlayer(player!!, sender, reason, silent = true)
         }
 
-        YVtils.instance.server.consoleSender.sendMessage(
-            Placeholder().replacer(
-                Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_BAN),
-                listOf("prefix", "player", "moderator", "reason"),
-                listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
+        if (!silent) {
+            for (player in Bukkit.getOnlinePlayers()) {
+                if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_BAN),
+                            listOf("prefix", "player", "moderator", "reason"),
+                            listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
+                        )
+                    )
+                }
+            }
+
+            YVtils.instance.server.consoleSender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_BAN),
+                    listOf("prefix", "player", "moderator", "reason"),
+                    listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
+                )
             )
-        )
+        }
     }
 }

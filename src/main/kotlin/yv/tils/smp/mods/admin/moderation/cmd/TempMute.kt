@@ -21,8 +21,7 @@ class TempMute {
 
                     greedyStringArgument("reason", true) {
                         anyExecutor { sender, args ->
-                            val targetArg = args[0] as OfflinePlayer
-                            val target = Bukkit.getOfflinePlayer(MojangAPI().uuid2name(targetArg.uniqueId)!!)
+                            val target = args[0] as OfflinePlayer
                             val duration = args[1] as Int
                             val unit = args[2] as String
                             val reason = args[3] ?: Language().getRawMessage(LangStrings.MOD_NO_REASON)

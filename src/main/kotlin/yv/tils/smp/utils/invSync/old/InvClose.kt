@@ -1,10 +1,11 @@
-package yv.tils.smp.utils.invSync
+package yv.tils.smp.utils.invSync.old
 
 import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryCloseEvent
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.admin.vanish.Vanish
 
+@Deprecated("Old inventory sync system", ReplaceWith("InvSyncNew", "yv.tils.smp.utils.invSync.new.InvSyncNew"))
 class InvClose {
     fun onInvClose(e: InventoryCloseEvent) {
         val player = e.player

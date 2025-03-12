@@ -2,12 +2,12 @@ package yv.tils.smp.manager.listener
 
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.inventory.InventoryDragEvent
+import org.bukkit.event.player.PlayerDropItemEvent
 import yv.tils.smp.utils.invSync.new.InvSyncEvent
 
-class InvDrag : Listener {
+class PlayerItemDrop : Listener {
     @EventHandler
-    fun onEvent(e: InventoryDragEvent) {
-        InvSyncEvent().onInvDrag(e)
+    fun onEvent(e: PlayerDropItemEvent) {
+        InvSyncEvent().onItemDrop(e)
     }
 }
