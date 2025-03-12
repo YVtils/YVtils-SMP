@@ -13,7 +13,7 @@ import yv.tils.smp.utils.internalAPI.Vars
 import java.util.*
 
 class UnbanHandler {
-    fun unbanPlayer(target: OfflinePlayer, sender: CommandSender) {
+    fun unbanPlayer(target: OfflinePlayer, sender: CommandSender, silent: Boolean = false) {
         if (!target.isBanned) {
             sender.sendMessage(Language().getMessage(sender, LangStrings.MOD_PLAYER_NOT_BANNED))
             return
@@ -25,24 +25,26 @@ class UnbanHandler {
         val playerProfile = target.playerProfile
         Bukkit.getBanList(BanListType.PROFILE).addBan(playerProfile, null, date, sender.name)
 
-        for (player in Bukkit.getOnlinePlayers()) {
-            if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
-                player.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_UNBAN),
-                        listOf("prefix", "player", "moderator"),
-                        listOf(Vars().prefix, target.name ?: "null", sender.name)
+        if (!silent) {
+            for (player in Bukkit.getOnlinePlayers()) {
+                if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_UNBAN),
+                            listOf("prefix", "player", "moderator"),
+                            listOf(Vars().prefix, target.name ?: "null", sender.name)
+                        )
                     )
-                )
+                }
             }
-        }
 
-        YVtils.instance.server.consoleSender.sendMessage(
-            Placeholder().replacer(
-                Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_UNBAN),
-                listOf("prefix", "player", "moderator"),
-                listOf(Vars().prefix, target.name ?: "null", sender.name)
+            YVtils.instance.server.consoleSender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_UNBAN),
+                    listOf("prefix", "player", "moderator"),
+                    listOf(Vars().prefix, target.name ?: "null", sender.name)
+                )
             )
-        )
+        }
     }
 }

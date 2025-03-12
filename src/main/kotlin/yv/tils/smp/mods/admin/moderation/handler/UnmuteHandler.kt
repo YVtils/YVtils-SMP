@@ -4,7 +4,6 @@ import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.entity.Player
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.configs.admin.mutedPlayers_yml
 import yv.tils.smp.utils.configs.language.LangStrings
@@ -14,9 +13,15 @@ import yv.tils.smp.utils.internalAPI.Vars
 import java.io.File
 
 class UnmuteHandler {
-    fun unmutePlayer(target: OfflinePlayer, sender: CommandSender) {
+    fun unmutePlayer(target: OfflinePlayer, sender: CommandSender, silent: Boolean = false) {
         if (!MuteHandler().checkMute(target)) {
-            sender.sendMessage(Language().getMessage(sender, LangStrings.MOD_PLAYER_NOT_MUTED))
+            sender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(sender, LangStrings.MOD_PLAYER_NOT_MUTED),
+                    listOf("prefix", "player"),
+                    listOf(Vars().prefix, target.name ?: "null"),
+                )
+            )
             return
         }
 
@@ -32,25 +37,27 @@ class UnmuteHandler {
             )
         }
 
-        for (player in Bukkit.getOnlinePlayers()) {
-            if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
-                player.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_UNMUTE),
-                        listOf("prefix", "player", "moderator"),
-                        listOf(Vars().prefix, target.name ?: "null", sender.name)
+        if (!silent) {
+            for (player in Bukkit.getOnlinePlayers()) {
+                if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_UNMUTE),
+                            listOf("prefix", "player", "moderator"),
+                            listOf(Vars().prefix, target.name ?: "null", sender.name)
+                        )
                     )
-                )
+                }
             }
-        }
 
-        YVtils.instance.server.consoleSender.sendMessage(
-            Placeholder().replacer(
-                Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_UNMUTE),
-                listOf("prefix", "player", "moderator"),
-                listOf(Vars().prefix, target.name ?: "null", sender.name)
+            YVtils.instance.server.consoleSender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_UNMUTE),
+                    listOf("prefix", "player", "moderator"),
+                    listOf(Vars().prefix, target.name ?: "null", sender.name)
+                )
             )
-        )
+        }
     }
 
     private fun removeMute(target: OfflinePlayer) {

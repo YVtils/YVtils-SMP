@@ -18,6 +18,8 @@ class Listeners {
         plugin.server.pluginManager.registerEvents(PlayerGamemodeSwitch(), plugin)
         plugin.server.pluginManager.registerEvents(PlayerChat(), plugin)
         plugin.server.pluginManager.registerEvents(PlayerSwapHandItems(), plugin)
+        plugin.server.pluginManager.registerEvents(PlayerItemDrop(), plugin)
+        plugin.server.pluginManager.registerEvents(PlayerItemPickup(), plugin)
         plugin.server.pluginManager.registerEvents(PlayerToggleFlight(), plugin)
         plugin.server.pluginManager.registerEvents(PlayerSetSpawn(), plugin)
         plugin.server.pluginManager.registerEvents(PlayerDeath(), plugin)

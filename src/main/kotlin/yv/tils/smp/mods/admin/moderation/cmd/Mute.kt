@@ -19,8 +19,7 @@ class Mute {
         offlinePlayerArgument("player") {
             greedyStringArgument("reason", true) {
                 anyExecutor { sender, args ->
-                    val targetArg = args[0] as OfflinePlayer
-                    val target = Bukkit.getOfflinePlayer(MojangAPI().uuid2name(targetArg.uniqueId)!!)
+                    val target = args[0] as OfflinePlayer
                     val reason = args[1] ?: Language().getRawMessage(LangStrings.MOD_NO_REASON)
 
                     val muteHandler = MuteHandler()

@@ -18,7 +18,7 @@ class KickHandler {
      * @param sender CommandSender to send messages
      * @param reason String of kick reason
      */
-    fun kickPlayer(target: Player, sender: CommandSender, reason: String) {
+    fun kickPlayer(target: Player, sender: CommandSender, reason: String, silent: Boolean = false) {
         if (!target.isOnline) {
             sender.sendMessage(Language().getMessage(sender, LangStrings.PLAYER_NOT_ONLINE))
             return
@@ -26,24 +26,26 @@ class KickHandler {
 
         target.kick(ColorUtils().convert(reason), PlayerKickEvent.Cause.KICK_COMMAND)
 
-        for (player in Bukkit.getOnlinePlayers()) {
-            if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
-                player.sendMessage(
-                    Placeholder().replacer(
-                        Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_KICK),
-                        listOf("prefix", "player", "moderator", "reason"),
-                        listOf(Vars().prefix, target.name, sender.name, reason)
+        if (!silent) {
+            for (player in Bukkit.getOnlinePlayers()) {
+                if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
+                    player.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_KICK),
+                            listOf("prefix", "player", "moderator", "reason"),
+                            listOf(Vars().prefix, target.name, sender.name, reason)
+                        )
                     )
-                )
+                }
             }
-        }
 
-        YVtils.instance.server.consoleSender.sendMessage(
-            Placeholder().replacer(
-                Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_KICK),
-                listOf("prefix", "player", "moderator", "reason"),
-                listOf(Vars().prefix, target.name, sender.name, reason)
+            YVtils.instance.server.consoleSender.sendMessage(
+                Placeholder().replacer(
+                    Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_KICK),
+                    listOf("prefix", "player", "moderator", "reason"),
+                    listOf(Vars().prefix, target.name, sender.name, reason)
+                )
             )
-        )
+        }
     }
 }

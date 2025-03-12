@@ -1,5 +1,6 @@
-package yv.tils.smp.utils.invSync
+package yv.tils.smp.utils.invSync.old
 
+import io.papermc.paper.event.player.PlayerPickItemEvent
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.event.inventory.InventoryType
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import yv.tils.smp.YVtils
@@ -20,9 +22,9 @@ import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 
-// TODO: Player pickup item ignored on player invsee
 // TODO: Items sometimes duplicated on player invsee
 
+@Deprecated("Old inventory sync system", ReplaceWith("InvSyncNew", "yv.tils.smp.utils.invSync.new.InvSyncNew"))
 class InvSync {
     fun onInvChange(e: InventoryClickEvent) {
         val player = e.whoClicked

@@ -9,6 +9,8 @@ import org.bukkit.inventory.Inventory
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
+import yv.tils.smp.utils.invSync.new.InvSyncType
+import yv.tils.smp.utils.invSync.new.handler.HandleSync
 import java.util.*
 
 class EcSee {
@@ -25,7 +27,7 @@ class EcSee {
             playerExecutor { player, args ->
                 val target = args[0] as Player
                 ecSee[player.uniqueId] = target.uniqueId
-                player.openInventory(getInv(target))
+                getInv(target, player)
             }
         }
     }
@@ -34,7 +36,7 @@ class EcSee {
      * Get enderchest inventory of player
      * @param target Player to get enderchest
      */
-    private fun getInv(target: Player): Inventory {
+    private fun getInv(target: Player, sender: Player) {
         val inv = Bukkit.createInventory(
             null, 27,
             Placeholder().replacer(
@@ -47,6 +49,7 @@ class EcSee {
         )
 
         inv.contents = target.enderChest.contents
-        return inv
+
+        HandleSync().createSync(player = sender, container = inv, type = InvSyncType.ECSEE)
     }
 }

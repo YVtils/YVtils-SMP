@@ -1,4 +1,4 @@
-package yv.tils.smp.utils.invSync
+package yv.tils.smp.utils.invSync.old
 
 
 import org.bukkit.Bukkit
@@ -10,6 +10,7 @@ import yv.tils.smp.mods.admin.vanish.Vanish
 import yv.tils.smp.utils.color.ColorUtils
 import java.util.*
 
+@Deprecated("Old inventory sync system", ReplaceWith("InvSyncNew", "yv.tils.smp.utils.invSync.new.InvSyncNew"))
 class InvOpen {
     companion object {
         var containerPos: MutableMap<UUID, Location> = HashMap()
