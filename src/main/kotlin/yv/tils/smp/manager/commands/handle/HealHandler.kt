@@ -14,7 +14,22 @@ class HealHandler {
      * @param sender CommandSender to send messages
      */
     fun playerHeal(player: Player, sender: CommandSender = player) {
-        player.health = player.getAttribute(Attribute.MAX_HEALTH)!!.value
+        try {
+            player.health = player.getAttribute(Attribute.MAX_HEALTH)!!.value
+        } catch (_: NoSuchFieldError) {
+            player.addPotionEffect(
+                org.bukkit.potion.PotionEffect(
+                    org.bukkit.potion.PotionEffectType.INSTANT_HEALTH,
+                    3,
+                    20,
+                    false,
+                    false,
+                    false
+                )
+            )
+        }
+
+
         player.foodLevel = 20
 
         player.sendMessage(Language().getMessage(player.uniqueId, LangStrings.HEAL_PLAYER_HEALED))

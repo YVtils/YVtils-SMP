@@ -3,6 +3,7 @@ package yv.tils.smp.mods.discord.commandManager
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.events.session.ReadyEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import net.dv8tion.jda.api.interactions.InteractionContextType
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
@@ -33,7 +34,7 @@ class CMDRegister : ListenerAdapter() {
                         )
                     )
                 )
-                    .setGuildOnly(true)
+                    .setContexts(InteractionContextType.GUILD)
                     .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.valueOf(DiscordConfig.config["serverInfoCommand.permission"] as String)))
             )
         } catch (_: Exception) {
@@ -46,7 +47,7 @@ class CMDRegister : ListenerAdapter() {
                         )
                     )
                 )
-                    .setGuildOnly(true)
+                    .setContexts(InteractionContextType.GUILD)
                     .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_SEND))
             )
         }
@@ -144,7 +145,7 @@ class CMDRegister : ListenerAdapter() {
                         )
                     )
                 )
-                    .setGuildOnly(true)
+                    .setContexts(InteractionContextType.GUILD)
                     .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.valueOf(DiscordConfig.config["whitelistCommand.permission"] as String)))
                     .addSubcommands(data1, data2, data3)
             )
@@ -158,7 +159,7 @@ class CMDRegister : ListenerAdapter() {
                         )
                     )
                 )
-                    .setGuildOnly(true)
+                    .setContexts(InteractionContextType.GUILD)
                     .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_CHANNEL))
                     .addSubcommands(data1, data2, data3)
             )
@@ -176,7 +177,7 @@ class CMDRegister : ListenerAdapter() {
                         )
                     )
                 )
-                    .setGuildOnly(true)
+                    .setContexts(InteractionContextType.GUILD)
                     .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.valueOf(DiscordConfig.config["helpCommand.permission"] as String)))
             )
         } catch (_: Exception) {
@@ -189,7 +190,7 @@ class CMDRegister : ListenerAdapter() {
                         )
                     )
                 )
-                    .setGuildOnly(true)
+                    .setContexts(InteractionContextType.GUILD)
                     .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_SEND))
             )
         }
