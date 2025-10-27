@@ -2,19 +2,19 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.2.0"
-    kotlin("plugin.serialization") version "2.2.0"
+    kotlin("jvm") version "2.2.21"
+    kotlin("plugin.serialization") version "2.2.21"
 
-    id("com.gradleup.shadow") version "9.0.0-beta17"
+    id("com.gradleup.shadow") version "9.1.0"
 
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.17"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.19"
 
-    id("xyz.jpenilla.run-paper") version "2.3.1"
+    id("xyz.jpenilla.run-paper") version "3.0.2"
 }
 
-val yvtilsVersion = "1.1.7"
+val yvtilsVersion = "1.1.8"
 val jdaVersion = "5.6.1"
-val commandAPIVersion = "10.1.0"
+val commandAPIVersion = "11.0.0"
 
 group = "yv.tils"
 version = yvtilsVersion
@@ -30,8 +30,8 @@ paperweight.reobfArtifactConfiguration.set(io.papermc.paperweight.userdev.ReobfA
 dependencies {
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
 
-    implementation("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", commandAPIVersion)
-    implementation("dev.jorel", "commandapi-bukkit-kotlin", commandAPIVersion)
+    implementation("dev.jorel", "commandapi-paper-shade", commandAPIVersion)
+    implementation("dev.jorel", "commandapi-kotlin-paper", commandAPIVersion)
 
     implementation("net.dv8tion", "JDA", jdaVersion)
 }
@@ -68,7 +68,7 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.21.7")
+        minecraftVersion("1.21.9")
     }
 }
 
