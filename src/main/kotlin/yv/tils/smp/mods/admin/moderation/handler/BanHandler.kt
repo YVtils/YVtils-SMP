@@ -1,14 +1,11 @@
 package yv.tils.smp.mods.admin.moderation.handler
 
 import com.destroystokyo.paper.profile.PlayerProfile
-import com.mojang.brigadier.Message
 import io.papermc.paper.ban.BanListType
-import org.bukkit.BanList
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import sun.jvm.hotspot.HelloWorld.e
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings
@@ -20,7 +17,7 @@ import java.util.*
 class BanHandler {
     /**
      * Ban player
-     * @param target Player to ban
+     * @param targets Player to ban
      * @param sender CommandSender to send messages
      * @param reason String of ban reason
      */

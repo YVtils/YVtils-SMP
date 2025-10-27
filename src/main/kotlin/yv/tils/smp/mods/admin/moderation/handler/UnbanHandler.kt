@@ -5,7 +5,6 @@ import io.papermc.paper.ban.BanListType
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
 import yv.tils.smp.YVtils
 import yv.tils.smp.utils.color.ColorUtils
 import yv.tils.smp.utils.configs.language.LangStrings

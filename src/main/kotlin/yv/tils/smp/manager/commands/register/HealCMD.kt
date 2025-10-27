@@ -3,7 +3,6 @@ package yv.tils.smp.manager.commands.register
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.entitySelectorArgumentOnePlayer
-import dev.jorel.commandapi.kotlindsl.playerProfileArgument
 import org.bukkit.entity.Player
 import yv.tils.smp.manager.commands.handle.HealHandler
 import yv.tils.smp.utils.configs.language.LangStrings

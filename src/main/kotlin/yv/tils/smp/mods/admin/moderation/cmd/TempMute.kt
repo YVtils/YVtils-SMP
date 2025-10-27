@@ -3,10 +3,7 @@ package yv.tils.smp.mods.admin.moderation.cmd
 import com.destroystokyo.paper.profile.PlayerProfile
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.*
-import org.bukkit.Bukkit
-import org.bukkit.OfflinePlayer
 import yv.tils.smp.mods.admin.moderation.handler.TempMuteHandler
-import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 

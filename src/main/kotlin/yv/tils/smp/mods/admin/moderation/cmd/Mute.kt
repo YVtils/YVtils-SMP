@@ -5,10 +5,7 @@ import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.greedyStringArgument
 import dev.jorel.commandapi.kotlindsl.playerProfileArgument
-import org.bukkit.Bukkit
-import org.bukkit.OfflinePlayer
 import yv.tils.smp.mods.admin.moderation.handler.MuteHandler
-import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 

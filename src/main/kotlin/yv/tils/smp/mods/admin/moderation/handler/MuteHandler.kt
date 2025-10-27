@@ -134,7 +134,7 @@ class MuteHandler {
      */
     fun checkMute(target: PlayerProfile): Boolean {
         refreshMutedPlayers()
-        return mutedPlayers_yml.mutedPlayer.containsKey(target.uniqueId)
+        return mutedPlayers_yml.mutedPlayer.containsKey(target.id)
     }
 
     /**

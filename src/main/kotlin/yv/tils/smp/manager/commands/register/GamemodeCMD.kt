@@ -4,7 +4,6 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.entitySelectorArgumentOnePlayer
-import dev.jorel.commandapi.kotlindsl.playerProfileArgument
 import dev.jorel.commandapi.kotlindsl.stringArgument
 import org.bukkit.entity.Player
 import yv.tils.smp.manager.commands.handle.GamemodeHandler

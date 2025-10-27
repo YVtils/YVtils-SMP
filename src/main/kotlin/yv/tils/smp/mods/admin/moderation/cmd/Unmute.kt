@@ -5,12 +5,8 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.playerProfileArgument
-import dev.jorel.commandapi.kotlindsl.textArgument
 import org.bukkit.Bukkit
-import org.bukkit.OfflinePlayer
-import yv.tils.smp.YVtils
 import yv.tils.smp.mods.admin.moderation.handler.UnmuteHandler
-import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.configs.admin.mutedPlayers_yml
 
 class Unmute {

@@ -1,6 +1,5 @@
 package yv.tils.smp.manager.startup
 
-import dev.jorel.commandapi.CommandAPI
 import yv.tils.smp.manager.commands.register.*
 import yv.tils.smp.mods.admin.invSee.EcSee
 import yv.tils.smp.mods.admin.invSee.InvSee
@@ -21,21 +20,21 @@ class Commands {
      * Unregister vanilla commands
      */
     fun unregisterCommands() {
-        CommandAPI.unregister("gamemode")
-        CommandAPI.unregister("seed")
-
-        if (Config.config["modules.admin"] as Boolean) {
-            CommandAPI.unregister("ban")
-            CommandAPI.unregister("pardon")
-            CommandAPI.unregister("kick")
-        }
-
-        if (Config.config["modules.message"] as Boolean) {
-            CommandAPI.unregister("w")
-            CommandAPI.unregister("whisper")
-            CommandAPI.unregister("msg")
-            CommandAPI.unregister("tell")
-        }
+//        CommandAPI.unregister("gamemode")
+//        CommandAPI.unregister("seed")
+//
+//        if (Config.config["modules.admin"] as Boolean) {
+//            CommandAPI.unregister("ban")
+//            CommandAPI.unregister("pardon")
+//            CommandAPI.unregister("kick")
+//        }
+//
+//        if (Config.config["modules.message"] as Boolean) {
+//            CommandAPI.unregister("w")
+//            CommandAPI.unregister("whisper")
+//            CommandAPI.unregister("msg")
+//            CommandAPI.unregister("tell")
+//        }
     }
 
     /**
