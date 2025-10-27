@@ -2,8 +2,8 @@ package yv.tils.smp.mods.message
 
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
+import dev.jorel.commandapi.kotlindsl.entitySelectorArgumentOnePlayer
 import dev.jorel.commandapi.kotlindsl.greedyStringArgument
-import dev.jorel.commandapi.kotlindsl.playerArgument
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import yv.tils.smp.utils.color.ColorUtils
@@ -11,7 +11,7 @@ import yv.tils.smp.utils.configs.global.Config
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
-import java.util.UUID
+import java.util.*
 
 class MSGCommand {
     companion object {
@@ -23,11 +23,11 @@ class MSGCommand {
         withUsage("msg <player> <message>")
         withAliases("message", "tell", "whisper", "dm", "w")
 
-        playerArgument("player") {
+        entitySelectorArgumentOnePlayer("player") {
             greedyStringArgument("message") {
                 anyExecutor { sender, args ->
-                    val target = args[0] as Player
-                    val message = args[1] as String
+                    val target = args["player"] as Player
+                    val message = args["message"] as String
 
                     sendMessage(sender, target, message)
                 }

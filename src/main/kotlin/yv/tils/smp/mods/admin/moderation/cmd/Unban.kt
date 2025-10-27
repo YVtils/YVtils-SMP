@@ -1,9 +1,10 @@
 package yv.tils.smp.mods.admin.moderation.cmd
 
+import com.destroystokyo.paper.profile.PlayerProfile
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
-import dev.jorel.commandapi.kotlindsl.offlinePlayerArgument
+import dev.jorel.commandapi.kotlindsl.playerProfileArgument
 import org.bukkit.OfflinePlayer
 import yv.tils.smp.YVtils
 import yv.tils.smp.mods.admin.moderation.handler.UnbanHandler
@@ -14,7 +15,7 @@ class Unban {
         withUsage("unban <player>")
         withAliases("pardon")
 
-        offlinePlayerArgument("player") {
+        playerProfileArgument("player") {
             replaceSuggestions(ArgumentSuggestions.strings { _ ->
                 val bannedPlayers: MutableSet<OfflinePlayer> = YVtils.instance.server.bannedPlayers
                 val bannedPlayersNames: MutableList<String> = mutableListOf()
@@ -32,7 +33,7 @@ class Unban {
             })
 
             anyExecutor { sender, args ->
-                val target = args[0] as OfflinePlayer
+                val target = args[0] as List<PlayerProfile>
 
                 val unbanHandler = UnbanHandler()
                 unbanHandler.unbanPlayer(target, sender)

@@ -40,7 +40,7 @@ class SpeedCMD {
                     "-10"
                 )
             )
-            playerArgument("player", true) {
+            entitySelectorArgumentOnePlayer("player", true) {
                 anyExecutor { sender, args ->
 
                     if (sender !is Player && args[1] == null) {
@@ -60,7 +60,7 @@ class SpeedCMD {
         }
 
         literalArgument("reset", false) {
-            playerArgument("player", true) {
+            entitySelectorArgumentOnePlayer("player", true) {
                 anyExecutor { sender, args ->
 
                     if (sender !is Player && args[1] == null) {

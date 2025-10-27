@@ -2,7 +2,7 @@ package yv.tils.smp.manager.commands.register
 
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
-import dev.jorel.commandapi.kotlindsl.playerArgument
+import dev.jorel.commandapi.kotlindsl.entitySelectorArgumentOnePlayer
 import org.bukkit.entity.Player
 import yv.tils.smp.manager.commands.handle.GodHandler
 import yv.tils.smp.utils.configs.language.LangStrings
@@ -13,7 +13,7 @@ class GodCMD {
         withPermission("yvtils.smp.command.god")
         withUsage("god")
 
-        playerArgument("player", true) {
+        entitySelectorArgumentOnePlayer("player", true) {
             anyExecutor { sender, args ->
                 if (sender !is Player && args[0] == null) {
                     sender.sendMessage(Language().getMessage(LangStrings.PLAYER_ARGUMENT_MISSING))

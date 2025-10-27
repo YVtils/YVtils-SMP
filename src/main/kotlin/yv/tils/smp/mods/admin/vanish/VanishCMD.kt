@@ -12,7 +12,7 @@ class VanishCMD {
         withAliases("v")
 
         literalArgument("quick", true) {
-            playerArgument("player", true) {
+            entitySelectorArgumentOnePlayer("player", true) {
                 anyExecutor { sender, args ->
                     try {
                         val target = args[0] as Player
@@ -24,7 +24,7 @@ class VanishCMD {
             }
         }
 
-        playerArgument("player", true) {
+        entitySelectorArgumentOnePlayer("player", true) {
             playerExecutor { player, args ->
                 try {
                     val target = args[0] as Player

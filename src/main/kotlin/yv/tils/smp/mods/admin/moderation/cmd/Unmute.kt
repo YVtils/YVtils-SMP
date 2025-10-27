@@ -1,15 +1,12 @@
 package yv.tils.smp.mods.admin.moderation.cmd
 
+import com.destroystokyo.paper.profile.PlayerProfile
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
-import dev.jorel.commandapi.kotlindsl.offlinePlayerArgument
-import dev.jorel.commandapi.kotlindsl.textArgument
+import dev.jorel.commandapi.kotlindsl.playerProfileArgument
 import org.bukkit.Bukkit
-import org.bukkit.OfflinePlayer
-import yv.tils.smp.YVtils
 import yv.tils.smp.mods.admin.moderation.handler.UnmuteHandler
-import yv.tils.smp.utils.MojangAPI
 import yv.tils.smp.utils.configs.admin.mutedPlayers_yml
 
 class Unmute {
@@ -17,7 +14,7 @@ class Unmute {
         withPermission("yvtils.smp.command.moderation.unmute")
         withUsage("unmute <player>")
 
-        offlinePlayerArgument("player") {
+        playerProfileArgument("player") {
             replaceSuggestions(ArgumentSuggestions.strings { _ ->
                 val mutedPlayersUUID = mutedPlayers_yml.mutedPlayer.keys
                 val mutedPlayers: MutableList<String> = mutableListOf()
@@ -36,7 +33,7 @@ class Unmute {
             })
 
             anyExecutor { sender, args ->
-                val target = args[0] as OfflinePlayer
+                val target = args[0] as List<PlayerProfile>
 
                 val unmuteHandler = UnmuteHandler()
 

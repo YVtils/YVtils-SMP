@@ -1,11 +1,10 @@
 package yv.tils.smp.mods.admin.invSee
 
 import dev.jorel.commandapi.kotlindsl.commandTree
-import dev.jorel.commandapi.kotlindsl.playerArgument
+import dev.jorel.commandapi.kotlindsl.entitySelectorArgumentOnePlayer
 import dev.jorel.commandapi.kotlindsl.playerExecutor
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import org.bukkit.inventory.Inventory
 import yv.tils.smp.utils.configs.language.LangStrings
 import yv.tils.smp.utils.configs.language.Language
 import yv.tils.smp.utils.internalAPI.Placeholder
@@ -23,7 +22,7 @@ class EcSee {
         withUsage("ecsee <player>")
         withAliases("ec")
 
-        playerArgument("player") {
+        entitySelectorArgumentOnePlayer("player") {
             playerExecutor { player, args ->
                 val target = args[0] as Player
                 ecSee[player.uniqueId] = target.uniqueId

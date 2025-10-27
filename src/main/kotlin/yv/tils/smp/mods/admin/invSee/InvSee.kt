@@ -1,18 +1,9 @@
 package yv.tils.smp.mods.admin.invSee
 
 import dev.jorel.commandapi.kotlindsl.commandTree
-import dev.jorel.commandapi.kotlindsl.playerArgument
+import dev.jorel.commandapi.kotlindsl.entitySelectorArgumentOnePlayer
 import dev.jorel.commandapi.kotlindsl.playerExecutor
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.inventory.Inventory
-import yv.tils.smp.utils.color.ColorUtils
-import yv.tils.smp.utils.configs.language.LangStrings
-import yv.tils.smp.utils.configs.language.Language
-import yv.tils.smp.utils.internalAPI.Placeholder
-import yv.tils.smp.utils.inventory.GUIFiller
-import java.util.*
 
 class InvSee {
     val command = commandTree("invsee") {
@@ -20,7 +11,7 @@ class InvSee {
         withUsage("invsee <player>")
         withAliases("inv")
 
-        playerArgument("player") {
+        entitySelectorArgumentOnePlayer("player") {
             playerExecutor { player, args ->
                 val target = args[0] as Player
                 val inv = InvSeeListener().getInv(target)
