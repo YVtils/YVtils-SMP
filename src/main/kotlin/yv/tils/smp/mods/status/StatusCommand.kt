@@ -31,7 +31,7 @@ class StatusCommand {
         }
 
         literalArgument("clear", false) {
-            playerArgument("player", true) {
+            entitySelectorArgumentOnePlayer("player", true) {
                 withPermission("yvtils.smp.command.status.clear.others")
                 anyExecutor { sender, args ->
                     if (args[0] is Player) {

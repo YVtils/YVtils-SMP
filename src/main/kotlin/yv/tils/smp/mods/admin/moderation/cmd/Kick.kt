@@ -2,8 +2,9 @@ package yv.tils.smp.mods.admin.moderation.cmd
 
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
+import dev.jorel.commandapi.kotlindsl.entitySelectorArgumentOnePlayer
 import dev.jorel.commandapi.kotlindsl.greedyStringArgument
-import dev.jorel.commandapi.kotlindsl.playerArgument
+import dev.jorel.commandapi.kotlindsl.playerProfileArgument
 import org.bukkit.entity.Player
 import yv.tils.smp.mods.admin.moderation.handler.KickHandler
 import yv.tils.smp.utils.configs.language.LangStrings
@@ -14,7 +15,7 @@ class Kick {
         withPermission("yvtils.smp.command.moderation.kick")
         withUsage("kick <player> [reason]")
 
-        playerArgument("player") {
+        entitySelectorArgumentOnePlayer("player") {
             greedyStringArgument("reason", true) {
                 anyExecutor { sender, args ->
                     val target = args[0] as Player

@@ -3,7 +3,8 @@ package yv.tils.smp.manager.commands.register
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
-import dev.jorel.commandapi.kotlindsl.playerArgument
+import dev.jorel.commandapi.kotlindsl.entitySelectorArgumentOnePlayer
+import dev.jorel.commandapi.kotlindsl.playerProfileArgument
 import dev.jorel.commandapi.kotlindsl.stringArgument
 import org.bukkit.entity.Player
 import yv.tils.smp.manager.commands.handle.GamemodeHandler
@@ -29,7 +30,7 @@ class GamemodeCMD {
                     "3"
                 )
             )
-            playerArgument("player", true) {
+            entitySelectorArgumentOnePlayer("player", true) {
                 anyExecutor { sender, args ->
 
                     if (sender !is Player && args[1] == null) {

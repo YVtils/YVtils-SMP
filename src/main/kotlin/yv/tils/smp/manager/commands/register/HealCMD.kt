@@ -2,7 +2,8 @@ package yv.tils.smp.manager.commands.register
 
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
-import dev.jorel.commandapi.kotlindsl.playerArgument
+import dev.jorel.commandapi.kotlindsl.entitySelectorArgumentOnePlayer
+import dev.jorel.commandapi.kotlindsl.playerProfileArgument
 import org.bukkit.entity.Player
 import yv.tils.smp.manager.commands.handle.HealHandler
 import yv.tils.smp.utils.configs.language.LangStrings
@@ -13,7 +14,7 @@ class HealCMD {
         withPermission("yvtils.smp.command.heal")
         withUsage("heal [player]")
 
-        playerArgument("player", true) {
+        entitySelectorArgumentOnePlayer("player", true) {
             anyExecutor { sender, args ->
                 if (sender !is Player && args[0] == null) {
                     sender.sendMessage(Language().getMessage(LangStrings.PLAYER_ARGUMENT_MISSING))

@@ -1,5 +1,6 @@
 package yv.tils.smp.mods.admin.moderation.handler
 
+import com.destroystokyo.paper.profile.PlayerProfile
 import io.papermc.paper.event.player.AsyncChatEvent
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
@@ -18,48 +19,63 @@ import java.util.*
 class MuteHandler {
     /**
      * Mute player
-     * @param target Player to mute
+     * @param targets Player to mute
      * @param sender CommandSender to send messages
      * @param reason String of mute reason
      */
-    fun mutePlayer(target: OfflinePlayer, sender: CommandSender, reason: String, silent: Boolean = false) {
-        if (MuteHandler().checkMute(target)) {
-            sender.sendMessage(Language().getMessage(sender, LangStrings.PLAYER_ALREADY_MUTED))
-            return
-        }
+    fun mutePlayer(targets: List<PlayerProfile>, sender: CommandSender, reason: String, silent: Boolean = false) {
+        for (target in targets) {
+            try {
+                if (target.id == null) {
+                    // This should never happen, but just in case
+                    sender.sendMessage(ColorUtils().convert("<red>An error occurred while trying to mute the player."))
+                    return
+                }
 
-        updateMute(target, reason)
+                val offlinePlayer: OfflinePlayer = Bukkit.getOfflinePlayer(target.id!!)
 
-        if (target.isOnline) {
-            target.player?.sendMessage(
-                Placeholder().replacer(
-                    Language().getMessage(target.uniqueId, LangStrings.PLAYER_GOT_MUTED),
-                    listOf("prefix", "reason"),
-                    listOf(Vars().prefix, reason)
-                )
-            )
-        }
+                if (MuteHandler().checkMute(target)) {
+                    sender.sendMessage(Language().getMessage(sender, LangStrings.PLAYER_ALREADY_MUTED))
+                    return
+                }
 
-        if (!silent) {
-            for (player in Bukkit.getOnlinePlayers()) {
-                if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
-                    player.sendMessage(
+                updateMute(target, reason)
+
+                if (offlinePlayer.isOnline) {
+                    offlinePlayer.player?.sendMessage(
                         Placeholder().replacer(
-                            Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_MUTE),
+                            Language().getMessage(target.id!!, LangStrings.PLAYER_GOT_MUTED),
+                            listOf("prefix", "reason"),
+                            listOf(Vars().prefix, reason)
+                        )
+                    )
+                }
+
+                if (!silent) {
+                    for (player in Bukkit.getOnlinePlayers()) {
+                        if (player.hasPermission("yvtils.smp.command.moderation.announcement")) {
+                            player.sendMessage(
+                                Placeholder().replacer(
+                                    Language().getMessage(player.uniqueId, LangStrings.MOD_ANNOUNCEMENT_MUTE),
+                                    listOf("prefix", "player", "moderator", "reason"),
+                                    listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
+                                )
+                            )
+                        }
+                    }
+
+                    YVtils.instance.server.consoleSender.sendMessage(
+                        Placeholder().replacer(
+                            Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_MUTE),
                             listOf("prefix", "player", "moderator", "reason"),
                             listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
                         )
                     )
                 }
+            } catch (_: Exception) {
+                sender.sendMessage(ColorUtils().convert("<red>An error occurred while trying to mute the player."))
+                continue
             }
-
-            YVtils.instance.server.consoleSender.sendMessage(
-                Placeholder().replacer(
-                    Language().getMessage(LangStrings.MOD_ANNOUNCEMENT_MUTE),
-                    listOf("prefix", "player", "moderator", "reason"),
-                    listOf(Vars().prefix, target.name ?: "null", sender.name, reason)
-                )
-            )
         }
     }
 
@@ -70,7 +86,7 @@ class MuteHandler {
     fun playerChat(e: AsyncChatEvent) {
         val player = e.player
 
-        if (checkMute(player)) {
+        if (checkMute(player.playerProfile)) {
             e.isCancelled = true
 
             val rawDuration = mutedPlayers_yml.mutedPlayer[player.uniqueId]?.get(1) ?: "null"
@@ -113,10 +129,10 @@ class MuteHandler {
 
     /**
      * Check if player is muted
-     * @param target Player to check
+     * @param target PlayerProfile to check
      * @return Boolean if player is muted
      */
-    fun checkMute(target: OfflinePlayer): Boolean {
+    fun checkMute(target: PlayerProfile): Boolean {
         refreshMutedPlayers()
         return mutedPlayers_yml.mutedPlayer.containsKey(target.uniqueId)
     }
@@ -153,18 +169,18 @@ class MuteHandler {
 
     /**
      * Update mute status for player
-     * @param target Player to update
+     * @param target PlayerProfile to update
      * @param reason String of mute reason
      * @param duration String of mute duration
      */
-    fun updateMute(target: OfflinePlayer, reason: String = "null", duration: String = "null") {
+    fun updateMute(target: PlayerProfile, reason: String = "null", duration: String = "null") {
         val file = File(YVtils.instance.dataFolder.path, "admin/" + "mutedPlayers.yml")
         val ymlFile: YamlConfiguration = YamlConfiguration.loadConfiguration(file)
 
-        mutedPlayers_yml.mutedPlayer[target.uniqueId] = listOf(reason, duration)
+        mutedPlayers_yml.mutedPlayer[target.id!!] = listOf(reason, duration)
 
-        ymlFile.set("${target.uniqueId}.reason", reason)
-        ymlFile.set("${target.uniqueId}.duration", duration)
+        ymlFile.set("${target.id}.reason", reason)
+        ymlFile.set("${target.id}.duration", duration)
 
         ymlFile.save(file)
     }
