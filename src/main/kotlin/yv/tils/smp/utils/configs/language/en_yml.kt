@@ -171,6 +171,11 @@ class en_yml {
             "<prefix> <dark_red>You haven't written to anybody yet!"
         )
         ymlFile.addDefault(
+            "MSG_NO_RECEIVE_PERMISSION",
+            "<prefix> <dark_red>This player is not allowed to receive private messages!"
+        )
+
+        ymlFile.addDefault(
             "MOD_NO_REASON",
             "No Reason was given!"
         )

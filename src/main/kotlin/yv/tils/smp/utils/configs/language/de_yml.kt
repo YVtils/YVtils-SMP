@@ -182,6 +182,11 @@ class de_yml {
         )
 
         ymlFile.addDefault(
+            "MSG_NO_RECEIVE_PERMISSION",
+            "<prefix> <dark_red>Der Spieler hat keine Berechtigung, Nachrichten zu empfangen!"
+        )
+
+        ymlFile.addDefault(
             "MOD_NO_REASON",
             "Kein Grund war angegeben!"
         )

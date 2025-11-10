@@ -29,5 +29,6 @@ class Other {
         pm.addPermission(Permission.loadPermission("yvtils.smp.command.multiMine.manage", mapOf()))
         pm.addPermission(Permission.loadPermission("yvtils.smp.bypass.globalmute", mapOf()))
         pm.addPermission(Permission.loadPermission("yvtils.smp.bypass.maintenance", mapOf()))
+        pm.addPermission(Permission.loadPermission("yvtils.smp.msg.receive", mapOf()))
     }
 }

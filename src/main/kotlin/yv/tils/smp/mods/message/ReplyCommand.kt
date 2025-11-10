@@ -38,6 +38,6 @@ class ReplyCommand {
         }
 
         val message = args[0] as String
-        MSGCommand().sendMessage(sender, Bukkit.getPlayer(target)!!, message)
+        MessageHandler().sendMessage(sender, Bukkit.getPlayer(target)!!, message)
     }
 }
