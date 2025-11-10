@@ -1,0 +1,101 @@
+YV-MPL (Mozilla Public License 2.0 with YVtils Addendum)
+
+Last updated: 11.11.2025
+
+================================================================================
+1. Base License
+================================================================================
+
+This software is licensed under the Mozilla Public License 2.0 (MPL-2.0).
+
+You may obtain a copy of the MPL at: https://www.mozilla.org/MPL/2.0/
+
+The MPL allows you to:
+- Use, modify, and distribute this software freely.
+- Link this plugin with other code (even proprietary or closed source).
+- Keep modifications to yourself privately, unless you distribute them — in 
+  which case you must share the modified source files.
+
+The MPL applies per file, meaning only modified source files must be disclosed,
+not the entire combined work.
+
+================================================================================
+2. Additional YVtils License Terms (Addendum)
+================================================================================
+
+These additional terms supplement the MPL-2.0 and are legally binding when
+using, modifying, or redistributing this software.
+
+2.1 Attribution
+---------------
+Any public fork, derivative, or re-release must include clear attribution to
+YVtils and a link to the original repository.
+
+Attribution must be visible in the project documentation (e.g. README or
+plugin.yml).
+
+2.2 Brand Usage
+---------------
+The name "YVtils", its associated logos, and related branding assets may not
+be reused or altered without prior permission from the YVtils project
+maintainers.
+
+Modified versions of the plugin must not imply endorsement or affiliation with
+YVtils.
+
+2.3 Redistribution
+------------------
+Uploading unmodified (1:1) copies of this plugin to other distribution
+platforms (e.g. SpigotMC, Modrinth, Polymart) is prohibited.
+
+Exception: If the original YVtils plugin has not been updated in over 2 years,
+reuploads may be allowed with full credit and a link to the original project.
+
+Forked or modified versions may be published on GitHub if:
+- The repository is a fork of the original, or
+- The repository explicitly references the original YVtils project.
+
+2.4 Commercial Use
+------------------
+The use of this plugin on commercial servers (e.g. servers with paid ranks,
+perks, or features) is permitted.
+
+Selling modified versions or locking essential features behind paywalls is
+strictly prohibited.
+
+2.5 License Combination
+-----------------------
+This license (YV-MPL) is compatible with MPL-2.0 projects and may coexist with
+GPL, Apache, and MIT licensed dependencies.
+
+2.6 Brand Protection Notice
+---------------------------
+"YVtils" is an identifiable software collection and project identity maintained
+by Lyvric / LyvricYV. While not a registered trademark, it represents a unique software
+ecosystem.
+
+Misuse, impersonation, or deceptive branding involving the YVtils name or logo
+may result in legal and distributional restrictions.
+
+================================================================================
+3. Summary
+================================================================================
+
+You can:
+- Use the plugin for free, including on monetized servers.
+- Modify it, fork it, and redistribute it under open conditions.
+- Credit YVtils in any public derivative.
+
+You cannot:
+- Sell closed versions or feature-locked variants.
+- Reupload unmodified builds without permission.
+- Misuse the YVtils name or logo.
+
+================================================================================
+
+License Name: YV-MPL (Mozilla Public License 2.0 with YVtils Addendum)
+Original Author: Lyvric / YVtils
+Date: © 2025
+© 2023 - 2025 YVtils. All rights reserved.
+
+Full license information: https://yvtils.net/license
