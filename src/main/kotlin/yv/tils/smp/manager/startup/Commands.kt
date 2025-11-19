@@ -5,6 +5,7 @@ import yv.tils.smp.mods.admin.invSee.EcSee
 import yv.tils.smp.mods.admin.invSee.InvSee
 import yv.tils.smp.mods.admin.moderation.cmd.*
 import yv.tils.smp.mods.admin.vanish.VanishCMD
+import yv.tils.smp.mods.fusion.FusionCommand
 import yv.tils.smp.mods.fusionCrafting.FusionOverview
 import yv.tils.smp.mods.message.MSGCommand
 import yv.tils.smp.mods.message.ReplyCommand
@@ -57,7 +58,7 @@ class Commands {
      */
     private fun modulesCommands() {
         if (Config.config["modules.fusion"] as Boolean) {
-            FusionOverview()
+            FusionCommand()
         }
 
         if (Config.config["modules.status"] as Boolean) {

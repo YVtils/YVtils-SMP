@@ -12,7 +12,7 @@ plugins {
     id("xyz.jpenilla.run-paper") version "3.0.2"
 }
 
-val yvtilsVersion = "1.1.9"
+val yvtilsVersion = "1.1.10"
 val jdaVersion = "5.6.1"
 val commandAPIVersion = "11.0.0"
 

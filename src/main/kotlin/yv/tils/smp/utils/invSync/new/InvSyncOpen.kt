@@ -12,13 +12,9 @@ class InvSyncOpen {
 
         val isVanished = Vanish.vanish.containsKey(player.uniqueId) && Vanish.vanish[player.uniqueId]?.vanish ?: false
 
-        println("Location: ${e.inventory.location}")
-
         if (e.inventory.location == null) {
             return
         }
-
-        println("Vanished: $isVanished")
 
         if (isVanished) {
             val isSilentInteraction = Vanish.vanish[player.uniqueId]?.invInteraction ?: false

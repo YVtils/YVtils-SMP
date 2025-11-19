@@ -20,29 +20,6 @@ import yv.tils.smp.utils.inventory.GUIFiller
 import yv.tils.smp.utils.inventory.HeadUtils
 
 class FusionOverview {
-    val command = commandTree("fusion") {
-        withPermission("yvtils.smp.command.fusion")
-        withUsage("/fusion")
-        withAliases("ccr", "fc")
-
-        stringArgument("manage", true) {
-            replaceSuggestions(
-                ArgumentSuggestions.strings(
-                    "manage"
-                )
-            )
-            withPermission("yvtils.smp.fusion.manage")
-
-            playerExecutor { sender, args ->
-                if (args[0] != "manage") {
-                    openOverview(sender, "<gold>Fusion Crafting")
-                } else {
-                    openOverview(sender, "<red>Fusion Management")
-                }
-            }
-        }
-    }
-
     fun openOverview(player: Player, invTitle: String, page: Int = 1, tag: String = "") {
         if (page < 1) return
         if (fusionThumbnails.size - 24 * (page - 1) <= 0) return
