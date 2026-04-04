@@ -2,19 +2,21 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.2.21"
-    kotlin("plugin.serialization") version "2.2.21"
+    val kotlinMonorepoVersion = "2.3.20"
 
-    id("com.gradleup.shadow") version "9.2.2"
+    kotlin("jvm") version kotlinMonorepoVersion
+    kotlin("plugin.serialization") version kotlinMonorepoVersion
 
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.19"
+    id("com.gradleup.shadow") version "9.4.1"
+
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.21"
 
     id("xyz.jpenilla.run-paper") version "3.0.2"
 }
 
-val yvtilsVersion = "1.1.9"
+val yvtilsVersion = "1.1.11"
 val jdaVersion = "5.6.1"
-val commandAPIVersion = "11.0.0"
+val commandAPIVersion = "11.2.0"
 
 group = "yv.tils"
 version = yvtilsVersion
@@ -25,15 +27,13 @@ repositories {
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 }
 
-paperweight.reobfArtifactConfiguration.set(io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION)
-
 dependencies {
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
 
-    implementation("dev.jorel", "commandapi-paper-shade", commandAPIVersion)
-    implementation("dev.jorel", "commandapi-kotlin-paper", commandAPIVersion)
+    implementation("dev.jorel:commandapi-paper-shade:$commandAPIVersion")
+    implementation("dev.jorel:commandapi-kotlin-paper:$commandAPIVersion")
 
-    implementation("net.dv8tion", "JDA", jdaVersion)
+    implementation("net.dv8tion:JDA:$jdaVersion")
 }
 
 tasks.register("updateVersionFiles") {
@@ -68,12 +68,18 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.21.9")
+        minecraftVersion("26.1.1")
     }
 }
 
 tasks.withType<KotlinCompile> {
     compilerOptions.jvmTarget.set(JvmTarget.JVM_21)
+}
+
+tasks.withType(xyz.jpenilla.runtask.task.AbstractRun::class) {
+    javaLauncher.set(project.extensions.getByType<JavaToolchainService>().launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    })
 }
 
 tasks.shadowJar {
